@@ -1,0 +1,3250 @@
+﻿/*
+ * Copyright (c) 2013, Kevin McRell & Paul Miller
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions
+ *   and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice, this list of
+ *   conditions and the following disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed);
+
+body
+{
+	background: #F7F7F7;
+	background-image: url('../Images/gray_jean.png');
+	color: #222;
+	font-family: helvetica, arial;
+	font-size: 100%;
+	padding: 0 30px;
+	-webkit-transition: margin 200ms;
+	-moz-transition: margin 200ms;
+	-ms-transition: margin 200ms;
+	-o-transition: margin 200ms;
+	transition: margin 200ms;
+}
+
+body.chatOpen.right
+{
+	margin-right: 325px;
+}
+
+*
+{
+	-webkit-tap-highlight-color: rgba(255,255,255,0);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-0-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+a
+{
+	text-decoration: none;
+	color: #555;
+}
+
+a:hover,
+a:focus
+{
+	color: #777;
+	text-decoration: underline;
+}
+
+p
+{
+	margin: 25px 0 15px;
+}
+
+h1,h2,h3,h4,h5,.branding,.button, .voteFlag,.title,.played > p,.hand > p, .game > p,.splash,.radHeader,.chat .chatField > input, .deckInfo p, .alertExclaim, .confirmMessage .passphrase input, .confirmMessage .wrong, .user .username.loggedIn div a, body #toast-container > div
+{
+	font-family: 'Roboto Condensed', sans-serif, Arial;
+	font-weight: 400;
+}
+
+h1,.button
+{
+	text-transform: uppercase;
+}
+
+img
+{
+	border: none;
+}
+
+::-moz-selection
+{
+	background: #3B3737;
+	color: white;
+	text-shadow: none;
+}
+
+::selection
+{
+	background: #3B3737;
+	color: white;
+	text-shadow: none;
+}
+
+div ::-webkit-scrollbar
+{
+    width: 10px;
+}
+
+div ::-webkit-scrollbar-track
+{
+    background: rgba(255,255,255,.5);
+    border-radius: 3px;
+    -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+div ::-webkit-scrollbar-thumb
+{
+    background: #CCC;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+div ::-webkit-scrollbar-thumb:hover
+{
+    background: #DDD;
+}
+
+div ::-webkit-scrollbar-thumb:active 
+{
+    background: #CCC;
+    -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+:focus
+{
+	outline: none;
+}
+
+:-moz-focus-inner
+{
+	border: 0;
+}
+
+input
+{
+	margin: 6px 0;
+}
+
+input:not([type]),
+input[type="color"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="text"]
+{
+	background: none;
+	border: none;
+	color: #222;
+	/*font-size: 1.1em;*/
+	margin: 0;
+	padding: .25em 10px;
+}
+
+input[type="checkbox"]
+{
+	left: -9999px;
+	position: absolute;
+	top: -9999px;
+}
+
+.setPlayers
+{
+	margin-top: 0.4em;
+}
+
+.setPlayers > div
+{
+	box-shadow: 2px 2px 0 #999;
+	display: inline-block;
+}
+
+.fakeInput
+{
+	background: #FFF;
+	border: 1px solid #999;
+	box-shadow: 1px 1px #999;
+	display: inline-block;
+	margin: 6px 0;
+}
+
+.fakeInput > input
+{
+	width: 100%;
+}
+
+.fakeSelect
+{
+	background: #CCC;
+	color: #222;
+	display: inline-block;
+	font-size: 1.1em;
+	line-height: 2em;
+	margin-right: -.15em;
+	overflow: hidden;
+	vertical-align: bottom;
+	-webkit-transition: background 50ms;
+	-moz-transition: background 50ms;
+	-ms-transition: background 50ms;
+	-o-transition: background 50ms;
+	transition: background 50ms;
+}
+
+.fakeSelect:hover,
+.fakeSelect:focus
+{
+	background: #DDD;
+}
+
+.setPlayers > div > label
+{
+	background: #555;
+	color: #FFF;
+	display: inline-block;
+	font-size: 1.27em;
+	line-height: 1em;
+	margin-left: -.1em;
+	padding: .4em .5em
+}
+
+.fakeSelect > select
+{
+	-webkit-appearance: none;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	font-size: 1.1em;
+	line-height: 1em;
+	margin: 0;
+	padding: .4em .375em;
+}
+
+.fakeCheckLabel
+{
+	cursor: pointer;
+	display: inline-block;
+	margin: .425em 2em .425em 0;
+	vertical-align: text-top;
+}
+
+.fakeCheck
+{
+	background: #FFF;
+	border: .1em solid #555;
+	border-radius: 2px;
+	cursor: pointer;
+	display: inline-block;
+	margin: 2px .4em 6px 0;
+	height: 1.15em;
+	position: absolute;
+	-webkit-transition: background 200ms, border 200ms;
+	-moz-transition: background 200ms, border 200ms;
+	-ms-transition: background 200ms, border 200ms;
+	-o-transition: background 200ms, border 200ms;
+	transition: background 200ms, border 200ms;
+	vertical-align: middle;
+	width: 1.15em;
+}
+
+.realLabel
+{
+	display: inline-block;
+	margin-top: 0.15em;
+	padding-left: 1.55em;
+}
+
+input[type="checkbox"]:checked + .fakeCheckLabel > .fakeCheck
+{
+	background: #222;
+}
+
+.fakeCheckLabel:hover .fakeCheck,
+input[type="checkbox"]:focus + .fakeCheckLabel > .fakeCheck
+{
+	border-color: #888;
+}
+
+input[type="checkbox"]:checked:focus + .fakeCheckLabel > .fakeCheck,
+input[type="checkbox"]:checked + .fakeCheckLabel:hover > .fakeCheck
+{
+	border-color: #222;
+	background: #555;
+}
+
+input.title
+{
+	font-size: 1.5em;
+}
+
+.accessible
+{
+	display: none;
+}
+
+blockquote
+{
+	display: inline-block;
+	margin: 4em auto;
+	max-width: 57%;
+	opacity: .75;
+	position: relative;
+}
+
+blockquote a
+{
+	display: inline-block;
+	font-size: 2.25em;
+	margin: .25em .1em 0;
+	vertical-align: top;
+}
+
+blockquote:before
+{
+	content: "“";
+	font-size: 3.5em;
+	left: -.35em;
+	position: absolute;
+}
+
+blockquote:after
+{
+	content: "”";
+	font-size: 3.5em;
+	position: absolute;
+	right: -.35em;
+}
+
+.button
+{
+	background: #222;
+	box-shadow: 2px 2px 0 #999;
+	color: #F7F7F7;
+	display: inline-block;
+	font-size: 1.4em;
+	margin: .75em .75em 0 0;
+	padding: .25em .5em;
+	position: relative;
+	text-shadow: 1px 1px 1px #333;
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+}
+
+.button:hover,
+.button:focus
+{
+	background-color: #444;
+	color: #FFF;
+	text-decoration: none;
+}
+
+.button.nope
+{
+	background-color: #CCC;
+	color: #222;
+	text-decoration: none;	
+	text-shadow: 1px 1px 1px #F7F7F7;
+}
+
+.button.nope:hover,
+.button.nope:focus
+{
+	background-color: #DDD;
+	color: #111;
+}
+
+.button.facebook
+{
+	background-color: #5070ab;
+	color: #F7F7F7;
+	text-decoration: none;	
+}
+
+.button.facebook:hover,
+.button.facebook:focus
+{
+	background-color: #6886bd;
+	color: #FFF;
+}
+
+.button.google
+{
+	background-color: #bd3727;
+	color: #F7F7F7;
+	text-decoration: none;	
+}
+
+.button.google:hover,
+.button.google:focus
+{
+	background-color: #cd4838;
+	color: #FFF;
+}
+
+.button.twitter
+{
+	background-color: #a0e7eb;
+	color: #F7F7F7;
+	text-decoration: none;	
+}
+
+.button.twitter:hover,
+.button.twitter:focus
+{
+	background-color: #abf1f5;
+	color: #FFF;
+}
+
+.button:active,
+.button.active
+{
+	box-shadow: 1px 1px 0 #999;
+	top: 1px;
+	left: 1px;
+}
+
+.alertExclaim
+{
+	background: #555;
+	border-radius: 50%;
+	display: inline-block;
+	font-size: 0.85em;
+	font-weight: bold;	
+	height: 1.25em;
+	margin-right: .5em;
+	padding-bottom: 1.45em;
+	vertical-align: text-top;
+	width: 1.44em;
+}
+
+fieldset
+{
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+fieldset > .button
+{
+	margin: 0 -0.22em 0 0;
+}
+
+fieldset > .button.active
+{
+	background: #666;
+	cursor: default;
+}
+
+.voter
+{
+	cursor: default;
+	display: inline-block;
+	padding: 0 .5em 0 0;
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+}
+
+.voter.voted
+{
+	-webkit-transition: color 100ms, background 100ms, box-shadow 0;
+	-moz-transition: color 100ms, background 100ms, box-shadow 0;
+	-ms-transition: color 100ms, background 100ms, box-shadow 0;
+	-o-transition: color 100ms, background 100ms, box-shadow 0;
+	transition: color 100ms, background 100ms, box-shadow 0;
+}
+
+.voter > a
+{
+	display: inline-block;
+	padding: .25em .3em .25em .3em;
+	margin-right: .3em;
+	-webkit-transition: background 100ms, color 100ms;
+	-moz-transition: background 100ms, color 100ms;
+	-ms-transition: background 100ms, color 100ms;
+	-o-transition: background 100ms, color 100ms;
+	transition: background 100ms, color 100ms;
+}
+
+.voter:hover,
+.voter:focus,
+.voter:hover > a,
+.voter:focus > a
+{
+	background: #555;
+	color: #FFF;
+}
+
+.voter:hover,
+.voter:focus,
+.voter.voted > a
+{
+	box-shadow: 2px 2px 0 #999;
+}
+
+.voter > a:active
+{
+	background: #DDD !important;
+	color: #555 !important;
+}
+
+.voter.voted:hover > a,
+.voter.voted:focus > a
+{
+	box-shadow: none;
+}
+
+.voter > a:hover,
+.voter > a:focus,
+.voter.voted > a
+{
+	background: #CCC;
+	color: #222;
+	text-decoration: none;
+}
+
+.bar
+{
+	border-bottom: .15em solid #DDD;
+	margin: .75em 0;
+}
+
+.overlay
+{
+	background: #222;
+	display: none;
+	height: 9999px;
+	left: -50%;
+	opacity: .5;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	width: 200%;
+	z-index: 999;
+}
+
+.overlay.on
+{
+	display: block;
+}
+
+.confirmMessage
+{
+	background: #F7F7F7;
+	border-radius: 3px;
+	display: none;
+	left: 50%;
+	margin-left: -10em;
+	margin-top: -10em;
+	padding: 1.5em;
+	position: fixed;
+	top: 50%;
+	z-index: 1000;
+	width: 20em;
+}
+
+.confirmMessage.joinPassworded
+{
+	margin-top: -12em;
+}
+
+.confirmMessage.cardSubmit
+{
+	margin-top: -19.7em;
+}
+
+.confirmMessage.cardSubmit > div
+{
+	max-height: 30em;
+	overflow: auto;
+}
+
+.confirmMessage.cardSubmit .pickOrder
+{
+	opacity: 1;
+}
+
+.confirmMessage.suggest
+{
+	margin-top: -13.45em;
+}
+
+.confirmMessage.on
+{
+	display: block;
+}
+
+.confirmMessage h3
+{
+	font-size: 1.5em;
+	margin: 0;
+}
+
+.confirmMessage p
+{
+	margin: .25em 0;
+}
+
+.confirmMessage .meta
+{
+	font-size: .75em;
+	margin: .75em 0;
+}
+
+.confirmMessage .nope
+{
+	margin-top: 1.25em;
+}
+
+.confirmMessage .otherDecks
+{
+	max-height: 9em;
+	overflow: auto;
+}
+
+.confirmMessage .card
+{
+	margin: 1em 1.5em 1em;
+}
+
+.confirmMessage .passphrase
+{
+	background: #333;
+	margin: 1em -1.5em 0;
+	padding: .5em 1.5em;
+}
+
+.confirmMessage .passphrase .fakeInput
+{
+	border: 1px solid #555;
+	box-shadow: none;
+	width: 100%;
+}
+
+.confirmMessage .passphrase .fakeInput input
+{
+	font-size: 1.1em;
+}
+
+.confirmMessage .wrong
+{
+	color: white;
+	background: #555;
+	max-height: 0;
+	margin: 0 -1.5em -.5em;
+	padding: 0 1.5em;
+	text-align: center;
+	-webkit-transition: max-height linear 400ms;
+	-moz-transition: max-height linear 400ms;
+	-ms-transition: max-height linear 400ms;
+	-o-transition: max-height linear 400ms;
+	transition: max-height linear 400ms;
+	
+}
+
+.confirmMessage .wrong.open
+{
+	max-height: 20em;
+	padding: .25em 1.5em;
+}
+
+.loggin
+{
+	font-size: .9em;
+	position: absolute;
+	right: 1.618em;
+	top: 1em;
+	z-index: 2;
+}
+
+.loggedIn img
+{
+	border: 2px solid #222;
+	height: 1.5em;
+	margin-right: .4em;
+	position: relative;
+	top: -0.07em;
+	vertical-align: middle;
+	width: 1.5em;
+}
+
+.user
+{
+	position: relative;
+	margin-bottom: 2em;
+}
+
+.user .username.loggedIn img
+{
+	margin-right: 0;
+}
+
+.user .username.loggedIn div
+{
+	display: inline-block;
+	margin-right: .4em;
+	position: relative;
+}
+
+.user .username.loggedIn div a
+{
+	color: #FFF;
+	background: #222;
+	bottom: 5px;
+	left: 0;
+	font-size: .25em;
+	opacity: 0;
+	padding: .2em 0;
+	position: absolute;
+	text-align: center;
+	-webkit-transition: 200ms;
+	-moz-transition: 200ms;
+	-ms-transition: 200ms;
+	-o-transition: 200ms;
+	transition: 200ms;
+	width: 100%;
+}
+
+.user .username.loggedIn div:hover a
+{
+	opacity: .85;
+}
+
+.user .username
+{
+	font-size: 4em;
+	margin: .5em 0;
+}
+
+.user .username .name
+{
+	display: inline-block;
+	max-width: 44%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.user .username .points
+{
+	font-size: .75em;
+	margin-left: .4em;
+	opacity: .7;
+}
+
+.user .friends .loggedIn
+{
+	display: inline-block;
+	margin: 0 60px 2em 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 260px;
+}
+
+.user .activeGames a
+{
+	display: inline-block;
+	margin: 0 60px 1em 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 260px;
+}
+
+.user .activeGames a:last-child
+{
+	margin-bottom: 0;
+}
+
+.user h4
+{
+	font-size: 1.5em;
+}
+
+.user .friends,
+.user .createdDecks,
+.user .suggestedCards
+{
+	position: relative;
+}
+
+.foota
+{
+	background-color: #222;
+	bottom: 0;
+	font-size: .75em;
+	height: 3em;
+	left: 0;
+	position: fixed;
+	text-shadow: 1px 1px #000;
+	width: 100%;
+}
+
+.foota p
+{
+	color: #BBB;
+	margin: 0;
+	line-height: 2.8em;
+	position: absolute;
+	max-width: 45%;
+	padding-top: .2em;
+}
+
+.foota a
+{
+	color: #AAA;
+}
+
+.foota a:hover,
+.foota a:focus
+{
+	color: #CCC;
+}
+
+.foota .lefty
+{
+	left: 1em;
+}
+
+.foota .righty
+{
+	right: 1em;
+}
+
+.splash
+{
+	text-align: center;
+	width: 100%;
+}
+
+.splash h1
+{
+	font-size: 8em;
+	min-height: 1.32em;
+	margin: 1em auto .05em;
+	text-shadow: 2px 2px #DDD;
+	white-space: nowrap;
+}
+
+.splash .buttons > a
+{
+	display: inline-block;
+	margin: 0 10px;
+	text-decoration: none;
+	vertical-align: top;
+	width: 8em;
+}
+
+.splash .buttons > a span
+{
+	display: inline-block;
+	margin: .5em auto 0;
+}
+
+.splash .buttons > a .icon
+{
+	background: #222;
+	border-radius: 50%;
+	color: #FFF;
+	display: block;
+	font-size: 60px;
+	height: 80px;
+	line-height: 75px;
+	margin: 0 auto;
+	text-shadow: 2px 2px #666;
+	width: 80px
+}
+
+.splash .buttons > a:hover .icon,
+.splash .buttons > a:focus .icon
+{
+	background-color: #777;
+}
+
+.radHeader
+{
+	position: relative;
+}
+
+.radHeader h1
+{
+	min-height: 1.32em;
+	margin: .5em 0 0;
+}
+
+.radHeader h1 a
+{
+	color: #222;
+}
+
+.radHeader h1 a:hover,
+.radHeader h1 a:focus
+{
+	color: #666;
+	text-decoration: none;
+}
+
+.radHeader h2
+{
+	color: #777;
+	margin: 0 0 .25em;
+	-webkit-transition: opacity 500ms;
+	-moz-transition: opacity 500ms;
+	-ms-transition: opacity 500ms;
+	-o-transition: opacity 500ms;
+	transition: opacity 500ms;
+}
+
+.radHeader p
+{
+	margin: 0;
+}
+
+.game .radHeader
+{
+	left: 0;
+	padding-left: 40px;
+	position: absolute;
+	top: 0;
+}
+
+.waitingGame
+{
+	margin-top: 8em;
+	-webkit-transition: opacity 500ms;
+	-moz-transition: opacity 500ms;
+	-ms-transition: opacity 500ms;
+	-o-transition: opacity 500ms;
+	transition: opacity 500ms;
+}
+
+.hide
+{
+	opacity: 0 !important;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.radHeader .actions
+{
+	bottom: 0;
+	position: absolute;
+	right: 0;
+}
+
+.gameTitle,
+.deckTitle
+{
+	width: 65%;
+}
+
+.createGame .privateGame
+{
+	margin-left: 2em;
+	vertical-align: middle;
+}
+
+.createGame .passcode
+{
+	font-size: .8em;
+	-webkit-transition: 200ms;
+	-moz-transition: 200ms;
+	-ms-transition: 200ms;
+	-o-transition: 200ms;
+	transition: 200ms;
+	width: 13em;
+}
+
+.setDisplayName
+{
+	width: 50%;
+}
+
+.additionalOptions
+{
+	margin: .75em 0 0;
+}
+
+.addDecks
+{
+	margin: .5em 0;
+}
+
+.chat
+{
+	background: #222;
+	color: #FFF;
+	padding: 15px 15px;
+	position: fixed;
+}
+
+.chat ul
+{
+	list-style: none;
+	margin: 0;
+	padding: 0 0 0 5px;
+	text-shadow: 1px 1px #000;
+}
+
+.chat ul li
+{
+	color: #ccc;
+	margin-bottom: 5px
+}
+
+.chat ul li:nth-child(even)
+{
+	color: #eee;
+}
+
+.chat ul li a
+{
+	color: #EEE;
+}
+
+.chat ul li a:hover,
+.chat ul li a:focus
+{
+	color: #FFF;
+}
+
+.chat .chatContainer
+{
+	display: inline-block;
+}
+
+.chatContainer #chatClient
+{
+	background: #333;
+	border-radius: 1px;
+	padding: 0.67em 5px;
+}
+
+.chat .chatContainer ul li a
+{
+	color: #FFF;
+	text-decoration: underline;
+}
+
+.chat .discussion
+{
+	height: 10.6em;
+	font-size: 0.9em;
+	margin: 0;
+	overflow: auto;
+}
+
+.chat .discussion li
+{
+	line-height: 1.3;
+	margin-right: 0.5em;
+	word-wrap: break-word;
+}
+
+.chat .chatField
+{
+	background: #FAFAFA;
+	border-color: #333;
+	border-radius: 1px 0 0 1px;
+	box-shadow: none;
+	padding-right: 4em;
+	position: relative;
+	width: 100%;
+}
+
+.chat .chatField input
+{
+	font-size: 1.3em;
+}
+
+.chat .chatField .button
+{
+	box-shadow: none;
+	font-size: 1.3em;
+	margin: 0;
+	position: absolute;
+	right: 0;
+}
+
+.chat .chatField .button:active
+{
+	color: #CCC;
+	left: inherit;
+	top: inherit;
+}
+
+.chat .lobby
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.chat .lobbyPlayers
+{
+	background: #333;
+	border-radius: 1px;
+	height: 100%;
+	padding: 5px;
+}
+
+.chat .lobbyPlayers ul
+{
+	height: 100%;
+	overflow: auto;
+	padding: 5px;
+}
+
+.chat .lobbyPlayers ul li
+{
+	margin-bottom: 2px;
+}
+
+.chat .lobbyPlayers ul li a:hover,
+.chat .lobbyPlayers ul li a:focus
+{
+	text-decoration: none;
+}
+
+.chat.bottom
+{
+	border-top: 2px solid #666;
+	bottom: 0;
+	height: 250px;
+	left: 0;
+	padding-bottom: 0;
+	width: 100%;
+}
+
+.chat.bottom .chatContainer
+{
+	width: 80%;
+}
+
+.chat.bottom .lobby
+{
+	margin-left: -0.31em;
+	height: 13.8em;
+	width: 20%;
+}
+
+.chat.bottom .lobbyPlayers
+{
+	margin-left: .5em;
+}
+
+.chat.right
+{
+	box-shadow: -2px 2px 0 #777;
+	height: 100%;
+	top: 0;
+	right: -350px;
+	-webkit-transition: right 200ms;
+	-moz-transition: right 200ms;
+	-ms-transition: right 200ms;
+	-o-transition: right 200ms;
+	transition: right 200ms;
+	width: 350px;
+}
+
+.chatOpen .chat.right
+{
+	right: 0;
+}
+
+.chat.right a
+{
+	color: #eee;
+}
+
+.chat.right a:hover,
+.chat.right a:focus
+{
+	color: #fff;
+}
+
+.chat.right .openClose
+{
+	background: #222;
+	box-shadow: -2px 2px 0 #777;
+	height: 3.55em;
+	left: -2.25em;
+	overflow: hidden;
+	padding: .25em 0;
+	position: absolute;
+	top: 0;
+	-webkit-transition: height 100ms;
+	-moz-transition: height 100ms;
+	-ms-transition: height 100ms;
+	-o-transition: height 100ms;
+	transition: height 100ms;
+	width: 2.25em;
+}
+
+body .chat.right .openClose a span.mobileOpenClose
+{
+	display: none;
+}
+
+.chat.right .openClose.new
+{
+	height: 7.1em;
+}
+
+.chat.right .openClose:hover
+{
+	background: #333;
+}
+
+.chat.right .openClose a
+{
+	text-decoration: none;
+}
+
+.chat.right .openClose a > span
+{
+	display: block;
+	font-size: 2em;
+	padding: .25em;
+	text-align: center;
+}
+
+.chat.right .openClose a > .closer
+{
+	display: none;
+}
+
+.chatOpen .chat.right .openClose a > .closer
+{
+	display: block;
+}
+
+.chatOpen .chat.right .openClose a > .opener
+{
+	display: none;
+}
+
+.chat.right .gameHeader
+{
+	position: relative;
+}
+
+.chat.right .gameHeader h3
+{
+	margin: 0;
+}
+
+.chat.right .gameHeader p
+{
+	font-size: .75em;
+	margin: .25em 0 0;
+}
+
+.chat.right .gameHeader h3,
+.chat.right .gameHeader p
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.chat.right h4
+{
+	margin: 1em 0 .5em;
+}
+
+.chat.right .playerHeader
+{
+	position: relative;
+}
+
+.chat.right .signOut
+{
+	font-size: .8em;
+	position: absolute;
+	right: 0;
+	top: .5em;
+}
+
+.chat.right .leaveGame
+{
+	bottom: 0;
+	font-size: .8em;
+	position: absolute;
+	right: 0;
+}
+
+.chat.right .gamePoints
+{
+	color: #999;
+	display: block;
+	margin-left: 2em;
+}
+
+.chat.right h3.loggedIn
+{
+	display: inline-block;
+	margin-top: 0;
+}
+
+.chat.right .loggedIn img
+{
+	border-color: #999;
+}
+
+.chat.right .playerMenu
+{
+	cursor: pointer;
+	display: none;
+	margin-right: .4em;
+	position: relative;
+	width: 1.5em;
+}
+
+.chat.right .playerMenu .menu
+{
+	bottom; -3em;
+	display: none;
+	position: absolute;
+	width: 11em;
+	z-index: 20;
+}
+
+.chat.right .playerMenu.open .menu
+{
+	background: #555;
+	display: block;
+}
+
+.chat.right .playerMenu.open .menu li
+{
+	color: #ccc;
+	display: block;
+	margin: 0;
+	padding: .25em;
+	width: 100%;
+}
+
+.chat.right .playerMenu.open .menu li:hover,
+.chat.right .playerMenu.open .menu li:focus
+{
+	color: #eee;
+}
+
+.chat.right .playerMenu.open .menu li a
+{
+	display: block;
+}
+
+.chat.right .playerMenu:hover,
+.chat.right .playerMenu:focus,
+.chat.right .playerMenu.open
+{
+	background: #555;
+}
+
+.chat.right .playerMenu img
+{
+	border-color: transparent;
+}
+
+.chat.right .loggedIn:hover .playerMenu,
+.chat.right .loggedIn:focus .playerMenu,
+.chat.right .playerMenu.open
+{
+	display: inline-block;
+}
+
+.chat.right .lobbyPlayers .loggedIn:hover > img,
+.chat.right .lobbyPlayers .loggedIn:focus > img,
+.chat.right .playerMenu.open + img
+{
+	display: none;
+}
+
+.chat.right .lobbyPlayers
+{
+	padding-bottom: 0;
+}
+
+.chat.right .lobbyPlayers ul
+{
+	overflow: visible;
+}
+
+.chat.right .lobbyPlayers li
+{
+	display: inline-block;
+	margin: 0 0 .5em;
+	width: 49%;
+}
+
+.chat.right .lobbyPlayers .loggedIn > a
+{
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 80%;
+}
+
+.chat.right .lobby
+{
+	font-size: .8em;
+	margin: 1em 0 1.25em;
+	width: 100%;
+}
+
+.chat.right fieldset
+{
+	font-size: .8em;
+	margin: 0;
+}
+
+.chat fieldset a
+{
+	background: #181818;
+	box-shadow: none !important;
+	position: static;
+}
+
+.chat fieldset a:hover,
+.chat fieldset a:focus
+{
+	background: #282828;
+}
+
+.chat fieldset a.active,
+.chat fieldset a:active
+{
+	background: #333;
+}
+
+.chat.right .chatField
+{
+	font-size: .8em;
+}
+
+.chat.right .discussion
+{
+	font-size: .8em;
+	height: 100%;
+}
+
+.gameListing
+{
+	background: #FFF;
+	border: solid #CCC;
+	border-width: 1px 0 3px;
+	margin: 15px -38px 0;
+}
+
+.chatOpen .gameListing
+{
+	margin-bottom: 247px;
+}
+
+.gameListing .game
+{
+	background: #FFF;
+	display: block;
+	float: left;
+	min-height: 10.1em;
+	padding: 20px 30px;
+	text-decoration: none;
+	-webkit-transition: 50ms;
+	-moz-transition: 50ms;
+	-ms-transition: 50ms;
+	-o-transition: 50ms;
+	transition: 50ms;
+	width: 33.33333%;
+}
+
+.gameListing .game:hover,
+.gameListing .game:focus
+{
+	background: #555 !important;
+	color: #FFF;
+}
+
+.gameListing .game:active
+{
+	background: #222 !important;
+}
+
+.gameListing .game h3
+{
+	font-size: 1.3em;
+	margin: 0 0 .5em;
+}
+
+.gameListing .game > span,
+.confirmMessage .meta > span,
+.confirmMessage .otherDecks > span
+{
+	background: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 3px;
+	color: #222;
+	display: inline-block;
+	font-size: .75em;
+	margin-right: 5px;
+	margin-top: 5px;
+	padding: 3px 5px;
+	-webkit-transition: 50ms;
+	-moz-transition: 50ms;
+	-o-transition: 50ms;
+	-ms-transition: 50ms;
+	transition: 50ms;
+}
+
+.confirmMessage .meta > span,
+.confirmMessage .otherDecks > span
+{
+	font-size: 1em;
+}
+
+.asked
+{
+	text-align: center;
+}
+
+.asked .card
+{
+	margin-right: 60px;
+}
+
+.pickinTime
+{
+	color: #999;
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	-ms-transition: 1s;
+	-o-transition: 1s;
+	transition: 1s;
+}
+
+.pickinTime.hide
+{
+	color: #222;
+}
+
+.card
+{
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0,0,0,.1);
+	border-radius: 3px;
+	box-shadow: 2px 2px 3px rgba(0,0,0,.5);
+	color: #222;
+	display: inline-block;
+	font-weight: bold;
+	min-height: 13em;
+	margin: 0 1.5em 1.5em 0;
+	padding: 1em 1em 3em;
+	position: relative;
+	-webkit-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
+	-moz-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
+	-ms-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
+	-o-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
+	transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
+	text-align: left;
+	text-decoration: none;
+	vertical-align: top;
+	width: 13em;
+}
+
+.card.out
+{
+	bottom: -10em;
+	left: -95%;
+}
+
+.card.out:nth-child(1)
+{
+	-webkit-transition-delay: 100ms;
+	-moz-transition-delay: 100ms;
+	-ms-transition-delay: 100ms;
+	-o-transition-delay: 100ms;
+	transition-delay: 100ms;
+}
+
+.card.out:nth-child(2)
+{
+	-webkit-transition-delay: 200ms;
+	-moz-transition-delay: 200ms;
+	-ms-transition-delay: 200ms;
+	-o-transition-delay: 200ms;
+	transition-delay: 200ms;
+}
+
+.card.out:nth-child(3)
+{
+	-webkit-transition-delay: 300ms;
+	-moz-transition-delay: 300ms;
+	-ms-transition-delay: 300ms;
+	-o-transition-delay: 300ms;
+	transition-delay: 300ms;
+}
+
+.card.out:nth-child(4)
+{
+	-webkit-transition-delay: 400ms;
+	-moz-transition-delay: 400ms;
+	-ms-transition-delay: 400ms;
+	-o-transition-delay: 400ms;
+	transition-delay: 400ms;
+}
+
+.card.out:nth-child(5)
+{
+	-webkit-transition-delay: 500ms;
+	-moz-transition-delay: 500ms;
+	-ms-transition-delay: 500ms;
+	-o-transition-delay: 500ms;
+	transition-delay: 500ms;
+}
+
+.card.out:nth-child(6)
+{
+	-webkit-transition-delay: 600ms;
+	-moz-transition-delay: 600ms;
+	-ms-transition-delay: 600ms;
+	-o-transition-delay: 600ms;
+	transition-delay: 600ms;
+}
+
+.card.out:nth-child(7)
+{
+	-webkit-transition-delay: 700ms;
+	-moz-transition-delay: 700ms;
+	-ms-transition-delay: 700ms;
+	-o-transition-delay: 700ms;
+	transition-delay: 700ms;
+}
+
+.card.out:nth-child(8)
+{
+	-webkit-transition-delay: 800ms;
+	-moz-transition-delay: 800ms;
+	-ms-transition-delay: 800ms;
+	-o-transition-delay: 800ms;
+	transition-delay: 800ms;
+}
+
+.card.out:nth-child(9)
+{
+	-webkit-transition-delay: 900ms;
+	-moz-transition-delay: 900ms;
+	-ms-transition-delay: 900ms;
+	-o-transition-delay: 900ms;
+	transition-delay: 900ms;
+}
+
+.card.out:nth-child(10)
+{
+	-webkit-transition-delay: 1s;
+	-moz-transition-delay: 1s;
+	-ms-transition-delay: 1s;
+	-o-transition-delay: 1s;
+	transition-delay: 1s;
+}
+
+.card.out:nth-child(11)
+{
+	-webkit-transition-delay: 1.1s;
+	-moz-transition-delay: 1.1s;
+	-ms-transition-delay: 1.1s;
+	-o-transition-delay: 1.1s;
+	transition-delay: 1.1s;
+}
+
+.card:hover,
+.card:focus
+{
+	color: #222;
+	text-decoration: none;
+}
+
+.played.pick .card
+{
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+}
+
+.question,
+.question:hover,
+.question:focus,
+.played.names .card
+{
+	background: #222;
+	color: #FFF;
+}
+
+.answer,
+.answer:hover,
+.answer:focus
+{
+	background: #FFF;
+	color: #222;
+}
+
+.winnerPicked .winner .card
+{
+	font-size: 1.1em;
+}
+
+.pickOrder
+{
+	background: #222;
+	border-radius: 50%;
+	bottom: -.75em;
+	box-shadow: 2px 2px 3px rgba(0,0,0,.45);
+	color: #FFF;
+	display: inline-block;
+	font-size: 1.2em;
+	height: 2.5em;
+	line-height: 2.5em;
+	opacity: 0;
+	position: absolute;
+	right: -.75em;
+	text-align: center;
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+	width: 2.5em;
+}
+
+.pick .card:hover .pickOrder,
+.pick .card.picked .pickOrder
+{
+	box-shadow: 6px 6px 8px rgba(0,0,0,.45);
+}
+
+.answer.picked .pickOrder,
+.answer:hover .pickOrder,
+.answer:focus .pickOrder
+{
+	opacity: 1;
+}
+
+.pickMultiple
+{
+	border-radius: 3px;
+	box-shadow: 2px 2px 3px rgba(0,0,0,.5);
+	display: inline-block;
+	margin: 0 1.5em 1.5em 0;
+	position: relative;
+	vertical-align: top;
+	max-width: 13em;
+}
+
+.winner .pickMultiple
+{
+	margin: 0;
+	max-width: 14.4em;
+}
+
+.pick .pickMultiple
+{
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+}
+
+.played .pickMultiple .card,
+.played .pickMultiple .card:hover,
+.played.pickMultiple .card:focus
+{
+	box-shadow: none;
+	margin: 0;
+	top: 0;
+	left: 0;
+}
+
+.played .pickMultiple .card:nth-child(2),
+.played .pickMultiple .card:nth-child(2):hover,
+.played .pickMultiple .card:nth-child(2):focus,
+.played .pickMultiple .card:nth-child(3),
+.played .pickMultiple .card:nth-child(3):hover,
+.played .pickMultiple .card:nth-child(3):focus
+{
+	margin-top: -3em;
+}
+
+.card .branding
+{
+	color: #222;
+	display: inline-block;
+	font-size: .55em;
+	bottom: 1.8em;
+	left: 1.8em;
+	position: absolute;
+	text-transform: uppercase;
+}
+
+.card.question .branding
+{
+	color: #FFF;
+}
+
+.question .pickTwo
+{
+	background: #444;
+	border-radius: 1em;
+	display: inline-block;
+	font-size: .55em;
+	bottom: 1.3em;
+	right: 1.3em;
+	padding: .5em .8em;
+	position: absolute;
+	text-transform: uppercase;
+}
+
+.question .branding .logo
+{
+	background: #57585b;
+}
+
+.question .branding .logo:before
+{
+	background: #b1b3b5;
+}
+
+.question .branding .logo:after
+{
+	background: #FFF;
+}
+
+.pick .pickMultiple:hover,
+.pick .pickMultiple:focus,
+.pick .card:hover,
+.pick .card:focus,
+.pick .card.picked
+{
+	box-shadow: 6px 6px 8px rgba(0,0,0,.45);
+	top: -2px;
+	left: -2px;
+}
+
+.asked .card
+{
+	margin-bottom: 0;
+}
+
+.played *
+{
+	-webkit-transition: 500ms;
+	-moz-transition: 500ms;
+	-ms-transition: 500ms;
+	-o-transition: 500ms;
+	transition: 500ms;
+}
+
+.played .pickOrder,
+.waitingGame .pickOrder
+{
+	opacity: 1;
+}
+
+.played > div
+{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.winnerPicked.played > div
+{
+	margin-bottom: 1em;
+	vertical-align: top;
+}
+
+.played > div h3
+{
+	display: none;
+}
+
+.played > .winner
+{
+	border-color: transparent;
+}
+
+.played.winnerPicked > .winner
+{
+	background: #F7F7F7;
+	background: rgba(255,255,255,0.6);
+	border: 1px solid #EEE;
+	border-radius: 5px;
+	margin-right: 1.5em;
+	padding: 1.5em;
+	-webkit-transition: 500ms;
+	-moz-transition: 500ms;
+	-ms-transition: 500ms;
+	-o-transition: 500ms;
+	transition: 500ms;
+}
+
+.played > .winner h3
+{
+	display: block;
+	margin: 0 0 .5em;
+}
+
+.played > .winner .user
+{
+	margin: 0 0 1em;
+	padding: 0;
+	/*padding: 1em 0 0;*/
+}
+
+.played > .winner .user .addPoints
+{
+	font-size: .9em;
+	margin: .5em 0 0;
+	opacity: .7;
+}
+
+.played .user
+{
+	opacity: 0;
+	max-width: 13em;
+}
+
+.played.winnerPicked .user
+{
+	opacity: 1;
+}
+
+.played.winnerPicked > .winner .card
+{
+	margin: 0;
+}
+
+/*.played.names .card
+{
+	background: #444;
+	font-size: 1.6em;
+	font-weight: normal;
+	min-height: 8.125em;
+	line-height: 4.5em;
+	margin: 0 .9375em .9375em 0;
+	padding: .5em;
+	text-align: center;
+	text-shadow: 0px 0px 10px #777;
+	width: 8.125em;
+}*/
+
+.blank
+{
+	border: 1px solid #FFF;
+	border-width: 0 0 1px 0;
+	display: inline-block;
+	height: 1.05em;
+	margin-right: 2%;
+	width: 52%;
+}
+
+.answer .blank
+{
+	border-color: #222;
+}
+
+.votingFor > fieldset
+{
+	margin: 20px 0 30px;
+}
+
+.voting .card
+{
+	cursor: default;
+	margin-left: 4em;
+	margin-right: 1em;
+	z-index: 1;
+}
+
+.voting a.card
+{
+	cursor: pointer;
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+	transition: none;
+}
+
+.votingFor,
+.deckInfo
+{
+	position: relative;
+}
+
+.votingFor .options,
+.user .options
+{
+	position: absolute;
+	right: 1em;
+	top: 0;
+}
+
+.deckInfo .options
+{
+	margin: .5em 0 -.4em 0;
+}
+
+.votingFor .options > .button,
+.deckInfo .options > .button
+{
+	margin-top: 0;
+}
+
+.deckInfo .options .status
+{
+	color: #999;
+	display: inline-block;
+}
+
+.deckInfo .options .status:first-child
+{
+	margin-left: .5em;
+}
+
+.votingFor .options > fieldset
+{
+	display: inline-block;
+	margin: 0 1.25em 0 0;
+}
+
+.votingFor .options > fieldset + fieldset
+{
+	margin: 0 0 1em 0;
+}
+
+/*.voteFlag:before
+{
+	content: "+";
+}*/
+
+.voteFlag
+{
+	color: #555;
+	display: inline-block;
+	left: -3.123em;
+	font-size: 1.4em;
+	padding: .25em .3em .25em .3em;
+	position: absolute;
+	text-align: center;
+	-webkit-transition: 100ms;
+	-moz-transition: 100ms;
+	-ms-transition: 100ms;
+	-o-transition: 100ms;
+	transition: 100ms;
+	top: 1em;
+	width: 3.1em;
+	z-index: 0;
+}
+
+.card:hover .voteFlag,
+.card:focus .voteFlag
+{
+	color: #FFF;
+	background: #555;
+	box-shadow: 0 2px 1px #999;
+}
+
+.card .voteFlag:hover,
+.card .voteFlag:focus,
+.card .voteFlag.active
+{
+	box-shadow: 0 2px 1px #999;
+	background: #CCC;
+	color: #222;
+	text-decoration: none;
+}
+
+.card .voteFlag.active:hover,
+.card .voteFlag.active:focus
+{
+	box-shadow: 0 2px 1px #999;
+	background: #DDD;
+	color: #222;
+	text-decoration: none;
+}
+
+/*.voteFlag.active:before
+{
+	content: none;
+}*/
+
+.cardStack
+{
+	display: inline-block;
+	position: relative;
+}
+
+.cardStack .card
+{
+	margin-bottom: 3em;
+	margin-right: 1.6em;
+}
+
+.cardStack a.card:hover,
+.cardStack a.card:focus
+{
+	color: #777;
+}
+
+.cardStack .card + .card
+{
+	position: absolute;
+	top: .3em;
+	left: .3em;
+	z-index: 2;
+}
+
+.cardStack .card + .card + .card
+{
+	position: absolute;
+	top: .6em;
+	left: .6em;
+	z-index: 3;
+}
+
+.leaderboard .board
+{
+	margin: 25px auto 0;
+	width: 70%;
+}
+
+.leaderboard .board h3
+{
+	font-size: 1.5em;
+}
+
+.leaderboard .board > div
+{
+	float: left;
+	padding-left: 5.5em;
+	width: 50%;
+}
+
+.leaderboard .board > div + div
+{
+	border-left: 1px solid #ddd;
+}
+
+.leaderboard .board ol
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.leaderboard .board ol > li
+{
+	margin: 0 0 10px -3em;
+}
+
+.leaderboard .board ol > li.skipper
+{
+	font-weight: bold;
+	margin: .5em 0 1em 2.25em;
+}
+
+.leaderboard .board ol > li.me
+{
+	font-style: italic;
+	font-weight: bold;
+}
+
+.leaderboard .board ol > li > span
+{
+	display: inline-block;
+	font-style: normal;
+	font-weight: bold;
+	margin-left: -3em;
+	margin-right: 2em;
+	min-width: 4em;
+	text-align: right;
+}
+
+.leaderboard .board .loggedIn
+{
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 78%;
+}
+
+.addACard fieldset
+{
+	display: inline-block;
+	font-size: .75em;
+	margin: .25em 0 0;
+}
+
+.addACard fieldset + .button
+{
+	font-size: .75em;
+	margin-left: 1em;
+}
+
+.addACard .card textarea
+{
+	background: #F7F7F7;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-family: helvetica, arial;
+	font-size: 1em;
+	font-weight: bold;
+	height: 9em;
+	margin: 0;
+	padding: .5em;
+	resize: none;
+	width: 10.9em;
+}
+
+.confirmMessage .addACard .card + .button,
+.confirmMessage .addACard .card + .button + .button
+{
+	margin-top: 0;
+}
+
+.addACard .question.card textarea
+{
+	background: #555;
+	background: rgba(255,255,255,.1);
+	border: 1px solid #333;
+	color: #FFF;
+}
+
+.createDeck .addACard .card + .button
+{
+	margin-top: 1.5em;
+}
+
+.createDeck .createDeckControls
+{
+	width: 65%;
+}
+
+.createDeck .createDeckControls .button
+{
+	float: right;
+	margin: 0;
+}
+
+.addACard .card
+{
+	margin: 1.5em;
+}
+
+.createDeck .addACard .card
+{
+	margin: 1.5em 1.5em 1.5em 0;
+}
+
+.deckInfo > h3
+{
+	font-size: 1.5em;
+	margin: 0.6em 0 0;
+}
+
+.gameOver h3
+{
+	font-size: 1.8em;
+}
+
+.gameOver h3 a
+{
+	font-size: 1.15em;
+	padding: 0 .15em;
+}
+
+.gameOver .playerScores
+{
+	font-size: 1.1em;
+	list-style: none;
+	padding: .75em 1em;
+	text-align: center;
+	width: 60%;
+}
+
+.gameOver .playerScores li
+{
+	margin: .75em 0;
+}
+
+.gameOver .playerScores li > .loggedIn
+{
+	display: inline-block;
+	text-align: left;
+	width: 70%;
+}
+
+.gameOver .playerScores li > .points
+{
+	display: inline-block;
+	text-align: left;
+	opacity: .7;
+	width: 30%;
+}
+
+body.endGame .radHeader
+{
+	margin-bottom: 2em;
+	padding-left: 2px;
+	position: relative;
+}
+
+.gameOver h3
+{
+	font-size: 1.8em;
+}
+
+.gameOver h3 a
+{
+	font-size: 1.15em;
+	padding: 0 .15em;
+}
+
+.gameOver .playerScores
+{
+	font-size: 1.1em;
+	list-style: none;
+	padding: .75em 1em;
+	text-align: center;
+	width: 60%;
+}
+
+.gameOver .playerScores li
+{
+	margin: .75em 0;
+}
+
+.gameOver .playerScores li > .loggedIn
+{
+	display: inline-block;
+	overflow: hidden;
+	text-align: left;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 70%;
+}
+
+.gameOver .playerScores li > .points
+{
+	display: inline-block;
+	text-align: right;
+	opacity: .7;
+	width: 30%;
+}
+
+.loading
+{
+	margin-top: 1em;
+	text-align: center;
+}
+
+.loading > span
+{
+	color: #bbb;
+	font-size: 1.25em;
+	text-shadow: 1px 1px 1px #ddd;
+}
+
+.disabled
+{
+	opacity: .4 !important;
+}
+
+.disabled *
+{
+	cursor: default;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+} 
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+/* Styles for Toast Notifictions */
+
+body #toast-container > div,
+body #toast-container > div:hover
+{
+	cursor: default;
+	background-color: #111;
+	background-position: 26px center;
+	border-radius: 0;
+	box-shadow: 3px -3px 0 #666;
+	opacity: 1;
+	padding-left: 75px;
+}
+
+body #toast-container > div .toast-title
+{
+	font-size: 1.2em;
+	font-weight: normal;
+}
+
+body #toast-container > div .toast-message
+{
+
+}
+
+body #toast-container > .toast-info
+{
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAMFBMVEXw8PDu7u729vbv7+/29vb////////+/v7////x8fH///////8AAAD8/Pz9/f3///9NTWjrAAAADXRSTlPu/cf2xYdHo0LnZH8Azb03eAAAAINJREFUeNqF0VsOxCAIBVDfIlbZ/24njqTQqPF+NTkSe8U8h9whxeCbDzF9AXKnmZ5BARaSFHwBLelYZAA+b5zhGZiQaaY+lb/yH1JfoKcBkRagOCBsIAzwG/AD2gbaceJ4B/+VFORE7iGRHqq5q06ay1upOwrI6+oJi9d9rBu873zND9mTHAMLUWGEAAAAAElFTkSuQmCC') !important;
+}
+
+.transitionDown {
+    transform:translateY(-1000px);
+    -ms-transform:translateY(-1000px); /* IE 9 */
+    -webkit-transform:translateY(-1000px); /* Safari and Chrome */
+    transition: all 2.0s ease-in-out;
+    -webkit-transition: all 2.0s ease-in-out; /* Safari */
+}
+
+@media screen and (min-width: 2250px)
+{
+	.gameListing .game
+	{
+		width: 20%;
+	}
+}
+
+@media screen and (min-width: 1800px)
+{
+	.gameListing .game
+	{
+		width: 25%;
+	}
+}
+
+@media screen and (max-width: 1400px)
+{
+	body.chatOpen.right .radHeader
+	{
+		margin-bottom: 2em;
+		padding-left: 2px;
+		position: relative;
+	}
+}
+
+@media screen and (max-width: 1200px)
+{
+	.game .radHeader
+	{
+		margin: 0 0 2em 0;
+		padding: 0;
+		position: relative;
+	}
+	
+	.user .username .points
+	{
+		display: block;
+		margin: .5em 0;
+	}
+
+	.waitingGame
+	{
+		margin-top: 0;
+	}
+
+	.user .username .name
+	{
+		max-width: 55%;
+	}
+}
+
+@media screen and (max-width: 1100px)
+{
+	.splash h1
+	{
+		font-size: 6em;
+	}
+}
+
+@media screen and (max-width: 1090px)
+{
+	.gameOver .playerScores
+	{
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 931px)
+{
+	.votingFor .options, .user .options
+	{
+		margin: 1em 0 2em;
+		position: static;
+	}
+
+	.user .username
+	{
+		font-size: 1.8em;
+		margin: 1em 0 0;
+	}
+
+	.user .username .name
+	{
+		max-width: 80%;
+	}
+}
+
+@media screen and (max-width: 875px)
+{
+	.gameOver .playerScores
+	{
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 860px)
+{
+	/* Need to modify game sidebar at this width */
+}
+
+@media screen and (max-width: 850px)
+{
+	.splash h1
+	{
+		font-size: 4em;
+		margin-top: .85em;
+	}
+
+	.splash .buttons > a
+	{
+		margin-bottom: 1em;
+		margin-top: 1em;
+	}
+
+	.gameListing .game
+	{
+		width: 50%;
+	}
+
+	.leaderboard .board
+	{
+		width: 100%;
+	}
+
+	.chat.bottom .chatContainer
+	{
+		width: 70%;
+	}
+
+	.chat.bottom .lobby
+	{
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 735px)
+{
+	.votingFor .options > fieldset
+	{
+		display: inline-block;
+		font-size: .8em;
+		margin: 1em 1.25em 1em 0;
+	}
+}
+
+@media screen and (max-width: 655px)
+{
+	.splash .buttons > a
+	{
+		margin-left: 0;
+		margin-right: 0;
+		width: 45%;
+	}
+
+	blockquote
+	{
+		margin: 2em auto 3em;
+		max-width: 90%;
+	}
+}
+
+@media screen and (max-height: 630px)
+{
+	.confirmMessage.cardSubmit
+	{
+		margin-top: -8.6em;
+	}
+
+	.confirmMessage.pickThree.cardSubmit
+	{
+		margin-top: -12.6em;
+	}
+
+	.confirmMessage.cardSubmit > div
+	{
+		text-align: center;
+	}
+
+	.confirmMessage.cardSubmit .card
+	{
+		font-size: .52em;
+	}
+	
+	.played.winnerPicked
+	{
+		text-align: center;
+	}
+
+	.played.winnerPicked > div
+	{
+		display: none;
+	}
+
+	.played.winnerPicked > div.winner
+	{
+		display: inline-block;
+	}
+}
+
+@media screen and (max-width: 600px)
+{
+	body
+	{
+		padding: 0;
+	}
+
+	body.home,
+	body.join
+	{
+		margin: 0;
+	}
+
+	body.home > div,
+	.game
+	{
+		text-align: center;
+	}
+
+	.game .radHeader
+	{
+		text-align: left;
+	}
+
+	/*.confirmMessage
+	{
+		margin-top: 0 !important;
+		top: 0 !important;
+	}*/
+
+	.waitingGame .card
+	{
+		margin: 0 .75em 1.5em;
+	}
+
+	.join .radHeader
+	{
+		margin-left: 8px;
+	}
+
+	.gameTitle,
+	.deckTitle,
+	.setDisplayName
+	{
+		width: 80%;
+	}
+
+	.loggin
+	{
+		background: #222;
+		padding: .5em 0;
+		position: static;
+		text-align: center;
+	}
+	
+	.loggin.userPage
+	{
+		margin: -0.6em;
+	}
+
+	.loggin a
+	{
+		color: #AAA;
+	}
+
+	.loggin a:hover,
+	.loggin a:focus
+	{
+		color: #CCC;
+	}
+
+	.loggin .loggedIn img
+	{
+		border-color: #AAA;
+	}
+
+	.splash h1
+	{
+		font-size: 2.45em;
+		margin-top: 1em;
+		margin: 1em 0 .7em 0;
+	}
+
+	.gameListing
+	{
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.gameListing .game
+	{
+		padding-left: 8px;
+		padding-right: 8px;
+	}
+
+	.createDeck .createDeckControls
+	{
+		width: 80%;
+	}
+
+	.createDeck .addACard ~ div .card
+	{
+		margin-right: 1em;
+	}
+
+	.chat
+	{
+		padding: 8px;
+	}
+
+	.fakeCheckLabel
+	{
+		font-size: .85em;
+	}
+
+	.foota
+	{
+		height: auto;
+		margin: 2em 0 0;
+		position: static;
+	}
+
+	.foota p
+	{
+		height: auto !important;
+		position: static !important;
+		margin: 0 10px;
+		max-width: none !important;
+	}
+
+	.card.question
+	{
+		margin-right: 0;
+	}
+
+	.votingFor .options + div
+	{
+		margin: 0 10px;
+	}
+
+	.votingFor.cards .question.card
+	{
+		margin-left: 4em;
+	}
+
+	.user .createdDecks,
+	.user .suggestedCards
+	{
+		margin: 0 10px;
+	}
+}
+
+@media screen and (max-width: 550px)
+{
+	/*.leaderboard .radHeader
+	{
+		text-align: center;
+	}*/
+
+	.leaderboard .board > div
+	{
+		float: none;
+		margin-bottom: 4em;
+		padding-left: 5em;
+		width: 100%;
+	}
+
+	.leaderboard .board > div + div
+	{
+		border: none;
+	}
+}
+
+@media screen and (max-width: 500px)
+{
+	blockquote
+	{
+		margin: 1em auto 2em;
+		max-width: 80%;
+	}
+
+	blockquote a
+	{
+		font-size: 1.25em;
+	}
+
+	blockquote:before
+	{
+		font-size: 2em;
+	}
+
+	blockquote:after
+	{
+		font-size: 2em;
+	}
+
+	.gameTitle,
+	.deckTitle,
+	.setDisplayName
+	{
+		width: 100%;
+	}
+
+	.createDeck .createDeckControls
+	{
+		width: 100%;
+	}
+
+	.gameListing .game
+	{
+		min-height: 0;
+		text-align: left;
+		width: 100%;
+	}
+
+	.gameListing .game:nth-child(even)
+	{
+		background: #EEE;
+	}
+
+	.chatOpen .gameListing
+	{
+		margin-bottom: 0;
+	}
+
+	.chat.bottom
+	{
+		height: auto;
+		position: static;
+	}
+
+	.chat.bottom .discussion
+	{
+		height: 100%;
+	}
+
+	.chat.bottom .chatContainer
+	{
+		display: block;
+		width: 100%;
+	}
+
+	.chat.bottom .lobby
+	{
+		display: none;
+		margin-left: 0;
+		height: 13.8em;
+		width: 100%;
+	}
+
+	.chat.bottom .lobbyPlayers
+	{
+		margin-left: 0;
+	}
+
+    .transitionUp {
+        transform:translateX(1000px);
+        -ms-transform:translateX(1000px); /* IE 9 */
+        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+
+    .transitionDown {
+        transform:translateX(-1000px);
+        -ms-transform:translateX(-1000px); /* IE 9 */
+        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+}
+
+@media screen and (max-width: 435px)
+{
+	.card.question,
+	.played.names .card,
+	.played .winner
+	{
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.played.names
+	{
+		height: 35em;
+		overflow: hidden;
+	}
+
+	.played.names .card
+	{
+		border: 1px solid #444;
+		position: relative;
+	}
+
+	.played.names > p + .card + .card
+	{
+		top: -11.5em;
+	}
+
+	.played.names > p + .card + .card + .card
+	{
+		top: -23em;
+	}
+
+	.played.names > p + .card + .card + .card + .card
+	{
+		top: -34.5em;
+	}
+
+	.played.names > p + .card + .card + .card + .card + .card
+	{
+		top: -46em;
+	}
+
+	.played.names > p + .card + .card + .card + .card + .card + .card
+	{
+		top: -57.5em;
+	}
+
+	.played.names > p + .card + .card + .card + .card + .card + .card + .card
+	{
+		top: -69em;
+	}
+	
+	.chatContainer #chatClient
+	{
+		height: 260px !important;
+	}
+
+	body.right
+	{
+		margin-bottom: 2em;
+	}
+
+	body.chatOpen .game
+	{
+		max-height: 500px;
+		overflow: hidden;
+	}
+
+	body.chatOpen.right
+	{
+		margin: 0;
+	}
+	
+	body .chat.right
+	{
+		height: 2.2em;
+		left: 0;
+		overflow: hidden;
+		padding: .75em;
+		position: absolute;
+		right: auto;
+		top: auto;
+		width: 100%;
+	}
+
+	body.chatOpen .chat.right
+	{
+		bottom: auto;
+		height: auto;
+		overflow: visible;
+	}
+
+	body .chat.right .openClose,
+	body .chat.right .openClose.new
+	{
+		border-bottom: 1px solid #333;
+		box-shadow: none;
+		display: block;
+		height: auto;
+		left: 0;
+		margin: -.75em -.75em .75em;
+		position: static;
+		top: 0;
+		width: auto;
+	}
+
+	body .chat.right .openClose a > span
+	{
+		display: none !important;
+	}
+
+	body .chat.right .openClose a span.mobileOpenClose
+	{
+		display: block !important;
+		font-size: 100%
+	}
+
+	body .chat.right .openClose a span.mobileOpenClose .close
+	{
+		display: none;
+	}
+
+	body .chat.right .openClose a span.mobileOpenClose .open
+	{
+		display: inline;
+	}
+
+	body.chatOpen .chat.right .openClose a span.mobileOpenClose .open
+	{
+		display: none;
+	}
+
+	body.chatOpen .chat.right .openClose a span.mobileOpenClose .close
+	{
+		display: inline;
+	}
+
+	body.chatOpen .chat.right .openClose.new a span.mobileOpenClose .notify
+	{
+		display: inline-block;
+	}
+
+	.chat.right .playerMenu
+	{
+		display: inline-block;
+	}
+
+	.chat.right .playerMenu.open .menu li
+	{
+		padding: .5em;
+	}
+
+	.chat.right .lobbyPlayers li
+	{
+		margin: 0 0 1em;
+		width: 100%;
+	}
+
+	.chat.right .lobbyPlayers li:last-child
+	{
+		margin: 0 0 .5em;
+	}
+
+	.chat.right .playerMenu .menu
+	{
+		width: 17.3em;
+	}
+
+	.chat.right .loggedIn
+	{
+		/*display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 99%;*/
+	}
+
+	.chat.right .lobbyPlayers .loggedIn:hover > img,
+	.chat.right .lobbyPlayers .loggedIn:focus > img,
+	.chat.right .playerMenu.open + img
+	{
+		display: inline-block;
+	}
+
+	.chat.right .gamePoints
+	{
+		margin-left: 4.25em;
+	}
+
+	.chat.right .lobby
+	{
+		font-size: 1em;
+		margin: 1em 0;
+	}
+
+	.chatOpen .chat.right
+	{
+		left: 0;
+		position: absolute;
+		right: auto;
+		top: 0;
+	}
+
+	.chat.right .discussion
+	{
+		font-size: .9em;
+	}
+}
+
+@media screen and (max-width: 400px)
+{
+	.radHeader .actions
+	{
+		position: static;
+	}
+
+    .transitionUp {
+        transform:translateX(1000px);
+        -ms-transform:translateX(1000px); /* IE 9 */
+        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+
+    .transitionDown {
+        transform:translateX(-1000px);
+        -ms-transform:translateX(-1000px); /* IE 9 */
+        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+}
+
+@media screen and (max-width: 360px)
+{
+	.confirmMessage
+	{
+		border-radius: 0;
+	}
+
+	.createDeck .addACard ~ div,
+	.deck .deckInfo > div > div
+	{
+		/*margin-left: 3em;*/
+		text-align: center;
+	}
+
+	.createDeck .addACard ~ div .card,
+	.deck .deckInfo > div > div .card
+	{
+		margin-right: 0;
+	}
+
+	.createDeck .addACard .card
+	{
+		margin: 1.5em 1em 1.5em 1em;
+	}
+
+	.createDeck .addACard .card + .button
+	{
+		margin-right: 0;
+	}
+
+	.splash h1
+	{
+		font-size: 2em;
+		margin: 1em 0 .5em 0;
+	}
+
+	.hand > .card,
+	.winnerPicked .card,
+	.played.winnerPicked .winner
+	{
+		margin-right: 0;
+	}
+
+	.hand,
+	.played.pick
+	{
+		margin: 0 -8px 1.5em;
+		overflow-x: scroll;
+	}
+
+	.hand > div,
+	.played.pick > div
+	{
+		margin-left: 3em;
+		text-align: left;
+		width: 74em;
+	}
+
+	.voting .card
+	{
+		margin-right: 1em;
+	}
+
+	.user .button
+	{
+		text-align: center;
+	}
+
+    .transitionUp {
+        transform:translateX(1000px);
+        -ms-transform:translateX(1000px); /* IE 9 */
+        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+
+    .transitionDown {
+        transform:translateX(-1000px);
+        -ms-transform:translateX(-1000px); /* IE 9 */
+        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transition: all 2.0s ease-in-out;
+        -webkit-transition: all 2.0s ease-in-out; /* Safari */
+    }
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5),
+       screen and (-moz-min-device-pixel-ratio: 1.5),
+       screen and (min-resolution: 144dpi)
+{
+    body
+	{
+		background-image: url('../Images/gray_jean-big.png');
+		background-size: 150px 150px;
+	}
+}
