@@ -44,9 +44,5 @@
         <a id="signIn" href="#">Sign in</a>
     </div>
     
-    @*Html.Action("ExternalLoginsList", "Account", new { ReturnUrl = returnUrl })*@
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/Core")
+    @Html.Action("ExternalLoginsList", "Account", new { ReturnUrl = returnUrl })
 }

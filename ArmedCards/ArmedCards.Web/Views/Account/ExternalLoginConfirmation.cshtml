@@ -1,36 +1,49 @@
-﻿@model ArmedCards.Web.Models.RegisterExternalLoginModel
+﻿@*
+ * Copyright (c) 2013, Kevin McRell & Paul Miller
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions
+ *   and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice, this list of
+ *   conditions and the following disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
+
+@model ArmedCards.Web.Models.Account.RegisterExternalLogin
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
-</hgroup>
+<div class="radHeader">
+	<h1><a href="index.html" title="Home">Armed Cards!#&amp;?</a></h1>
+	<h2>Set Display Name</h2>
+</div>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", FormMethod.Post, new { id="externalLogin" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => m.ReturnUrl)
 
-    <fieldset>
-        <legend>Association Form</legend>
-        <p>
-            You've successfully authenticated with <strong>@ViewBag.ProviderDisplayName</strong>.
-            Please enter a user name for this site below and click the Confirm button to finish
-            logging in.
-        </p>
-        <ol>
-            <li class="name">
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-        </ol>
-        @Html.HiddenFor(m => m.ExternalLoginData)
-        <input type="submit" value="Register" />
-    </fieldset>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    <div class="fakeInput setDisplayName">
+        @Html.TextBoxFor(m => m.UserName, new { @class = "title", placeholder = "Display Name" })
+	</div>
+    @Html.ValidationMessageFor(m => m.UserName)
+    @Html.HiddenFor(m => m.ExternalLoginData)
+    <div class="buttons">
+		<a id="registerSave" href="#" class="button">Save</a>
+	</div>
 }

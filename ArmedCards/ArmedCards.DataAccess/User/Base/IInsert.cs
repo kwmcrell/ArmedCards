@@ -20,49 +20,24 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-var ReGame = ReGame || {};
-ReGame.Core = ReGame.Core || {};
 
-function LoginPartial() {
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-}
-
-if (!ReGame.Core.LoginPartial) {
-    ReGame.Core.LoginPartial = new LoginPartial();
-}
-
-LoginPartial.prototype.signIn = function (event) {
-    event.preventDefault();
-    $('#overlay').addClass('on');
-    $('#confirmMessage').addClass('on');
-}
-
-LoginPartial.prototype.logOff = function (event) {
-    var connection = $.connection;
-    if (connection != null) {
-        connection.reGameHub.server.disconnect();
+namespace ArmedCards.DataAccess.User.Base
+{
+    /// <summary>
+    /// Interface for Inserting a User
+    /// </summary>
+    public interface IInsert
+    {
+        /// <summary>
+        /// Insert a user record into the database
+        /// </summary>
+        /// <param name="user">The user to insert</param>
+        void Execute(Entities.User user);
     }
-
-    document.getElementById('logoutForm').submit();
 }
-
-LoginPartial.prototype.externalLoginSubmit = function (event) {
-    event.preventDefault();
-    $('#externalLogin').submit();
-}
-
-LoginPartial.prototype.init = function () {
-    $('#signIn').unbind().bind({
-        click: ReGame.Core.LoginPartial.signIn
-    });
-
-    $('#logOff').unbind().bind({
-        click: ReGame.Core.LoginPartial.logOff
-    });
-
-    $('#registerSave').unbind().bind({
-        click: ReGame.Core.LoginPartial.externalLoginSubmit
-    });
-}
-
-$(document).ready(ReGame.Core.LoginPartial.init);

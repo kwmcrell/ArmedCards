@@ -1,0 +1,67 @@
+﻿/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data;
+
+namespace ArmedCards.DataAccess.User
+{
+    /// <summary>
+    /// Implementation class of IInsert
+    /// </summary>
+    public class Insert : Base.IInsert
+    {
+        private Database db;
+
+        /// <summary>
+        /// Dependency Injected Constructor
+        /// </summary>
+        /// <param name="db">Database</param>
+        public Insert(Database db)
+        {
+            this.db = db;
+        }
+
+        /// <summary>
+        /// Insert a new user into the users table
+        /// </summary>
+        /// <param name="user">The user to insert</param>
+        public void Execute(Entities.User user)
+        {
+            using (DbCommand cmd = db.GetStoredProcCommand("User_Insert"))
+            {
+                db.AddInParameter(cmd, "UserName", DbType.String, user.DisplayName);
+                db.AddOutParameter(cmd, "NewID", DbType.Int32, sizeof(Int32));
+
+                db.ExecuteScalar(cmd);
+                user.UserId = Int32.Parse(db.GetParameterValue(cmd, "NewID").ToString());
+            }
+        }
+    }
+}
