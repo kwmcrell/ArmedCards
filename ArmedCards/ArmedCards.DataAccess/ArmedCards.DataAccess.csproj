@@ -45,7 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Base\IInsert.cs" />
+    <Compile Include="Game\Insert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="_DBScripts\Game\GameTable.sql" />
+    <Content Include="_DBScripts\Game\Game_Insert.sql" />
     <Compile Include="User\Base\IGet.cs" />
     <Compile Include="User\Base\IInsert.cs" />
     <Compile Include="User\Insert.cs" />
@@ -55,9 +59,13 @@
       <Project>{d8f286cb-de93-4ff8-8499-14e6ff87bc92}</Project>
       <Name>ArmedCards.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArmedCards.Library\ArmedCards.Library.csproj">
+      <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
+      <Name>ArmedCards.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\User\User_Insert.sql" />
+    <Content Include="_DBScripts\User\User_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -45,13 +45,23 @@ namespace ArmedCards.Web
 
             #region "User"
 
-            Container.RegisterType<BusinessLogic.AppServices.User.Base.IInsert, BusinessLogic.AppServices.User.Insert>();
-            Container.RegisterType<BusinessLogic.DomainServices.User.Base.IInsert, BusinessLogic.DomainServices.User.Insert>();
-            Container.RegisterType<BusinessLogic.Repositories.User.Base.IInsert, BusinessLogic.Repositories.User.Insert>();
+            Container.RegisterType<BusinessLogic.AppServices.User.Base.IInsert,     BusinessLogic.AppServices.User.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.User.Base.IInsert,  BusinessLogic.DomainServices.User.Insert>();
+            Container.RegisterType<BusinessLogic.Repositories.User.Base.IInsert,    BusinessLogic.Repositories.User.Insert>();
 
             Container.RegisterType<DataAccess.User.Base.IInsert, DataAccess.User.Insert>();
 
             #endregion "User"
+
+            #region "Game"
+
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.IInsert,     BusinessLogic.AppServices.Game.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IInsert,  BusinessLogic.DomainServices.Game.Insert>();
+            Container.RegisterType<BusinessLogic.Repositories.Game.Base.IInsert,    BusinessLogic.Repositories.Game.Insert>();
+
+            Container.RegisterType<DataAccess.Game.Base.IInsert, DataAccess.Game.Insert>();
+
+            #endregion "Game"
         }
     }
 }

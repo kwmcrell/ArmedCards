@@ -218,10 +218,12 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Game\CreateGameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
     <Compile Include="Extensions\ArmedCardsAuthorize.cs" />
     <Compile Include="Extensions\ExternalLoginResult.cs" />
+    <Compile Include="Extensions\Html\Checkbox.cs" />
     <Compile Include="Extensions\UnityControllerFactory.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -231,7 +233,9 @@
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
+    <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Home\Index.cs" />
+    <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +250,7 @@
     <Content Include="Images\PlayerMenu.gif" />
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
+    <Content Include="Scripts\Game\CreateGame.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
@@ -270,6 +275,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Layout\_Footer.cshtml" />
     <Content Include="Views\Account\_LoginModal.cshtml" />
+    <Content Include="Views\CreateGame\CreateGame.cshtml" />
+    <Content Include="Views\Shared\Partials\_Header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
