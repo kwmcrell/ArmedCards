@@ -56,7 +56,7 @@ namespace ArmedCards.Entities
             }
             set
             {
-                _title = value.HTMLDecodeAndRemove();
+                _title = (value ?? "").HTMLDecodeAndRemove();
             }
         }
 
@@ -77,7 +77,7 @@ namespace ArmedCards.Entities
             }
             set
             {
-                _password = value.HTMLDecodeAndRemove();
+                _password = (value ?? "").HTMLDecodeAndRemove();
             }
         }
 
