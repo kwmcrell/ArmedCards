@@ -21,13 +21,29 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Shared.Header
+@model ArmedCards.Web.Models.Game.Listing.Listing
+@{
+    ViewBag.Title = "CreateGame";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
 
-<div class="radHeader">
-	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a></h1>
-	<h2>@Model.SubHeaderText</h2>
-    @if (Model.ExtraHtml != null)
+    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
+    header.SubHeaderText = "Join a game.";
+    header.ExtraHtml = new TagBuilder("div");
+    header.ExtraHtml.AddCssClass("actions");
+    
+    TagBuilder anchor = new TagBuilder("a");
+    anchor.Attributes.Add("href", "/CreateGame");
+    anchor.AddCssClass("button");
+    anchor.SetInnerText("Create");
+
+    header.ExtraHtml.InnerHtml = anchor.ToString();
+}
+
+@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+
+<div class="gameListing clearfix">
+    @foreach (Game game in Model.Games)
     {
-        @Html.Raw(Model.ExtraHtml.ToString())
+        @Html.Partial("~/Views/Game/Listing/Game.cshtml", game)
     }
 </div>

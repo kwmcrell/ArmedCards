@@ -219,6 +219,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />
+    <Compile Include="Controllers\Game\Listing\GameListingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
     <Compile Include="Extensions\ArmedCardsAuthorize.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
+    <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Home\Index.cs" />
     <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,6 +279,8 @@
     <Content Include="Views\Account\_LoginModal.cshtml" />
     <Content Include="Views\CreateGame\CreateGame.cshtml" />
     <Content Include="Views\Shared\Partials\_Header.cshtml" />
+    <Content Include="Views\Game\Listing\GameListing.cshtml" />
+    <Content Include="Views\Game\Listing\Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

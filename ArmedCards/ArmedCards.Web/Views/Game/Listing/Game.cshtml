@@ -21,13 +21,8 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Shared.Header
+@model ArmedCards.Entities.Game
 
-<div class="radHeader">
-	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a></h1>
-	<h2>@Model.SubHeaderText</h2>
-    @if (Model.ExtraHtml != null)
-    {
-        @Html.Raw(Model.ExtraHtml.ToString())
-    }
-</div>
+<a href="#" class="game" id="@Model.GameID"><h3>@Model.Title</h3>
+	<span class="playas"><span class="count">0 / @Model.MaxNumberOfPlayers</span> Players</span>
+</a>

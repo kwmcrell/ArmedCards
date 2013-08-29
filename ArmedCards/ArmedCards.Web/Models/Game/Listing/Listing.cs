@@ -26,42 +26,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
-namespace ArmedCards.Web.Models.Shared
+namespace ArmedCards.Web.Models.Game.Listing
 {
     /// <summary>
-    /// Model for the Header Partial View
+    /// Model for the Game Listing Screen
     /// </summary>
-    public class Header
+    public class Listing
     {
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public Header()
+        public Listing()
         {
-            HeaderText = "Armed Cards!#%?";
-            HeaderLink = "/";
+            Games = new List<Entities.Game>();
         }
 
         /// <summary>
-        /// Text for the h1 tag
+        /// List of games available
         /// </summary>
-        public String HeaderText { get; set; }
-
-        /// <summary>
-        /// Text for the h2 tag
-        /// </summary>
-        public String SubHeaderText { get; set; }
-
-        /// <summary>
-        /// Link for the h1 tag
-        /// </summary>
-        public String HeaderLink { get; set; }
-
-        /// <summary>
-        /// Any extra Html needed for the header
-        /// </summary>
-        public TagBuilder ExtraHtml { get; set; }
+        public List<Entities.Game> Games { get; set; }
     }
 }
