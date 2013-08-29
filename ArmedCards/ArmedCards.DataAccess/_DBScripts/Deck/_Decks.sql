@@ -21,64 +21,11 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Game_Insert]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[Game_Insert] 
-END 
-GO
+SET IDENTITY_INSERT [dbo].[Deck] ON;
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 8/26/2013
--- Description:	Creates a new User
--- ===============================================
-CREATE PROC [dbo].[Game_Insert] 
-	@Title					nvarchar(max),
-	@IsPrivate				bit			  =	0,
-	@Password				nvarchar(max) = NULL,
-	@PointsToWin			int			  =	8,
-	@MaxNumberOfPlayers		int			  =	6,
-	@GameCreator_UserId		int,
-	@DateCreated			datetime,
-	@PlayedLast				datetime	  =	NULL,
-	@GameOver				datetime	  =	NULL,
-	@GameDeckIDs			xml,
-	@NewID					int				OUTPUT
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
-
-	INSERT INTO [dbo].[Game]
-           ([Title]
-           ,[IsPrivate]
-           ,[Password]
-           ,[PointsToWin]
-           ,[MaxNumberOfPlayers]
-           ,[GameCreator_UserId]
-           ,[DateCreated]
-           ,[PlayedLast]
-           ,[GameOver])
-     SELECT
-           @Title,
-		   @IsPrivate,
-		   @Password,
-		   @PointsToWin,
-		   @MaxNumberOfPlayers,
-		   @GameCreator_UserId,
-		   @DateCreated,
-		   @PlayedLast,
-		   @GameOver
-	
-	SET @NewID = @@IDENTITY
-
-	INSERT INTO [dbo].[GameDeck]
-				(GameID, 
-				DeckID)
-	SELECT		@NewID,
-				ids.id.value('@value', 'int')
-	FROM		@GameDeckIDs.nodes('ids/id') AS ids ( id )
-
-	COMMIT
+BEGIN TRANSACTION;
+INSERT INTO [dbo].[Deck]([DeckID], [DeckType], [Title], [IsPrivate], [CreatedBy_UserId])
+SELECT 1, 0, N'Main', 0, 1
+COMMIT;
+RAISERROR (N'[dbo].[Deck]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
 GO

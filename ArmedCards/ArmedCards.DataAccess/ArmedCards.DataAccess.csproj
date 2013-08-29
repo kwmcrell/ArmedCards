@@ -48,6 +48,12 @@
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="_DBScripts\Card\_Cards.sql" />
+    <Content Include="_DBScripts\Card\_CardTable.sql" />
+    <Content Include="_DBScripts\DeckCard\_DeckCard.sql" />
+    <Content Include="_DBScripts\DeckCard\_DeckCardTable.sql" />
+    <Content Include="_DBScripts\Deck\_Decks.sql" />
+    <Content Include="_DBScripts\Deck\_DeckTable.sql" />
     <Content Include="_DBScripts\Game\GameTable.sql" />
     <Content Include="_DBScripts\Game\Game_Insert.sql" />
     <Compile Include="User\Base\IGet.cs" />
@@ -65,6 +71,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="_DBScripts\GameDeck\_GameDeckTable.sql" />
     <Content Include="_DBScripts\User\User_Insert.sql" />
   </ItemGroup>
   <ItemGroup>

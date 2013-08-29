@@ -66,6 +66,7 @@ namespace ArmedCards.DataAccess.Game
                 db.AddInParameter(cmd, "@DateCreated",          DbType.DateTime,    DateTime.UtcNow);
                 db.AddInParameter(cmd, "@PlayedLast",           DbType.DateTime,    game.PlayedLast);
                 db.AddInParameter(cmd, "@GameOver",             DbType.DateTime,    game.GameOver);
+                db.AddInParameter(cmd, "@GameDeckIDs",         DbType.Xml,         game.GameDecks.ConvertCollectionToXML());
                 
                 db.AddOutParameter(cmd, "NewID",                DbType.Int32,       sizeof(Int32));
 

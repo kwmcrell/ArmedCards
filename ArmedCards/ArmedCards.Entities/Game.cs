@@ -37,6 +37,16 @@ namespace ArmedCards.Entities
     public class Game
     {
         /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public Game()
+        {
+            MaxNumberOfPlayers = 3;
+            PointToWin = 8;
+            GameDecks = new List<int>();
+        }
+
+        /// <summary>
         /// Game ID
         /// </summary>
         public Int32 GameID { get; set; }
@@ -115,5 +125,10 @@ namespace ArmedCards.Entities
         /// The date the game ended.
         /// </summary>
         public DateTime? GameOver { get; set; }
+
+        /// <summary>
+        /// List of Deck IDs for the game
+        /// </summary>
+        public List<Int32> GameDecks { get; set; }
     }
 }

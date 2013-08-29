@@ -21,64 +21,27 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Game_Insert]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[Game_Insert] 
-END 
-GO
+IF OBJECT_ID('[dbo].[GameDeck]') IS NULL
+	BEGIN
+		CREATE TABLE [dbo].[GameDeck](
+			[GameID] [int] NOT NULL,
+			[DeckID] [int] NOT NULL,
+		 CONSTRAINT [PK_dbo.GameDeck] PRIMARY KEY CLUSTERED 
+		(
+			[GameID] ASC,
+			[DeckID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 8/26/2013
--- Description:	Creates a new User
--- ===============================================
-CREATE PROC [dbo].[Game_Insert] 
-	@Title					nvarchar(max),
-	@IsPrivate				bit			  =	0,
-	@Password				nvarchar(max) = NULL,
-	@PointsToWin			int			  =	8,
-	@MaxNumberOfPlayers		int			  =	6,
-	@GameCreator_UserId		int,
-	@DateCreated			datetime,
-	@PlayedLast				datetime	  =	NULL,
-	@GameOver				datetime	  =	NULL,
-	@GameDeckIDs			xml,
-	@NewID					int				OUTPUT
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
+		ALTER TABLE [dbo].[GameDeck]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GameDeck_dbo.Deck_DeckID] FOREIGN KEY([DeckID])
+		REFERENCES [dbo].[Deck] ([DeckID])
+		ON DELETE CASCADE
 
-	INSERT INTO [dbo].[Game]
-           ([Title]
-           ,[IsPrivate]
-           ,[Password]
-           ,[PointsToWin]
-           ,[MaxNumberOfPlayers]
-           ,[GameCreator_UserId]
-           ,[DateCreated]
-           ,[PlayedLast]
-           ,[GameOver])
-     SELECT
-           @Title,
-		   @IsPrivate,
-		   @Password,
-		   @PointsToWin,
-		   @MaxNumberOfPlayers,
-		   @GameCreator_UserId,
-		   @DateCreated,
-		   @PlayedLast,
-		   @GameOver
-	
-	SET @NewID = @@IDENTITY
+		ALTER TABLE [dbo].[GameDeck] CHECK CONSTRAINT [FK_dbo.GameDeck_dbo.Deck_DeckID]
 
-	INSERT INTO [dbo].[GameDeck]
-				(GameID, 
-				DeckID)
-	SELECT		@NewID,
-				ids.id.value('@value', 'int')
-	FROM		@GameDeckIDs.nodes('ids/id') AS ids ( id )
+		ALTER TABLE [dbo].[GameDeck]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GameDeck_dbo.Game_GameID] FOREIGN KEY([GameID])
+		REFERENCES [dbo].[Game] ([GameID])
+		ON DELETE CASCADE
 
-	COMMIT
-GO
+		ALTER TABLE [dbo].[GameDeck] CHECK CONSTRAINT [FK_dbo.GameDeck_dbo.Game_GameID]
+	END

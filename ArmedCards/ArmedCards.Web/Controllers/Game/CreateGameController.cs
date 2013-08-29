@@ -29,6 +29,7 @@ namespace ArmedCards.Web.Controllers.Game
             if (ModelState.IsValid)
             {
                 model.Game.GameCreator_UserId = WebSecurity.CurrentUserId;
+                model.Game.GameDecks.Add(1);
 
                 _insertGame.Execute(model.Game);
 

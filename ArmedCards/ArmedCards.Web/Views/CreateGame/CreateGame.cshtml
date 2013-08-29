@@ -46,12 +46,10 @@
             <div>
                 <div class="fakeSelect">
                     <select id="Game_MaxNumberOfPlayers" name="Game.MaxNumberOfPlayers">
-                        <option @(Model.Game.MaxNumberOfPlayers == 3 ? "selected='selected'" : "")>3</option>
-                        <option @(Model.Game.MaxNumberOfPlayers == 4 ? "selected='selected'" : "")>4</option>
-                        <option @(Model.Game.MaxNumberOfPlayers == 5 ? "selected='selected'" : "")>5</option>
-                        <option @(Model.Game.MaxNumberOfPlayers == 6 ? "selected='selected'" : "")>6</option>
-                        <option @(Model.Game.MaxNumberOfPlayers == 7 ? "selected='selected'" : "")>7</option>
-                        <option @(Model.Game.MaxNumberOfPlayers == 8 ? "selected='selected'" : "")>8</option>
+                        @for (int i = 3; i < 9; i++)
+                        {
+                            <option @(Model.Game.MaxNumberOfPlayers == i ? "selected='selected'" : "") value="@i">@i</option>
+                        }
                     </select>
                 </div>
                 <label for="Game_MaxNumberOfPlayers">players</label>
@@ -61,9 +59,22 @@
             <div id="divPassphrase" class="fakeInput passcode" style="display: none;">
                 @Html.TextBoxFor(x => x.Game.Password, new { @class = "title", placeholder = "Passphrase" })
             </div>
+
         </div>
         <div class="additionalOptions">
-            @Html.HiddenFor(m => m.Game.PointToWin)
+            <div class="setPlayers">
+                <div>
+                    <div class="fakeSelect">
+                        <select id="Game_PointToWin" name="Game.PointToWin">
+                            @for (int i = 8; i < 101; i++)
+                            {
+                                <option @(Model.Game.PointToWin == i ? "selected='selected'" : "") value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <label for="Game_PointToWin">points needed to win game.</label>
+                </div>
+            </div>
         </div>
         <a id="createGameSubmit" class="button" style="cursor: pointer;">Create</a>
     </div>

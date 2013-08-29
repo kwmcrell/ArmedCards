@@ -21,64 +21,22 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Game_Insert]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[Game_Insert] 
-END 
-GO
+IF OBJECT_ID('[dbo].[Card]') IS NULL
+	BEGIN
+		 CREATE TABLE [dbo].[Card](
+			[CardID] [int] IDENTITY(1,1) NOT NULL,
+			[Context] [nvarchar](max) NULL,
+			[CardType] [int] NOT NULL,
+			[Instructions] [int] NOT NULL,
+			[CreatedBy_UserId] [int] NULL,
+		 CONSTRAINT [PK_dbo.Card] PRIMARY KEY CLUSTERED 
+		(
+			[CardID] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 8/26/2013
--- Description:	Creates a new User
--- ===============================================
-CREATE PROC [dbo].[Game_Insert] 
-	@Title					nvarchar(max),
-	@IsPrivate				bit			  =	0,
-	@Password				nvarchar(max) = NULL,
-	@PointsToWin			int			  =	8,
-	@MaxNumberOfPlayers		int			  =	6,
-	@GameCreator_UserId		int,
-	@DateCreated			datetime,
-	@PlayedLast				datetime	  =	NULL,
-	@GameOver				datetime	  =	NULL,
-	@GameDeckIDs			xml,
-	@NewID					int				OUTPUT
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
+		ALTER TABLE [dbo].[Card]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
+		REFERENCES [dbo].[UserProfile] ([UserId])
 
-	INSERT INTO [dbo].[Game]
-           ([Title]
-           ,[IsPrivate]
-           ,[Password]
-           ,[PointsToWin]
-           ,[MaxNumberOfPlayers]
-           ,[GameCreator_UserId]
-           ,[DateCreated]
-           ,[PlayedLast]
-           ,[GameOver])
-     SELECT
-           @Title,
-		   @IsPrivate,
-		   @Password,
-		   @PointsToWin,
-		   @MaxNumberOfPlayers,
-		   @GameCreator_UserId,
-		   @DateCreated,
-		   @PlayedLast,
-		   @GameOver
-	
-	SET @NewID = @@IDENTITY
-
-	INSERT INTO [dbo].[GameDeck]
-				(GameID, 
-				DeckID)
-	SELECT		@NewID,
-				ids.id.value('@value', 'int')
-	FROM		@GameDeckIDs.nodes('ids/id') AS ids ( id )
-
-	COMMIT
-GO
+		ALTER TABLE [dbo].[Card] CHECK CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId]
+	END
