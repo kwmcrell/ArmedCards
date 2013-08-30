@@ -51,5 +51,15 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         {
             return _selectGame.Execute(filter);
         }
+
+        /// <summary>
+        /// Selects a game based on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game</param>
+        /// <returns>A game that satisfy the supplied filter</returns>
+        public Entities.Game Execute(Entities.Filters.Game.Select filter)
+        {
+            return _selectGame.Execute(filter);
+        }
     }
 }

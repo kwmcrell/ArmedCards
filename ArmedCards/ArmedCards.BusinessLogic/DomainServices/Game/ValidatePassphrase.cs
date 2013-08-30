@@ -27,25 +27,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.Game.Base
+namespace ArmedCards.BusinessLogic.DomainServices.Game
 {
     /// <summary>
-    /// Interface for retrieving games
+    /// Implementation of IValidatePassphrase
     /// </summary>
-    public interface ISelect
+    public class ValidatePassphrase : Base.IValidatePassphrase
     {
         /// <summary>
-        /// Selects all games based on supplied filter
+        /// Validate the passhrase policy
         /// </summary>
-        /// <param name="filter">Filter used to select games</param>
-        /// <returns>A list of games that satisfy the supplied filter</returns>
-        List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter);
+        /// <param name="gameID">The game containing the policy</param>
+        /// <param name="passphrase">The user supplied passphrase</param>
+        /// <returns>Returns if the passphrase policy was validated</returns>
+        public bool Execute(Entities.Game game, String passphrase)
+        {
+            Boolean policyValidated = true;
 
-        /// <summary>
-        /// Selects a game based on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game</param>
-        /// <returns>A game that satisfy the supplied filter</returns>
-        Entities.Game Execute(Entities.Filters.Game.Select filter);
+            if (game.IsPrivate && !String.IsNullOrEmpty(game.Passphrase))
+            {
+                policyValidated = String.Equals(game.Passphrase, passphrase);
+            }
+            
+            return policyValidated;
+        }
     }
 }

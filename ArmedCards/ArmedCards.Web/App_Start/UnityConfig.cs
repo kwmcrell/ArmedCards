@@ -67,6 +67,9 @@ namespace ArmedCards.Web
 
             Container.RegisterType<DataAccess.Game.Base.ISelect, DataAccess.Game.Select>();
 
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.IValidatePassphrase,     BusinessLogic.AppServices.Game.ValidatePassphrase>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IValidatePassphrase,  BusinessLogic.DomainServices.Game.ValidatePassphrase>();
+
             #endregion "Game"
         }
     }

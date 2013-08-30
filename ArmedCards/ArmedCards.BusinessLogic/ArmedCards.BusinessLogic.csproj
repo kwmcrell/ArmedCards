@@ -53,14 +53,18 @@
   <ItemGroup>
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
     <Compile Include="AppServices\Game\Base\ISelect.cs" />
+    <Compile Include="AppServices\Game\Base\IValidatePassphrase.cs" />
     <Compile Include="AppServices\Game\Insert.cs" />
     <Compile Include="AppServices\Game\Select.cs" />
+    <Compile Include="AppServices\Game\ValidatePassphrase.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
     <Compile Include="AppServices\User\Insert.cs" />
     <Compile Include="DomainServices\Game\Base\IInsert.cs" />
     <Compile Include="DomainServices\Game\Base\ISelect.cs" />
+    <Compile Include="DomainServices\Game\Base\IValidatePassphrase.cs" />
     <Compile Include="DomainServices\Game\Insert.cs" />
     <Compile Include="DomainServices\Game\Select.cs" />
+    <Compile Include="DomainServices\Game\ValidatePassphrase.cs" />
     <Compile Include="DomainServices\User\Base\IInsert.cs" />
     <Compile Include="DomainServices\User\Insert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

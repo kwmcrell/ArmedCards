@@ -32,7 +32,8 @@ GO
 -- Create date: 8/26/2013
 -- Description:	Creates a new User
 -- ===============================================
-CREATE PROC [dbo].[Game_Select] 
+CREATE PROC [dbo].[Game_Select]
+	@GameID			int			  =	NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -42,7 +43,7 @@ AS
      SELECT G.[GameID],
 			G.[Title],
 			G.[IsPrivate],
-			G.[Password],
+			G.[Passphrase],
 			G.[PointsToWin],
 			G.[MaxNumberOfPlayers],
 			G.[GameCreator_UserId],
@@ -50,6 +51,7 @@ AS
 			G.[PlayedLast],
 			G.[GameOver]
 	 FROM [dbo].[Game] G
+	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
 
 	COMMIT
 GO

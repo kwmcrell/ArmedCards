@@ -21,35 +21,45 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Listing.Listing
-@{
-    ViewBag.Title = "CreateGame";
-    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+@model ArmedCards.Web.Models.Game.Listing.Detail
 
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = "Join a game.";
-    header.ExtraHtml = new TagBuilder("div");
-    header.ExtraHtml.AddCssClass("actions");
-    
-    TagBuilder anchor = new TagBuilder("a");
-    anchor.Attributes.Add("href", "/CreateGame");
-    anchor.AddCssClass("button");
-    anchor.SetInnerText("Create");
-
-    header.ExtraHtml.InnerHtml = anchor.ToString();
-}
-<div id="detailModal" class="confirmMessage logIn">	
-</div>
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-
-<div class="gameListing clearfix">
-    @foreach (Game game in Model.Games)
+@Html.HiddenFor(x => x.Game.GameID)
+<h3>@Model.Game.Title</h3>
+<div class="meta">
+    @if(Model.Game.IsPrivate)
     {
-        @Html.Partial("~/Views/Game/Listing/Game.cshtml", game)
-    }
+	    <span title="Private game">Private</span>
+    }	
+    <span title="Points to win">@Model.Game.PointToWin points to win</span>
 </div>
-
-@section Scripts
+<div class="bar"></div>
+<div class="meta">
+    <p>Players: 0 / @Model.Game.MaxNumberOfPlayers</p>
+    @*foreach (ACENT.GameProfile player in Model.Game.Players)
+    {
+        <span class="playas">@player.User.UserName</span>
+    }*@
+</div>
+<div class="bar"></div>
+@*<div class="meta">
+    <p>Decks:</p>
+    <div class="otherDecks">
+    @foreach (ACENT.Deck deck in Model.Game.Decks)
+    {
+        <span class="playas">@deck.Title</span>
+    }
+	</div>
+</div>*@
+@if(Model.Game.IsPrivate && !string.IsNullOrEmpty(Model.Game.Passphrase))
 {
-    @Scripts.Render("~/bundles/Game/Listing")
+    <div class="passphrase">
+	    <div class="fakeInput">
+		    <input id="userSuppliedPassphrase" type="text" placeholder="Passphrase">
+	    </div>
+    </div>
+    <div id="wrong" class="wrong">
+	    Wrong!
+    </div>
 }
+<a id="detailDoIt" href="#" class="button">Do it!</a>
+<a id="detailNope" href="#" class="button nope">Nope</a>

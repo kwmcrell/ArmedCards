@@ -56,7 +56,7 @@ namespace ArmedCards.Entities
             GameID              =   idr.GetValueByName<Int32>("GameID");
             Title               =   idr.GetValueByName<String>("Title");
             IsPrivate           =   idr.GetValueByName<Boolean>("IsPrivate");
-            Password            =   idr.GetValueByName<String>("Password");
+            Passphrase            =   idr.GetValueByName<String>("Passphrase");
 			PointToWin          =   idr.GetValueByName<Int32>("PointsToWin");
             MaxNumberOfPlayers  =   idr.GetValueByName<Int32>("MaxNumberOfPlayers");
 			GameCreator_UserId  =   idr.GetValueByName<Int32>("GameCreator_UserId");
@@ -95,18 +95,18 @@ namespace ArmedCards.Entities
         public Boolean IsPrivate { get; set; }
 
         /// <summary>
-        /// Password for the private game
+        /// Passphrase for the private game
         /// </summary>
-        private String _password { get; set; }
-        public String Password
+        private String _passphrase { get; set; }
+        public String Passphrase
         {
             get
             {
-                return _password;
+                return _passphrase;
             }
             set
             {
-                _password = (value ?? "").HTMLDecodeAndRemove();
+                _passphrase = (value ?? "").HTMLDecodeAndRemove();
             }
         }
 

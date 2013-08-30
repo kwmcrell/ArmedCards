@@ -26,26 +26,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.DataAccess.Game.Base
+namespace ArmedCards.BusinessLogic.AppServices.Game
 {
     /// <summary>
-    /// Interface for retrieving games
+    /// Implementation of IValidatePassphrase
     /// </summary>
-    public interface ISelect
+    public class ValidatePassphrase : Base.IValidatePassphrase
     {
-        /// <summary>
-        /// Selects all games based on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select games</param>
-        /// <returns>A list of games that satisfy the supplied filter</returns>
-        List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter);
+        private Base.ISelect _selectGame;
+        private DS.Base.IValidatePassphrase _validatePassphrase;
+
+        public ValidatePassphrase(Base.ISelect selectGame, DS.Base.IValidatePassphrase validatePassphrase)
+        {
+            this._selectGame = selectGame;
+            this._validatePassphrase = validatePassphrase;
+        }
 
         /// <summary>
-        /// Selects a game based on supplied filter
+        /// Validate the passhrase policy
         /// </summary>
-        /// <param name="filter">Filter used to select game</param>
-        /// <returns>A game that satisfy the supplied filter</returns>
-        Entities.Game Execute(Entities.Filters.Game.Select filter);
+        /// <param name="gameID">The gameID for the game containing the policy</param>
+        /// <param name="passphrase">The user supplied passphrase</param>
+        /// <returns>Returns if the passphrase policy was validated</returns>
+        public bool Execute(Int32 gameID, String passphrase)
+        {
+            Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+            filter.GameID = gameID;
+
+            Entities.Game game = _selectGame.Execute(filter);
+
+            return _validatePassphrase.Execute(game, passphrase);
+        }
     }
 }

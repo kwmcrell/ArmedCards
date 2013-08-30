@@ -27,25 +27,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.Game.Base
+namespace ArmedCards.Entities.Filters.Game
 {
     /// <summary>
-    /// Interface for retrieving games
+    /// The filter used to select one game
     /// </summary>
-    public interface ISelect
+    public class Select
     {
         /// <summary>
-        /// Selects all games based on supplied filter
+        /// The ID for the game to select
         /// </summary>
-        /// <param name="filter">Filter used to select games</param>
-        /// <returns>A list of games that satisfy the supplied filter</returns>
-        List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter);
-
-        /// <summary>
-        /// Selects a game based on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game</param>
-        /// <returns>A game that satisfy the supplied filter</returns>
-        Entities.Game Execute(Entities.Filters.Game.Select filter);
+        public int GameID { get; set; }
     }
 }

@@ -25,9 +25,9 @@ IF OBJECT_ID('[dbo].[Game]') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[Game](
 			[GameID]				[int] IDENTITY(1,1) NOT NULL,
-			[Title]					[nvarchar](max) NULL,
+			[Title]					[nvarchar](255) NULL,
 			[IsPrivate]				[bit] NOT NULL,
-			[Password]				[nvarchar](max) NULL,
+			[Passphrase]			[nvarchar](100) NULL,
 			[PointsToWin]			[int] NOT NULL,
 			[MaxNumberOfPlayers]	[int] NOT NULL,
 			[GameCreator_UserId]	[int] NOT NULL,
@@ -38,7 +38,7 @@ IF OBJECT_ID('[dbo].[Game]') IS NULL
 		(
 			[GameID] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+		) ON [PRIMARY]
 
 		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((6)) FOR [MaxNumberOfPlayers]
 		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((8)) FOR [PointsToWin]

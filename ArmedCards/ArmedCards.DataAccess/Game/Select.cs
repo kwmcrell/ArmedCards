@@ -65,5 +65,29 @@ namespace ArmedCards.DataAccess.Game
 
             return games;
         }
+
+        /// <summary>
+        /// Selects a game based on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game</param>
+        /// <returns>A game that satisfy the supplied filter</returns>
+        public Entities.Game Execute(Entities.Filters.Game.Select filter)
+        {
+            Entities.Game game = new Entities.Game();
+
+            using (DbCommand cmd = _db.GetStoredProcCommand("Game_Select"))
+            {
+                _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+                IDataReader idr = _db.ExecuteReader(cmd);
+
+                while (idr.Read())
+                {
+                    game = new Entities.Game(idr);
+                }
+            }
+
+            return game;
+        }
     }
 }

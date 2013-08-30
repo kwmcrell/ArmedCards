@@ -21,31 +21,3 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ArmedCards.DataAccess.Game.Base
-{
-    /// <summary>
-    /// Interface for retrieving games
-    /// </summary>
-    public interface ISelect
-    {
-        /// <summary>
-        /// Selects all games based on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select games</param>
-        /// <returns>A list of games that satisfy the supplied filter</returns>
-        List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter);
-
-        /// <summary>
-        /// Selects a game based on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game</param>
-        /// <returns>A game that satisfy the supplied filter</returns>
-        Entities.Game Execute(Entities.Filters.Game.Select filter);
-    }
-}

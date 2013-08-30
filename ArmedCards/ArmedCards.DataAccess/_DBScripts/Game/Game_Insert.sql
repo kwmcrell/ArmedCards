@@ -33,9 +33,9 @@ GO
 -- Description:	Creates a new User
 -- ===============================================
 CREATE PROC [dbo].[Game_Insert] 
-	@Title					nvarchar(max),
+	@Title					nvarchar(255),
 	@IsPrivate				bit			  =	0,
-	@Password				nvarchar(max) = NULL,
+	@Passphrase				nvarchar(100) = NULL,
 	@PointsToWin			int			  =	8,
 	@MaxNumberOfPlayers		int			  =	6,
 	@GameCreator_UserId		int,
@@ -53,7 +53,7 @@ AS
 	INSERT INTO [dbo].[Game]
            ([Title]
            ,[IsPrivate]
-           ,[Password]
+           ,[Passphrase]
            ,[PointsToWin]
            ,[MaxNumberOfPlayers]
            ,[GameCreator_UserId]
@@ -63,7 +63,7 @@ AS
      SELECT
            @Title,
 		   @IsPrivate,
-		   @Password,
+		   @Passphrase,
 		   @PointsToWin,
 		   @MaxNumberOfPlayers,
 		   @GameCreator_UserId,

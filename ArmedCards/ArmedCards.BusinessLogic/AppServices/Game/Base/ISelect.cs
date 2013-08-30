@@ -40,5 +40,12 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
         /// <param name="filter">Filter used to select games</param>
         /// <returns>A list of games that satisfy the supplied filter</returns>
         List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter);
+
+        /// <summary>
+        /// Selects a game based on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game</param>
+        /// <returns>A game that satisfy the supplied filter</returns>
+        Entities.Game Execute(Entities.Filters.Game.Select filter);
     }
 }

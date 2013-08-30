@@ -55,9 +55,9 @@
                 <label for="Game_MaxNumberOfPlayers">players</label>
             </div>
             @Html.CheckboxFor(Model, x => x.Game.IsPrivate, "Private game.", "fakeCheckLabel privateGame")
-            @Html.LabelFor(x => x.Game.Password, "Passphrase", new { @class = "accessible" })
+            @Html.LabelFor(x => x.Game.Passphrase, "Passphrase", new { @class = "accessible" })
             <div id="divPassphrase" class="fakeInput passcode" style="display: none;">
-                @Html.TextBoxFor(x => x.Game.Password, new { @class = "title", placeholder = "Passphrase" })
+                @Html.TextBoxFor(x => x.Game.Passphrase, new { @class = "title", placeholder = "Passphrase" })
             </div>
 
         </div>
