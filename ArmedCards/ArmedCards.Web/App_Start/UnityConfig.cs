@@ -61,6 +61,12 @@ namespace ArmedCards.Web
 
             Container.RegisterType<DataAccess.Game.Base.IInsert, DataAccess.Game.Insert>();
 
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelect,     BusinessLogic.AppServices.Game.Select>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelect,  BusinessLogic.DomainServices.Game.Select>();
+            Container.RegisterType<BusinessLogic.Repositories.Game.Base.ISelect,    BusinessLogic.Repositories.Game.Select>();
+
+            Container.RegisterType<DataAccess.Game.Base.ISelect, DataAccess.Game.Select>();
+
             #endregion "Game"
         }
     }

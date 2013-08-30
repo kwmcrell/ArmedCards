@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ArmedCards.Library.Extensions;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace ArmedCards.Entities
 {
@@ -44,6 +45,24 @@ namespace ArmedCards.Entities
             MaxNumberOfPlayers = 3;
             PointToWin = 8;
             GameDecks = new List<int>();
+        }
+
+        /// <summary>
+        /// Constructor used by the data layer
+        /// </summary>
+        /// <param name="idr">The datareader used to build the game</param>
+        public Game(IDataReader idr)
+        {
+            GameID              =   idr.GetValueByName<Int32>("GameID");
+            Title               =   idr.GetValueByName<String>("Title");
+            IsPrivate           =   idr.GetValueByName<Boolean>("IsPrivate");
+            Password            =   idr.GetValueByName<String>("Password");
+			PointToWin          =   idr.GetValueByName<Int32>("PointsToWin");
+            MaxNumberOfPlayers  =   idr.GetValueByName<Int32>("MaxNumberOfPlayers");
+			GameCreator_UserId  =   idr.GetValueByName<Int32>("GameCreator_UserId");
+            DateCreated         =   idr.GetValueByName<DateTime>("DateCreated");
+            PlayedLast          =   idr.GetValueByName<DateTime?>("PlayedLast");
+            GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
         }
 
         /// <summary>

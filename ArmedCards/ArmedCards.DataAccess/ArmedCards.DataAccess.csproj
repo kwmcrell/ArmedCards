@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
+    <Compile Include="Game\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="_DBScripts\Card\_Cards.sql" />
     <Content Include="_DBScripts\Card\_CardTable.sql" />
@@ -55,6 +57,7 @@
     <Content Include="_DBScripts\Deck\_Decks.sql" />
     <Content Include="_DBScripts\Deck\_DeckTable.sql" />
     <Content Include="_DBScripts\Game\GameTable.sql" />
+    <Content Include="_DBScripts\Game\Game_Select.sql" />
     <Content Include="_DBScripts\Game\Game_Insert.sql" />
     <Compile Include="User\Base\IGet.cs" />
     <Compile Include="User\Base\IInsert.cs" />
