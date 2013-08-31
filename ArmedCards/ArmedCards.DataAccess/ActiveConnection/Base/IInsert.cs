@@ -21,22 +21,23 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Card]') IS NULL
-	BEGIN
-		 CREATE TABLE [dbo].[Card](
-			[CardID] [int] IDENTITY(1,1) NOT NULL,
-			[Context] [nvarchar](max) NULL,
-			[CardType] [int] NOT NULL,
-			[Instructions] [int] NOT NULL,
-			[CreatedBy_UserId] [int] NULL,
-		 CONSTRAINT [PK_dbo.Card] PRIMARY KEY CLUSTERED 
-		(
-			[CardID] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-		ALTER TABLE [dbo].[Card]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
-		REFERENCES [dbo].[UserProfile] ([UserId])
-
-		ALTER TABLE [dbo].[Card] CHECK CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId]
-	END
+namespace ArmedCards.DataAccess.ActiveConnection.Base
+{
+    /// <summary>
+    /// The interface for inserting a active connection
+    /// </summary>
+    public interface IInsert
+    {
+        /// <summary>
+        /// Insert a active connection
+        /// </summary>
+        /// <param name="connection">The connection to insert</param>
+        void Execute(Entities.ActiveConnection connection);
+    }
+}

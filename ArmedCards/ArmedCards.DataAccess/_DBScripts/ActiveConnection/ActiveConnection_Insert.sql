@@ -21,22 +21,37 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Card]') IS NULL
-	BEGIN
-		 CREATE TABLE [dbo].[Card](
-			[CardID] [int] IDENTITY(1,1) NOT NULL,
-			[Context] [nvarchar](max) NULL,
-			[CardType] [int] NOT NULL,
-			[Instructions] [int] NOT NULL,
-			[CreatedBy_UserId] [int] NULL,
-		 CONSTRAINT [PK_dbo.Card] PRIMARY KEY CLUSTERED 
-		(
-			[CardID] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+IF OBJECT_ID('[dbo].[ActiveConnection_Insert]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[ActiveConnection_Insert] 
+END 
+GO
 
-		ALTER TABLE [dbo].[Card]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
-		REFERENCES [dbo].[UserProfile] ([UserId])
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 8/26/2013
+-- Description:	Creates a new Activie Connection
+-- ===============================================
+CREATE PROC [dbo].[ActiveConnection_Insert] 
+	@ActiveConnectionID		varchar(255),
+	@GroupName				varchar(255),
+	@User_UserId			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-		ALTER TABLE [dbo].[Card] CHECK CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId]
-	END
+	INSERT INTO [dbo].[ActiveConnection]
+           (
+			[ActiveConnectionID],
+			[GroupName],
+			[User_UserId]
+		   )
+     SELECT
+           @ActiveConnectionID,
+		   @GroupName,
+		   @User_UserId
+
+	COMMIT
+GO

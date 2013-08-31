@@ -21,35 +21,36 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Listing.Listing
-@{
-    ViewBag.Title = "CreateGame";
-    Layout = "~/Views/Shared/Layout/_Chat.cshtml";
-
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = "Join a game.";
-    header.ExtraHtml = new TagBuilder("div");
-    header.ExtraHtml.AddCssClass("actions");
-    
-    TagBuilder anchor = new TagBuilder("a");
-    anchor.Attributes.Add("href", "/CreateGame");
-    anchor.AddCssClass("button");
-    anchor.SetInnerText("Create");
-
-    header.ExtraHtml.InnerHtml = anchor.ToString();
-}
-<div id="detailModal" class="confirmMessage logIn">	
-</div>
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-
-<div class="gameListing clearfix">
-    @foreach (Game game in Model.Games)
-    {
-        @Html.Partial("~/Views/Game/Listing/Game.cshtml", game)
-    }
-</div>
-
-@section Scripts
-{
-    @Scripts.Render("~/bundles/Game/Listing")
-}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Armed Cards - @ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/bundles/Styles")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/Core/Hub")
+        <script src='/SignalR/hubs'></script>
+    </head>
+    <body class="join chatOpen">
+        <div id="overlay" class="overlay">
+	    </div>
+        <div class="content-wrapper">
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+            </div>
+        </div>
+        @RenderBody()
+        @Html.Hidden("showLogin", TempData["showLogin"] ?? false)
+        @if(User.Identity.IsAuthenticated)
+        {
+            @Html.Partial("~/Views/Shared/Partials/_Chat.cshtml")
+        }
+        @Scripts.Render("~/bundles/toastr")
+        @Scripts.Render("~/bundles/Core/Login")
+        @RenderSection("Scripts", required: false)
+    </body>
+</html>

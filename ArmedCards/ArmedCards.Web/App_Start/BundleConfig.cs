@@ -32,7 +32,9 @@ namespace ArmedCards.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/Core/jQueryTopic.js",
+                        "~/Scripts/jquery.signalR-1.1.3.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Styles").Include(
                 "~/Content/Home.css",
@@ -51,6 +53,11 @@ namespace ArmedCards.Web
             bundles.Add(new ScriptBundle("~/bundles/Game/Listing").Include(
                         "~/Scripts/Game/Listing/Listing.js",
                         "~/Scripts/Game/Listing/Detail.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Core/Hub").Include(
+                        "~/Scripts/jquery.signalR-1.1.3.js",
+                        "~/Scripts/Core/Hub.js",
+                         "~/Scripts/Core/Chat.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

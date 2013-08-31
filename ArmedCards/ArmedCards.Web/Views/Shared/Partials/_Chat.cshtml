@@ -21,35 +21,20 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Listing.Listing
-@{
-    ViewBag.Title = "CreateGame";
-    Layout = "~/Views/Shared/Layout/_Chat.cshtml";
-
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = "Join a game.";
-    header.ExtraHtml = new TagBuilder("div");
-    header.ExtraHtml.AddCssClass("actions");
-    
-    TagBuilder anchor = new TagBuilder("a");
-    anchor.Attributes.Add("href", "/CreateGame");
-    anchor.AddCssClass("button");
-    anchor.SetInnerText("Create");
-
-    header.ExtraHtml.InnerHtml = anchor.ToString();
-}
-<div id="detailModal" class="confirmMessage logIn">	
+<div class="chat bottom">
+    <div class="chatContainer">
+        <div id="chatClient">
+            <ul id="discussion" class="discussion">
+            </ul>
+        </div>
+        <div class="chatField fakeInput">
+            <input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>
+        </div>
+    </div>
+    <div id="mainLobby" class="lobby">
+		<div class="lobbyPlayers">
+			<ul class="playerList">
+			</ul>
+		</div>
+	</div>
 </div>
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-
-<div class="gameListing clearfix">
-    @foreach (Game game in Model.Games)
-    {
-        @Html.Partial("~/Views/Game/Listing/Game.cshtml", game)
-    }
-</div>
-
-@section Scripts
-{
-    @Scripts.Render("~/bundles/Game/Listing")
-}

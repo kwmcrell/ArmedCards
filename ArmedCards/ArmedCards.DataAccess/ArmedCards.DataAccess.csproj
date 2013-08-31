@@ -45,11 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveConnection\Base\IInsert.cs" />
+    <Compile Include="ActiveConnection\Insert.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
     <Compile Include="Game\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Insert.sql" />
+    <Content Include="_DBScripts\ActiveConnection\_ActiveConnectionTable.sql" />
     <Content Include="_DBScripts\Card\_Cards.sql" />
     <Content Include="_DBScripts\Card\_CardTable.sql" />
     <Content Include="_DBScripts\DeckCard\_DeckCard.sql" />
@@ -80,6 +84,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

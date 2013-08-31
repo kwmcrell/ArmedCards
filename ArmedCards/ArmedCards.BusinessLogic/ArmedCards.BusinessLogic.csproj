@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppServices\ActiveConnection\Base\IInsert.cs" />
+    <Compile Include="AppServices\ActiveConnection\Insert.cs" />
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
     <Compile Include="AppServices\Game\Base\ISelect.cs" />
     <Compile Include="AppServices\Game\Base\IValidatePassphrase.cs" />
@@ -59,6 +61,8 @@
     <Compile Include="AppServices\Game\ValidatePassphrase.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
     <Compile Include="AppServices\User\Insert.cs" />
+    <Compile Include="DomainServices\ActiveConnection\Base\IInsert.cs" />
+    <Compile Include="DomainServices\ActiveConnection\Insert.cs" />
     <Compile Include="DomainServices\Game\Base\IInsert.cs" />
     <Compile Include="DomainServices\Game\Base\ISelect.cs" />
     <Compile Include="DomainServices\Game\Base\IValidatePassphrase.cs" />
@@ -68,6 +72,8 @@
     <Compile Include="DomainServices\User\Base\IInsert.cs" />
     <Compile Include="DomainServices\User\Insert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActiveConnection\Base\IInsert.cs" />
+    <Compile Include="Repositories\ActiveConnection\Insert.cs" />
     <Compile Include="Repositories\Game\Base\IInsert.cs" />
     <Compile Include="Repositories\Game\Base\ISelect.cs" />
     <Compile Include="Repositories\Game\Insert.cs" />

@@ -21,22 +21,20 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Card]') IS NULL
+IF OBJECT_ID('[dbo].[ActiveConnection]') IS NULL
 	BEGIN
-		 CREATE TABLE [dbo].[Card](
-			[CardID] [int] IDENTITY(1,1) NOT NULL,
-			[Context] [nvarchar](max) NULL,
-			[CardType] [int] NOT NULL,
-			[Instructions] [int] NOT NULL,
-			[CreatedBy_UserId] [int] NULL,
-		 CONSTRAINT [PK_dbo.Card] PRIMARY KEY CLUSTERED 
+		 CREATE TABLE [dbo].[ActiveConnection](
+			[ActiveConnectionID]	[varchar] (255) NOT NULL,
+			[GroupName]				[varchar] (255) NOT NULL,
+			[User_UserId]			[int]			NOT NULL,
+		 CONSTRAINT [PK_dbo.ActiveConnection] PRIMARY KEY CLUSTERED 
 		(
-			[CardID] ASC
+			[ActiveConnectionID] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
-		ALTER TABLE [dbo].[Card]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
+		ALTER TABLE [dbo].[ActiveConnection]  WITH CHECK ADD  CONSTRAINT [FK_dbo.ActiveConnection_dbo.UserProfile_User_UserId] FOREIGN KEY([User_UserId])
 		REFERENCES [dbo].[UserProfile] ([UserId])
 
-		ALTER TABLE [dbo].[Card] CHECK CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId]
+		ALTER TABLE [dbo].[ActiveConnection] CHECK CONSTRAINT [FK_dbo.ActiveConnection_dbo.UserProfile_User_UserId]
 	END

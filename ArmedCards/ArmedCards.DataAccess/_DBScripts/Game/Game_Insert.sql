@@ -30,7 +30,7 @@ GO
 -- ==============================================
 -- Author:		Kevin McRell
 -- Create date: 8/26/2013
--- Description:	Creates a new User
+-- Description:	Creates a new Game
 -- ===============================================
 CREATE PROC [dbo].[Game_Insert] 
 	@Title					nvarchar(255),

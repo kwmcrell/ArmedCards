@@ -1,4 +1,6 @@
-﻿/*
+﻿/// <reference path="jQueryTopic.js" />
+
+/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -21,22 +23,25 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[Card]') IS NULL
-	BEGIN
-		 CREATE TABLE [dbo].[Card](
-			[CardID] [int] IDENTITY(1,1) NOT NULL,
-			[Context] [nvarchar](max) NULL,
-			[CardType] [int] NOT NULL,
-			[Instructions] [int] NOT NULL,
-			[CreatedBy_UserId] [int] NULL,
-		 CONSTRAINT [PK_dbo.Card] PRIMARY KEY CLUSTERED 
-		(
-			[CardID] ASC
-		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+var ArmedCards = ArmedCards || {};
+ArmedCards.Core = ArmedCards.Core || {};
 
-		ALTER TABLE [dbo].[Card]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
-		REFERENCES [dbo].[UserProfile] ([UserId])
+function Hub() {
 
-		ALTER TABLE [dbo].[Card] CHECK CONSTRAINT [FK_dbo.Card_dbo.UserProfile_CreatedBy_UserId]
-	END
+}
+
+if (!ArmedCards.Core.Hub) {
+    ArmedCards.Core.Hub = new Hub();
+}
+
+Hub.prototype.startHub = function () {
+    //Setup hub events
+    $.Topic("beforeHubStart").publish();
+
+    // Start the hub. 
+    $.connection.hub.start().done(function () {
+        $.Topic("hubStartComplete").publish();
+    });
+};
+
+$(document).ready(ArmedCards.Core.Hub.startHub);

@@ -232,6 +232,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ArmedCards.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
@@ -253,6 +254,9 @@
     <Content Include="Images\gray_jean-big.png" />
     <Content Include="Images\gray_jean.png" />
     <Content Include="Images\PlayerMenu.gif" />
+    <Content Include="Scripts\Core\Chat.js" />
+    <Content Include="Scripts\Core\Hub.js" />
+    <Content Include="Scripts\Core\jQueryTopic.js" />
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
@@ -287,6 +291,8 @@
     <Content Include="Views\Game\Listing\GameListing.cshtml" />
     <Content Include="Views\Game\Listing\Game.cshtml" />
     <Content Include="Views\Game\Listing\Detail.cshtml" />
+    <Content Include="Views\Shared\Layout\_Chat.cshtml" />
+    <Content Include="Views\Shared\Partials\_Chat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
