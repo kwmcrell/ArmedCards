@@ -33,34 +33,55 @@ using System.Threading.Tasks;
 namespace ArmedCards.DataAccess.ActiveConnection
 {
     /// <summary>
-    /// The implementation for inserting a active connection
+    /// Implementation of IDelete
     /// </summary>
-    public class Insert : Base.IInsert
+    public class Delete : Base.IDelete
     {
-        private Database db;
+        private Database _db;
 
         /// <summary>
         /// Dependency Injected Constructor
         /// </summary>
         /// <param name="db">Database</param>
-        public Insert(Database db)
+        public Delete(Database db)
         {
-            this.db = db;
+            this._db = db;
         }
 
         /// <summary>
-        /// Insert a active connection
+        /// Delete a active connection based on <paramref name="filter"/>
         /// </summary>
-        /// <param name="connection">The connection to insert</param>
-        public void Execute(Entities.ActiveConnection connection)
+        /// <param name="filter">Filter used to determine what to delete</param>
+        /// <returns>The Deleted Connection</returns>
+        public Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Delete filter)
         {
-            using (DbCommand cmd = db.GetStoredProcCommand("ActiveConnection_Insert"))
-            {
-                db.AddInParameter(cmd, "@ActiveConnectionID", DbType.String, connection.ActiveConnectionID);
-                db.AddInParameter(cmd, "@GroupName", DbType.String, connection.GroupName);
-                db.AddInParameter(cmd, "@User_UserId", DbType.Int32, connection.User_UserId);
+            Entities.ActiveConnection connection = new Entities.ActiveConnection();
 
-                db.ExecuteScalar(cmd);
+            using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_Delete"))
+            {
+                _db.AddInParameter(cmd, "@ActiveConnectionID", DbType.String, filter.ActiveConnectionID);
+
+                using (IDataReader idr = _db.ExecuteReader(cmd))
+                {
+                    while (idr.Read())
+                    {
+                        connection = new Entities.ActiveConnection(idr);
+                    }
+                }
+            }
+
+            return connection;
+        }
+
+        /// <summary>
+        /// Delete all active connection based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">Filter used to determine what to delete</param>
+        public void Execute(Entities.Filters.ActiveConnection.DeleteAll filter)
+        {
+            using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_DeleteAll"))
+            {
+                _db.ExecuteNonQuery(cmd);
             }
         }
     }

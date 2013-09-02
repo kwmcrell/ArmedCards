@@ -55,11 +55,12 @@ namespace ArmedCards.DataAccess.Game
 
             using (DbCommand cmd = _db.GetStoredProcCommand("Game_Select"))
             {
-                IDataReader idr = _db.ExecuteReader(cmd);
-
-                while (idr.Read())
+                using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
-                    games.Add(new Entities.Game(idr));
+                    while (idr.Read())
+                    {
+                        games.Add(new Entities.Game(idr));
+                    }
                 }
             }
 
@@ -79,11 +80,12 @@ namespace ArmedCards.DataAccess.Game
             {
                 _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
 
-                IDataReader idr = _db.ExecuteReader(cmd);
-
-                while (idr.Read())
+                using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
-                    game = new Entities.Game(idr);
+                    while (idr.Read())
+                    {
+                        game = new Entities.Game(idr);
+                    }
                 }
             }
 

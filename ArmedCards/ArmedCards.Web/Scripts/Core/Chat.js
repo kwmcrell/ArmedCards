@@ -1,4 +1,5 @@
-﻿/// <reference path="jQueryTopic.js" />
+﻿/// <reference path="Utilities.js" />
+/// <reference path="jQueryTopic.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -26,17 +27,17 @@ var ArmedCards = ArmedCards || {};
 ArmedCards.Core = ArmedCards.Core || {};
 
 function Chat() {
-
+    
 }
 
 if (!ArmedCards.Core.Chat) {
     ArmedCards.Core.Chat = new Chat();
 }
 
-Chat.prototype.BroadcastGlobalMessage = function (messageData) {
+Chat.prototype.BroadcastGlobalMessage = function (message) {
     // Html encode display name and message.  
-    var encodedName = $('<div />').text(messageData.SentBy + " (" + new Date().toLocaleTimeString() + ")").html();
-    var encodedMsg = $('<div />').text(messageData.Message).html();
+    var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.DateSent).toLocaleTimeString() + ")").html();
+    var encodedMsg = $('<div />').text(message.Message).html();
 
     // Add the message to the page.
     var $discussion = $('#discussion');
@@ -51,9 +52,14 @@ Chat.prototype.SendGlobalMessage = function (event) {
 
     var hub = $.connection.ArmedCardsHub;
 
-    var message = $('#message').val();
+    var messageText = $('#message').val();
 
-    if (message != null && message != undefined && message != '') {
+    if (messageText != null && messageText != undefined && messageText != '') {
+
+        var message = {
+            Message: messageText
+        };
+
         hub.server.SendGlobalMessage(message);
 
         // Clear text box and reset focus for next comment. 
@@ -65,9 +71,29 @@ Chat.prototype.SendMessage = function (event) {
     ArmedCards.Core.Chat.SendGlobalMessage(event);
 };
 
+Chat.prototype.Join = function () {
+    var hub = $.connection.ArmedCardsHub;
+
+    hub.server.JoinGloabl();
+};
+
+Chat.prototype.UpdateLobby = function (lobby) {
+    var html = $.map(lobby.ActiveConnections, function (value, key) {
+                    return '<li name="{0}">{1}</li>'.format(value.ActiveConnectionID, value.UserName);
+    });
+
+    $('#playerList').html(html.join(''));
+};
+
+Chat.prototype.RemoveConnection = function (connection) {
+    $('[name="{0}"]'.format(connection.ActiveConnectionID), '#playerList').remove();
+};
+
 Chat.prototype.Init = function () {
     var hub = $.connection.ArmedCardsHub;
     hub.client.BroadcastGlobalMessage = ArmedCards.Core.Chat.BroadcastGlobalMessage;
+    hub.client.UpdateLobby = ArmedCards.Core.Chat.UpdateLobby;
+    hub.client.RemoveConnection = ArmedCards.Core.Chat.RemoveConnection;
 
     // Set initial focus to message input box.   
     $('#message').focus();
@@ -86,3 +112,4 @@ Chat.prototype.Init = function () {
 };
 
 $.Topic("beforeHubStart").subscribe(ArmedCards.Core.Chat.Init);
+$.Topic("hubStartComplete").subscribe(ArmedCards.Core.Chat.Join);

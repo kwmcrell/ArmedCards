@@ -21,52 +21,42 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
+IF OBJECT_ID('[dbo].[ActiveConnection_Delete]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[ActiveConnection_Delete]
+END 
+GO
 
-namespace ArmedCards.Entities
-{
-    /// <summary>
-    /// The class that defines an Activie Connection
-    /// </summary>
-    public class ActiveConnection
-    {
-        public ActiveConnection()
-        {
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/2/2013
+-- Description:	Delete a active connection
+-- ===============================================
+CREATE PROC [dbo].[ActiveConnection_Delete]
+	@ActiveConnectionID			varchar(255)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	DECLARE @GroupName varchar(255);
+	DECLARE @User_UserId int;
+	DECLARE @UserName nvarchar(max)
 
-        }
+	SELECT	@GroupName = AC.[GroupName],
+			@User_UserId = AC.[User_UserId],
+			@UserName = UP.[UserName]
+	FROM [dbo].[ActiveConnection] AC
+	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
+	WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
 
-        public ActiveConnection(IDataReader idr)
-        {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
-        }
+	DELETE FROM [dbo].[ActiveConnection]
+	WHERE [ActiveConnectionID] = @ActiveConnectionID
 
-        /// <summary>
-        /// The SignalR connection ID
-        /// </summary>
-        public String ActiveConnectionID { get; set; }
+	SELECT @ActiveConnectionID AS ActiveConnectionID,
+		   @GroupName AS GroupName,
+		   @User_UserId AS User_UserId,
+		   @UserName AS UserName
 
-        /// <summary>
-        /// The group in which the connection belongs
-        /// </summary>
-        public String GroupName { get; set; }
-
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
-    }
-}
+	COMMIT

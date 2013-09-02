@@ -30,6 +30,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.Practices.Unity;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web
 {
@@ -54,6 +56,11 @@ namespace ArmedCards.Web
 
             UnityConfig.InitContainer();
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
+
+            AS.ActiveConnection.Base.IDelete _deleteActiveConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
+
+            Entities.Filters.ActiveConnection.DeleteAll filter = new Entities.Filters.ActiveConnection.DeleteAll();
+            _deleteActiveConnection.Execute(filter);
         }
     }
 }

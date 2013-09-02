@@ -45,14 +45,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveConnection\Base\IDelete.cs" />
     <Compile Include="ActiveConnection\Base\IInsert.cs" />
+    <Compile Include="ActiveConnection\Base\ISelect.cs" />
+    <Compile Include="ActiveConnection\Base\IUpdate.cs" />
+    <Compile Include="ActiveConnection\Delete.cs" />
     <Compile Include="ActiveConnection\Insert.cs" />
+    <Compile Include="ActiveConnection\Select.cs" />
+    <Compile Include="ActiveConnection\Update.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
     <Compile Include="Game\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Delete.sql" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_DeleteAll.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Insert.sql" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Select.sql" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Update.sql" />
     <Content Include="_DBScripts\ActiveConnection\_ActiveConnectionTable.sql" />
     <Content Include="_DBScripts\Card\_Cards.sql" />
     <Content Include="_DBScripts\Card\_CardTable.sql" />

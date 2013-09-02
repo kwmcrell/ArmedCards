@@ -21,52 +21,14 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
-
-namespace ArmedCards.Entities
-{
-    /// <summary>
-    /// The class that defines an Activie Connection
-    /// </summary>
-    public class ActiveConnection
-    {
-        public ActiveConnection()
-        {
-
-        }
-
-        public ActiveConnection(IDataReader idr)
-        {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
-        }
-
-        /// <summary>
-        /// The SignalR connection ID
-        /// </summary>
-        public String ActiveConnectionID { get; set; }
-
-        /// <summary>
-        /// The group in which the connection belongs
-        /// </summary>
-        public String GroupName { get; set; }
-
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
-    }
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+              ? args[number]
+              : match
+            ;
+        });
+    };
 }

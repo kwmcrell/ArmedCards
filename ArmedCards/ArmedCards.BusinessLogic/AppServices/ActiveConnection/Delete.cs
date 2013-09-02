@@ -23,50 +23,45 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
+using DS = ArmedCards.BusinessLogic.DomainServices.ActiveConnection;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.AppServices.ActiveConnection
 {
     /// <summary>
-    /// The class that defines an Activie Connection
+    /// Implementation of IDelete
     /// </summary>
-    public class ActiveConnection
+    public class Delete : Base.IDelete
     {
-        public ActiveConnection()
-        {
+        private DS.Base.IDelete _deleteActiveConnection;
 
-        }
-
-        public ActiveConnection(IDataReader idr)
+        /// <summary>
+        /// Dependency Injected Constructor
+        /// </summary>
+        public Delete(DS.Base.IDelete deleteActiveConnection)
         {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
+            this._deleteActiveConnection = deleteActiveConnection;
         }
 
         /// <summary>
-        /// The SignalR connection ID
+        /// Delete a active connection based on <paramref name="filter"/>
         /// </summary>
-        public String ActiveConnectionID { get; set; }
+        /// <param name="filter">Filter used to determine what to delete</param>
+        /// <returns>The Deleted Connection</returns>
+        public Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Delete filter)
+        {
+            return _deleteActiveConnection.Execute(filter);
+        }
 
         /// <summary>
-        /// The group in which the connection belongs
+        /// Delete all active connection based on <paramref name="filter"/>
         /// </summary>
-        public String GroupName { get; set; }
-
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
+        /// <param name="filter">Filter used to determine what to delete</param>
+        public void Execute(Entities.Filters.ActiveConnection.DeleteAll filter)
+        {
+            _deleteActiveConnection.Execute(filter);
+        }
     }
 }

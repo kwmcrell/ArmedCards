@@ -241,6 +241,8 @@
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Home\Index.cs" />
+    <Compile Include="Models\Hub\GlobalMessage.cs" />
+    <Compile Include="Models\Hub\Lobby.cs" />
     <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -259,6 +261,7 @@
     <Content Include="Scripts\Core\jQueryTopic.js" />
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
+    <Content Include="Scripts\Core\Utilities.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
     <Content Include="Scripts\Game\Listing\Detail.js" />
     <Content Include="Scripts\Game\Listing\Listing.js" />

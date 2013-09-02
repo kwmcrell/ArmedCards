@@ -23,50 +23,28 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.AppServices.ActiveConnection.Base
 {
     /// <summary>
-    /// The class that defines an Activie Connection
+    /// The interface for deleting a active connection
     /// </summary>
-    public class ActiveConnection
+    public interface IDelete
     {
-        public ActiveConnection()
-        {
-
-        }
-
-        public ActiveConnection(IDataReader idr)
-        {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
-        }
+        /// <summary>
+        /// Delete a active connection based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">Filter used to determine what to delete</param>
+        /// <returns>The Deleted Connection</returns>
+        Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Delete filter);
 
         /// <summary>
-        /// The SignalR connection ID
+        /// Delete all active connection based on <paramref name="filter"/>
         /// </summary>
-        public String ActiveConnectionID { get; set; }
-
-        /// <summary>
-        /// The group in which the connection belongs
-        /// </summary>
-        public String GroupName { get; set; }
-
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
+        /// <param name="filter">Filter used to determine what to delete</param>
+        void Execute(Entities.Filters.ActiveConnection.DeleteAll filter);
     }
 }

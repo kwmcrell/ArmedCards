@@ -21,52 +21,24 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.Web.Models.Hub
 {
     /// <summary>
-    /// The class that defines an Activie Connection
+    /// Model that describes a Lobby
     /// </summary>
-    public class ActiveConnection
+    public class Lobby
     {
-        public ActiveConnection()
-        {
-
-        }
-
-        public ActiveConnection(IDataReader idr)
-        {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
-        }
-
         /// <summary>
-        /// The SignalR connection ID
+        /// A list of active connections
         /// </summary>
-        public String ActiveConnectionID { get; set; }
-
-        /// <summary>
-        /// The group in which the connection belongs
-        /// </summary>
-        public String GroupName { get; set; }
-
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
+        [JsonProperty("ActiveConnections")]
+        public List<Entities.ActiveConnection> ActiveConnections { get; set; }
     }
 }

@@ -21,52 +21,50 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.DataAccess.ActiveConnection
 {
     /// <summary>
-    /// The class that defines an Activie Connection
+    /// Implementation of ISelect
     /// </summary>
-    public class ActiveConnection
+    public class Select : Base.ISelect
     {
-        public ActiveConnection()
-        {
+        private Database _db;
 
-        }
-
-        public ActiveConnection(IDataReader idr)
+        public Select(Database db)
         {
-            ActiveConnectionID  =   idr.GetValueByName<String>("ActiveConnectionID");
-            GroupName           =   idr.GetValueByName<String>("GroupName");
-            User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
-            UserName            =   idr.GetValueByName<String>("UserName");
+            this._db = db;
         }
 
         /// <summary>
-        /// The SignalR connection ID
+        /// Return all active connections that match the filter
         /// </summary>
-        public String ActiveConnectionID { get; set; }
+        /// <param name="filter">The filter used to select active connections</param>
+        /// <returns>A list of active connections</returns>
+        public List<Entities.ActiveConnection> Execute(Entities.Filters.ActiveConnection.SelectAll filter)
+        {
+            List<Entities.ActiveConnection> activeConnections = new List<Entities.ActiveConnection>();
 
-        /// <summary>
-        /// The group in which the connection belongs
-        /// </summary>
-        public String GroupName { get; set; }
+            using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_Select"))
+            {
+                using (IDataReader idr = _db.ExecuteReader(cmd))
+                {
+                    while (idr.Read())
+                    {
+                        activeConnections.Add(new Entities.ActiveConnection(idr));
+                    }
+                }
+            }
 
-        /// <summary>
-        /// The user ID for which the connection belongs
-        /// </summary>
-        public Int32 User_UserId { get; set; }
-
-        /// <summary>
-        /// The name of the user
-        /// </summary>
-        public String UserName { get; set; }
+            return activeConnections;
+        }
     }
 }

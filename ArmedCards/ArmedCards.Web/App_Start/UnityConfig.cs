@@ -80,6 +80,18 @@ namespace ArmedCards.Web
 
             Container.RegisterType<DataAccess.ActiveConnection.Base.IInsert, DataAccess.ActiveConnection.Insert>();
 
+            Container.RegisterType<BusinessLogic.AppServices.ActiveConnection.Base.ISelect,     BusinessLogic.AppServices.ActiveConnection.Select>();
+            Container.RegisterType<BusinessLogic.DomainServices.ActiveConnection.Base.ISelect,  BusinessLogic.DomainServices.ActiveConnection.Select>();
+            Container.RegisterType<BusinessLogic.Repositories.ActiveConnection.Base.ISelect,    BusinessLogic.Repositories.ActiveConnection.Select>();
+
+            Container.RegisterType<DataAccess.ActiveConnection.Base.ISelect, DataAccess.ActiveConnection.Select>();
+
+            Container.RegisterType<BusinessLogic.AppServices.ActiveConnection.Base.IDelete,     BusinessLogic.AppServices.ActiveConnection.Delete>();
+            Container.RegisterType<BusinessLogic.DomainServices.ActiveConnection.Base.IDelete,  BusinessLogic.DomainServices.ActiveConnection.Delete>();
+            Container.RegisterType<BusinessLogic.Repositories.ActiveConnection.Base.IDelete,    BusinessLogic.Repositories.ActiveConnection.Delete>();
+
+            Container.RegisterType<DataAccess.ActiveConnection.Base.IDelete, DataAccess.ActiveConnection.Delete>();
+
             #endregion "Active Connection"
         }
     }
