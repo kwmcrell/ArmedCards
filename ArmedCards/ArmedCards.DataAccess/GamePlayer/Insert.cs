@@ -21,41 +21,47 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.DataAccess.GamePlayer
 {
     /// <summary>
     /// Implementation of IInsert
     /// </summary>
     public class Insert : Base.IInsert
     {
-        private Repositories.Game.Base.IInsert _insertGame;
+        private Database _db;
 
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
+        public Insert(Database db)
         {
-            this._insertGame = _insertGame;
+            this._db = db;
         }
 
         /// <summary>
-        /// Insert a game record into the database
+        /// Inserts a GamePlayer
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
+        /// <param name="player">The player to insert</param>
+        /// <returns>The total number of players in the game now.</returns>
+        public Int32 Execute(Entities.GamePlayer player)
         {
-            Entities.GamePlayer player = new Entities.GamePlayer
+            using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_Insert"))
             {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
+                _db.AddInParameter(cmd, "@GameID", DbType.String, player.GameID);
+                _db.AddInParameter(cmd, "@UserId", DbType.Int32, player.User.UserId);
+                _db.AddInParameter(cmd, "@Points", DbType.Int32, 0);
 
-            game.Players.Add(player);
+                _db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
 
-            _insertGame.Execute(game);
+                _db.ExecuteScalar(cmd);
+                return Int32.Parse(_db.GetParameterValue(cmd, "TotalPlayers").ToString());
+            }
         }
     }
 }

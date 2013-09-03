@@ -45,27 +45,27 @@ namespace ArmedCards.Web
 
             #region "User"
 
-            Container.RegisterType<BusinessLogic.AppServices.User.Base.IInsert,     BusinessLogic.AppServices.User.Insert>();
-            Container.RegisterType<BusinessLogic.DomainServices.User.Base.IInsert,  BusinessLogic.DomainServices.User.Insert>();
-            Container.RegisterType<BusinessLogic.Repositories.User.Base.IInsert,    BusinessLogic.Repositories.User.Insert>();
+            Container.RegisterType<BusinessLogic.AppServices.User.Base.IInsert,                 BusinessLogic.AppServices.User.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.User.Base.IInsert,              BusinessLogic.DomainServices.User.Insert>();
+            Container.RegisterType<BusinessLogic.Repositories.User.Base.IInsert,                BusinessLogic.Repositories.User.Insert>();
 
-            Container.RegisterType<DataAccess.User.Base.IInsert, DataAccess.User.Insert>();
+            Container.RegisterType<DataAccess.User.Base.IInsert,                                DataAccess.User.Insert>();
 
             #endregion "User"
 
             #region "Game"
 
-            Container.RegisterType<BusinessLogic.AppServices.Game.Base.IInsert,     BusinessLogic.AppServices.Game.Insert>();
-            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IInsert,  BusinessLogic.DomainServices.Game.Insert>();
-            Container.RegisterType<BusinessLogic.Repositories.Game.Base.IInsert,    BusinessLogic.Repositories.Game.Insert>();
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.IInsert,                 BusinessLogic.AppServices.Game.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IInsert,              BusinessLogic.DomainServices.Game.Insert>();
+            Container.RegisterType<BusinessLogic.Repositories.Game.Base.IInsert,                BusinessLogic.Repositories.Game.Insert>();
 
-            Container.RegisterType<DataAccess.Game.Base.IInsert, DataAccess.Game.Insert>();
+            Container.RegisterType<DataAccess.Game.Base.IInsert,                                DataAccess.Game.Insert>();
 
-            Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelect,     BusinessLogic.AppServices.Game.Select>();
-            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelect,  BusinessLogic.DomainServices.Game.Select>();
-            Container.RegisterType<BusinessLogic.Repositories.Game.Base.ISelect,    BusinessLogic.Repositories.Game.Select>();
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelect,                 BusinessLogic.AppServices.Game.Select>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelect,              BusinessLogic.DomainServices.Game.Select>();
+            Container.RegisterType<BusinessLogic.Repositories.Game.Base.ISelect,                BusinessLogic.Repositories.Game.Select>();
 
-            Container.RegisterType<DataAccess.Game.Base.ISelect, DataAccess.Game.Select>();
+            Container.RegisterType<DataAccess.Game.Base.ISelect,                                DataAccess.Game.Select>();
 
             Container.RegisterType<BusinessLogic.AppServices.Game.Base.IValidatePassphrase,     BusinessLogic.AppServices.Game.ValidatePassphrase>();
             Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IValidatePassphrase,  BusinessLogic.DomainServices.Game.ValidatePassphrase>();
@@ -78,21 +78,33 @@ namespace ArmedCards.Web
             Container.RegisterType<BusinessLogic.DomainServices.ActiveConnection.Base.IInsert,  BusinessLogic.DomainServices.ActiveConnection.Insert>();
             Container.RegisterType<BusinessLogic.Repositories.ActiveConnection.Base.IInsert,    BusinessLogic.Repositories.ActiveConnection.Insert>();
 
-            Container.RegisterType<DataAccess.ActiveConnection.Base.IInsert, DataAccess.ActiveConnection.Insert>();
+            Container.RegisterType<DataAccess.ActiveConnection.Base.IInsert,                    DataAccess.ActiveConnection.Insert>();
 
             Container.RegisterType<BusinessLogic.AppServices.ActiveConnection.Base.ISelect,     BusinessLogic.AppServices.ActiveConnection.Select>();
             Container.RegisterType<BusinessLogic.DomainServices.ActiveConnection.Base.ISelect,  BusinessLogic.DomainServices.ActiveConnection.Select>();
             Container.RegisterType<BusinessLogic.Repositories.ActiveConnection.Base.ISelect,    BusinessLogic.Repositories.ActiveConnection.Select>();
 
-            Container.RegisterType<DataAccess.ActiveConnection.Base.ISelect, DataAccess.ActiveConnection.Select>();
+            Container.RegisterType<DataAccess.ActiveConnection.Base.ISelect,                    DataAccess.ActiveConnection.Select>();
 
             Container.RegisterType<BusinessLogic.AppServices.ActiveConnection.Base.IDelete,     BusinessLogic.AppServices.ActiveConnection.Delete>();
             Container.RegisterType<BusinessLogic.DomainServices.ActiveConnection.Base.IDelete,  BusinessLogic.DomainServices.ActiveConnection.Delete>();
             Container.RegisterType<BusinessLogic.Repositories.ActiveConnection.Base.IDelete,    BusinessLogic.Repositories.ActiveConnection.Delete>();
 
-            Container.RegisterType<DataAccess.ActiveConnection.Base.IDelete, DataAccess.ActiveConnection.Delete>();
+            Container.RegisterType<DataAccess.ActiveConnection.Base.IDelete,                    DataAccess.ActiveConnection.Delete>();
 
             #endregion "Active Connection"
+
+            #region "Game Player"
+
+            Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IInsert,          BusinessLogic.Repositories.GamePlayer.Insert>();
+
+            Container.RegisterType<DataAccess.GamePlayer.Base.IInsert,                          DataAccess.GamePlayer.Insert>();
+
+            Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.ISelect,          BusinessLogic.Repositories.GamePlayer.Select>();
+
+            Container.RegisterType<DataAccess.GamePlayer.Base.ISelect,                          DataAccess.GamePlayer.Select>();
+
+            #endregion "Game Player"
         }
     }
 }

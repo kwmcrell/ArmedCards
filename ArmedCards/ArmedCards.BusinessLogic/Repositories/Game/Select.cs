@@ -36,10 +36,13 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
     public class Select : Base.ISelect
     {
         private DAL.Base.ISelect _selectGame;
+        private GamePlayer.Base.ISelect _selectGamePlayerREPO;
 
-        public Select(DAL.Base.ISelect selectGame)
+        public Select(DAL.Base.ISelect selectGame,
+                      GamePlayer.Base.ISelect selectGamePlayerREPO)
         {
             this._selectGame = selectGame;
+            this._selectGamePlayerREPO = selectGamePlayerREPO;
         }
 
         /// <summary>
@@ -59,7 +62,14 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         /// <returns>A game that satisfy the supplied filter</returns>
         public Entities.Game Execute(Entities.Filters.Game.Select filter)
         {
-            return _selectGame.Execute(filter);
+            Entities.Game game = _selectGame.Execute(filter);
+
+            Entities.Filters.GamePlayer.Select playerFilter = new Entities.Filters.GamePlayer.Select();
+            playerFilter.GameID = filter.GameID;
+
+            game.Players = _selectGamePlayerREPO.Execute(playerFilter);
+
+            return game;
         }
     }
 }

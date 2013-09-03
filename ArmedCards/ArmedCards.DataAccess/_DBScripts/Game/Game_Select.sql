@@ -49,7 +49,10 @@ AS
 			G.[GameCreator_UserId],
 			G.[DateCreated],
 			G.[PlayedLast],
-			G.[GameOver]
+			G.[GameOver],
+			(SELECT COUNT(UserID) 
+			 FROM [dbo].[GamePlayer] GP
+			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount
 	 FROM [dbo].[Game] G
 	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
 

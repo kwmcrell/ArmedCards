@@ -21,41 +21,48 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.GamePlayer;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Implementation of ISelect
     /// </summary>
-    public class Insert : Base.IInsert
+    public class Select : Base.ISelect
     {
-        private Repositories.Game.Base.IInsert _insertGame;
+        private DAL.Base.ISelect _selectGamePlayers;
 
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
+        public Select(DAL.Base.ISelect selectGamePlayers)
         {
-            this._insertGame = _insertGame;
+            this._selectGamePlayers = selectGamePlayers;
         }
 
         /// <summary>
-        /// Insert a game record into the database
+        /// Selects game players base on supplied filter
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
+        /// <param name="filter">Filter used to select game players</param>
+        /// <returns>A list of game players that satisfy the supplied filter</returns>
+        public List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.Select filter)
         {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
+            return _selectGamePlayers.Execute(filter);
+        }
 
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
+        /// <summary>
+        /// Selects game players base on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game players</param>
+        /// <returns>A list of game players that satisfy the supplied filter</returns>
+        public List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectAll filter)
+        {
+            return _selectGamePlayers.Execute(filter);
         }
     }
 }

@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
+using System.Data;
 
 namespace ArmedCards.Entities
 {
@@ -34,6 +36,17 @@ namespace ArmedCards.Entities
     /// </summary>
     public class User
     {
+        public User()
+        {
+
+        }
+
+        public User(IDataReader idr)
+        {
+            UserId      = idr.GetValueByName<Int32>("UserId");
+            DisplayName = idr.GetValueByName<String>("UserName");
+        }
+
         /// <summary>
         /// The primary key for the user
         /// </summary>

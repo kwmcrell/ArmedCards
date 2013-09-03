@@ -27,35 +27,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.BusinessLogic.Repositories.GamePlayer.Base
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Interface defining Select for GamePlayer
     /// </summary>
-    public class Insert : Base.IInsert
+    public interface ISelect
     {
-        private Repositories.Game.Base.IInsert _insertGame;
-
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
-        {
-            this._insertGame = _insertGame;
-        }
+        /// <summary>
+        /// Selects game players base on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game players</param>
+        /// <returns>A list of game players that satisfy the supplied filter</returns>
+        List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.Select filter);
 
         /// <summary>
-        /// Insert a game record into the database
+        /// Selects game players base on supplied filter
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
-
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
-        }
+        /// <param name="filter">Filter used to select game players</param>
+        /// <returns>A list of game players that satisfy the supplied filter</returns>
+        List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectAll filter);
     }
 }

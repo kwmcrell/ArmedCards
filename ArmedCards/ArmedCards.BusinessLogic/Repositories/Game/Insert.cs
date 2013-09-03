@@ -35,10 +35,13 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
     public class Insert : Base.IInsert
     {
         private DataAccess.Game.Base.IInsert _insertGame;
+        private GamePlayer.Base.IInsert _insertGamePlayerREPO;
 
-        public Insert(DataAccess.Game.Base.IInsert _insertGame)
+        public Insert(DataAccess.Game.Base.IInsert _insertGame,
+                      GamePlayer.Base.IInsert insertGamePlayerREPO)
         {
             this._insertGame = _insertGame;
+            this._insertGamePlayerREPO = insertGamePlayerREPO;
         }
 
         /// <summary>
@@ -48,6 +51,15 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         public void Execute(Entities.Game game)
         {
             _insertGame.Execute(game);
+
+            if (game.GameID > 0)
+            {
+                Entities.GamePlayer player = game.Players.First();
+
+                player.GameID = game.GameID;
+
+                _insertGamePlayerREPO.Execute(player);
+            }
         }
     }
 }

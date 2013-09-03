@@ -27,35 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.DataAccess.GamePlayer.Base
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Interface for inserting a GamePlayers
     /// </summary>
-    public class Insert : Base.IInsert
+    public interface IInsert
     {
-        private Repositories.Game.Base.IInsert _insertGame;
-
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
-        {
-            this._insertGame = _insertGame;
-        }
-
         /// <summary>
-        /// Insert a game record into the database
+        /// Inserts a GamePlayer
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
-
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
-        }
+        /// <param name="player">The player to insert</param>
+        /// <returns>The total number of players in the game now.</returns>
+        Int32 Execute(Entities.GamePlayer player);
     }
 }

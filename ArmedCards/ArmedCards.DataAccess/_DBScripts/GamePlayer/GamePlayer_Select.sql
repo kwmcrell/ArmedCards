@@ -21,41 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayer_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayer_Select] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
-{
-    /// <summary>
-    /// Implementation of IInsert
-    /// </summary>
-    public class Insert : Base.IInsert
-    {
-        private Repositories.Game.Base.IInsert _insertGame;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/2/2013
+-- Description:	Selects game players
+-- ===============================================
+CREATE PROC [dbo].[GamePlayer_Select] 
+	@GameID			int	= NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
-        {
-            this._insertGame = _insertGame;
-        }
+	SELECT	GP.[GameID],
+			GP.[Points],
+			GP.[UserId],
+			UP.[UserName]
+	FROM [dbo].[GamePlayer] GP
+	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
+	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
 
-        /// <summary>
-        /// Insert a game record into the database
-        /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
-
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
-        }
-    }
-}
+	COMMIT
+GO

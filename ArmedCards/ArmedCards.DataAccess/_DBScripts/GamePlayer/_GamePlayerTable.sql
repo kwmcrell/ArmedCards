@@ -21,41 +21,29 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
+	BEGIN
+		CREATE TABLE [dbo].[GamePlayer](
+			[GameID] [int] NOT NULL,
+			[UserId] [int] NOT NULL,
+			[Points] [int] NOT NULL
+		 CONSTRAINT [PK_dbo.GamePlayer] PRIMARY KEY CLUSTERED 
+		(
+			[GameID] ASC,
+			[UserId] ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
-{
-    /// <summary>
-    /// Implementation of IInsert
-    /// </summary>
-    public class Insert : Base.IInsert
-    {
-        private Repositories.Game.Base.IInsert _insertGame;
+		ALTER TABLE [dbo].[GamePlayer] ADD  DEFAULT ((0)) FOR [Points]
 
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
-        {
-            this._insertGame = _insertGame;
-        }
+		ALTER TABLE [dbo].[GamePlayer]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GamePlayer_dbo.Game_GameID] FOREIGN KEY([GameID])
+		REFERENCES [dbo].[Game] ([GameID])
+		ON DELETE CASCADE
 
-        /// <summary>
-        /// Insert a game record into the database
-        /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
+		ALTER TABLE [dbo].[GamePlayer] CHECK CONSTRAINT [FK_dbo.GamePlayer_dbo.Game_GameID]
 
-            game.Players.Add(player);
+		ALTER TABLE [dbo].[GamePlayer]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GamePlayer_dbo.UserProfile_UserId] FOREIGN KEY([UserId])
+		REFERENCES [dbo].[UserProfile] ([UserId])
 
-            _insertGame.Execute(game);
-        }
-    }
-}
+		ALTER TABLE [dbo].[GamePlayer] CHECK CONSTRAINT [FK_dbo.GamePlayer_dbo.UserProfile_UserId]
+	END

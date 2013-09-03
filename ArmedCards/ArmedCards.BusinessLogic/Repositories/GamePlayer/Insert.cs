@@ -21,41 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.GamePlayer;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 {
     /// <summary>
     /// Implementation of IInsert
     /// </summary>
     public class Insert : Base.IInsert
     {
-        private Repositories.Game.Base.IInsert _insertGame;
+        private DAL.Base.IInsert _insertGamePlayer;
 
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
+        public Insert(DAL.Base.IInsert insertGamePlayer)
         {
-            this._insertGame = _insertGame;
+            this._insertGamePlayer = insertGamePlayer;
         }
 
         /// <summary>
-        /// Insert a game record into the database
+        /// Inserts a GamePlayer
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
+        /// <param name="player">The player to insert</param>
+        /// <returns>The total number of players in the game now.</returns>
+        public Int32 Execute(Entities.GamePlayer player)
         {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
-
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
+            return _insertGamePlayer.Execute(player);
         }
     }
 }

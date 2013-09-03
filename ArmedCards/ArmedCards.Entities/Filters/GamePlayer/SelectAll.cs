@@ -27,35 +27,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.Entities.Filters.GamePlayer
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Filter used to select all game players
     /// </summary>
-    public class Insert : Base.IInsert
+    public class SelectAll
     {
-        private Repositories.Game.Base.IInsert _insertGame;
-
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
-        {
-            this._insertGame = _insertGame;
-        }
-
-        /// <summary>
-        /// Insert a game record into the database
-        /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
-
-            game.Players.Add(player);
-
-            _insertGame.Execute(game);
-        }
     }
 }

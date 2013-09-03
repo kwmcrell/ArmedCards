@@ -34,11 +34,11 @@
 </div>
 <div class="bar"></div>
 <div class="meta">
-    <p>Players: 0 / @Model.Game.MaxNumberOfPlayers</p>
-    @*foreach (ACENT.GameProfile player in Model.Game.Players)
+    <p>Players: @Model.Game.PlayerCount / @Model.Game.MaxNumberOfPlayers</p>
+    @foreach (GamePlayer player in Model.Game.Players)
     {
-        <span class="playas">@player.User.UserName</span>
-    }*@
+        <span class="playas">@player.User.DisplayName</span>
+    }
 </div>
 <div class="bar"></div>
 @*<div class="meta">

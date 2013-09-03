@@ -48,11 +48,13 @@
     <Compile Include="ActiveConnection\Base\IDelete.cs" />
     <Compile Include="ActiveConnection\Base\IInsert.cs" />
     <Compile Include="ActiveConnection\Base\ISelect.cs" />
-    <Compile Include="ActiveConnection\Base\IUpdate.cs" />
     <Compile Include="ActiveConnection\Delete.cs" />
     <Compile Include="ActiveConnection\Insert.cs" />
     <Compile Include="ActiveConnection\Select.cs" />
-    <Compile Include="ActiveConnection\Update.cs" />
+    <Compile Include="GamePlayer\Base\IInsert.cs" />
+    <Compile Include="GamePlayer\Base\ISelect.cs" />
+    <Compile Include="GamePlayer\Insert.cs" />
+    <Compile Include="GamePlayer\Select.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
@@ -70,6 +72,9 @@
     <Content Include="_DBScripts\DeckCard\_DeckCardTable.sql" />
     <Content Include="_DBScripts\Deck\_Decks.sql" />
     <Content Include="_DBScripts\Deck\_DeckTable.sql" />
+    <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
+    <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />
+    <Content Include="_DBScripts\GamePlayer\_GamePlayerTable.sql" />
     <Content Include="_DBScripts\Game\GameTable.sql" />
     <Content Include="_DBScripts\Game\Game_Select.sql" />
     <Content Include="_DBScripts\Game\Game_Insert.sql" />

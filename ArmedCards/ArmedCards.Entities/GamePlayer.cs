@@ -23,39 +23,44 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.Entities
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Class that descibes a player in a game
     /// </summary>
-    public class Insert : Base.IInsert
+    public class GamePlayer
     {
-        private Repositories.Game.Base.IInsert _insertGame;
-
-        public Insert(Repositories.Game.Base.IInsert _insertGame)
+        public GamePlayer(IDataReader idr)
         {
-            this._insertGame = _insertGame;
+            GameID  = idr.GetValueByName<Int32>("GameID");
+            User    = new User(idr);
+            Points  = idr.GetValueByName<Int32>("Points");
+        }
+
+        public GamePlayer()
+        {
+            User = new User();
         }
 
         /// <summary>
-        /// Insert a game record into the database
+        /// The game ID for the player
         /// </summary>
-        /// <param name="user">The game to insert</param>
-        public void Execute(Entities.Game game)
-        {
-            Entities.GamePlayer player = new Entities.GamePlayer
-            {
-                Points = 0,
-                User = new Entities.User { UserId = game.GameCreator_UserId }
-            };
+        public Int32 GameID { get; set; }
 
-            game.Players.Add(player);
+        /// <summary>
+        /// The full user
+        /// </summary>
+        public User User { get; set; }
 
-            _insertGame.Execute(game);
-        }
+        /// <summary>
+        /// Number of points the user has
+        /// </summary>
+        public Int32 Points { get; set; }
     }
 }

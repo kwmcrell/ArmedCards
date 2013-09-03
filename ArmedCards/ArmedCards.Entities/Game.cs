@@ -45,6 +45,7 @@ namespace ArmedCards.Entities
             MaxNumberOfPlayers = 3;
             PointToWin = 8;
             GameDecks = new List<int>();
+            Players = new List<GamePlayer>();
         }
 
         /// <summary>
@@ -52,17 +53,19 @@ namespace ArmedCards.Entities
         /// </summary>
         /// <param name="idr">The datareader used to build the game</param>
         public Game(IDataReader idr)
+            :this()
         {
             GameID              =   idr.GetValueByName<Int32>("GameID");
             Title               =   idr.GetValueByName<String>("Title");
             IsPrivate           =   idr.GetValueByName<Boolean>("IsPrivate");
-            Passphrase            =   idr.GetValueByName<String>("Passphrase");
+            Passphrase          =   idr.GetValueByName<String>("Passphrase");
 			PointToWin          =   idr.GetValueByName<Int32>("PointsToWin");
             MaxNumberOfPlayers  =   idr.GetValueByName<Int32>("MaxNumberOfPlayers");
 			GameCreator_UserId  =   idr.GetValueByName<Int32>("GameCreator_UserId");
             DateCreated         =   idr.GetValueByName<DateTime>("DateCreated");
             PlayedLast          =   idr.GetValueByName<DateTime?>("PlayedLast");
             GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
+            PlayerCount         =   idr.GetValueByName<Int32>("PlayerCount");
         }
 
         /// <summary>
@@ -149,5 +152,15 @@ namespace ArmedCards.Entities
         /// List of Deck IDs for the game
         /// </summary>
         public List<Int32> GameDecks { get; set; }
+
+        /// <summary>
+        /// Number of players in the game
+        /// </summary>
+        public Int32 PlayerCount { get; set; }
+
+        /// <summary>
+        /// List of UserIds for players in the game
+        /// </summary>
+        public List<GamePlayer> Players { get; set; }
     }
 }
