@@ -26,30 +26,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.Web.Models.Game.Listing
+namespace ArmedCards.BusinessLogic.AppServices.Game
 {
     /// <summary>
-    /// Model for the Game Listing Screen
+    /// Implementation of IJoin
     /// </summary>
-    public class Listing
+    public class Join : Base.IJoin
     {
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public Listing()
+        private DS.Base.IJoin _joinGame;
+        private Base.ISelect _selectGame;
+
+        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame)
         {
-            Games = new List<Entities.Game>();
+            this._joinGame = joinGame;
+            this._selectGame = selectGame;
         }
 
         /// <summary>
-        /// List of games available
+        /// Join a game
         /// </summary>
-        public List<Entities.Game> Games { get; set; }
+        /// <param name="gameID">The id of the game to join</param>
+        /// <param name="userId">The current user id</param>
+        /// <param name="passphrase">The passphrase for the game</param>
+        /// <returns>The response to a join request</returns>
+        public Entities.JoinResponse Execute(int gameID, int userId, string passphrase)
+        {
+            Entities.JoinResponse response = new Entities.JoinResponse();
 
-        /// <summary>
-        /// The id of the game to show
-        /// </summary>
-        public Int32 GameToShow { get; set; }
+            Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+            filter.GameID = gameID;
+
+            Entities.Game game = _selectGame.Execute(filter);
+
+            response.Result = _joinGame.Execute(game, userId, passphrase);;
+
+            if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
+            {
+                response.Game = game;
+            }
+
+            return response;
+        }
     }
 }

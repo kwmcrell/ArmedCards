@@ -70,6 +70,9 @@ namespace ArmedCards.Web
             Container.RegisterType<BusinessLogic.AppServices.Game.Base.IValidatePassphrase,     BusinessLogic.AppServices.Game.ValidatePassphrase>();
             Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IValidatePassphrase,  BusinessLogic.DomainServices.Game.ValidatePassphrase>();
 
+            Container.RegisterType<BusinessLogic.AppServices.Game.Base.IJoin,                   BusinessLogic.AppServices.Game.Join>();
+            Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IJoin,                BusinessLogic.DomainServices.Game.Join>();
+
             #endregion "Game"
 
             #region "Active Connection"
@@ -96,6 +99,8 @@ namespace ArmedCards.Web
 
             #region "Game Player"
 
+            Container.RegisterType<BusinessLogic.AppServices.GamePlayer.Base.IInsert,           BusinessLogic.AppServices.GamePlayer.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.GamePlayer.Base.IInsert,        BusinessLogic.DomainServices.GamePlayer.Insert>();
             Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IInsert,          BusinessLogic.Repositories.GamePlayer.Insert>();
 
             Container.RegisterType<DataAccess.GamePlayer.Base.IInsert,                          DataAccess.GamePlayer.Insert>();

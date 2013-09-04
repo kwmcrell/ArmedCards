@@ -27,29 +27,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Listing
+namespace ArmedCards.BusinessLogic.DomainServices.Game.Base
 {
     /// <summary>
-    /// Model for the Game Listing Screen
+    /// Interface to join a game
     /// </summary>
-    public class Listing
+    public interface IJoin
     {
         /// <summary>
-        /// Default Constructor
+        /// Join a game
         /// </summary>
-        public Listing()
-        {
-            Games = new List<Entities.Game>();
-        }
-
-        /// <summary>
-        /// List of games available
-        /// </summary>
-        public List<Entities.Game> Games { get; set; }
-
-        /// <summary>
-        /// The id of the game to show
-        /// </summary>
-        public Int32 GameToShow { get; set; }
+        /// <param name="gameID">The game to join</param>
+        /// <param name="userId">The current user id</param>
+        /// <param name="passphrase">The passphrase for the game</param>
+        /// <returns>Join Response Code</returns>
+        Entities.Enums.Game.JoinResponseCode Execute(Entities.Game game, int userId, string passphrase);
     }
 }

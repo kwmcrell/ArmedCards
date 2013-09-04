@@ -27,29 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Listing
+namespace ArmedCards.BusinessLogic.AppServices.GamePlayer.Base
 {
     /// <summary>
-    /// Model for the Game Listing Screen
+    /// Interface for inserting a GamePlayers
     /// </summary>
-    public class Listing
+    public interface IInsert
     {
         /// <summary>
-        /// Default Constructor
+        /// Inserts a GamePlayer
         /// </summary>
-        public Listing()
-        {
-            Games = new List<Entities.Game>();
-        }
-
-        /// <summary>
-        /// List of games available
-        /// </summary>
-        public List<Entities.Game> Games { get; set; }
-
-        /// <summary>
-        /// The id of the game to show
-        /// </summary>
-        public Int32 GameToShow { get; set; }
+        /// <param name="player">The player to insert</param>
+        /// <returns>The total number of players in the game now.</returns>
+        Int32 Execute(Entities.GamePlayer player);
     }
 }

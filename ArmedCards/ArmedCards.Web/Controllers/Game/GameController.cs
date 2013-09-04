@@ -29,44 +29,42 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
-using AS = ArmedCards.BusinessLogic.AppServices.Game;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.Web.Controllers.Game.Listing
+namespace ArmedCards.Web.Controllers.Game
 {
     [Extensions.ArmedCardsAuthorize]
-    public class ValidatePassphraseController : Extensions.ArmedCardsController
+    public class GameController : Extensions.ArmedCardsController
     {
-        private AS.Base.IValidatePassphrase _validatePassphrase;
+        private AS.Game.Base.IJoin _joinGame;
 
-        public ValidatePassphraseController(AS.Base.IValidatePassphrase validatePassphrase)
+        public GameController(AS.Game.Base.IJoin joinGame)
         {
-            this._validatePassphrase = validatePassphrase;
+            this._joinGame = joinGame;
         }
 
-        /// <summary>
-        /// Validates the user supplied passphrase
-        /// </summary>
-        /// <param name="id">The game ID to retrieve the game</param>
-        /// <param name="passphrase">The user supplied passphrase</param>
-        /// <returns>If the passphrase was validated</returns>
-        [HttpPost]
-        public JsonResult Index(int id, string passphrase)
+        [HttpGet]
+        public ActionResult Index(int id)
         {
-            bool validated = true;
+            string key = string.Format("Game_{0}_Passphrase", id);
+            string passphrase = string.Empty;
 
-            if (!string.IsNullOrEmpty(passphrase))
+            if (Session[key] != null)
             {
-                validated = _validatePassphrase.Execute(id, passphrase);
-
-                string key = string.Format("Game_{0}_Passphrase", id);
-
-                if (validated)
-                {
-                    Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(passphrase), Session.SessionID));
-                }
+                passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as byte[]), Session.SessionID));
+                Session.Remove(key);
             }
 
-            return Json(new { Validated = validated, URL = Url.Action("Index", "Game", new { id = id }) });
+            Entities.JoinResponse response = _joinGame.Execute(id, WebSecurity.CurrentUserId, passphrase);
+
+            if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect(Url.Action("Index", "GameListing", new { id = id }));
+            }
         }
     }
 }

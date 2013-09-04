@@ -57,10 +57,14 @@
     <Compile Include="AppServices\ActiveConnection\Delete.cs" />
     <Compile Include="AppServices\ActiveConnection\Insert.cs" />
     <Compile Include="AppServices\ActiveConnection\Select.cs" />
+    <Compile Include="AppServices\GamePlayer\Base\IInsert.cs" />
+    <Compile Include="AppServices\GamePlayer\Insert.cs" />
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
+    <Compile Include="AppServices\Game\Base\IJoin.cs" />
     <Compile Include="AppServices\Game\Base\ISelect.cs" />
     <Compile Include="AppServices\Game\Base\IValidatePassphrase.cs" />
     <Compile Include="AppServices\Game\Insert.cs" />
+    <Compile Include="AppServices\Game\Join.cs" />
     <Compile Include="AppServices\Game\Select.cs" />
     <Compile Include="AppServices\Game\ValidatePassphrase.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
@@ -71,10 +75,14 @@
     <Compile Include="DomainServices\ActiveConnection\Delete.cs" />
     <Compile Include="DomainServices\ActiveConnection\Insert.cs" />
     <Compile Include="DomainServices\ActiveConnection\Select.cs" />
+    <Compile Include="DomainServices\GamePlayer\Base\IInsert.cs" />
+    <Compile Include="DomainServices\GamePlayer\Insert.cs" />
     <Compile Include="DomainServices\Game\Base\IInsert.cs" />
+    <Compile Include="DomainServices\Game\Base\IJoin.cs" />
     <Compile Include="DomainServices\Game\Base\ISelect.cs" />
     <Compile Include="DomainServices\Game\Base\IValidatePassphrase.cs" />
     <Compile Include="DomainServices\Game\Insert.cs" />
+    <Compile Include="DomainServices\Game\Join.cs" />
     <Compile Include="DomainServices\Game\Select.cs" />
     <Compile Include="DomainServices\Game\ValidatePassphrase.cs" />
     <Compile Include="DomainServices\User\Base\IInsert.cs" />
@@ -110,6 +118,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

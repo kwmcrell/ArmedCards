@@ -71,12 +71,12 @@ Detail.prototype.validatePassphrase = function (event) {
 };
 
 Detail.prototype.validatePassphraseResponse = function (response) {
-    if (response == 0) {
+    if (response.Validated == 0) {
         $('#wrong').addClass('open');
     }
     else {
         $('#wrong').removeClass('open');
-        alert('Correct');
+        window.location.href = response.URL;
     }
 };
 
@@ -99,6 +99,12 @@ Detail.prototype.init = function () {
     $('.game').on({
         click: ArmedCards.Game.Detail.getDetail
     });
+
+    var id = $('#GameToShow').val();
+
+    if (id > 0) {
+        $('#' + id).trigger('click');
+    }
 };
 
 $(document).ready(ArmedCards.Game.Detail.init);

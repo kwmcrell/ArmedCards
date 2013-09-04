@@ -21,35 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using REPO = ArmedCards.BusinessLogic.Repositories.GamePlayer;
 
-namespace ArmedCards.Web.Models.Game.Listing
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayer
 {
     /// <summary>
-    /// Model for the Game Listing Screen
+    /// Implementation of IInsert
     /// </summary>
-    public class Listing
+    public class Insert : Base.IInsert
     {
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public Listing()
+        private REPO.Base.IInsert _insertGamePlayer;
+
+        public Insert(REPO.Base.IInsert insertGamePlayer)
         {
-            Games = new List<Entities.Game>();
+            this._insertGamePlayer = insertGamePlayer;
         }
 
         /// <summary>
-        /// List of games available
+        /// Inserts a GamePlayer
         /// </summary>
-        public List<Entities.Game> Games { get; set; }
-
-        /// <summary>
-        /// The id of the game to show
-        /// </summary>
-        public Int32 GameToShow { get; set; }
+        /// <param name="player">The player to insert</param>
+        /// <returns>The total number of players in the game now.</returns>
+        public Int32 Execute(Entities.GamePlayer player)
+        {
+            return _insertGamePlayer.Execute(player);
+        }
     }
 }

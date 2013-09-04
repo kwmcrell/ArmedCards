@@ -162,5 +162,24 @@ namespace ArmedCards.Entities
         /// List of UserIds for players in the game
         /// </summary>
         public List<GamePlayer> Players { get; set; }
+
+        /// <summary>
+        /// Determine if user is already a player
+        /// </summary>
+        /// <param name="userID">The userID</param>
+        /// <returns></returns>
+        public Boolean IsCurrentPlayer(Int32 userID)
+        {
+            return Players.Find(x => x.User.UserId == userID) != null;
+        }
+
+        /// <summary>
+        /// Determine if the game is full
+        /// </summary>
+        /// <returns></returns>
+        public Boolean IsFull()
+        {
+            return PlayerCount == MaxNumberOfPlayers;
+        }
     }
 }
