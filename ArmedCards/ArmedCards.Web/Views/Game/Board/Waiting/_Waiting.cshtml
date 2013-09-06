@@ -19,15 +19,12 @@
  * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*@
+ *@
 
-@model ArmedCards.Web.Models.Shared.Header
+@model ArmedCards.Web.Models.Game.Board.GameBoard
+@{
+    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
+    header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, WebSecurity.CurrentUserId);
+}
 
-<div class="radHeader">
-	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a></h1>
-	<h2>@Html.Raw(Model.SubHeaderText)</h2>
-    @if (Model.ExtraHtml != null)
-    {
-        @Html.Raw(Model.ExtraHtml.ToString())
-    }
-</div>
+@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)

@@ -21,13 +21,17 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Shared.Header
+@model ArmedCards.Web.Models.Game.Board.GameBoard
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+}
 
-<div class="radHeader">
-	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a></h1>
-	<h2>@Html.Raw(Model.SubHeaderText)</h2>
-    @if (Model.ExtraHtml != null)
+@Html.HiddenFor(x => x.Game.GameID)
+
+<div id="gameContainer" class="game gameScreen">
+    @if (Model.ShowWaiting())
     {
-        @Html.Raw(Model.ExtraHtml.ToString())
+        @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
     }
 </div>

@@ -46,6 +46,7 @@ namespace ArmedCards.Entities
             PointToWin = 8;
             GameDecks = new List<int>();
             Players = new List<GamePlayer>();
+            Rounds = new List<GameRound>();
         }
 
         /// <summary>
@@ -164,6 +165,16 @@ namespace ArmedCards.Entities
         public List<GamePlayer> Players { get; set; }
 
         /// <summary>
+        /// Number of rounds in the game so far
+        /// </summary>
+        public Int32 RoundCount { get; set; }
+
+        /// <summary>
+        /// List of Rounds for the game
+        /// </summary>
+        public List<GameRound> Rounds { get; set; }
+
+        /// <summary>
         /// Determine if user is already a player
         /// </summary>
         /// <param name="userID">The userID</param>
@@ -180,6 +191,70 @@ namespace ArmedCards.Entities
         public Boolean IsFull()
         {
             return PlayerCount == MaxNumberOfPlayers;
+        }
+
+        /// <summary>
+        /// Determine if the game has rounds
+        /// </summary>
+        /// <returns></returns>
+        public Boolean HasRounds()
+        {
+            return RoundCount > 0;
+        }
+
+        /// <summary>
+        /// Number of players required to play
+        /// </summary>
+        private const Int32 RequiredPlayerCount = 3;
+
+        /// <summary>
+        /// Determine if the game has required number of players
+        /// </summary>
+        /// <returns></returns>
+        public Boolean HasRequiredNumberOfPlayers()
+        {
+            return PlayerCount >= RequiredPlayerCount;
+        }
+
+        /// <summary>
+        /// Determine number of players still needed
+        /// </summary>
+        /// <returns></returns>
+        public Int32 NumberOfPlayersNeededToStart()
+        {
+            Int32 needed = RequiredPlayerCount - PlayerCount;
+
+            return needed > 0 ? needed : 0;
+        }
+
+        /// <summary>
+        /// Determine who the card commander is
+        /// </summary>
+        /// <returns>Current card commander</returns>
+        public Entities.User DetermineCommander()
+        {
+            Entities.User commander;
+
+            if (this.HasRounds())
+            {
+                commander = this.Players.First().User;
+            }
+            else
+            {
+                commander = this.Players.First().User;
+            }
+
+            return commander;
+        }
+
+        /// <summary>
+        /// Determine if user is the card commander
+        /// </summary>
+        /// <param name="userID">The userID</param>
+        /// <returns></returns>
+        public Boolean IsCurrentCommander(Int32 userId)
+        {
+            return DetermineCommander().UserId == userId;
         }
     }
 }

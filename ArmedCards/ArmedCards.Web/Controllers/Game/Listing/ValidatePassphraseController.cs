@@ -33,7 +33,6 @@ using AS = ArmedCards.BusinessLogic.AppServices.Game;
 
 namespace ArmedCards.Web.Controllers.Game.Listing
 {
-    [Extensions.ArmedCardsAuthorize]
     public class ValidatePassphraseController : Extensions.ArmedCardsController
     {
         private AS.Base.IValidatePassphrase _validatePassphrase;

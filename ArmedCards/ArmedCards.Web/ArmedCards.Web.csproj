@@ -233,11 +233,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
+    <Compile Include="Models\Game\Board\Game.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
@@ -297,7 +299,8 @@
     <Content Include="Views\Game\Listing\Detail.cshtml" />
     <Content Include="Views\Shared\Layout\_Chat.cshtml" />
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
-    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\Game\Board\Index.cshtml" />
+    <Content Include="Views\Game\Board\Waiting\_Waiting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -59,7 +59,11 @@ namespace ArmedCards.Web.Controllers.Game
 
             if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
             {
-                return View();
+                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+                model.Game = response.Game;
+                model.UserId = WebSecurity.CurrentUserId;
+
+                return View("~/Views/Game/Board/Index.cshtml", model);
             }
             else
             {

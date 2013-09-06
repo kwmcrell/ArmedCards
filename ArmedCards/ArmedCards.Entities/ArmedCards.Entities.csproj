@@ -51,6 +51,7 @@
     <Compile Include="Filters\Game\SelectAll.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePlayer.cs" />
+    <Compile Include="GameRound.cs" />
     <Compile Include="JoinResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />

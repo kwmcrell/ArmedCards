@@ -26,6 +26,12 @@ namespace ArmedCards.Web
             );
 
             routes.MapRoute(
+                name: "ValidatePassphrase_NoAction",
+                url: "ValidatePassphrase/{id}",
+                defaults: new { controller = "ValidatePassphrase", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
