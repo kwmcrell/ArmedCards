@@ -38,7 +38,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayer.Base
         /// Inserts a GamePlayer
         /// </summary>
         /// <param name="player">The player to insert</param>
-        /// <returns>The total number of players in the game now.</returns>
-        Int32 Execute(Entities.GamePlayer player);
+        /// <returns>If successful being added</returns>
+        Boolean Execute(Entities.GamePlayer player);
     }
 }

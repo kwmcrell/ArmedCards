@@ -41,7 +41,9 @@ AS
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
-	BEGIN TRAN
+	BEGIN TRAN 
+
+	DECLARE @maxPlayers INT
 
 	INSERT INTO [dbo].[GamePlayer]
 	(
@@ -57,5 +59,18 @@ AS
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 
-	COMMIT
+	SELECT @maxPlayers = G.[MaxNumberOfPlayers]
+	FROM [dbo].[Game] G
+	WHERE G.[GameID] = @GameID
+
+	IF @TotalPlayers > @maxPlayers
+		BEGIN
+			SET @TotalPlayers = -1
+
+			ROLLBACK TRAN
+		END
+	ELSE
+		BEGIN
+			COMMIT TRAN
+		END
 GO

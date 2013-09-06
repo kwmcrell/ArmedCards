@@ -50,20 +50,20 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
         /// <param name="gameID">The game to join</param>
         /// <param name="userId">The current user id</param>
         /// <param name="passphrase">The passphrase for the game</param>
-        /// <returns>Join Response Code</returns>
-        public Entities.Enums.Game.JoinResponseCode Execute(Entities.Game game, int userId, string passphrase)
+        /// <returns>The response to a join request</returns>
+        public Entities.JoinResponse Execute(Entities.Game game, int userId, string passphrase)
         {
-            Entities.Enums.Game.JoinResponseCode response = Entities.Enums.Game.JoinResponseCode.Successful;
+            Entities.JoinResponse response = new Entities.JoinResponse();
 
             if (game.IsCurrentPlayer(userId) == false)
             {
                 if (_validatePassphrase.Execute(game, passphrase) == false)
                 {
-                    response |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
                 }
                 else if (game.IsFull())
                 {
-                    response |= Entities.Enums.Game.JoinResponseCode.FullGame;
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
                 }
                 else
                 {
@@ -72,7 +72,18 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
                     player.Points = 0;
                     player.User.UserId = userId;
 
-                    _insertGamePlayer.Execute(player);
+                    Boolean successful = _insertGamePlayer.Execute(player);
+
+                    if (successful == false)
+                    {
+                        response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
+                    }
+                    else
+                    {
+                        response.Game = game;
+                        response.Game.Players.Add(player);
+                        response.Game.PlayerCount++;
+                    }
                 }
             }
 

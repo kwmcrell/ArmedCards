@@ -50,9 +50,9 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayer
         /// </summary>
         /// <param name="player">The player to insert</param>
         /// <returns>The total number of players in the game now.</returns>
-        public Int32 Execute(Entities.GamePlayer player)
+        public Boolean Execute(Entities.GamePlayer player)
         {
-            return _insertGamePlayer.Execute(player);
+            return _insertGamePlayer.Execute(player) != -1;
         }
     }
 }

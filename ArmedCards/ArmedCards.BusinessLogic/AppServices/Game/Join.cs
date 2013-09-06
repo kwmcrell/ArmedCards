@@ -53,21 +53,12 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
         /// <returns>The response to a join request</returns>
         public Entities.JoinResponse Execute(int gameID, int userId, string passphrase)
         {
-            Entities.JoinResponse response = new Entities.JoinResponse();
-
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = gameID;
 
             Entities.Game game = _selectGame.Execute(filter);
 
-            response.Result = _joinGame.Execute(game, userId, passphrase);;
-
-            if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
-            {
-                response.Game = game;
-            }
-
-            return response;
+            return _joinGame.Execute(game, userId, passphrase);;
         }
     }
 }
