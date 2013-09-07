@@ -25,15 +25,15 @@ IF OBJECT_ID('[dbo].[Deck]') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[Deck](
 			[DeckID] [int] IDENTITY(1,1) NOT NULL,
-			[DeckType] [int] NOT NULL,
-			[Title] [nvarchar](max) NULL,
+			[Type] [int] NOT NULL,
+			[Title] [varchar](255) NULL,
 			[IsPrivate] [bit] NOT NULL,
 			[CreatedBy_UserId] [int] NULL,
 		 CONSTRAINT [PK_dbo.Deck] PRIMARY KEY CLUSTERED 
 		(
 			[DeckID] ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+		) ON [PRIMARY]
 
 		ALTER TABLE [dbo].[Deck]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Deck_dbo.UserProfile_CreatedBy_UserId] FOREIGN KEY([CreatedBy_UserId])
 		REFERENCES [dbo].[UserProfile] ([UserId])

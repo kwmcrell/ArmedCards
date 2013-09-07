@@ -21,13 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-SET IDENTITY_INSERT [dbo].[Deck] ON;
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Common;
+using System.Data;
+using DS = ArmedCards.BusinessLogic.Repositories.Deck;
 
-BEGIN TRANSACTION;
-INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_UserId])
-SELECT 1, 0, N'Main', 0, 1
-COMMIT;
-RAISERROR (N'[dbo].[Deck]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
-GO
+namespace ArmedCards.BusinessLogic.AppServices.Deck
+{
+	/// <summary>
+	/// Implementation of ISelect
+	/// </summary>
+	public class Select : Base.ISelect
+	{
+		private DS.Base.ISelect _selectDeck;
 
-SET IDENTITY_INSERT [dbo].[Deck] OFF;
+		public Select(DS.Base.ISelect selectDeck)
+		{
+			this._selectDeck = selectDeck;
+		}
+
+		/// <summary>
+		/// Select decks base on provided filter
+		/// </summary>
+		/// <param name="filter">The filter used to select decks</param>
+		/// <returns>A filtered list of decks</returns>
+		public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+		{
+			return _selectDeck.Execute(filter);
+		}
+	}
+}

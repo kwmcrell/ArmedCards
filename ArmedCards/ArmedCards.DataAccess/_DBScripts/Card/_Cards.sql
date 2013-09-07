@@ -24,7 +24,7 @@
 SET IDENTITY_INSERT [dbo].[Card] ON;
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 1, N'Being on fire.', 1, 0, 1 UNION ALL
 SELECT 2, N'Racism.', 1, 0, 1 UNION ALL
 SELECT 3, N'Old-people smell.', 1, 0, 1 UNION ALL
@@ -80,7 +80,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 51, N'Dick Cheney.', 1, 0, 1 UNION ALL
 SELECT 52, N'MechaHitler.', 1, 0, 1 UNION ALL
 SELECT 53, N'Being fabulous.', 1, 0, 1 UNION ALL
@@ -136,7 +136,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 2.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 101, N'Children on leashes.', 1, 0, 1 UNION ALL
 SELECT 102, N'Catapults.', 1, 0, 1 UNION ALL
 SELECT 103, N'One trillion dollars.', 1, 0, 1 UNION ALL
@@ -192,7 +192,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 3.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 151, N'Passable transvestites.', 1, 0, 1 UNION ALL
 SELECT 152, N'Wet dreams.', 1, 0, 1 UNION ALL
 SELECT 153, N'The Dance of the Sugar Plum Fairy.', 1, 0, 1 UNION ALL
@@ -248,7 +248,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 4.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 201, N'The Rapture.', 1, 0, 1 UNION ALL
 SELECT 202, N'Road head.', 1, 0, 1 UNION ALL
 SELECT 203, N'Stalin.', 1, 0, 1 UNION ALL
@@ -304,7 +304,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 5.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 251, N'A mopey zoo lion.', 1, 0, 1 UNION ALL
 SELECT 252, N'A murder most foul.', 1, 0, 1 UNION ALL
 SELECT 253, N'A falcon with a cap on its head.', 1, 0, 1 UNION ALL
@@ -360,7 +360,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 6.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 301, N'Rehab.', 1, 0, 1 UNION ALL
 SELECT 302, N'Christopher Walken.', 1, 0, 1 UNION ALL
 SELECT 303, N'Count Chocula.', 1, 0, 1 UNION ALL
@@ -416,7 +416,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 7.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 351, N'72 virgins.', 1, 0, 1 UNION ALL
 SELECT 352, N'Embryonic stem cells.', 1, 0, 1 UNION ALL
 SELECT 353, N'Pixelated bukkake.', 1, 0, 1 UNION ALL
@@ -472,7 +472,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 8.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 401, N'Fancy Feast®.', 1, 0, 1 UNION ALL
 SELECT 402, N'The heart of a child.', 1, 0, 1 UNION ALL
 SELECT 403, N'Sharing needles.', 1, 0, 1 UNION ALL
@@ -528,7 +528,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 9.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 451, N'Bill Nye the Science Guy.', 1, 0, 1 UNION ALL
 SELECT 452, N'Science.', 1, 0, 1 UNION ALL
 SELECT 453, N'A tribe of warrior women.', 1, 0, 1 UNION ALL
@@ -584,7 +584,7 @@ RAISERROR (N'[dbo].[Card]: Insert Batch: 10.....Done!', 10, 1) WITH NOWAIT;
 GO
 
 BEGIN TRANSACTION;
-INSERT INTO [dbo].[Card]([CardID], [Context], [CardType], [Instructions], [CreatedBy_UserId])
+INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
 SELECT 501, N'What will always get you laid?', 0, 0, 1 UNION ALL
 SELECT 502, N'In L.A. County Jail, word is you can trade 200 cigarettes for _____.', 0, 0, 1 UNION ALL
 SELECT 503, N'What did I bring back from Mexico?', 0, 0, 1 UNION ALL

@@ -21,13 +21,35 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-SET IDENTITY_INSERT [dbo].[Deck] ON;
-
-BEGIN TRANSACTION;
-INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_UserId])
-SELECT 1, 0, N'Main', 0, 1
-COMMIT;
-RAISERROR (N'[dbo].[Deck]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
+IF OBJECT_ID('[dbo].[Deck_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Deck_Select] 
+END 
 GO
 
-SET IDENTITY_INSERT [dbo].[Deck] OFF;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/6/2013
+-- Description:	Select decks based on game IDs
+-- ===============================================
+CREATE PROC [dbo].[Deck_Select]
+	@GameIDs			XML		=	NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	SELECT D.[DeckID],
+		   D.[Title],
+		   D.[Type],
+		   D.[IsPrivate],
+		   D.[CreatedBy_UserId],
+		   GD.[GameID]
+	FROM [dbo].[Deck] D
+	INNER JOIN [dbo].[GameDeck] GD ON GD.[DeckID] = D.[DeckID]
+	WHERE GD.[GameID] IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @GameIDs.nodes('ids/id') AS ids ( id ))
+
+	COMMIT
+GO

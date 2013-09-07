@@ -57,6 +57,10 @@
     <Compile Include="AppServices\ActiveConnection\Delete.cs" />
     <Compile Include="AppServices\ActiveConnection\Insert.cs" />
     <Compile Include="AppServices\ActiveConnection\Select.cs" />
+    <Compile Include="AppServices\Card\Base\ISelect.cs" />
+    <Compile Include="AppServices\Card\Select.cs" />
+    <Compile Include="AppServices\Deck\Base\ISelect.cs" />
+    <Compile Include="AppServices\Deck\Select.cs" />
     <Compile Include="AppServices\GamePlayer\Base\IInsert.cs" />
     <Compile Include="AppServices\GamePlayer\Insert.cs" />
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
@@ -75,6 +79,10 @@
     <Compile Include="DomainServices\ActiveConnection\Delete.cs" />
     <Compile Include="DomainServices\ActiveConnection\Insert.cs" />
     <Compile Include="DomainServices\ActiveConnection\Select.cs" />
+    <Compile Include="DomainServices\Card\Base\ISelect.cs" />
+    <Compile Include="DomainServices\Card\Select.cs" />
+    <Compile Include="DomainServices\Deck\Base\ISelect.cs" />
+    <Compile Include="DomainServices\Deck\Select.cs" />
     <Compile Include="DomainServices\GamePlayer\Base\IInsert.cs" />
     <Compile Include="DomainServices\GamePlayer\Insert.cs" />
     <Compile Include="DomainServices\Game\Base\IInsert.cs" />
@@ -94,6 +102,10 @@
     <Compile Include="Repositories\ActiveConnection\Delete.cs" />
     <Compile Include="Repositories\ActiveConnection\Insert.cs" />
     <Compile Include="Repositories\ActiveConnection\Select.cs" />
+    <Compile Include="Repositories\Card\Base\ISelect.cs" />
+    <Compile Include="Repositories\Card\Select.cs" />
+    <Compile Include="Repositories\Deck\Base\ISelect.cs" />
+    <Compile Include="Repositories\Deck\Select.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IInsert.cs" />
     <Compile Include="Repositories\GamePlayer\Base\ISelect.cs" />
     <Compile Include="Repositories\GamePlayer\Insert.cs" />

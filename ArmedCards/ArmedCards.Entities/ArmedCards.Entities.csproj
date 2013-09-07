@@ -41,10 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveConnection.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="Deck.cs" />
+    <Compile Include="Enums\Card\CardType.cs" />
+    <Compile Include="Enums\Card\Instructions.cs" />
+    <Compile Include="Enums\DeckType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />
     <Compile Include="Filters\ActiveConnection\Delete.cs" />
     <Compile Include="Filters\ActiveConnection\DeleteAll.cs" />
     <Compile Include="Filters\ActiveConnection\SelectAll.cs" />
+    <Compile Include="Filters\Card\Select.cs" />
+    <Compile Include="Filters\Deck\Select.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
     <Compile Include="Filters\Game\Select.cs" />
