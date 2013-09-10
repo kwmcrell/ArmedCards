@@ -72,7 +72,10 @@ namespace ArmedCards.Web
 
             Container.RegisterType<BusinessLogic.AppServices.Game.Base.IJoin,                   BusinessLogic.AppServices.Game.Join>();
             Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IJoin,                BusinessLogic.DomainServices.Game.Join>();
+			Container.RegisterType<BusinessLogic.Repositories.Game.Base.IJoin,					BusinessLogic.Repositories.Game.Join>();
 
+			Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelectCards,            BusinessLogic.AppServices.Game.SelectCards>();
+			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelectCards,			BusinessLogic.DomainServices.Game.SelectCards>();
             #endregion "Game"
 
             #region "Active Connection"
@@ -98,9 +101,6 @@ namespace ArmedCards.Web
             #endregion "Active Connection"
 
             #region "Game Player"
-
-            Container.RegisterType<BusinessLogic.AppServices.GamePlayer.Base.IInsert,           BusinessLogic.AppServices.GamePlayer.Insert>();
-            Container.RegisterType<BusinessLogic.DomainServices.GamePlayer.Base.IInsert,        BusinessLogic.DomainServices.GamePlayer.Insert>();
             Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IInsert,          BusinessLogic.Repositories.GamePlayer.Insert>();
 
             Container.RegisterType<DataAccess.GamePlayer.Base.IInsert,                          DataAccess.GamePlayer.Insert>();
@@ -110,6 +110,26 @@ namespace ArmedCards.Web
             Container.RegisterType<DataAccess.GamePlayer.Base.ISelect,                          DataAccess.GamePlayer.Select>();
 
             #endregion "Game Player"
-        }
+
+			#region "Deck"
+
+			Container.RegisterType<BusinessLogic.AppServices.Deck.Base.ISelect,					BusinessLogic.AppServices.Deck.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.Deck.Base.ISelect,				BusinessLogic.DomainServices.Deck.Select>();
+			Container.RegisterType<BusinessLogic.Repositories.Deck.Base.ISelect,				BusinessLogic.Repositories.Deck.Select>();
+
+			Container.RegisterType<DataAccess.Deck.Base.ISelect,								DataAccess.Deck.Select>();
+
+			#endregion "Deck"
+
+			#region "Card"
+
+			Container.RegisterType<BusinessLogic.AppServices.Card.Base.ISelect,					BusinessLogic.AppServices.Card.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.Card.Base.ISelect,				BusinessLogic.DomainServices.Card.Select>();
+			Container.RegisterType<BusinessLogic.Repositories.Card.Base.ISelect,				BusinessLogic.Repositories.Card.Select>();
+
+			Container.RegisterType<DataAccess.Card.Base.ISelect,								DataAccess.Card.Select>();
+
+			#endregion "Card"
+		}
     }
 }

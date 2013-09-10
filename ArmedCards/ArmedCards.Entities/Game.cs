@@ -44,7 +44,7 @@ namespace ArmedCards.Entities
         {
             MaxNumberOfPlayers = 3;
             PointToWin = 8;
-            GameDecks = new List<int>();
+            GameDeckIDs = new List<int>();
             Players = new List<GamePlayer>();
             Rounds = new List<GameRound>();
         }
@@ -152,7 +152,12 @@ namespace ArmedCards.Entities
         /// <summary>
         /// List of Deck IDs for the game
         /// </summary>
-        public List<Int32> GameDecks { get; set; }
+        public List<Int32> GameDeckIDs { get; set; }
+
+		/// <summary>
+		/// List of Decks for the game
+		/// </summary>
+		public List<Deck> GameDecks { get; set; }
 
         /// <summary>
         /// Number of players in the game

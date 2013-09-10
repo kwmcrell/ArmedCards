@@ -54,7 +54,7 @@ namespace ArmedCards.DataAccess.Deck
 		{
 			List<Entities.Deck> cards = new List<Entities.Deck>();
 
-			using (DbCommand cmd = _db.GetStoredProcCommand("Card_Select"))
+			using (DbCommand cmd = _db.GetStoredProcCommand("Deck_Select"))
 			{
 				_db.AddInParameter(cmd, "@GameIDs", DbType.Xml, filter.GameIDs.ConvertCollectionToXML());
 

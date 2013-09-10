@@ -21,38 +21,25 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayer;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayer
+namespace ArmedCards.BusinessLogic.Repositories.Game.Base
 {
-    /// <summary>
-    /// Implementation of IInsert
-    /// </summary>
-    public class Insert : Base.IInsert
-    {
-        private DS.Base.IInsert _insertGamePlayer;
-
-        public Insert(DS.Base.IInsert insertGamePlayer)
-        {
-            this._insertGamePlayer = insertGamePlayer;
-        }
-
-        /// <summary>
-        /// Inserts a GamePlayer
-        /// </summary>
-        /// <param name="player">The player to insert</param>
-        /// <returns>If successful being added</returns>
-        public Boolean Execute(Entities.GamePlayer player)
-        {
-            return _insertGamePlayer.Execute(player);
-        }
-    }
+	/// <summary>
+	/// Interface to join a game
+	/// </summary>
+	public interface IJoin
+	{
+		/// <summary>
+		/// Join a game
+		/// </summary>
+		/// <param name="gameID">The game to join</param>
+		/// <param name="userId">The current user id</param>
+		/// <returns>If the user was able to join the game</returns>
+		Boolean Execute(Entities.Game game, int userId);
+	}
 }

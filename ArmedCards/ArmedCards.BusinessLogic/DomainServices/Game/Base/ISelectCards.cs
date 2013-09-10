@@ -21,41 +21,24 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Common;
-using System.Data;
-using DAL = ArmedCards.DataAccess.Deck;
-using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.BusinessLogic.Repositories.Deck
+namespace ArmedCards.BusinessLogic.DomainServices.Game.Base
 {
 	/// <summary>
-	/// Implementation of ISelect
+	/// Interface for selecting cards for a game
 	/// </summary>
-	public class Select : Base.ISelect
+	public interface ISelectCards
 	{
-		private DAL.Base.ISelect _selectDeck;
-		private AS.Card.Base.ISelect _selectCard;
-
-		public Select(DAL.Base.ISelect selectDeck, AS.Card.Base.ISelect selectCard)
-		{
-			this._selectDeck = selectDeck;
-			this._selectCard = selectCard;
-		}
-
 		/// <summary>
-		/// Select decks base on provided filter
+		/// Select cards for a certain game
 		/// </summary>
-		/// <param name="filter">The filter used to select decks</param>
-		/// <returns>A filtered list of decks</returns>
-		public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
-		{
-			return _selectDeck.Execute(filter);
-		}
+		/// <param name="gameID">The game</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		List<Entities.Card> Execute(Entities.Game game);
 	}
 }

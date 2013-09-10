@@ -21,41 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.Common;
-using System.Data;
-using DAL = ArmedCards.DataAccess.Deck;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.BusinessLogic.Repositories.Deck
+namespace ArmedCards.BusinessLogic.DomainServices.Game
 {
 	/// <summary>
-	/// Implementation of ISelect
+	/// Implementation of ISelectCards
 	/// </summary>
-	public class Select : Base.ISelect
+	public class SelectCards : Base.ISelectCards
 	{
-		private DAL.Base.ISelect _selectDeck;
-		private AS.Card.Base.ISelect _selectCard;
+		public AS.Card.Base.ISelect _selectCards;
 
-		public Select(DAL.Base.ISelect selectDeck, AS.Card.Base.ISelect selectCard)
+		public SelectCards(AS.Card.Base.ISelect selectCards)
 		{
-			this._selectDeck = selectDeck;
-			this._selectCard = selectCard;
+			this._selectCards = selectCards;
 		}
 
 		/// <summary>
-		/// Select decks base on provided filter
+		/// Select cards for a certain game
 		/// </summary>
-		/// <param name="filter">The filter used to select decks</param>
-		/// <returns>A filtered list of decks</returns>
-		public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+		/// <param name="gameID">The game</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		public List<Entities.Card> Execute(Entities.Game game)
 		{
-			return _selectDeck.Execute(filter);
+			Entities.Filters.Card.Select filter = new Entities.Filters.Card.Select();
+			filter.DeckIDs = game.GameDecks.Select(x => x.DeckID).ToList();
+
+			return _selectCards.Execute(filter);
 		}
 	}
 }

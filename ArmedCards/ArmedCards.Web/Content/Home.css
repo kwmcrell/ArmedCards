@@ -2441,9 +2441,9 @@ body #toast-container > .toast-info
 }
 
 .transitionDown {
-    transform:translateY(-1000px);
-    -ms-transform:translateY(-1000px); /* IE 9 */
-    -webkit-transform:translateY(-1000px); /* Safari and Chrome */
+    transform:scale(.5);
+    -ms-transform:scale(.5); /* IE 9 */
+    -webkit-transform:scale(.5); /* Safari and Chrome */
     transition: all 2.0s ease-in-out;
     -webkit-transition: all 2.0s ease-in-out; /* Safari */
 }
@@ -2904,17 +2904,17 @@ body #toast-container > .toast-info
 	}
 
     .transitionUp {
-        transform:translateX(1000px);
-        -ms-transform:translateX(1000px); /* IE 9 */
-        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }
 
     .transitionDown {
-        transform:translateX(-1000px);
-        -ms-transform:translateX(-1000px); /* IE 9 */
-        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }
@@ -3137,17 +3137,17 @@ body #toast-container > .toast-info
 	}
 
     .transitionUp {
-        transform:translateX(1000px);
-        -ms-transform:translateX(1000px); /* IE 9 */
-        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }
 
     .transitionDown {
-        transform:translateX(-1000px);
-        -ms-transform:translateX(-1000px); /* IE 9 */
-        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }
@@ -3222,17 +3222,17 @@ body #toast-container > .toast-info
 	}
 
     .transitionUp {
-        transform:translateX(1000px);
-        -ms-transform:translateX(1000px); /* IE 9 */
-        -webkit-transform:translateX(1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }
 
     .transitionDown {
-        transform:translateX(-1000px);
-        -ms-transform:translateX(-1000px); /* IE 9 */
-        -webkit-transform:translateX(-1000px); /* Safari and Chrome */
+        transform:scale(.5);
+        -ms-transform:scale(.5); /* IE 9 */
+        -webkit-transform:scale(.5); /* Safari and Chrome */
         transition: all 2.0s ease-in-out;
         -webkit-transition: all 2.0s ease-in-out; /* Safari */
     }

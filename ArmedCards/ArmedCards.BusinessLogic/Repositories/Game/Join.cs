@@ -27,18 +27,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.GamePlayer.Base
+namespace ArmedCards.BusinessLogic.Repositories.Game
 {
-    /// <summary>
-    /// Interface for inserting a GamePlayers
-    /// </summary>
-    public interface IInsert
-    {
-        /// <summary>
-        /// Inserts a GamePlayer
-        /// </summary>
-        /// <param name="player">The player to insert</param>
-        /// <returns>If successful being added</returns>
-        Boolean Execute(Entities.GamePlayer player);
-    }
+	/// <summary>
+	/// Implementation of IJoin
+	/// </summary>
+	public class Join : Base.IJoin
+	{
+		private Repositories.GamePlayer.Base.IInsert _insertGamePlayer;
+
+		public Join(Repositories.GamePlayer.Base.IInsert insertGamePlayer)
+		{
+			this._insertGamePlayer = insertGamePlayer;
+		}
+
+		/// <summary>
+		/// Join a game
+		/// </summary>
+		/// <param name="gameID">The game to join</param>
+		/// <param name="userId">The current user id</param>
+		/// <returns>If the user was able to join the game</returns>
+		public Boolean Execute(Entities.Game game, int userId)
+		{
+			Entities.GamePlayer player = new Entities.GamePlayer();
+			player.GameID = game.GameID;
+			player.Points = 0;
+			player.User.UserId = userId;
+
+			Boolean successful = _insertGamePlayer.Execute(player) != -1;
+
+			if(successful)
+            {
+                game.Players.Add(player);
+                game.PlayerCount++;
+            }
+
+			return successful;
+		}
+	}
 }

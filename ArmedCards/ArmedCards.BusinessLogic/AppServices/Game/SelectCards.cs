@@ -26,19 +26,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayer.Base
+namespace ArmedCards.BusinessLogic.AppServices.Game
 {
-    /// <summary>
-    /// Interface for inserting a GamePlayers
-    /// </summary>
-    public interface IInsert
-    {
-        /// <summary>
-        /// Inserts a GamePlayer
-        /// </summary>
-        /// <param name="player">The player to insert</param>
-        /// <returns>If successful being added</returns>
-        Boolean Execute(Entities.GamePlayer player);
-    }
+	/// <summary>
+	/// Implementation of ISelectCards
+	/// </summary>
+	public class SelectCards : Base.ISelectCards
+	{
+		private Base.ISelect _selectGame;
+		private DS.Base.ISelectCards _selectGameCards;
+
+		public SelectCards(Base.ISelect selectGame, DS.Base.ISelectCards selectGameCards)
+		{
+			this._selectGame = selectGame;
+			this._selectGameCards = selectGameCards;
+		}
+
+		/// <summary>
+		/// Select cards for a certain game
+		/// </summary>
+		/// <param name="gameID">The game ID</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		public List<Entities.Card> Execute(int gameID)
+		{
+			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+			filter.GameID = gameID;
+
+			Entities.Game game = _selectGame.Execute(filter);
+
+			return Execute(game);
+		}
+
+		/// <summary>
+		/// Select cards for a certain game
+		/// </summary>
+		/// <param name="gameID">The game</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		public List<Entities.Card> Execute(Entities.Game game)
+		{
+			return _selectGameCards.Execute(game);
+		}
+	}
 }

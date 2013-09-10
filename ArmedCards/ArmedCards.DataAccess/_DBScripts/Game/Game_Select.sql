@@ -40,7 +40,7 @@ AS
 	
 	BEGIN TRAN
 
-     SELECT G.[GameID],
+    SELECT	G.[GameID],
 			G.[Title],
 			G.[IsPrivate],
 			G.[Passphrase],
@@ -58,3 +58,4 @@ AS
 
 	COMMIT
 GO
+

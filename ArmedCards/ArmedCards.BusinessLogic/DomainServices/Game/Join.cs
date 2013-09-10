@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AS = ArmedCards.BusinessLogic.AppServices;
+using REPO = ArmedCards.BusinessLogic.Repositories;
 
 namespace ArmedCards.BusinessLogic.DomainServices.Game
 {
@@ -36,12 +37,12 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
     public class Join : Base.IJoin
     {
         private Base.IValidatePassphrase _validatePassphrase;
-        private AS.GamePlayer.Base.IInsert _insertGamePlayer;
+		private REPO.Game.Base.IJoin _joinGame;
 
-        public Join(Base.IValidatePassphrase validatePassphrase, AS.GamePlayer.Base.IInsert insertGamePlayer)
+		public Join(Base.IValidatePassphrase validatePassphrase, REPO.Game.Base.IJoin joinGame)
         {
             this._validatePassphrase = validatePassphrase;
-            this._insertGamePlayer = insertGamePlayer;
+			this._joinGame = joinGame;
         }
 
         /// <summary>
@@ -67,25 +68,19 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
                 }
                 else
                 {
-                    Entities.GamePlayer player = new Entities.GamePlayer();
-                    player.GameID = game.GameID;
-                    player.Points = 0;
-                    player.User.UserId = userId;
-
-                    Boolean successful = _insertGamePlayer.Execute(player);
+					Boolean successful = _joinGame.Execute(game, userId);
 
                     if (successful == false)
                     {
                         response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
                     }
-                    else
-                    {
-                        response.Game = game;
-                        response.Game.Players.Add(player);
-                        response.Game.PlayerCount++;
-                    }
                 }
             }
+
+			if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
+			{
+				response.Game = game;
+			}
 
             return response;
         }

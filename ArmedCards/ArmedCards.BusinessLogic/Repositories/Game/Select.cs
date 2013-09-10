@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL = ArmedCards.DataAccess.Game;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.Repositories.Game
 {
@@ -37,12 +38,15 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
     {
         private DAL.Base.ISelect _selectGame;
         private GamePlayer.Base.ISelect _selectGamePlayerREPO;
+		private AS.Deck.Base.ISelect _selectDeck;
 
         public Select(DAL.Base.ISelect selectGame,
-                      GamePlayer.Base.ISelect selectGamePlayerREPO)
+                      GamePlayer.Base.ISelect selectGamePlayerREPO,
+					  AS.Deck.Base.ISelect selectDeck)
         {
             this._selectGame = selectGame;
             this._selectGamePlayerREPO = selectGamePlayerREPO;
+			this._selectDeck = selectDeck;
         }
 
         /// <summary>
@@ -52,6 +56,7 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         /// <returns>A list of games that satisfy the supplied filter</returns>
         public List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter)
         {
+			
             return _selectGame.Execute(filter);
         }
 
@@ -68,6 +73,11 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
             playerFilter.GameID = filter.GameID;
 
             game.Players = _selectGamePlayerREPO.Execute(playerFilter);
+
+			Entities.Filters.Deck.Select deckFilter = new Entities.Filters.Deck.Select();
+			deckFilter.GameIDs.Add(game.GameID);
+
+			game.GameDecks = _selectDeck.Execute(deckFilter);
 
             return game;
         }

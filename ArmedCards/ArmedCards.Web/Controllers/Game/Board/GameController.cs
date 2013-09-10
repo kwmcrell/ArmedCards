@@ -31,7 +31,7 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.Web.Controllers.Game
+namespace ArmedCards.Web.Controllers.Game.Board
 {
     [Extensions.ArmedCardsAuthorize]
     public class GameController : Extensions.ArmedCardsController

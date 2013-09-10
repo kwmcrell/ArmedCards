@@ -21,38 +21,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using REPO = ArmedCards.BusinessLogic.Repositories.GamePlayer;
 
-namespace ArmedCards.BusinessLogic.DomainServices.GamePlayer
+namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 {
-    /// <summary>
-    /// Implementation of IInsert
-    /// </summary>
-    public class Insert : Base.IInsert
-    {
-        private REPO.Base.IInsert _insertGamePlayer;
+	/// <summary>
+	/// Interface for selecting cards for a game
+	/// </summary>
+	public interface ISelectCards
+	{
+		/// <summary>
+		/// Select cards for a certain game
+		/// </summary>
+		/// <param name="gameID">The game ID</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		List<Entities.Card> Execute(int gameID);
 
-        public Insert(REPO.Base.IInsert insertGamePlayer)
-        {
-            this._insertGamePlayer = insertGamePlayer;
-        }
-
-        /// <summary>
-        /// Inserts a GamePlayer
-        /// </summary>
-        /// <param name="player">The player to insert</param>
-        /// <returns>The total number of players in the game now.</returns>
-        public Boolean Execute(Entities.GamePlayer player)
-        {
-            return _insertGamePlayer.Execute(player) != -1;
-        }
-    }
+		/// <summary>
+		/// Select cards for a certain game
+		/// </summary>
+		/// <param name="gameID">The game</param>
+		/// <returns>List of cards that belong to the game's decks</returns>
+		List<Entities.Card> Execute(Entities.Game game);
+	}
 }

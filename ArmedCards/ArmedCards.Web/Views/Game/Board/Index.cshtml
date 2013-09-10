@@ -33,5 +33,12 @@
     @if (Model.ShowWaiting())
     {
         @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
-    }
+	}
 </div>
+
+@section Scripts
+{
+	@Scripts.Render("~/bundles/Core/Hub")
+    <script src='/SignalR/hubs'></script>
+	@Scripts.Render("~/bundles/Game/Board")
+}

@@ -40,11 +40,11 @@ AS
 	
 	BEGIN TRAN
 
-	SELECT C.[CardID],
-		   C.[Content],
-		   C.[Instructions],
-		   C.[Type],
-		   C.[CreatedBy_UserId]
+	SELECT DISTINCT C.[CardID],
+				    C.[Content],
+				    C.[Instructions],
+				    C.[Type],
+				    C.[CreatedBy_UserId]
 	FROM [dbo].[Card] C
 	INNER JOIN [dbo].[DeckCard] DC ON DC.[CardID] = C.[CardID]
 	WHERE DC.[DeckID] IN (SELECT ids.id.value('@value', 'int')
