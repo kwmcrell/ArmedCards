@@ -74,7 +74,9 @@ Chat.prototype.SendMessage = function (event) {
 Chat.prototype.Join = function () {
     var hub = $.connection.ArmedCardsHub;
 
-    hub.server.JoinGloabl();
+    var gameID = $('#Game_GameID').val();
+
+    hub.server.Join(gameID);
 };
 
 Chat.prototype.UpdateLobby = function (lobby) {

@@ -45,8 +45,7 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-var ReGame = ReGame || {};
-ReGame.ArmedCards = ReGame.ArmedCards || {};
+var ArmedCards = ArmedCards || {};
 
 var answerCount = 0;
 var answersPerHand = 6;
@@ -67,15 +66,11 @@ function Waiting() {
 	numberOfAnswers = answers.length;
 }
 
-if (!ReGame.ArmedCards.Waiting) {
-	ReGame.ArmedCards.Waiting = new Waiting();
+if (!ArmedCards.Waiting) {
+	ArmedCards.Waiting = new Waiting();
 }
 
-Waiting.prototype.joinHub = function (connectionType, gameId) {
-	var reGameHub = $.connection.reGameHub;
-};
-
-Waiting.prototype.transitionQuestion = function () {
+Waiting.prototype.TransitionQuestion = function () {
 	var $removeCard = $('.question.card', '#questionDiv');
 
 	$removeCard.addClass("transitionUp").attr("remove", true);
@@ -83,34 +78,34 @@ Waiting.prototype.transitionQuestion = function () {
 	answerCount = 0;
 };
 
-Waiting.prototype.transitionQuestionComplete = function (e) {
+Waiting.prototype.TransitionQuestionComplete = function (e) {
 	$('[remove="true"].question').remove();
 
 	var $waitingDiv = $('#questionDiv');
 
 	var numberOfQuestions = questions.length;
 
-	var newQuestionIndex = ReGame.ArmedCards.Waiting.getNewIndex(numberOfQuestions);
+	var newQuestionIndex = ArmedCards.Waiting.GetNewIndex(numberOfQuestions);
 
-	var question = ReGame.ArmedCards.Waiting.generateCard(questions[newQuestionIndex].Content, 0);
+	var question = ArmedCards.Waiting.GenerateCard(questions[newQuestionIndex].Content, 0);
 
 	currentQuestion = questions[newQuestionIndex];
 
 	$waitingDiv.append(question);
 
-	$('.question.card', '#questionDiv').unbind().bind("transitionend", ReGame.ArmedCards.Waiting.transitionQuestionComplete)
-                                       .bind("webkitTransitionEnd", ReGame.ArmedCards.Waiting.transitionQuestionComplete);
+	$('.question.card', '#questionDiv').unbind().bind("transitionend", ArmedCards.Waiting.TransitionQuestionComplete)
+                                       .bind("webkitTransitionEnd", ArmedCards.Waiting.TransitionQuestionComplete);
 };
 
-Waiting.prototype.handleTransition = function () {
+Waiting.prototype.HandleTransition = function () {
 	if (answerCount > answersPerHand) {
-		ReGame.ArmedCards.Waiting.transitionQuestion();
+		ArmedCards.Waiting.TransitionQuestion();
 	}
 
-	ReGame.ArmedCards.Waiting.transitionAnswer();
+	ArmedCards.Waiting.TransitionAnswer();
 };
 
-Waiting.prototype.transitionAnswer = function () {
+Waiting.prototype.TransitionAnswer = function () {
 	var $removeCard = $('.answer.card', '#answerDiv');
 
 	$removeCard.addClass("transitionDown").attr("remove", true);
@@ -118,38 +113,38 @@ Waiting.prototype.transitionAnswer = function () {
 	answerCount = answerCount + 1;
 };
 
-Waiting.prototype.transitionAnswerComplete = function (e) {
+Waiting.prototype.TransitionAnswerComplete = function (e) {
 	$('[remove="true"].answer').remove();
 
-	ReGame.ArmedCards.Waiting.createAnswerCard();
+	ArmedCards.Waiting.CreateAnswerCard();
 
 	if (currentQuestion.Instructions > 0) {
-		ReGame.ArmedCards.Waiting.createAnswerCard();
+		ArmedCards.Waiting.CreateAnswerCard();
 
 		if (currentQuestion.Instructions > 1) {
-			ReGame.ArmedCards.Waiting.createAnswerCard();
+			ArmedCards.Waiting.CreateAnswerCard();
 		}
 	}
 
-	$('.answer.card', '#answerDiv').unbind().bind("transitionend", ReGame.ArmedCards.Waiting.transitionAnswerComplete)
-                                   .bind("webkitTransitionEnd", ReGame.ArmedCards.Waiting.transitionAnswerComplete);
+	$('.answer.card', '#answerDiv').unbind().bind("transitionend", ArmedCards.Waiting.TransitionAnswerComplete)
+                                   .bind("webkitTransitionEnd", ArmedCards.Waiting.TransitionAnswerComplete);
 
-	timer = setTimeout(ReGame.ArmedCards.Waiting.handleTransition, 5000);
+	timer = setTimeout(ArmedCards.Waiting.HandleTransition, 5000);
 };
 
-Waiting.prototype.createAnswerCard = function () {
+Waiting.prototype.CreateAnswerCard = function () {
 	var $answerDiv = $('#answerDiv');
 
 	var numberOfAnswers = answers.length;
 
-	var newAnswerIndex = ReGame.ArmedCards.Waiting.getNewIndex(numberOfAnswers);
+	var newAnswerIndex = ArmedCards.Waiting.GetNewIndex(numberOfAnswers);
 
-	var answer = ReGame.ArmedCards.Waiting.generateCard(answers[newAnswerIndex].Content, 1);
+	var answer = ArmedCards.Waiting.GenerateCard(answers[newAnswerIndex].Content, 1);
 
 	$answerDiv.append(answer);
 };
 
-Waiting.prototype.getNewIndex = function (numberPossible) {
+Waiting.prototype.GetNewIndex = function (numberPossible) {
 	var index = Math.floor((Math.random() * numberPossible));
 
 	if (index > 0) {
@@ -159,7 +154,7 @@ Waiting.prototype.getNewIndex = function (numberPossible) {
 	return index;
 };
 
-Waiting.prototype.generateCard = function (words, type) {
+Waiting.prototype.GenerateCard = function (words, type) {
 	var div;
 
 	words.replace('_____', '<span class="blank"></span>');
@@ -183,22 +178,23 @@ Waiting.prototype.generateCard = function (words, type) {
 };
 
 
-Waiting.prototype.startGame = function (event) {
+Waiting.prototype.StartGame = function (event) {
 	event.preventDefault();
 };
 
-Waiting.prototype.updateWaiting = function () {
+Waiting.prototype.UpdateWaiting = function (message) {
+	$('.radHeader > h2').html(message);
+};
+
+Waiting.prototype.WaitingOnMorePlayers = function () {
 
 };
 
-Waiting.prototype.waitingOnMorePlayers = function () {
+Waiting.prototype.Init = function () {
+	var hub = $.connection.ArmedCardsHub;
+	hub.client.UpdateWaiting = ArmedCards.Waiting.UpdateWaiting;
 
-};
-
-Waiting.prototype.init = function () {
-	var reGameHub = $.connection.reGameHub;
-
-	ReGame.ArmedCards.Waiting.startWaiting();
+	ArmedCards.Waiting.StartWaiting();
 
 	$(window).resize(function () {
 		clearTimeout(timer);
@@ -209,22 +205,22 @@ Waiting.prototype.init = function () {
 
 		timer = setTimeout(function () {
 			currentQuestion = null;
-			ReGame.ArmedCards.Waiting.startWaiting();
+			ArmedCards.Waiting.StartWaiting();
 		}, 1000);
 	});
 };
 
-Waiting.prototype.startWaiting = function () {
+Waiting.prototype.StartWaiting = function () {
 	if (currentQuestion == null) {
 		$('#resizingMessage').hide();
-		ReGame.ArmedCards.Waiting.transitionQuestionComplete();
-		ReGame.ArmedCards.Waiting.transitionAnswerComplete();
+		ArmedCards.Waiting.TransitionQuestionComplete();
+		ArmedCards.Waiting.TransitionAnswerComplete();
 	}
 };
 
-Waiting.prototype.connectionSuccess = function () {
+Waiting.prototype.ConnectionSuccess = function () {
 
 };
 
-$.Topic("beforeHubStart").subscribe(ReGame.ArmedCards.Waiting.init);
-$.Topic("hubStartComplete").subscribe(ReGame.ArmedCards.Waiting.connectionSuccess);
+$.Topic("beforeHubStart").subscribe(ArmedCards.Waiting.Init);
+$.Topic("hubStartComplete").subscribe(ArmedCards.Waiting.ConnectionSuccess);

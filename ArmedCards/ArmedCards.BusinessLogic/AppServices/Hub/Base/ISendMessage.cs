@@ -27,20 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Enums.Game
+namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 {
-    /// <summary>
-    /// Enum defining join response codes
-    /// </summary>
-    [Flags]
-    public enum JoinResponseCode
-    {
-        Successful = 0,
-
-		SuccessfulAlreadyPlayer = 1,
-
-        FullGame = 2,
-
-        BadPassphrase = 4
-    }
+	/// <summary>
+	/// Interface for sending a message over a hub
+	/// </summary>
+	public interface ISendMessage
+	{
+		/// <summary>
+		/// Send a message to a hub group
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="action">The action to fire</param>
+		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, Entities.GamePlayer> action);
+	}
 }

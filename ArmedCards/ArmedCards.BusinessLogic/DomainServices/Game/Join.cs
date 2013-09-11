@@ -56,28 +56,33 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
         {
             Entities.JoinResponse response = new Entities.JoinResponse();
 
-            if (game.IsCurrentPlayer(userId) == false)
-            {
-                if (_validatePassphrase.Execute(game, passphrase) == false)
-                {
-                    response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
-                }
-                else if (game.IsFull())
-                {
-                    response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
-                }
-                else
-                {
+			if (game.IsCurrentPlayer(userId) == false)
+			{
+				if (_validatePassphrase.Execute(game, passphrase) == false)
+				{
+					response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
+				}
+				else if (game.IsFull())
+				{
+					response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
+				}
+				else
+				{
 					Boolean successful = _joinGame.Execute(game, userId);
 
-                    if (successful == false)
-                    {
-                        response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
-                    }
-                }
-            }
+					if (successful == false)
+					{
+						response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
+					}
+				}
+			}
+			else
+			{
+				response.Result |= Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer;
+			}
 
-			if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
+			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.Successful) ||
+				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
 			{
 				response.Game = game;
 			}

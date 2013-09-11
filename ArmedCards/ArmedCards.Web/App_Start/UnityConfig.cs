@@ -130,6 +130,12 @@ namespace ArmedCards.Web
 			Container.RegisterType<DataAccess.Card.Base.ISelect,								DataAccess.Card.Select>();
 
 			#endregion "Card"
+
+			#region "Hub"
+
+			Container.RegisterType<BusinessLogic.AppServices.Hub.Base.ISendMessage,				BusinessLogic.AppServices.Hub.SendMessage>();
+				
+			#endregion "Hub"
 		}
     }
 }

@@ -33,24 +33,30 @@ namespace ArmedCards.Web.Models.Hub
     /// <summary>
     /// Model that describes a global chat message
     /// </summary>
-    public class GlobalMessage
+    public class ChatMessage
     {
         /// <summary>
         /// The name of the user that sent the message
         /// </summary>
         [JsonProperty("SentBy")]
-        public string SentBy { get; set; }
+        public String SentBy { get; set; }
 
         /// <summary>
         /// The message that was sent
         /// </summary>
         [JsonProperty("Message")]
-        public string Message { get; set; }
+        public String Message { get; set; }
 
         /// <summary>
         /// Date the was sent
         /// </summary>
         [JsonProperty("DateSent")]
-        public string DateSent { get; set; }
+        public String DateSent { get; set; }
+
+		/// <summary>
+		/// The game ID for the game specific message
+		/// </summary>
+		[JsonProperty("GameID")]
+		public Int32? GameID { get; set; }
     }
 }

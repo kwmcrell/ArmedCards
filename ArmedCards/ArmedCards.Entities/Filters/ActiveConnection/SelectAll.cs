@@ -34,5 +34,9 @@ namespace ArmedCards.Entities.Filters.ActiveConnection
     /// </summary>
     public class SelectAll
     {
+		/// <summary>
+		/// The Group to select
+		/// </summary>
+		public String GroupName { get; set; }
     }
 }

@@ -39,9 +39,11 @@ LoginPartial.prototype.signIn = function (event) {
 }
 
 LoginPartial.prototype.logOff = function (event) {
+	event.preventDefault();
+
     var connection = $.connection;
-    if (connection != null) {
-        connection.ArmedCardsHub.server.disconnect();
+    if (connection.ArmedCardsHub != null) {
+    	connection.ArmedCardsHub.server.Disconnect();
     }
 
     document.getElementById('logoutForm').submit();

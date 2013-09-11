@@ -21,6 +21,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,10 +38,12 @@ namespace ArmedCards.Web.Controllers.Game.Board
     public class GameController : Extensions.ArmedCardsController
     {
         private AS.Game.Base.IJoin _joinGame;
+		private AS.Hub.Base.ISendMessage _sendMessage;
 
-        public GameController(AS.Game.Base.IJoin joinGame)
+		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage)
         {
             this._joinGame = joinGame;
+			this._sendMessage = sendMessage;
         }
 
         [HttpGet]
@@ -57,11 +60,18 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
             Entities.JoinResponse response = _joinGame.Execute(id, WebSecurity.CurrentUserId, passphrase);
 
-            if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful)
+			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.Successful) ||
+				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
             {
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
                 model.Game = response.Game;
                 model.UserId = WebSecurity.CurrentUserId;
+
+				if (model.ShowWaiting() && 
+					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
+				{
+					_sendMessage.Execute(model.Game, SendWaitingMessage);
+				}
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }
@@ -69,6 +79,19 @@ namespace ArmedCards.Web.Controllers.Game.Board
             {
                 return Redirect(Url.Action("Index", "GameListing", new { id = id }));
             }
-        }
-    }
+		}
+
+		#region "Hub Actions"
+
+		[NonAction]
+		private void SendWaitingMessage(Entities.ActiveConnection connection, Entities.Game game, Entities.GamePlayer sendToPlayer)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+					   .UpdateWaiting(Helpers.WaitingHeader.Build(game, sendToPlayer.User.UserId));
+		}
+
+		#endregion "Hub Actions"
+	}
 }

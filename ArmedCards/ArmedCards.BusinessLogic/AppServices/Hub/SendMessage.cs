@@ -27,20 +27,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Enums.Game
+namespace ArmedCards.BusinessLogic.AppServices.Hub
 {
-    /// <summary>
-    /// Enum defining join response codes
-    /// </summary>
-    [Flags]
-    public enum JoinResponseCode
-    {
-        Successful = 0,
+	/// <summary>
+	/// Implementation of ISendMessage
+	/// </summary>
+	public class SendMessage : Base.ISendMessage
+	{
+		private readonly ActiveConnection.Base.ISelect _selectActiveConnection;
 
-		SuccessfulAlreadyPlayer = 1,
+		public SendMessage(ActiveConnection.Base.ISelect selectActiveConnection)
+        {
+			this._selectActiveConnection = selectActiveConnection;
+        }
 
-        FullGame = 2,
+		/// <summary>
+		/// Send a message to a hub group
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="action">The action to fire</param>
+		public void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, Entities.GamePlayer> action)
+		{
+			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+			filter.GroupName = String.Format("Game_{0}", game.GameID);
 
-        BadPassphrase = 4
-    }
+			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+			Entities.GamePlayer sendToPlayer = null;
+
+			foreach (Entities.ActiveConnection connection in connections)
+			{
+				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
+
+				if (sendToPlayer != null)
+				{
+					action(connection, game, sendToPlayer);
+				}
+			}
+		}
+	}
 }

@@ -71,6 +71,8 @@
     <Compile Include="AppServices\Game\Select.cs" />
     <Compile Include="AppServices\Game\SelectCards.cs" />
     <Compile Include="AppServices\Game\ValidatePassphrase.cs" />
+    <Compile Include="AppServices\Hub\Base\ISendMessage.cs" />
+    <Compile Include="AppServices\Hub\SendMessage.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
     <Compile Include="AppServices\User\Insert.cs" />
     <Compile Include="DomainServices\ActiveConnection\Base\IDelete.cs" />
@@ -132,7 +134,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

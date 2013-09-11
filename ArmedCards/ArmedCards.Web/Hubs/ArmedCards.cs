@@ -21,28 +21,55 @@ namespace ArmedCards.Web.Hubs
         /// </summary>
         /// <param name="message">Message to send</param>
         [HubMethodName("SendGlobalMessage")]
-        public void SendGlobalMessage(Models.Hub.GlobalMessage message)
+        public void SendGlobalMessage(Models.Hub.ChatMessage message)
         {
             message.SentBy = Context.User.Identity.Name;
-            message.DateSent = string.Format("{0} UTC", DateTime.UtcNow.ToString());
+            message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
 
             Clients.All.BroadcastGlobalMessage(message);
         }
 
+		/// <summary>
+		/// Send a global chat message to all connections
+		/// </summary>
+		/// <param name="message">Message to send</param>
+		[HubMethodName("SendGameMessage")]
+		public void SendGameMessage(Models.Hub.ChatMessage message)
+		{
+			message.SentBy = Context.User.Identity.Name;
+			message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
+
+			Clients.Group(String.Format("Game_{0}", message.GameID.Value)).BroadcastGlobalMessage(message);
+		}
+
         /// <summary>
         /// Join the global chat
         /// </summary>
-        [HubMethodName("JoinGloabl")]
-        public void JoinGlobal()
+        [HubMethodName("Join")]
+        public void Join(Int32? gameID)
         {
-            InsertConnection(GLOBAL);
+			String groupName = GLOBAL;
+
+			if (gameID.HasValue)
+			{
+				groupName = String.Format("Game_{0}", gameID.Value);
+			}
+
+			InsertConnection(groupName);
 
             Models.Hub.Lobby lobby = new Models.Hub.Lobby
             {
-                ActiveConnections = GetConnections(GLOBAL)
+				ActiveConnections = GetConnections(groupName)
             };
 
-            Clients.All.UpdateLobby(lobby);
+			if (gameID.HasValue)
+			{
+				Clients.Group(groupName).UpdateLobby(lobby);
+			}
+			else
+			{
+				Clients.All.UpdateLobby(lobby);
+			}
         }
 
         /// <summary>
@@ -56,34 +83,45 @@ namespace ArmedCards.Web.Hubs
             return base.OnDisconnected();
         }
 
-        private void Disconnect()
-        {
-            AS.ActiveConnection.Base.IDelete _deleteConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
+		/// <summary>
+		/// Handles Armed Cards Disconnect
+		/// </summary>
+		[HubMethodName("Disconnect")]
+		public void Disconnect()
+		{
+			AS.ActiveConnection.Base.IDelete _deleteConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
 
-            Entities.Filters.ActiveConnection.Delete filter = new Entities.Filters.ActiveConnection.Delete
-            {
-                ActiveConnectionID = Context.ConnectionId
-            };
+			Entities.Filters.ActiveConnection.Delete filter = new Entities.Filters.ActiveConnection.Delete
+			{
+				ActiveConnectionID = Context.ConnectionId
+			};
 
-            Entities.ActiveConnection connection = _deleteConnection.Execute(filter);
+			Entities.ActiveConnection connection = _deleteConnection.Execute(filter);
 
-            Clients.All.RemoveConnection(connection);
-        }
+			Clients.All.RemoveConnection(connection);
+		}
 
-        private List<Entities.ActiveConnection> GetConnections(string groupName)
+		#region "Private Methods"
+
+        private List<Entities.ActiveConnection> GetConnections(String groupName)
         {
             AS.ActiveConnection.Base.ISelect _selectConnections = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.ISelect>();
 
             Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+
+			if (groupName != GLOBAL)
+			{
+				filter.GroupName = groupName;
+			}
 
             List<Entities.ActiveConnection> connections = _selectConnections.Execute(filter);
 
             return connections;
         }
 
-        private void InsertConnection(string groupName)
+        private void InsertConnection(String groupName)
         {
-            int userId = WebSecurity.CurrentUserId;
+            Int32 userId = WebSecurity.CurrentUserId;
 
             if (userId > 0)
             {
@@ -98,6 +136,8 @@ namespace ArmedCards.Web.Hubs
 
                 _insertConnection.Execute(connection);
             }
-        }
-    }
+		}
+
+		#endregion "Private Methods"
+	}
 }

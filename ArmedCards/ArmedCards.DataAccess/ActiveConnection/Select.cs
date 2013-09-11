@@ -55,6 +55,11 @@ namespace ArmedCards.DataAccess.ActiveConnection
 
             using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_Select"))
             {
+				if (!String.IsNullOrWhiteSpace(filter.GroupName))
+				{
+					_db.AddInParameter(cmd, "@GroupName", DbType.String, filter.GroupName);
+				}
+
                 using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
                     while (idr.Read())

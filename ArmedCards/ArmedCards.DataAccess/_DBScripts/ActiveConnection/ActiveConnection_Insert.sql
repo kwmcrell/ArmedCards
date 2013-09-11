@@ -42,16 +42,26 @@ AS
 	
 	BEGIN TRAN
 
-	INSERT INTO [dbo].[ActiveConnection]
+	IF NOT EXISTS (SELECT [User_UserId] FROM [dbo].[ActiveConnection] AC WHERE AC.[GroupName] = @GroupName AND AC.[User_UserId] = @User_UserId)
+		BEGIN
+			INSERT INTO [dbo].[ActiveConnection]
            (
 			[ActiveConnectionID],
 			[GroupName],
 			[User_UserId]
 		   )
-     SELECT
-           @ActiveConnectionID,
-		   @GroupName,
-		   @User_UserId
+			SELECT
+				@ActiveConnectionID,
+				@GroupName,
+				@User_UserId
+
+		END
+	ELSE
+		BEGIN
+			UPDATE [dbo].[ActiveConnection]
+			SET [ActiveConnectionID] = @ActiveConnectionID
+			WHERE [GroupName] = @GroupName AND [User_UserId] = @User_UserId
+		END
 
 	COMMIT
 GO
