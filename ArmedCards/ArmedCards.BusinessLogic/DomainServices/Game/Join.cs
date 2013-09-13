@@ -49,14 +49,14 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
         /// Join a game
         /// </summary>
         /// <param name="gameID">The game to join</param>
-        /// <param name="userId">The current user id</param>
+        /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
         /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Entities.Game game, int userId, string passphrase)
+        public Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase)
         {
             Entities.JoinResponse response = new Entities.JoinResponse();
 
-			if (game.IsCurrentPlayer(userId) == false)
+			if (game.IsCurrentPlayer(user.UserId) == false)
 			{
 				if (_validatePassphrase.Execute(game, passphrase) == false)
 				{
@@ -68,7 +68,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
 				}
 				else
 				{
-					Boolean successful = _joinGame.Execute(game, userId);
+					Boolean successful = _joinGame.Execute(game, user);
 
 					if (successful == false)
 					{

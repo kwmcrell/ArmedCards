@@ -47,18 +47,24 @@ namespace ArmedCards.Web.Controllers.Game.Board
         }
 
         [HttpGet]
-        public ActionResult Index(int id)
+        public ActionResult Index(Int32 id)
         {
-            string key = string.Format("Game_{0}_Passphrase", id);
-            string passphrase = string.Empty;
+			String key = String.Format("Game_{0}_Passphrase", id);
+			String passphrase = String.Empty;
 
             if (Session[key] != null)
             {
-                passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as byte[]), Session.SessionID));
+                passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
                 Session.Remove(key);
             }
 
-            Entities.JoinResponse response = _joinGame.Execute(id, WebSecurity.CurrentUserId, passphrase);
+			Entities.User user = new Entities.User
+			{
+				UserId = WebSecurity.CurrentUserId,
+				DisplayName = WebSecurity.CurrentUserName
+			};
+
+			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase);
 
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.Successful) ||
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
@@ -70,7 +76,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 				if (model.ShowWaiting() && 
 					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
 				{
-					_sendMessage.Execute(model.Game, SendWaitingMessage);
+					_sendMessage.Execute(model.Game, Helpers.HubActions.SendWaitingMessage);
 				}
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
@@ -80,18 +86,5 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 return Redirect(Url.Action("Index", "GameListing", new { id = id }));
             }
 		}
-
-		#region "Hub Actions"
-
-		[NonAction]
-		private void SendWaitingMessage(Entities.ActiveConnection connection, Entities.Game game, Entities.GamePlayer sendToPlayer)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-
-			hub.Clients.Client(connection.ActiveConnectionID)
-					   .UpdateWaiting(Helpers.WaitingHeader.Build(game, sendToPlayer.User.UserId));
-		}
-
-		#endregion "Hub Actions"
 	}
 }

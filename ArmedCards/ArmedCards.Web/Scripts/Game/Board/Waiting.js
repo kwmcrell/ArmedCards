@@ -183,8 +183,10 @@ Waiting.prototype.StartGame = function (event) {
 	event.preventDefault();
 };
 
-Waiting.prototype.UpdateWaiting = function (message) {
+Waiting.prototype.UpdateWaiting = function (message, lobby) {
 	$('.radHeader > h2').html(message);
+
+	$.Topic("lobbyUpdated").publish(lobby);
 };
 
 Waiting.prototype.WaitingOnMorePlayers = function () {

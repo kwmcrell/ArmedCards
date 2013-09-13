@@ -45,14 +45,14 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 		/// Join a game
 		/// </summary>
 		/// <param name="gameID">The game to join</param>
-		/// <param name="userId">The current user id</param>
+		/// <param name="user">The current user</param>
 		/// <returns>If the user was able to join the game</returns>
-		public Boolean Execute(Entities.Game game, int userId)
+		public Boolean Execute(Entities.Game game, Entities.User user)
 		{
 			Entities.GamePlayer player = new Entities.GamePlayer();
 			player.GameID = game.GameID;
 			player.Points = 0;
-			player.User.UserId = userId;
+			player.User = user;
 
 			Boolean successful = _insertGamePlayer.Execute(player) != -1;
 

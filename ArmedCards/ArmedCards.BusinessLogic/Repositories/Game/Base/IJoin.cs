@@ -38,8 +38,8 @@ namespace ArmedCards.BusinessLogic.Repositories.Game.Base
 		/// Join a game
 		/// </summary>
 		/// <param name="gameID">The game to join</param>
-		/// <param name="userId">The current user id</param>
+		/// <param name="user">The current user</param>
 		/// <returns>If the user was able to join the game</returns>
-		Boolean Execute(Entities.Game game, int userId);
+		Boolean Execute(Entities.Game game, Entities.User user);
 	}
 }

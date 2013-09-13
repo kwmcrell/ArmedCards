@@ -39,6 +39,6 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, Entities.GamePlayer> action);
+		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
 	}
 }

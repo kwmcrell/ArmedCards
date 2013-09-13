@@ -113,7 +113,7 @@ Sidebar.prototype.PlayerMenuOpen = function (event) {
 	}
 };
 
-Sidebar.prototype.lobbyUpdate = function (result) {
+Sidebar.prototype.LobbyUpdate = function (result) {
 	if (result != null && result.LobbyView != null) {
 		$('#gameLobby').html(result.LobbyView);
 	}

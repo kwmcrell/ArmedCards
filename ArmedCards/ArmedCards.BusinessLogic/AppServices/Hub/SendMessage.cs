@@ -46,7 +46,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
-		public void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, Entities.GamePlayer> action)
+		public void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action)
 		{
 			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
 			filter.GroupName = String.Format("Game_{0}", game.GameID);
@@ -61,7 +61,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 
 				if (sendToPlayer != null)
 				{
-					action(connection, game, sendToPlayer);
+					action(connection, game);
 				}
 			}
 		}

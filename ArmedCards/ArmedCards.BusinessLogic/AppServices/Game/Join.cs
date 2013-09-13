@@ -48,17 +48,17 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
         /// Join a game
         /// </summary>
         /// <param name="gameID">The id of the game to join</param>
-        /// <param name="userId">The current user id</param>
+        /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
         /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(int gameID, int userId, string passphrase)
+        public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase)
         {
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = gameID;
 
             Entities.Game game = _selectGame.Execute(filter);
 
-            return _joinGame.Execute(game, userId, passphrase);;
+            return _joinGame.Execute(game, user, passphrase);;
         }
     }
 }

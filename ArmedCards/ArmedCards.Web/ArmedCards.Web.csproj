@@ -234,6 +234,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HubActions.cs" />
     <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
     <Compile Include="Models\AccountModels.cs" />

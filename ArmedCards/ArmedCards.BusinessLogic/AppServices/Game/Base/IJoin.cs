@@ -38,9 +38,9 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
         /// Join a game
         /// </summary>
         /// <param name="gameID">The id of the game to join</param>
-        /// <param name="userId">The current user id</param>
+        /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
         /// <returns>The response to a join request</returns>
-        Entities.JoinResponse Execute(int gameID, int userId, string passphrase);
+        Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase);
     }
 }
