@@ -34,41 +34,50 @@ if (!ArmedCards.Core.Chat) {
     ArmedCards.Core.Chat = new Chat();
 }
 
-Chat.prototype.BroadcastGlobalMessage = function (message) {
-    // Html encode display name and message.  
-    var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.DateSent).toLocaleTimeString() + ")").html();
-    var encodedMsg = $('<div />').text(message.Message).html();
+Chat.prototype.BroadcastMessage = function (message, $discussion) {
+	// Html encode display name and message.  
+	var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.DateSent).toLocaleTimeString() + ")").html();
+	var encodedMsg = $('<div />').text(message.Message).html();
 
+	$discussion.append('<li><strong>' + encodedName
+        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+	$discussion.scrollTop($discussion.get(0).scrollHeight);
+};
+
+Chat.prototype.BroadcastGlobalMessage = function (message) {
     // Add the message to the page.
     var $discussion = $('#discussion');
 
-    $discussion.append('<li><strong>' + encodedName
-        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-    $discussion.scrollTop($discussion.get(0).scrollHeight);
+    ArmedCards.Core.Chat.BroadcastMessage(message, $discussion);
 };
 
-Chat.prototype.SendGlobalMessage = function (event) {
-    event.preventDefault();
+Chat.prototype.BroadcastGameMessage = function (message) {
+	// Add the message to the page.
+	var $discussion = $('#gameDiscussion');
 
-    var hub = $.connection.ArmedCardsHub;
+	ArmedCards.Core.Chat.BroadcastMessage(message, $discussion);
 
-    var messageText = $('#message').val();
-
-    if (messageText != null && messageText != undefined && messageText != '') {
-
-        var message = {
-            Message: messageText
-        };
-
-        hub.server.SendGlobalMessage(message);
-
-        // Clear text box and reset focus for next comment. 
-        $('#message').val('').focus();
-    }
+	$.Topic("newMessageAlert").publish();
 };
 
 Chat.prototype.SendMessage = function (event) {
-    ArmedCards.Core.Chat.SendGlobalMessage(event);
+	event.preventDefault();
+
+	var hub = $.connection.ArmedCardsHub;
+	var messageText = $('#message').val();
+
+	if (messageText != null && messageText != undefined && messageText != '') {
+		var message = {
+			Message: messageText,
+			GameID: $('#Game_GameID').val(),
+			Global: !$('#discussion').hasClass('hidden')
+		};
+
+		hub.server.SendMessage(message);
+	}
+
+	// Clear text box and reset focus for next comment. 
+	$('#message').val('').focus();
 };
 
 Chat.prototype.Join = function () {
@@ -94,6 +103,7 @@ Chat.prototype.RemoveConnection = function (connection) {
 Chat.prototype.Init = function () {
     var hub = $.connection.ArmedCardsHub;
     hub.client.BroadcastGlobalMessage = ArmedCards.Core.Chat.BroadcastGlobalMessage;
+    hub.client.BroadcastGameMessage = ArmedCards.Core.Chat.BroadcastGameMessage;
     hub.client.UpdateLobby = ArmedCards.Core.Chat.UpdateLobby;
     hub.client.RemoveConnection = ArmedCards.Core.Chat.RemoveConnection;
 

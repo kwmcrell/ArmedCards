@@ -58,7 +58,9 @@ LoginModal.prototype.init = function () {
         click: ArmedCards.Core.LoginModal.googleLogin
     });
 
-    if ($('#showLogin').val().toLowerCase() == "true") {
+    var showLogin = $('#showLogin').val();
+
+    if (showLogin != null && showLogin.toLowerCase() == "true") {
         ArmedCards.Core.LoginModal.showLoginIn();
     }
 }

@@ -58,5 +58,11 @@ namespace ArmedCards.Web.Models.Hub
 		/// </summary>
 		[JsonProperty("GameID")]
 		public Int32? GameID { get; set; }
+
+		/// <summary>
+		/// Is message meant for global
+		/// </summary>
+		[JsonProperty("Global")]
+		public Boolean Global { get; set; }
     }
 }

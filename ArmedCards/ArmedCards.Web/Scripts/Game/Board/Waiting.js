@@ -46,6 +46,7 @@
 */
 
 var ArmedCards = ArmedCards || {};
+ArmedCards.Game = ArmedCards.Game || {};
 
 var answerCount = 0;
 var answersPerHand = 6;
@@ -66,8 +67,8 @@ function Waiting() {
 	numberOfAnswers = answers.length;
 }
 
-if (!ArmedCards.Waiting) {
-	ArmedCards.Waiting = new Waiting();
+if (!ArmedCards.Game.Waiting) {
+	ArmedCards.Game.Waiting = new Waiting();
 }
 
 Waiting.prototype.TransitionQuestion = function () {
@@ -85,24 +86,24 @@ Waiting.prototype.TransitionQuestionComplete = function (e) {
 
 	var numberOfQuestions = questions.length;
 
-	var newQuestionIndex = ArmedCards.Waiting.GetNewIndex(numberOfQuestions);
+	var newQuestionIndex = ArmedCards.Game.Waiting.GetNewIndex(numberOfQuestions);
 
-	var question = ArmedCards.Waiting.GenerateCard(questions[newQuestionIndex].Content, 0);
+	var question = ArmedCards.Game.Waiting.GenerateCard(questions[newQuestionIndex].Content, 0);
 
 	currentQuestion = questions[newQuestionIndex];
 
 	$waitingDiv.append(question);
 
-	$('.question.card', '#questionDiv').unbind().bind("transitionend", ArmedCards.Waiting.TransitionQuestionComplete)
-                                       .bind("webkitTransitionEnd", ArmedCards.Waiting.TransitionQuestionComplete);
+	$('.question.card', '#questionDiv').unbind().bind("transitionend", ArmedCards.Game.Waiting.TransitionQuestionComplete)
+                                       .bind("webkitTransitionEnd", ArmedCards.Game.Waiting.TransitionQuestionComplete);
 };
 
 Waiting.prototype.HandleTransition = function () {
 	if (answerCount > answersPerHand) {
-		ArmedCards.Waiting.TransitionQuestion();
+		ArmedCards.Game.Waiting.TransitionQuestion();
 	}
 
-	ArmedCards.Waiting.TransitionAnswer();
+	ArmedCards.Game.Waiting.TransitionAnswer();
 };
 
 Waiting.prototype.TransitionAnswer = function () {
@@ -116,20 +117,20 @@ Waiting.prototype.TransitionAnswer = function () {
 Waiting.prototype.TransitionAnswerComplete = function (e) {
 	$('[remove="true"].answer').remove();
 
-	ArmedCards.Waiting.CreateAnswerCard();
+	ArmedCards.Game.Waiting.CreateAnswerCard();
 
 	if (currentQuestion.Instructions > 0) {
-		ArmedCards.Waiting.CreateAnswerCard();
+		ArmedCards.Game.Waiting.CreateAnswerCard();
 
 		if (currentQuestion.Instructions > 1) {
-			ArmedCards.Waiting.CreateAnswerCard();
+			ArmedCards.Game.Waiting.CreateAnswerCard();
 		}
 	}
 
-	$('.answer.card', '#answerDiv').unbind().bind("transitionend", ArmedCards.Waiting.TransitionAnswerComplete)
-                                   .bind("webkitTransitionEnd", ArmedCards.Waiting.TransitionAnswerComplete);
+	$('.answer.card', '#answerDiv').unbind().bind("transitionend", ArmedCards.Game.Waiting.TransitionAnswerComplete)
+                                   .bind("webkitTransitionEnd", ArmedCards.Game.Waiting.TransitionAnswerComplete);
 
-	timer = setTimeout(ArmedCards.Waiting.HandleTransition, 5000);
+	timer = setTimeout(ArmedCards.Game.Waiting.HandleTransition, 5000);
 };
 
 Waiting.prototype.CreateAnswerCard = function () {
@@ -137,9 +138,9 @@ Waiting.prototype.CreateAnswerCard = function () {
 
 	var numberOfAnswers = answers.length;
 
-	var newAnswerIndex = ArmedCards.Waiting.GetNewIndex(numberOfAnswers);
+	var newAnswerIndex = ArmedCards.Game.Waiting.GetNewIndex(numberOfAnswers);
 
-	var answer = ArmedCards.Waiting.GenerateCard(answers[newAnswerIndex].Content, 1);
+	var answer = ArmedCards.Game.Waiting.GenerateCard(answers[newAnswerIndex].Content, 1);
 
 	$answerDiv.append(answer);
 };
@@ -192,9 +193,9 @@ Waiting.prototype.WaitingOnMorePlayers = function () {
 
 Waiting.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
-	hub.client.UpdateWaiting = ArmedCards.Waiting.UpdateWaiting;
+	hub.client.UpdateWaiting = ArmedCards.Game.Waiting.UpdateWaiting;
 
-	ArmedCards.Waiting.StartWaiting();
+	ArmedCards.Game.Waiting.StartWaiting();
 
 	$(window).resize(function () {
 		clearTimeout(timer);
@@ -205,7 +206,7 @@ Waiting.prototype.Init = function () {
 
 		timer = setTimeout(function () {
 			currentQuestion = null;
-			ArmedCards.Waiting.StartWaiting();
+			ArmedCards.Game.Waiting.StartWaiting();
 		}, 1000);
 	});
 };
@@ -213,8 +214,8 @@ Waiting.prototype.Init = function () {
 Waiting.prototype.StartWaiting = function () {
 	if (currentQuestion == null) {
 		$('#resizingMessage').hide();
-		ArmedCards.Waiting.TransitionQuestionComplete();
-		ArmedCards.Waiting.TransitionAnswerComplete();
+		ArmedCards.Game.Waiting.TransitionQuestionComplete();
+		ArmedCards.Game.Waiting.TransitionAnswerComplete();
 	}
 };
 
@@ -222,5 +223,5 @@ Waiting.prototype.ConnectionSuccess = function () {
 
 };
 
-$.Topic("beforeHubStart").subscribe(ArmedCards.Waiting.Init);
-$.Topic("hubStartComplete").subscribe(ArmedCards.Waiting.ConnectionSuccess);
+$.Topic("beforeHubStart").subscribe(ArmedCards.Game.Waiting.Init);
+$.Topic("hubStartComplete").subscribe(ArmedCards.Game.Waiting.ConnectionSuccess);

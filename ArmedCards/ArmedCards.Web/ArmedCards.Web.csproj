@@ -245,7 +245,7 @@
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Home\Index.cs" />
-    <Compile Include="Models\Hub\GlobalMessage.cs" />
+    <Compile Include="Models\Hub\ChatMessage.cs" />
     <Compile Include="Models\Hub\Lobby.cs" />
     <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -266,6 +266,7 @@
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
     <Content Include="Scripts\Core\Utilities.js" />
+    <Content Include="Scripts\Game\Board\Sidebar.js" />
     <Content Include="Scripts\Game\Board\Waiting.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
     <Content Include="Scripts\Game\Listing\Detail.js" />
@@ -303,6 +304,10 @@
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
     <Content Include="Views\Game\Board\Index.cshtml" />
     <Content Include="Views\Game\Board\Waiting\_Waiting.cshtml" />
+    <Content Include="Views\Shared\Layout\_ChatRight.cshtml" />
+    <Content Include="Views\Game\Board\Sidebar\_Sidebar.cshtml" />
+    <Content Include="Views\Game\Board\Sidebar\_Players.cshtml" />
+    <Content Include="Views\Game\Board\Sidebar\_Player.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

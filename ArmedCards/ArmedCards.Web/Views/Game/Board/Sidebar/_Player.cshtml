@@ -21,29 +21,25 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/Layout/_ChatRight.cshtml";
-}
+@using ArmedCards.Entities;
+@model GamePlayer
 
-@Html.HiddenFor(x => x.Game.GameID)
-
-<div id="gameContainer" class="game gameScreen">
-    @if (Model.ShowWaiting())
-    {
-        @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
-	}
-</div>
-
-@section Sidebar
-{
-	@Html.Partial("~/Views/Game/Board/Sidebar/_Sidebar.cshtml", Model.Game)
-}
-
-@section Scripts
-{
-	@Scripts.Render("~/bundles/Core/Hub")
-    <script src='/SignalR/hubs'></script>
-	@Scripts.Render("~/bundles/Game/Board")
-}
+<li>
+	<span class="loggedIn">
+		<span class="playerMenu">
+			<img src="/Images/PlayerMenu.gif" title="Open options for @Model.User.DisplayName">
+			<span class="menu">
+				<ul>
+					@*<li><a href="#">Add as friend</a></li>*@
+					@*<li><a name="@Model.User.UserId" href="#">Kick Player</a></li>*@
+					<li><a name="@Model.User.UserId" href="#">Nothing yet</a></li>
+				</ul>
+			</span>
+		</span>
+		<img src="http://www.placekitten.com/50/50">
+		<a id="@Model.User.UserId" href="#">@Model.User.DisplayName</a>
+	</span>
+	<span class="gamePoints">
+		@Model.Points points
+	</span>
+</li>

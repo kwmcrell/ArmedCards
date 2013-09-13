@@ -20,27 +20,21 @@ namespace ArmedCards.Web.Hubs
         /// Send a global chat message to all connections
         /// </summary>
         /// <param name="message">Message to send</param>
-        [HubMethodName("SendGlobalMessage")]
-        public void SendGlobalMessage(Models.Hub.ChatMessage message)
+        [HubMethodName("SendMessage")]
+        public void SendMessage(Models.Hub.ChatMessage message)
         {
             message.SentBy = Context.User.Identity.Name;
             message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
 
-            Clients.All.BroadcastGlobalMessage(message);
+			if (message.Global)
+			{
+				Clients.All.BroadcastGlobalMessage(message);
+			}
+			else
+			{
+				Clients.Group(String.Format("Game_{0}", message.GameID.Value)).BroadcastGameMessage(message);
+			}
         }
-
-		/// <summary>
-		/// Send a global chat message to all connections
-		/// </summary>
-		/// <param name="message">Message to send</param>
-		[HubMethodName("SendGameMessage")]
-		public void SendGameMessage(Models.Hub.ChatMessage message)
-		{
-			message.SentBy = Context.User.Identity.Name;
-			message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
-
-			Clients.Group(String.Format("Game_{0}", message.GameID.Value)).BroadcastGlobalMessage(message);
-		}
 
         /// <summary>
         /// Join the global chat
@@ -64,6 +58,7 @@ namespace ArmedCards.Web.Hubs
 
 			if (gameID.HasValue)
 			{
+				this.Groups.Add(Context.ConnectionId, groupName);
 				Clients.Group(groupName).UpdateLobby(lobby);
 			}
 			else
