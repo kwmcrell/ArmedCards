@@ -74,6 +74,10 @@ namespace ArmedCards.Web
             Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IJoin,                BusinessLogic.DomainServices.Game.Join>();
 			Container.RegisterType<BusinessLogic.Repositories.Game.Base.IJoin,					BusinessLogic.Repositories.Game.Join>();
 
+			Container.RegisterType<BusinessLogic.AppServices.Game.Base.ILeave,					BusinessLogic.AppServices.Game.Leave>();
+			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ILeave,				BusinessLogic.DomainServices.Game.Leave>();
+			Container.RegisterType<BusinessLogic.Repositories.Game.Base.ILeave,					BusinessLogic.Repositories.Game.Leave>();
+
 			Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelectCards,            BusinessLogic.AppServices.Game.SelectCards>();
 			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelectCards,			BusinessLogic.DomainServices.Game.SelectCards>();
             #endregion "Game"
@@ -101,7 +105,8 @@ namespace ArmedCards.Web
             #endregion "Active Connection"
 
             #region "Game Player"
-            Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IInsert,          BusinessLogic.Repositories.GamePlayer.Insert>();
+            
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IInsert,          BusinessLogic.Repositories.GamePlayer.Insert>();
 
             Container.RegisterType<DataAccess.GamePlayer.Base.IInsert,                          DataAccess.GamePlayer.Insert>();
 
@@ -109,7 +114,11 @@ namespace ArmedCards.Web
 
             Container.RegisterType<DataAccess.GamePlayer.Base.ISelect,                          DataAccess.GamePlayer.Select>();
 
-            #endregion "Game Player"
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IDelete,			BusinessLogic.Repositories.GamePlayer.Delete>();
+
+			Container.RegisterType<DataAccess.GamePlayer.Base.IDelete,							DataAccess.GamePlayer.Delete>();
+			
+			#endregion "Game Player"
 
 			#region "Deck"
 

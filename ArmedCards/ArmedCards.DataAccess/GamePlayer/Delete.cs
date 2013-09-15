@@ -21,36 +21,42 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.DataAccess.GamePlayer
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IDelete"/>
+	/// </summary>
+	public class Delete : Base.IDelete
+	{
+		private Database _db;
 
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
-
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
+		public Delete(Database db)
         {
-            return this.Game.IsWaiting();
+            this._db = db;
         }
-    }
+
+		/// <summary>
+		/// Delete the <paramref name="player"/> from the game
+		/// </summary>
+		/// <param name="player">The player to remove</param>
+		public void Execute(Entities.GamePlayer player)
+		{
+			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_Delete"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.String, player.GameID);
+				_db.AddInParameter(cmd, "@UserId", DbType.Int32, player.User.UserId);
+
+				_db.ExecuteScalar(cmd);
+			}
+		}
+	}
 }

@@ -26,31 +26,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using REPO = ArmedCards.BusinessLogic.Repositories;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.BusinessLogic.DomainServices.Game
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
+	/// <summary>
+	/// Implementation of <seealso cref="Base.ILeave"/>
+	/// </summary>
+	public class Leave : Base.ILeave
+	{
+		private REPO.Game.Base.ILeave _leaveGame;
 
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
+		public Leave(REPO.Game.Base.ILeave leaveGame)
+		{
+			this._leaveGame = leaveGame;
+		}
 
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
-    }
+		/// <summary>
+		/// Removes a player from the game
+		/// </summary>
+		/// <param name="gameID">The ID of the game to leave</param>
+		/// <param name="user">The user leaving the game</param>
+		public void Execute(Int32 gameID, Entities.User user)
+		{
+			_leaveGame.Execute(gameID, user);
+		}
+	}
 }

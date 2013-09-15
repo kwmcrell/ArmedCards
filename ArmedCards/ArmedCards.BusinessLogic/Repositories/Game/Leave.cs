@@ -27,30 +27,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.BusinessLogic.Repositories.Game
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
+	/// <summary>
+	/// Implementation of <seealso cref="Base.ILeave"/>
+	/// </summary>
+	public class Leave : Base.ILeave
+	{
+		private GamePlayer.Base.IDelete _deleteGamePlayer;
 
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
+		public Leave(GamePlayer.Base.IDelete deleteGamePlayer)
+		{
+			this._deleteGamePlayer = deleteGamePlayer;
+		}
 
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
-    }
+		/// <summary>
+		/// Removes a player from the game
+		/// </summary>
+		/// <param name="gameID">The ID of the game to leave</param>
+		/// <param name="user">The user leaving the game</param>
+		public void Execute(Int32 gameID, Entities.User user)
+		{
+			Entities.GamePlayer player = new Entities.GamePlayer();
+			player.GameID = gameID;
+			player.User = user;
+
+			_deleteGamePlayer.Execute(player);
+		}
+	}
 }

@@ -27,30 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.BusinessLogic.Repositories.Game.Base
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
-
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
-
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
-    }
+	/// <summary>
+	/// Interface that defines leaving a game
+	/// </summary>
+	public interface ILeave
+	{
+		/// <summary>
+		/// Removes a player from the game
+		/// </summary>
+		/// <param name="gameID">The ID of the game to leave</param>
+		/// <param name="user">The user leaving the game</param>
+		void Execute(Int32 gameID, Entities.User user);
+	}
 }

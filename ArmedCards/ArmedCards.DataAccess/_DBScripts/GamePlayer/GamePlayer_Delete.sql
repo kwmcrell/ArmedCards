@@ -21,36 +21,29 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayer_Delete]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayer_Delete] 
+END 
+GO
 
-namespace ArmedCards.Web.Models.Game.Board
-{
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/14/2013
+-- Description:	Delete a game player
+-- ===============================================
+CREATE PROC [dbo].[GamePlayer_Delete] 
+	@GameID			int,
+	@UserId			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
 
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
+	DELETE
+	FROM [dbo].[GamePlayer] 
+	WHERE [GameID] = @GameID AND [UserId] = @UserId
 
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
-    }
-}
+	COMMIT
+GO

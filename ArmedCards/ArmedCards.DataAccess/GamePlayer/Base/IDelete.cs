@@ -27,30 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.DataAccess.GamePlayer.Base
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
-
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
-
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
-    }
+	/// <summary>
+	/// Interface that defines the delete action of a game player
+	/// </summary>
+	public interface IDelete
+	{
+		/// <summary>
+		/// Delete the <paramref name="player"/> from the game
+		/// </summary>
+		/// <param name="player">The player to remove</param>
+		void Execute(Entities.GamePlayer player);
+	}
 }

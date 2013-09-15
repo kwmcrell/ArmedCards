@@ -41,7 +41,7 @@
 	<div id="gameHeader" class="gameHeader">
 		<h3 title="@Model.Title">@Model.Title</h3>
 		<p>Started by <a href="#" target="_blank">@Model.Players.First().User.DisplayName</a></p>
-		<a href="/LeaveGame/@Model.GameID" class="leaveGame">Quit game</a>
+		<a href="/Leave/Index/@Model.GameID" class="leaveGame">Quit game</a>
 	</div>
 	<h4 id="playersHeader" class="accessible">Players</h4>
 	<div id="gameLobby" class="lobby">

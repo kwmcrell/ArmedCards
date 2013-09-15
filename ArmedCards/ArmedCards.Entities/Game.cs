@@ -261,5 +261,14 @@ namespace ArmedCards.Entities
         {
             return DetermineCommander().UserId == userId;
         }
+
+		/// <summary>
+		/// Determine if the game is in waiting state
+		/// </summary>
+		/// <returns>If the game is still waiting</returns>
+		public Boolean IsWaiting()
+		{
+			return !this.HasRounds() || !this.HasRequiredNumberOfPlayers();
+		}
     }
 }
