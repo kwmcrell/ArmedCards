@@ -21,31 +21,41 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GameRound_Insert]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRound_Insert] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
-{
-	/// <summary>
-	/// Interface for sending a message over a hub
-	/// </summary>
-	public interface ISendMessage
-	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/15/2013
+-- Description:	Creates a new game round
+-- ===============================================
+CREATE PROC [dbo].[GameRound_Insert] 
+	@Started				datetime,
+	@Game_GameID			int,
+	@CardCommander_UserId	int,
+	@NewID					int				OUTPUT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
 
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
-	}
-}
+	DECLARE @maxPlayers INT
+
+	INSERT INTO [dbo].[GameRound]
+	(
+		[Started],
+		[Game_GameID],
+		[CardCommander_UserId]
+	)
+	SELECT	@Started,
+			@Game_GameID,
+			@CardCommander_UserId
+
+	SET @NewID = @@IDENTITY
+
+	COMMIT
+GO

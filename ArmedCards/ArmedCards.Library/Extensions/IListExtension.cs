@@ -21,48 +21,70 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
-namespace ArmedCards.DataAccess.GamePlayer
+namespace ArmedCards.Library.Extensions
 {
     /// <summary>
-    /// Implementation of IInsert
+    /// Class containing IList Extensions
     /// </summary>
-    public class Insert : Base.IInsert
+    public static class IListExtension
     {
-        private Database _db;
-
-        public Insert(Database db)
-        {
-            this._db = db;
-        }
-
         /// <summary>
-        /// Inserts a GamePlayer
+        /// Convert a IList to xml string
         /// </summary>
-        /// <param name="player">The player to insert</param>
-        /// <returns>The total number of players in the game now.</returns>
-        public Int32 Execute(Entities.GamePlayer player)
+        /// <typeparam name="T">Type of elements in the list</typeparam>
+		/// <param name="list">List to convert</param>
+        /// <returns>XML string</returns>
+        public static string ConvertCollectionToXML<T>(this IList<T> list)
         {
-            using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_Insert"))
+            XmlDocument xml = new XmlDocument();
+
+            if (typeof(String) == typeof(T) || typeof(Int32) == typeof(T))
             {
-                _db.AddInParameter(cmd, "@GameID",		DbType.Int32, player.GameID);
-                _db.AddInParameter(cmd, "@UserId",		DbType.Int32, player.User.UserId);
-                _db.AddInParameter(cmd, "@Points",		DbType.Int32, 0);
-				_db.AddInParameter(cmd, "@JoinDate",	DbType.DateTime, DateTime.UtcNow);
+                XmlElement root = xml.CreateElement("ids");
+                xml.AppendChild(root);
 
-                _db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
+                XmlElement child;
 
-                _db.ExecuteScalar(cmd);
-                return Int32.Parse(_db.GetParameterValue(cmd, "TotalPlayers").ToString());
+				foreach (T element in list)
+                {
+                    child = xml.CreateElement("id");
+
+                    child.SetAttribute("value", element.ToString());
+
+                    root.AppendChild(child);
+                }
             }
+            else
+            {
+                throw new ArgumentException("T must be either a String or Int32");
+            }
+
+            return xml.OuterXml;
         }
+
+		/// <summary>
+		/// Shuffles a IList of elements of type <typeparamref name="T"/>
+		/// </summary>
+		/// <typeparam name="T">The type of elements in the list</typeparam>
+		/// <param name="list">The list of elements to shuffle</param>
+		public static void Shuffle<T>(this IList<T> list)
+		{
+			Random rand = new Random();
+
+			for (int i = list.Count - 1; i > 0; --i)
+			{
+				int j = rand.Next(i + 1);
+				T temp = list[i];
+				list[i] = list[j];
+				list[j] = temp;
+			}
+		}
     }
 }

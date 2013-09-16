@@ -24,9 +24,10 @@
 IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[GamePlayer](
-			[GameID] [int] NOT NULL,
-			[UserId] [int] NOT NULL,
-			[Points] [int] NOT NULL
+			[GameID]		[int] NOT NULL,
+			[UserId]		[int] NOT NULL,
+			[Points]		[int] NOT NULL,
+			[JoinDate]		[datetime] NOT NULL
 		 CONSTRAINT [PK_dbo.GamePlayer] PRIMARY KEY CLUSTERED 
 		(
 			[GameID] ASC,

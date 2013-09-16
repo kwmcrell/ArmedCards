@@ -62,5 +62,10 @@ namespace ArmedCards.Entities
         /// Number of points the user has
         /// </summary>
         public Int32 Points { get; set; }
+
+		/// <summary>
+		/// List of cards in a player's hand
+		/// </summary>
+		public List<Entities.Card> Hand { get; set; }
     }
 }

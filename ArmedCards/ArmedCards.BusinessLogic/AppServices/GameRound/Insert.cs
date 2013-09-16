@@ -21,52 +21,39 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
+using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
 
-namespace ArmedCards.Library.Extensions
+namespace ArmedCards.BusinessLogic.AppServices.GameRound
 {
-    /// <summary>
-    /// Class containing Collection Extensions
-    /// </summary>
-    public static class CollectionExtension
-    {
-        /// <summary>
-        /// Convert a Collection to xml string
-        /// </summary>
-        /// <typeparam name="T">Type of elements in collection</typeparam>
-        /// <param name="collection">Collection to convert</param>
-        /// <returns>XML string</returns>
-        public static string ConvertCollectionToXML<T>(this ICollection<T> collection)
-        {
-            XmlDocument xml = new XmlDocument();
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// </summary>
+	public class Insert : Base.IInsert
+	{
+		private DS.Base.IInsert _insertGameRound;
 
-            if (typeof(String) == typeof(T) || typeof(Int32) == typeof(T))
-            {
-                XmlElement root = xml.CreateElement("ids");
-                xml.AppendChild(root);
+		public Insert(DS.Base.IInsert insertGameRound)
+		{
+			this._insertGameRound = insertGameRound;
+		}
 
-                XmlElement child;
-
-                foreach (T element in collection)
-                {
-                    child = xml.CreateElement("id");
-
-                    child.SetAttribute("value", element.ToString());
-
-                    root.AppendChild(child);
-                }
-            }
-            else
-            {
-                throw new ArgumentException("T must be either a String or Int32");
-            }
-
-            return xml.OuterXml;
-        }
-    }
+		/// <summary>
+		/// Insert new game round
+		/// </summary>
+		/// <param name="gameID">The game ID for the new round</param>
+		/// <param name="commander">The round's card commander</param>
+		/// <returns>The inserted round</returns>
+		public Entities.GameRound Execute(Int32 gameID, Entities.User commander)
+		{
+			return _insertGameRound.Execute(gameID, commander);
+		}
+	}
 }

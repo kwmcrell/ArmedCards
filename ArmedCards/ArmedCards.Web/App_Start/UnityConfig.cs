@@ -80,6 +80,8 @@ namespace ArmedCards.Web
 
 			Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelectCards,            BusinessLogic.AppServices.Game.SelectCards>();
 			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelectCards,			BusinessLogic.DomainServices.Game.SelectCards>();
+
+			Container.RegisterType<BusinessLogic.AppServices.Game.Base.IStart,					BusinessLogic.AppServices.Game.Start>();
             #endregion "Game"
 
             #region "Active Connection"
@@ -145,6 +147,19 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.AppServices.Hub.Base.ISendMessage,				BusinessLogic.AppServices.Hub.SendMessage>();
 				
 			#endregion "Hub"
+
+			#region "Game Round"
+
+			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IInsert,			BusinessLogic.AppServices.GameRound.Insert>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IInsert,			BusinessLogic.DomainServices.GameRound.Insert>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRound.Base.IInsert,			BusinessLogic.Repositories.GameRound.Insert>();
+
+			Container.RegisterType<DataAccess.GameRound.Base.IInsert,							DataAccess.GameRound.Insert>();
+
+			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IStart,				BusinessLogic.AppServices.GameRound.Start>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IStart,			BusinessLogic.DomainServices.GameRound.Start>();
+
+			#endregion "Game Round"
 		}
     }
 }

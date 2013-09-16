@@ -27,25 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
+namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 {
 	/// <summary>
-	/// Interface for sending a message over a hub
+	/// Interface that defines starting a game
 	/// </summary>
-	public interface ISendMessage
+	public interface IStart
 	{
 		/// <summary>
-		/// Send a message to a hub group
+		/// Starts a game if certain requirements are met
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
-
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
+		/// <param name="gameID">The ID for the game to start</param>
+		/// <param name="commander">The commander for the first round</param>
+		/// <param name="startedAction">Action to fire on successful start</param>
+		/// <returns>The started game</returns>
+		Entities.Game Execute(Int32 gameID, Entities.User commander,
+							  Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> startedAction);
 	}
 }

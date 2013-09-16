@@ -21,31 +21,45 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using REPO = ArmedCards.BusinessLogic.Repositories.GameRound;
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
+namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 {
 	/// <summary>
-	/// Interface for sending a message over a hub
+	/// Implementation of <seealso cref="Base.IInsert"/>
 	/// </summary>
-	public interface ISendMessage
+	public class Insert : Base.IInsert
 	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+		private REPO.Base.IInsert _insertGameRound;
+
+		public Insert(REPO.Base.IInsert insertGameRound)
+		{
+			this._insertGameRound = insertGameRound;
+		}
 
 		/// <summary>
-		/// Send a message to a hub group
+		/// Insert new game round
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
+		/// <param name="gameID">The game ID for the new round</param>
+		/// <param name="commander">The round's card commander</param>
+		/// <returns>The inserted round</returns>
+		public Entities.GameRound Execute(Int32 gameID, Entities.User commander)
+		{
+			Entities.GameRound round = new Entities.GameRound();
+			round.GameID = gameID;
+			round.CardCommander = commander;
+
+			_insertGameRound.Execute(round);
+
+			return round;
+		}
 	}
 }

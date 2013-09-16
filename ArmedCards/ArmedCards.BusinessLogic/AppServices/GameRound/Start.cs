@@ -26,26 +26,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
+namespace ArmedCards.BusinessLogic.AppServices.GameRound
 {
 	/// <summary>
-	/// Interface for sending a message over a hub
+	/// Implementation of <seealso cref="Base.IStart"/>
 	/// </summary>
-	public interface ISendMessage
+	public class Start : Base.IStart
 	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+		private DS.Base.IStart _startRound;
+
+		public Start(DS.Base.IStart startRound)
+		{
+			this._startRound = startRound;
+		}
 
 		/// <summary>
-		/// Send a message to a hub group
+		/// Starts a round if certain requirements are met
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
+		/// <param name="game">The game to start a new round for</param>
+		/// <param name="commander">The new round's commander</param>
+		/// <returns>If a round was successfully started</returns>
+		public Boolean Execute(Entities.Game game, Entities.User commander)
+		{
+			return _startRound.Execute(game, commander);
+		}
 	}
 }

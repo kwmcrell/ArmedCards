@@ -34,5 +34,29 @@ namespace ArmedCards.Entities
     /// </summary>
     public class GameRound
     {
+		public GameRound()
+		{
+			CardCommander = new User();
+		}
+
+		/// <summary>
+		/// Game round ID
+		/// </summary>
+		public Int32 GameRoundID { get; set; }
+
+		/// <summary>
+		/// DateTime that the round was started
+		/// </summary>
+		public DateTime Started { get; set; }
+
+		/// <summary>
+		/// The ID of the game the round belongs to
+		/// </summary>
+		public Int32 GameID { get; set; }
+
+		/// <summary>
+		/// The round's card commander
+		/// </summary>
+		public User CardCommander { get; set; }
     }
 }

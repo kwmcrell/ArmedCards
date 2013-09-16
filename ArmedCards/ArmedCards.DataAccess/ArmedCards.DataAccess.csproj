@@ -61,6 +61,8 @@
     <Compile Include="GamePlayer\Delete.cs" />
     <Compile Include="GamePlayer\Insert.cs" />
     <Compile Include="GamePlayer\Select.cs" />
+    <Compile Include="GameRound\Base\IInsert.cs" />
+    <Compile Include="GameRound\Insert.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
     <Compile Include="Game\Insert.cs" />
@@ -80,10 +82,14 @@
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />
     <Content Include="_DBScripts\Deck\DefaultDecks.sql" />
     <Content Include="_DBScripts\Deck\_DeckTable.sql" />
+    <Content Include="_DBScripts\GamePlayerCard\_GamePlayerCardTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />
     <Content Include="_DBScripts\GamePlayer\_GamePlayerTable.sql" />
+    <Content Include="_DBScripts\GameRoundCard\_GameRoundCardTable.sql" />
+    <Content Include="_DBScripts\GameRound\GameRound_Insert.sql" />
+    <Content Include="_DBScripts\GameRound\_GameRoundTable.sql" />
     <Content Include="_DBScripts\Game\_GameTable.sql" />
     <Content Include="_DBScripts\Game\Game_Select.sql" />
     <Content Include="_DBScripts\Game\Game_Insert.sql" />
@@ -108,7 +114,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="GamePlayerCard\Base\" />
+    <Folder Include="GameRoundCard\Base\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

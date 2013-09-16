@@ -21,31 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayerCard]') IS NULL
+	BEGIN
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
-{
-	/// <summary>
-	/// Interface for sending a message over a hub
-	/// </summary>
-	public interface ISendMessage
-	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+	CREATE TABLE [dbo].[GamePlayerCard](
+		[UserId]		[int] NOT NULL,
+		[CardID]		[int] NOT NULL,
+		[GameID]		[int] NOT NULL,
+	 CONSTRAINT [PK_dbo.GamePlayerCard] PRIMARY KEY CLUSTERED 
+	(
+		[UserId] ASC,
+		[GameID] ASC,
+		[CardID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
 
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
-	}
-}
+	ALTER TABLE [dbo].[GamePlayerCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerCard_dbo.Card_CardID] FOREIGN KEY([CardID])
+	REFERENCES [dbo].[Card] ([CardID])
+	ON DELETE CASCADE
+
+	ALTER TABLE [dbo].[GamePlayerCard] CHECK CONSTRAINT [FK_dbo.GamePlayerCard_dbo.Card_CardID]
+
+	ALTER TABLE [dbo].[GamePlayerCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerCard_dbo.UserProfile_UserId] FOREIGN KEY([UserId])
+	REFERENCES [dbo].[UserProfile] ([UserId])
+
+	ALTER TABLE [dbo].[GamePlayerCard] CHECK CONSTRAINT [FK_dbo.GamePlayerCard_dbo.UserProfile_UserId]
+
+	ALTER TABLE [dbo].[GamePlayerCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerCard_dbo.Game_GameID] FOREIGN KEY([GameID])
+	REFERENCES [dbo].[Game] ([GameID])
+END

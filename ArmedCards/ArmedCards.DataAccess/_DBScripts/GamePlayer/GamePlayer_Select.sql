@@ -43,10 +43,12 @@ AS
 	SELECT	GP.[GameID],
 			GP.[Points],
 			GP.[UserId],
+			GP.[JoinDate],
 			UP.[UserName]
 	FROM [dbo].[GamePlayer] GP
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
+	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT
 GO

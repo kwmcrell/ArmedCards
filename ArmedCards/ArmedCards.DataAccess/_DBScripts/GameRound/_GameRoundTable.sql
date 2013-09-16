@@ -20,32 +20,29 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF OBJECT_ID('[dbo].[GameRound]') IS NULL
+	BEGIN
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+	CREATE TABLE [dbo].[GameRound](
+		[GameRoundID]			[int] IDENTITY(1,1) NOT NULL,
+		[Started]				[datetime] NOT NULL,
+		[Game_GameID]			[int] NOT NULL,
+		[CardCommander_UserId]	[int] NOT NULL,
+	 CONSTRAINT [PK_dbo.GameRound] PRIMARY KEY CLUSTERED 
+	(
+		[GameRoundID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
-{
-	/// <summary>
-	/// Interface for sending a message over a hub
-	/// </summary>
-	public interface ISendMessage
-	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+	ALTER TABLE [dbo].[GameRound]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GameRound_dbo.UserProfile_CardCommander_UserId] FOREIGN KEY([CardCommander_UserId])
+	REFERENCES [dbo].[UserProfile] ([UserId])
 
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
-	}
-}
+	ALTER TABLE [dbo].[GameRound] CHECK CONSTRAINT [FK_dbo.GameRound_dbo.UserProfile_CardCommander_UserId]
+
+	ALTER TABLE [dbo].[GameRound]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GameRound_dbo.Game_Game_GameID] FOREIGN KEY([Game_GameID])
+	REFERENCES [dbo].[Game] ([GameID])
+	ON DELETE CASCADE
+
+	ALTER TABLE [dbo].[GameRound] CHECK CONSTRAINT [FK_dbo.GameRound_dbo.Game_Game_GameID]
+
+	END

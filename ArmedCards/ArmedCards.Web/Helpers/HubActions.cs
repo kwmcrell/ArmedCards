@@ -64,12 +64,33 @@ namespace ArmedCards.Web.Helpers
 		}
 
 		/// <summary>
+		/// Sends an update for the game has been stated
+		/// </summary>
+		/// <param name="connection">Connection to send to</param>
+		/// <param name="game">The current game</param>
+		/// <param name="cards">The cards in the hand of the user the connection belongs to</param>
+		public static void SendGameStartedMessage(Entities.ActiveConnection connection, Entities.Game game, 
+												  List<Entities.Card> cards)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+			model.Game = game;
+			model.UserId = connection.User_UserId;
+
+			string partialView = GetRazorViewAsString("~/Views/Game/Partials/_Game.cshtml", model);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+					   .updateGame(partialView);
+		}
+
+		/// <summary>
 		/// Renders a razor view as a string
 		/// </summary>
 		/// <param name="viewPath">The view path</param>
 		/// <param name="model">The model to use for rendering</param>
 		/// <returns>A partial view in a string</returns>
-		public static string GetRazorViewAsString(string viewPath, object model)
+		private static string GetRazorViewAsString(string viewPath, object model)
 		{
 			using (var sw = new StringWriter())
 			{

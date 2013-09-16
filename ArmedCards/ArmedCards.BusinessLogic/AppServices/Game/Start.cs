@@ -27,25 +27,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
+namespace ArmedCards.BusinessLogic.AppServices.Game
 {
 	/// <summary>
-	/// Interface for sending a message over a hub
+	/// Implementation of <seealso cref="Base.IStart"/>
 	/// </summary>
-	public interface ISendMessage
+	public class Start : Base.IStart
 	{
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+		private Base.ISelect _selectGame;
+		private GameRound.Base.IStart _startRound;
+		private Hub.Base.ISendMessage _sendMessage;
+
+		public Start(Base.ISelect selectGame, GameRound.Base.IStart startRound,
+					 Hub.Base.ISendMessage sendMessage)
+		{
+			this._selectGame = selectGame;
+			this._startRound = startRound;
+			this._sendMessage = sendMessage;
+		}
 
 		/// <summary>
-		/// Send a message to a hub group
+		/// Starts a game if certain requirements are met
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
+		/// <param name="gameID">The ID for the game to start</param>
+		/// <param name="commander">The commander for the first round</param>
+		/// <param name="startedAction">Action to fire on successful start</param>
+		/// <returns>The started game</returns>
+		public Entities.Game Execute(Int32 gameID, Entities.User commander,
+									 Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> startedAction)
+		{
+			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+			filter.GameID = gameID;
+
+			Entities.Game game = _selectGame.Execute(filter);
+
+			Entities.GamePlayer host = game.Players.First();
+
+			if (host != null && host.User.UserId == commander.UserId && game.HasRounds() == false)
+			{
+				Boolean successful = _startRound.Execute(game, commander);
+
+				if (successful)
+				{
+					_sendMessage.Execute(game, startedAction);
+				}
+			}
+
+			return game;
+		}
 	}
 }

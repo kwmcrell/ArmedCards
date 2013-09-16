@@ -27,25 +27,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
+namespace ArmedCards.BusinessLogic.DomainServices.GameRound.Base
 {
 	/// <summary>
-	/// Interface for sending a message over a hub
+	/// Interface that defines inserting a GameRound
 	/// </summary>
-	public interface ISendMessage
+	public interface IInsert
 	{
 		/// <summary>
-		/// Send a message to a hub group
+		/// Insert new game round
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
-
-		/// <summary>
-		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action);
+		/// <param name="gameID">The game ID for the new round</param>
+		/// <param name="commander">The round's card commander</param>
+		/// <returns>The inserted round</returns>
+		Entities.GameRound Execute(Int32 gameID, Entities.User commander);
 	}
 }
