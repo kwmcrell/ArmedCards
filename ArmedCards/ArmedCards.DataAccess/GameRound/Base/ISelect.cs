@@ -27,21 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.Game
+namespace ArmedCards.DataAccess.GameRound.Base
 {
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
-
+	/// <summary>
+	/// Interface defining Select for GameRound
+	/// </summary>
+	public interface ISelect
+	{
 		/// <summary>
-		/// Used to select additional data
+		/// Selects game rounds base on supplied filter
 		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
+		/// <param name="filter">Filter used to select game rounds</param>
+		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
+		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+	}
 }

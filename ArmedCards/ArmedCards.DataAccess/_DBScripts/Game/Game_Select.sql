@@ -52,7 +52,10 @@ AS
 			G.[GameOver],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
-			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount
+			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount,
+			(SELECT COUNT([Game_GameID]) 
+			 FROM [dbo].[GameRound] GR
+			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount
 	 FROM [dbo].[Game] G
 	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
 

@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
+using System.Data;
 
 namespace ArmedCards.Entities
 {
@@ -34,6 +36,14 @@ namespace ArmedCards.Entities
     /// </summary>
     public class GameRound
     {
+		public GameRound(IDataReader idr)
+        {
+			GameRoundID		= idr.GetValueByName<Int32>("GameRoundID");
+			Started			= idr.GetValueByName<DateTime>("Started");
+            GameID			= idr.GetValueByName<Int32>("Game_GameID");
+			CardCommander	= new User(idr);
+        }
+
 		public GameRound()
 		{
 			CardCommander = new User();

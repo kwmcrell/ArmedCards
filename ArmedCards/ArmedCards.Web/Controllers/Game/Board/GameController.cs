@@ -73,7 +73,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 model.Game = response.Game;
                 model.UserId = WebSecurity.CurrentUserId;
 
-				if (model.ShowWaiting() && 
+				if (model.Game.IsWaiting() && 
 					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
 				{
 					_sendMessage.Execute(model.Game, Helpers.HubActions.SendWaitingMessage);

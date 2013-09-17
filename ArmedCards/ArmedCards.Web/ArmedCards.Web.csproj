@@ -269,6 +269,8 @@
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
     <Content Include="Scripts\Core\Utilities.js" />
+    <Content Include="Scripts\Game\Board\State.js" />
+    <Content Include="Scripts\Game\Board\Hand.js" />
     <Content Include="Scripts\Game\Board\Sidebar.js" />
     <Content Include="Scripts\Game\Board\Waiting.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
@@ -311,6 +313,7 @@
     <Content Include="Views\Game\Board\Sidebar\_Sidebar.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Players.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Player.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

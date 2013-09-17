@@ -23,25 +23,47 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities.Filters.Game
+namespace ArmedCards.Entities
 {
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
+	/// <summary>
+	/// Link record between a GamePlayer and a Card
+	/// </summary>
+	public class GamePlayerCard
+	{
+		public GamePlayerCard()
+		{
+
+		}
+
+		public GamePlayerCard(IDataReader idr)
+		{
+
+		}
 
 		/// <summary>
-		/// Used to select additional data
+		/// The User Id for the player
 		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
+		public Int32 UserId { get; set; }
+
+		/// <summary>
+		/// The card ID
+		/// </summary>
+		public Int32 CardID { get; set; }
+
+		/// <summary>
+		/// The actual card
+		/// </summary>
+		public Card Card { get; set; }
+
+		/// <summary>
+		/// The game ID
+		/// </summary>
+		public Int32 GameID { get; set; }
+	}
 }

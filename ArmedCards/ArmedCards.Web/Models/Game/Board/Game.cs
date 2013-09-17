@@ -44,13 +44,26 @@ namespace ArmedCards.Web.Models.Game.Board
         /// </summary>
         public Int32 UserId { get; set; }
 
-        /// <summary>
-        /// Determine if the waiting screen should be showing
-        /// </summary>
-        /// <returns></returns>
-        public Boolean ShowWaiting()
-        {
-            return this.Game.IsWaiting();
-        }
+		/// <summary>
+		/// Get the current round
+		/// </summary>
+		public Entities.GameRound CurrentRound
+		{
+			get
+			{
+				return Game.Rounds.LastOrDefault();
+			}
+		}
+
+		/// <summary>
+		/// Get the current card commander
+		/// </summary>
+		public Entities.User CardCommander
+		{
+			get
+			{
+				return this.CurrentRound.CardCommander;
+			}
+		}
     }
 }

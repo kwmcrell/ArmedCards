@@ -21,27 +21,52 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.Game
+namespace ArmedCards.DataAccess.GameRound
 {
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
+	/// <summary>
+	/// Implementation of <seealso cref="Base.ISelect"/>
+	/// </summary>
+	public class Select : Base.ISelect
+	{
+		private Database _db;
+
+		public Select(Database db)
+		{
+			this._db = db;
+		}
 
 		/// <summary>
-		/// Used to select additional data
+		/// Selects game rounds base on supplied filter
 		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
+		/// <param name="filter">Filter used to select game rounds</param>
+		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
+		public List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter)
+		{
+			List<Entities.GameRound> gameRounds = new List<Entities.GameRound>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GameRound_Select"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						gameRounds.Add(new Entities.GameRound(idr));
+					}
+				}
+			}
+
+			return gameRounds;
+		}
+	}
 }

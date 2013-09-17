@@ -39,14 +39,17 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         private DAL.Base.ISelect _selectGame;
         private GamePlayer.Base.ISelect _selectGamePlayerREPO;
 		private AS.Deck.Base.ISelect _selectDeck;
+		private AS.GameRound.Base.ISelect _selectGameRound;
 
         public Select(DAL.Base.ISelect selectGame,
                       GamePlayer.Base.ISelect selectGamePlayerREPO,
-					  AS.Deck.Base.ISelect selectDeck)
+					  AS.Deck.Base.ISelect selectDeck,
+					  AS.GameRound.Base.ISelect selectGameRound)
         {
             this._selectGame = selectGame;
             this._selectGamePlayerREPO = selectGamePlayerREPO;
 			this._selectDeck = selectDeck;
+			this._selectGameRound = selectGameRound;
         }
 
         /// <summary>
@@ -56,7 +59,6 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         /// <returns>A list of games that satisfy the supplied filter</returns>
         public List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter)
         {
-			
             return _selectGame.Execute(filter);
         }
 
@@ -78,6 +80,11 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 			deckFilter.GameIDs.Add(game.GameID);
 
 			game.GameDecks = _selectDeck.Execute(deckFilter);
+
+			if (filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.Rounds))
+			{
+				game.Rounds = _selectGameRound.Execute(game.GameID);
+			}
 
             return game;
         }

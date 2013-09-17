@@ -61,9 +61,13 @@
     <Compile Include="AppServices\Card\Select.cs" />
     <Compile Include="AppServices\Deck\Base\ISelect.cs" />
     <Compile Include="AppServices\Deck\Select.cs" />
+    <Compile Include="AppServices\GamePlayerCard\Base\IDeal.cs" />
+    <Compile Include="AppServices\GamePlayerCard\Deal.cs" />
     <Compile Include="AppServices\GameRound\Base\IInsert.cs" />
+    <Compile Include="AppServices\GameRound\Base\ISelect.cs" />
     <Compile Include="AppServices\GameRound\Base\IStart.cs" />
     <Compile Include="AppServices\GameRound\Insert.cs" />
+    <Compile Include="AppServices\GameRound\Select.cs" />
     <Compile Include="AppServices\GameRound\Start.cs" />
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
     <Compile Include="AppServices\Game\Base\IJoin.cs" />
@@ -93,9 +97,13 @@
     <Compile Include="DomainServices\Card\Select.cs" />
     <Compile Include="DomainServices\Deck\Base\ISelect.cs" />
     <Compile Include="DomainServices\Deck\Select.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Base\IDeal.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Deal.cs" />
     <Compile Include="DomainServices\GameRound\Base\IInsert.cs" />
+    <Compile Include="DomainServices\GameRound\Base\ISelect.cs" />
     <Compile Include="DomainServices\GameRound\Base\IStart.cs" />
     <Compile Include="DomainServices\GameRound\Insert.cs" />
+    <Compile Include="DomainServices\GameRound\Select.cs" />
     <Compile Include="DomainServices\GameRound\Start.cs" />
     <Compile Include="DomainServices\Game\Base\IInsert.cs" />
     <Compile Include="DomainServices\Game\Base\IJoin.cs" />
@@ -129,7 +137,9 @@
     <Compile Include="Repositories\GamePlayer\Insert.cs" />
     <Compile Include="Repositories\GamePlayer\Select.cs" />
     <Compile Include="Repositories\GameRound\Base\IInsert.cs" />
+    <Compile Include="Repositories\GameRound\Base\ISelect.cs" />
     <Compile Include="Repositories\GameRound\Insert.cs" />
+    <Compile Include="Repositories\GameRound\Select.cs" />
     <Compile Include="Repositories\Game\Base\IInsert.cs" />
     <Compile Include="Repositories\Game\Base\IJoin.cs" />
     <Compile Include="Repositories\Game\Base\ILeave.cs" />
@@ -150,10 +160,15 @@
       <Project>{d8f286cb-de93-4ff8-8499-14e6ff87bc92}</Project>
       <Name>ArmedCards.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArmedCards.Library\ArmedCards.Library.csproj">
+      <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
+      <Name>ArmedCards.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

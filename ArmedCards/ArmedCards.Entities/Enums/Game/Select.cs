@@ -27,21 +27,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.Game
+namespace ArmedCards.Entities.Enums.Game
 {
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
+	/// <summary>
+	/// Defines what values to select
+	/// </summary>
+	[Flags]
+	public enum Select
+	{
+		/// <summary>
+		/// Nothing extra
+		/// </summary>
+		None = 0,
 
 		/// <summary>
-		/// Used to select additional data
+		/// Select rounds
 		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
+		Rounds = 1,
+
+		/// <summary>
+		/// Select Game Player Cards
+		/// </summary>
+		GamePlayerCards = 2
+	}
 }

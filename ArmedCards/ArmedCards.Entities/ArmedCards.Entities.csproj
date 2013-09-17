@@ -47,6 +47,7 @@
     <Compile Include="Enums\Card\Instructions.cs" />
     <Compile Include="Enums\DeckType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />
+    <Compile Include="Enums\Game\Select.cs" />
     <Compile Include="Filters\ActiveConnection\Delete.cs" />
     <Compile Include="Filters\ActiveConnection\DeleteAll.cs" />
     <Compile Include="Filters\ActiveConnection\SelectAll.cs" />
@@ -54,10 +55,12 @@
     <Compile Include="Filters\Deck\Select.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
+    <Compile Include="Filters\GameRound\Select.cs" />
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePlayer.cs" />
+    <Compile Include="GamePlayerCard.cs" />
     <Compile Include="GameRound.cs" />
     <Compile Include="JoinResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

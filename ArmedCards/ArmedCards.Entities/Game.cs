@@ -67,6 +67,7 @@ namespace ArmedCards.Entities
             PlayedLast          =   idr.GetValueByName<DateTime?>("PlayedLast");
             GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
             PlayerCount         =   idr.GetValueByName<Int32>("PlayerCount");
+			RoundCount			=	idr.GetValueByName<Int32>("RoundCount");
         }
 
         /// <summary>
@@ -232,6 +233,18 @@ namespace ArmedCards.Entities
             return needed > 0 ? needed : 0;
         }
 
+		public Entities.GameRound CurrentRound()
+		{
+			if (this.HasRounds())
+			{
+				return this.Rounds.LastOrDefault();
+			}
+			else
+			{
+				throw new ArgumentNullException("There are no rounds");
+			}
+		}
+
         /// <summary>
         /// Determine who the card commander is
         /// </summary>
@@ -242,7 +255,7 @@ namespace ArmedCards.Entities
 
             if (this.HasRounds())
             {
-                commander = this.Players.First().User;
+				commander = this.CurrentRound().CardCommander;
             }
             else
             {
@@ -268,7 +281,21 @@ namespace ArmedCards.Entities
 		/// <returns>If the game is still waiting</returns>
 		public Boolean IsWaiting()
 		{
-			return !this.HasRounds() || !this.HasRequiredNumberOfPlayers();
+			if (this.HasRounds())
+			{
+				if (this.HasRequiredNumberOfPlayers())
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return true;
+			}
 		}
     }
 }

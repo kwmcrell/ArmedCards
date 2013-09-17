@@ -21,27 +21,33 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GameRound_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRound_Select] 
+END 
+GO
 
-namespace ArmedCards.Entities.Filters.Game
-{
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/16/2013
+-- Description:	Selects rounds based on game id
+-- ===============================================
+CREATE PROC [dbo].[GameRound_Select] 
+	@GameID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-		/// <summary>
-		/// Used to select additional data
-		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
-}
+	SELECT	GR.[GameRoundID],
+			GR.[Started],
+			GR.[Game_GameID],
+			GR.[CardCommander_UserId] AS UserId,
+			UP.[UserName]
+	FROM [dbo].[GameRound] GR
+	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GR.[CardCommander_UserId]
+	WHERE GR.[Game_GameID] = @GameID
+
+	COMMIT
+GO

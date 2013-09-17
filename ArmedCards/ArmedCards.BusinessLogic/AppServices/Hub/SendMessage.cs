@@ -72,7 +72,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
 		public void Execute(Entities.Game game, 
-							Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> action)
+							Action<Entities.ActiveConnection, Entities.Game, List<Entities.GamePlayerCard>> action)
 		{
 			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
 			filter.GroupName = String.Format("Game_{0}", game.GameID);

@@ -55,6 +55,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
         {
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = gameID;
+			filter.DataToSelect |= Entities.Enums.Game.Select.Rounds;
 
             Entities.Game game = _selectGame.Execute(filter);
 

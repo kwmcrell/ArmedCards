@@ -54,7 +54,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// <param name="startedAction">Action to fire on successful start</param>
 		/// <returns>The started game</returns>
 		public Entities.Game Execute(Int32 gameID, Entities.User commander,
-									 Action<Entities.ActiveConnection, Entities.Game, List<Entities.Card>> startedAction)
+									 Action<Entities.ActiveConnection, Entities.Game, List<Entities.GamePlayerCard>> startedAction)
 		{
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;

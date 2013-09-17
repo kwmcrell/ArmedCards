@@ -46,6 +46,7 @@ namespace ArmedCards.Entities
         public GamePlayer()
         {
             User = new User();
+			Hand = new List<GamePlayerCard>();
         }
 
         /// <summary>
@@ -64,8 +65,13 @@ namespace ArmedCards.Entities
         public Int32 Points { get; set; }
 
 		/// <summary>
-		/// List of cards in a player's hand
+		/// Number of cards in player's hand
 		/// </summary>
-		public List<Entities.Card> Hand { get; set; }
+		public Int32 CardCount { get; set; }
+
+		/// <summary>
+		/// List of cards in player's hand
+		/// </summary>
+		public List<Entities.GamePlayerCard> Hand { get; set; }
     }
 }

@@ -159,6 +159,12 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IStart,				BusinessLogic.AppServices.GameRound.Start>();
 			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IStart,			BusinessLogic.DomainServices.GameRound.Start>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.ISelect,			BusinessLogic.AppServices.GameRound.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.ISelect,			BusinessLogic.DomainServices.GameRound.Select>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRound.Base.ISelect,			BusinessLogic.Repositories.GameRound.Select>();
+
+			Container.RegisterType<DataAccess.GameRound.Base.ISelect,							DataAccess.GameRound.Select>();
+
 			#endregion "Game Round"
 		}
     }

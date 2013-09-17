@@ -21,27 +21,29 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+var ArmedCards = ArmedCards || {};
+ArmedCards.Game = ArmedCards.Game || {};
 
-namespace ArmedCards.Entities.Filters.Game
-{
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
+function State() {
 
-		/// <summary>
-		/// Used to select additional data
-		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
 }
+
+if (!ArmedCards.Game.State) {
+	ArmedCards.Game.State = new State();
+}
+
+State.prototype.UpdateGame = function (html) {
+	$('#gameContainer').html(html);
+};
+
+State.prototype.Init = function () {
+	var hub = $.connection.ArmedCardsHub;
+	hub.client.UpdateGame = ArmedCards.Game.State.UpdateGame;
+};
+
+State.prototype.ConnectionSuccess = function () {
+
+};
+
+$.Topic("beforeHubStart").subscribe(ArmedCards.Game.State.Init);
+$.Topic("hubStartComplete").subscribe(ArmedCards.Game.State.ConnectionSuccess);

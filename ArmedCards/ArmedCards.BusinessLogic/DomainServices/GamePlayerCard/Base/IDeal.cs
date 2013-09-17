@@ -27,21 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.Game
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard.Base
 {
-    /// <summary>
-    /// The filter used to select one game
-    /// </summary>
-    public class Select
-    {
-        /// <summary>
-        /// The ID for the game to select
-        /// </summary>
-        public Int32 GameID { get; set; }
-
+	/// <summary>
+	/// Interface that defines dealing cards
+	/// </summary>
+	public interface IDeal
+	{
 		/// <summary>
-		/// Used to select additional data
+		/// Handle dealing cards to players in <paramref name="game"/>
 		/// </summary>
-		public Enums.Game.Select DataToSelect { get; set; }
-    }
+		/// <param name="game">The game to deal cards for</param>
+		void Execute(Entities.Game game);
+	}
 }

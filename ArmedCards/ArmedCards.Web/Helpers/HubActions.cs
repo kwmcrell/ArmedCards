@@ -69,8 +69,8 @@ namespace ArmedCards.Web.Helpers
 		/// <param name="connection">Connection to send to</param>
 		/// <param name="game">The current game</param>
 		/// <param name="cards">The cards in the hand of the user the connection belongs to</param>
-		public static void SendGameStartedMessage(Entities.ActiveConnection connection, Entities.Game game, 
-												  List<Entities.Card> cards)
+		public static void SendGameStartedMessage(Entities.ActiveConnection connection, Entities.Game game,
+												  List<Entities.GamePlayerCard> cards)
 		{
 			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
@@ -78,10 +78,10 @@ namespace ArmedCards.Web.Helpers
 			model.Game = game;
 			model.UserId = connection.User_UserId;
 
-			string partialView = GetRazorViewAsString("~/Views/Game/Partials/_Game.cshtml", model);
+			string partialView = GetRazorViewAsString("~/Views/Game/Board/Partials/_Game.cshtml", model);
 
 			hub.Clients.Client(connection.ActiveConnectionID)
-					   .updateGame(partialView);
+					   .UpdateGame(partialView);
 		}
 
 		/// <summary>
