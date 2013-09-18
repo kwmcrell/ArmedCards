@@ -94,11 +94,15 @@
     <Compile Include="DomainServices\ActiveConnection\Insert.cs" />
     <Compile Include="DomainServices\ActiveConnection\Select.cs" />
     <Compile Include="DomainServices\Card\Base\ISelect.cs" />
+    <Compile Include="DomainServices\Card\Base\IShuffle.cs" />
     <Compile Include="DomainServices\Card\Select.cs" />
+    <Compile Include="DomainServices\Card\Shuffle.cs" />
     <Compile Include="DomainServices\Deck\Base\ISelect.cs" />
     <Compile Include="DomainServices\Deck\Select.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\IDeal.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Base\IExcludeCurrentHands.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Deal.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\ExcludeCurrentHands.cs" />
     <Compile Include="DomainServices\GameRound\Base\IInsert.cs" />
     <Compile Include="DomainServices\GameRound\Base\ISelect.cs" />
     <Compile Include="DomainServices\GameRound\Base\IStart.cs" />
@@ -168,7 +172,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DomainServices\GameRoundCard\Base\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -28,6 +28,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AS = ArmedCards.BusinessLogic.AppServices;
 using ArmedCards.Library.Extensions;
+using DS = ArmedCards.BusinessLogic.DomainServices;
 
 namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
@@ -38,11 +39,14 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 	{
 		private const Int32 HAND_SIZE = 10;
 
-		private AS.Game.Base.ISelectCards _selectCardsGame;
+		private DS.Card.Base.IShuffle _shuffleCards;
+		private Base.IExcludeCurrentHands _excludeCurrentHands;
 
-		public Deal(AS.Game.Base.ISelectCards selectCardsGame)
+		public Deal(DS.Card.Base.IShuffle shuffleCards,
+					Base.IExcludeCurrentHands excludeCurrentHands)
 		{
-			this._selectCardsGame = selectCardsGame;
+			this._shuffleCards = shuffleCards;
+			this._excludeCurrentHands = excludeCurrentHands;
 		}
 
 		/// <summary>
@@ -53,11 +57,13 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		{
 			List<Entities.Card> questions;
 			List<Entities.Card> answers;
-			GetCards(game, out questions, out answers);
+			_shuffleCards.Execute(game, out questions, out answers);
 
 			Entities.GamePlayerCard dealtQuestion = CreateQuestion(questions , game);
 
-			Dictionary<Int32, Int32> numbersToDraw = CalculateNumbersToDraw(answers, dealtQuestion.Card, game);
+			IEnumerable<Entities.Card> filteredAnswers = _excludeCurrentHands.Execute(game, answers);
+
+			Dictionary<Int32, Int32> numbersToDraw = CalculateNumbersToDraw(answers, dealtQuestion, game);
 
 			Boolean needMoreQuestions = dealtQuestion == null;
 			Boolean needMoreAnswers = numbersToDraw.Values.Sum() > answers.Count();
@@ -65,29 +71,14 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 			if (needMoreQuestions || needMoreAnswers)
 			{
 				//Update reshuffle counts
-
-				//Regrab questions and answers
-				GetCards(game, out questions, out answers);
-
+				
+				//Reselect question card
 				dealtQuestion = CreateQuestion(questions , game);
 
-				numbersToDraw = CalculateNumbersToDraw(answers, dealtQuestion.Card, game);
+				numbersToDraw = CalculateNumbersToDraw(answers, dealtQuestion, game);
 			}
 
 			List<Entities.GamePlayerCard> dealtAnswers = CreatePlayerHands(answers, numbersToDraw, game);
-		}
-
-		private void GetCards(Entities.Game game, out List<Entities.Card> questions, out List<Entities.Card> answers)
-		{
-			List<Entities.Card> cards = _selectCardsGame.Execute(game);
-
-			cards.Shuffle();
-
-			questions = cards.Where(x => x.Type == Entities.Enums.Card.CardType.Question).ToList();
-			answers = cards.Where(x => x.Type == Entities.Enums.Card.CardType.Answer).ToList();
-
-			questions.Shuffle();
-			answers.Shuffle();
 		}
 
 		#region "Calculate number of cards needed per player"
@@ -136,10 +127,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 			if (card != null)
 			{
-				playerCard = new Entities.GamePlayerCard();
-
-				playerCard.Card = card;
-				playerCard.CardID = card.CardID;
+				playerCard = new Entities.GamePlayerCard(card);
 				playerCard.GameID = gameID;
 				playerCard.UserId = userId;
 			}

@@ -68,5 +68,10 @@ namespace ArmedCards.Entities
 		/// The round's card commander
 		/// </summary>
 		public User CardCommander { get; set; }
+
+		/// <summary>
+		/// List of cards played during the round
+		/// </summary>
+		public List<GameRoundCard> CardsPlayed { get; set; }
     }
 }
