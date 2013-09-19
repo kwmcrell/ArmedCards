@@ -40,5 +40,12 @@ namespace ArmedCards.BusinessLogic.Repositories.Card.Base
 		/// <param name="filter">The filter used to select cards</param>
 		/// <returns>A filtered list of cards</returns>
 		List<Entities.Card> Execute(Entities.Filters.Card.Select filter);
+
+		/// <summary>
+		/// Select cards based on a filter
+		/// </summary>
+		/// <param name="filter">The filter used to select cards</param>
+		/// <returns>A filtered list of cards</returns>
+		List<Entities.Card> Execute(Entities.Filters.Card.SelectForDeal filter);
     }
 }

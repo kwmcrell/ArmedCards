@@ -69,5 +69,30 @@ namespace ArmedCards.DataAccess.Card
 
 			return cards;
 		}
+
+		/// <summary>
+		/// Select cards based on a filter
+		/// </summary>
+		/// <param name="filter">The filter used to select cards</param>
+		/// <returns>A filtered list of cards</returns>
+		public List<Entities.Card> Execute(Entities.Filters.Card.SelectForDeal filter)
+		{
+			List<Entities.Card> cards = new List<Entities.Card>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("Card_SelectForDeal"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						cards.Add(new Entities.Card(idr));
+					}
+				}
+			}
+
+			return cards;
+		}
 	}
 }

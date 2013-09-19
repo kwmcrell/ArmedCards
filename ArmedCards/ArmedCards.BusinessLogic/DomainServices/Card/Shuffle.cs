@@ -36,11 +36,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.Card
 	/// </summary>
 	public class Shuffle : Base.IShuffle
 	{
-		private AS.Game.Base.ISelectCards _selectCardsGame;
+		private AS.Card.Base.ISelect _selectCard;
 
-		public Shuffle(AS.Game.Base.ISelectCards selectCardsGame)
+		public Shuffle(AS.Card.Base.ISelect selectCard)
 		{
-			this._selectCardsGame = selectCardsGame;
+			this._selectCard = selectCard;
 		}
 
 		/// <summary>
@@ -51,7 +51,10 @@ namespace ArmedCards.BusinessLogic.DomainServices.Card
 		/// <param name="answers">A list of answer cards</param>
 		public void Execute(Entities.Game game, out List<Entities.Card> questions, out List<Entities.Card> answers)
 		{
-			List<Entities.Card> cards = _selectCardsGame.Execute(game);
+			Entities.Filters.Card.SelectForDeal filter = new Entities.Filters.Card.SelectForDeal();
+			filter.GameID = game.GameID;
+
+			List<Entities.Card> cards = _selectCard.Execute(filter);
 
 			cards.Shuffle();
 

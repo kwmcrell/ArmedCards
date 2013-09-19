@@ -78,9 +78,6 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ILeave,				BusinessLogic.DomainServices.Game.Leave>();
 			Container.RegisterType<BusinessLogic.Repositories.Game.Base.ILeave,					BusinessLogic.Repositories.Game.Leave>();
 
-			Container.RegisterType<BusinessLogic.AppServices.Game.Base.ISelectCards,            BusinessLogic.AppServices.Game.SelectCards>();
-			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.ISelectCards,			BusinessLogic.DomainServices.Game.SelectCards>();
-
 			Container.RegisterType<BusinessLogic.AppServices.Game.Base.IStart,					BusinessLogic.AppServices.Game.Start>();
             #endregion "Game"
 
@@ -139,6 +136,10 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.Repositories.Card.Base.ISelect,				BusinessLogic.Repositories.Card.Select>();
 
 			Container.RegisterType<DataAccess.Card.Base.ISelect,								DataAccess.Card.Select>();
+
+			Container.RegisterType<BusinessLogic.DomainServices.Card.Base.IExcludeByCount,		BusinessLogic.DomainServices.Card.ExcludeByCount>();
+
+			Container.RegisterType<BusinessLogic.DomainServices.Card.Base.IExcludeCurrentHands, BusinessLogic.DomainServices.Card.ExcludeCurrentHands>();
 
 			#endregion "Card"
 

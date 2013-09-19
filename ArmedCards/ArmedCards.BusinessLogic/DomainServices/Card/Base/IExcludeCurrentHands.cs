@@ -27,25 +27,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game.Base
+namespace ArmedCards.BusinessLogic.DomainServices.Card.Base
 {
 	/// <summary>
-	/// Interface for selecting cards for a game
+	/// Interface that defines excluding cards currently in hands
 	/// </summary>
-	public interface ISelectCards
+	public interface IExcludeCurrentHands
 	{
 		/// <summary>
-		/// Select cards for a certain game
+		/// Filters out all cards that can currently be found in a player's hand
+		/// out of the <paramref name="allAvailableCards"/>
 		/// </summary>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>List of cards that belong to the game's decks</returns>
-		List<Entities.Card> Execute(int gameID);
-
-		/// <summary>
-		/// Select cards for a certain game
-		/// </summary>
-		/// <param name="gameID">The game</param>
-		/// <returns>List of cards that belong to the game's decks</returns>
-		List<Entities.Card> Execute(Entities.Game game);
+		/// <param name="allAvailableCards">All the cards for the game decks</param>
+		/// <returns>A filtered list of cards</returns>
+		IEnumerable<Entities.Card> Execute(List<Entities.Card> allAvailableCards);
 	}
 }

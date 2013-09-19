@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace ArmedCards.Entities
 {
-	public class GameRoundCard : Card
+	public class GameRoundCard
 	{
 	}
 }

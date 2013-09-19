@@ -37,6 +37,11 @@ namespace ArmedCards.Entities
     /// </summary>
     public class Game
     {
+		/// <summary>
+		/// Number of players required to play
+		/// </summary>
+		private const Int32 RequiredPlayerCount = 3;
+
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -47,6 +52,8 @@ namespace ArmedCards.Entities
             GameDeckIDs = new List<int>();
             Players = new List<GamePlayer>();
             Rounds = new List<GameRound>();
+			QuestionShuffleCount = 1;
+			AnswerShuffleCount = 1;
         }
 
         /// <summary>
@@ -68,6 +75,8 @@ namespace ArmedCards.Entities
             GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
             PlayerCount         =   idr.GetValueByName<Int32>("PlayerCount");
 			RoundCount			=	idr.GetValueByName<Int32>("RoundCount");
+			PlayerCount			=	idr.GetValueByName<Int32>("QuestionShuffleCount");
+			RoundCount			=	idr.GetValueByName<Int32>("AnswerShuffleCount");
         }
 
         /// <summary>
@@ -180,6 +189,16 @@ namespace ArmedCards.Entities
         /// </summary>
         public List<GameRound> Rounds { get; set; }
 
+		/// <summary>
+		/// Number of times questions have be shuffled
+		/// </summary>
+		public Int32 QuestionShuffleCount { get; set; }
+
+		/// <summary>
+		/// Number of times answers have be shuffled
+		/// </summary>
+		public Int32 AnswerShuffleCount { get; set; }
+
         /// <summary>
         /// Determine if user is already a player
         /// </summary>
@@ -207,11 +226,6 @@ namespace ArmedCards.Entities
         {
             return RoundCount > 0;
         }
-
-        /// <summary>
-        /// Number of players required to play
-        /// </summary>
-        private const Int32 RequiredPlayerCount = 3;
 
         /// <summary>
         /// Determine if the game has required number of players

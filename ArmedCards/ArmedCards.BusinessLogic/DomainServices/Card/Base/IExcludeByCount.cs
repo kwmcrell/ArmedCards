@@ -26,33 +26,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.BusinessLogic.DomainServices.Game
+namespace ArmedCards.BusinessLogic.DomainServices.Card.Base
 {
 	/// <summary>
-	/// Implementation of ISelectCards
+	/// Interface that defines excluding cards based on a count
 	/// </summary>
-	public class SelectCards : Base.ISelectCards
+	public interface IExcludeByCount
 	{
-		public AS.Card.Base.ISelect _selectCards;
-
-		public SelectCards(AS.Card.Base.ISelect selectCards)
-		{
-			this._selectCards = selectCards;
-		}
-
 		/// <summary>
-		/// Select cards for a certain game
+		/// Exclude cards based on the number of times a card has been played in the game
 		/// </summary>
-		/// <param name="gameID">The game</param>
-		/// <returns>List of cards that belong to the game's decks</returns>
-		public List<Entities.Card> Execute(Entities.Game game)
-		{
-			Entities.Filters.Card.Select filter = new Entities.Filters.Card.Select();
-			filter.DeckIDs = game.GameDecks.Select(x => x.DeckID).ToList();
-
-			return _selectCards.Execute(filter);
-		}
+		/// <param name="cards">The cards to filter</param>
+		/// <param name="count">The number of times a card is allowed to be played</param>
+		/// <returns>A list of available cards</returns>
+		IEnumerable<Entities.Card> Execute(IEnumerable<Entities.Card> cards, Int32 count);
 	}
 }

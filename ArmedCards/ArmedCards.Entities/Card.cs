@@ -74,5 +74,17 @@ namespace ArmedCards.Entities
 		/// Created by User ID
 		/// </summary>
 		public Int32 CreatedBy_UserId { get; set; }
+
+		/// <summary>
+		/// Already in another/current player hand
+		/// </summary>
+		/// <remarks>Currently only being used for dealing cards in a game</remarks>
+		public Boolean CurrentlyInAHand { get; set; }
+
+		/// <summary>
+		/// Number of times the card has been played in the game
+		/// </summary>
+		/// <remarks>Currently only being used for dealing cards in a game</remarks>
+		public Int32 NumberOfTimesPlayed { get; set; }
     }
 }

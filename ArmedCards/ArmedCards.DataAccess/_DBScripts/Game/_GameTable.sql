@@ -34,6 +34,8 @@ IF OBJECT_ID('[dbo].[Game]') IS NULL
 			[DateCreated]			[datetime] NOT NULL,
 			[PlayedLast]			[datetime] NULL,
 			[GameOver]				[datetime] NULL,
+			[AnswerShuffleCount]	[int] NOT NULL,
+			[QuestionShuffleCount]	[int] NOT NULL,
 		 CONSTRAINT [PK_dbo.Game] PRIMARY KEY CLUSTERED 
 		(
 			[GameID] ASC
@@ -42,7 +44,26 @@ IF OBJECT_ID('[dbo].[Game]') IS NULL
 
 		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((6)) FOR [MaxNumberOfPlayers]
 		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((8)) FOR [PointsToWin]
+		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((1)) FOR [AnswerShuffleCount]
+		ALTER TABLE [dbo].[Game] ADD  DEFAULT ((1)) FOR [QuestionShuffleCount]
 		ALTER TABLE [dbo].[Game]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Game_dbo.UserProfile_GameCreator_UserId] FOREIGN KEY([GameCreator_UserId])
 		REFERENCES [dbo].[UserProfile] ([UserId])
 		ALTER TABLE [dbo].[Game] CHECK CONSTRAINT [FK_dbo.Game_dbo.UserProfile_GameCreator_UserId]
 	END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'[AnswerShuffleCount]' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [AnswerShuffleCount] [int] NOT NULL DEFAULT 1	
+END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'[QuestionShuffleCount]' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [QuestionShuffleCount] [int] NOT NULL DEFAULT 1
+END
+

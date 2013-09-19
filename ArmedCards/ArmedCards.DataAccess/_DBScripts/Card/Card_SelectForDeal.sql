@@ -21,27 +21,51 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[Card_SelectForDeal]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Card_SelectForDeal] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard.Base
-{
-	/// <summary>
-	/// Interface that defines excluding cards currently in hands
-	/// </summary>
-	public interface IExcludeCurrentHands
-	{
-		/// <summary>
-		/// Filters out all cards that can currently be found in a player's hand
-		/// out of the <paramref name="allAvailableCards"/>
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="allAvailableCards">All the cards for the game decks</param>
-		/// <returns>A filtered list of cards</returns>
-		IEnumerable<Entities.Card> Execute(Entities.Game game,
-										   List<Entities.Card> allAvailableCards);
-	}
-}
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/18/2013
+-- Description:	Select cards based on game ID
+-- ===============================================
+CREATE PROC [dbo].[Card_SelectForDeal]
+	@GameID			INT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	SELECT DISTINCT C.[CardID],
+				    C.[Content],
+				    C.[Instructions],
+				    C.[Type],
+				    C.[CreatedBy_UserId],
+					(
+						SELECT COUNT(GRC.[Card_CardID])
+						FROM [dbo].[GameRoundCard] GRC
+						WHERE GRC.[Game_GameID] = @GameID
+						AND GRC.[Card_CardID] = C.[CardID]
+					) AS NumberOfTimesPlayed,
+					(
+						CASE
+							WHEN EXISTS (
+											SELECT TOP 1 GPC.CardID
+											FROM [dbo].[GamePlayerCard] GPC
+											WHERE GPC.[CardID] = C.[CardID]
+										)
+								THEN 1
+							ELSE 0
+						END
+					) AS CurrentlyInAHand
+	FROM [dbo].[Card] C
+	INNER JOIN [dbo].[DeckCard] DC ON DC.[CardID] = C.[CardID]
+	INNER JOIN [dbo].[GameDeck] GD ON GD.[DeckID] = DC.[DeckID]
+	WHERE GD.GameID = @GameID
+
+	COMMIT
+GO

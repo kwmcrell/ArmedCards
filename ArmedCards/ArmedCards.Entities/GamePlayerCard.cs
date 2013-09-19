@@ -34,24 +34,14 @@ namespace ArmedCards.Entities
 	/// <summary>
 	/// Link record between a GamePlayer and a Card
 	/// </summary>
-	public class GamePlayerCard : Card
+	public class GamePlayerCard
 	{
 		public GamePlayerCard()
 		{
 
 		}
 
-		public GamePlayerCard(Card card)
-		{
-			this.CardID				= card.CardID;
-			this.Content			= card.Content;
-			this.CreatedBy_UserId	= card.CreatedBy_UserId;
-			this.Instructions		= card.Instructions;
-			this.Type				= card.Type;
-		}
-
 		public GamePlayerCard(IDataReader idr)
-			: base(idr)
 		{
 
 		}
@@ -60,6 +50,16 @@ namespace ArmedCards.Entities
 		/// The User Id for the player
 		/// </summary>
 		public Int32 UserId { get; set; }
+
+		/// <summary>
+		/// The card ID
+		/// </summary>
+		public Int32 CardID { get; set; }
+
+		/// <summary>
+		/// The actual card
+		/// </summary>
+		public Card Card { get; set; }
 
 		/// <summary>
 		/// The game ID

@@ -27,29 +27,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
+namespace ArmedCards.BusinessLogic.DomainServices.Card
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IExcludeCurrentHands"/>
+	/// Implementation of <seealso cref="Base.IExcludeByCount"/>
 	/// </summary>
-	public class ExcludeCurrentHands : Base.IExcludeCurrentHands
+	public class ExcludeByCount : Base.IExcludeByCount
 	{
 		/// <summary>
-		/// Filters out all cards that can currently be found in a player's hand
-		/// out of the <paramref name="allAvailableCards"/>
+		/// Exclude cards based on the number of times a card has been played in the game
 		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="allAvailableCards">All the cards for the game decks</param>
-		/// <returns>A filtered list of cards</returns>
-		public IEnumerable<Entities.Card> Execute(Entities.Game game,
-												  List<Entities.Card> allAvailableCards)
+		/// <param name="cards">The cards to filter</param>
+		/// <param name="count">The number of times a card is allowed to be played</param>
+		/// <returns>A list of available cards</returns>
+		public IEnumerable<Entities.Card> Execute(IEnumerable<Entities.Card> cards, Int32 count)
 		{
-			Entities.IEqualityComparer.CardEqualityComparer comparer = 
-				new Entities.IEqualityComparer.CardEqualityComparer();
-
-			IEnumerable<Entities.GamePlayerCard> playerHands = game.Players.SelectMany(x => x.Hand);
-
-			return allAvailableCards.Except(playerHands, comparer);
+			return cards.Where(x => x.NumberOfTimesPlayed < count);
 		}
 	}
 }

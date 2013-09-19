@@ -27,18 +27,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.IEqualityComparer
+namespace ArmedCards.BusinessLogic.DomainServices.Card
 {
-	public class CardEqualityComparer : IEqualityComparer<Entities.Card>
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IExcludeCurrentHands"/>
+	/// </summary>
+	public class ExcludeCurrentHands : Base.IExcludeCurrentHands
 	{
-		public Boolean Equals(Entities.Card card1, Entities.Card card2)
+		/// <summary>
+		/// Filters out all cards that can currently be found in a player's hand
+		/// out of the <paramref name="allAvailableCards"/>
+		/// </summary>
+		/// <param name="allAvailableCards">All the cards for the game decks</param>
+		/// <returns>A filtered list of cards</returns>
+		public IEnumerable<Entities.Card> Execute(List<Entities.Card> allAvailableCards)
 		{
-			return card1.CardID == card2.CardID;
-		}
-
-		public Int32 GetHashCode(Entities.Card card)
-		{
-			return card.CardID.GetHashCode();
+			return allAvailableCards.Where(x => !x.CurrentlyInAHand);
 		}
 	}
 }

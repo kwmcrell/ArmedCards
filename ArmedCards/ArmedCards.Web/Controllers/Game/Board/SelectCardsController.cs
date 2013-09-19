@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AS = ArmedCards.BusinessLogic.AppServices.Game;
+using AS = ArmedCards.BusinessLogic.AppServices.Card;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
 	[Extensions.ArmedCardsAuthorize]
     public class SelectCardsController : Extensions.ArmedCardsController
     {
-		private AS.Base.ISelectCards _selectCards;
+		private AS.Base.ISelect _selectCards;
 
-		public SelectCardsController(AS.Base.ISelectCards selectCards)
+		public SelectCardsController(AS.Base.ISelect selectCards)
 		{
 			this._selectCards = selectCards;
 		}

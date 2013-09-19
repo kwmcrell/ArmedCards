@@ -52,5 +52,15 @@ namespace ArmedCards.BusinessLogic.AppServices.Card
 		{
 			return _selectCard.Execute(filter);
 		}
+
+		/// <summary>
+		/// Select cards based on a filter
+		/// </summary>
+		/// <param name="filter">The filter used to select cards</param>
+		/// <returns>A filtered list of cards</returns>
+		public List<Entities.Card> Execute(Entities.Filters.Card.SelectForDeal filter)
+		{
+			return _selectCard.Execute(filter);
+		}
 	}
 }

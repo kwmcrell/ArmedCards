@@ -26,47 +26,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game
+namespace ArmedCards.Entities.Filters.Card
 {
 	/// <summary>
-	/// Implementation of ISelectCards
+	/// Filter used to select cards for a game
 	/// </summary>
-	public class SelectCards : Base.ISelectCards
+	public class SelectForDeal
 	{
-		private Base.ISelect _selectGame;
-		private DS.Base.ISelectCards _selectGameCards;
-
-		public SelectCards(Base.ISelect selectGame, DS.Base.ISelectCards selectGameCards)
-		{
-			this._selectGame = selectGame;
-			this._selectGameCards = selectGameCards;
-		}
-
 		/// <summary>
-		/// Select cards for a certain game
+		/// The game ID
 		/// </summary>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>List of cards that belong to the game's decks</returns>
-		public List<Entities.Card> Execute(int gameID)
-		{
-			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
-			filter.GameID = gameID;
-
-			Entities.Game game = _selectGame.Execute(filter);
-
-			return Execute(game);
-		}
-
-		/// <summary>
-		/// Select cards for a certain game
-		/// </summary>
-		/// <param name="gameID">The game</param>
-		/// <returns>List of cards that belong to the game's decks</returns>
-		public List<Entities.Card> Execute(Entities.Game game)
-		{
-			return _selectGameCards.Execute(game);
-		}
+		public Int32 GameID { get; set; }
 	}
 }

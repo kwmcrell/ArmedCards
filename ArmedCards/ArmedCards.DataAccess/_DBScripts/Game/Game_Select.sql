@@ -50,6 +50,8 @@ AS
 			G.[DateCreated],
 			G.[PlayedLast],
 			G.[GameOver],
+			G.[AnswerShuffleCount],
+			G.[QuestionShuffleCount],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount,
