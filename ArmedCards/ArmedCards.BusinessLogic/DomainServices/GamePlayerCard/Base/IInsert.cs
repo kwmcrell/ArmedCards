@@ -27,79 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard.Base
 {
 	/// <summary>
-	/// Class that defines a card played during a round
+	/// Interface for inserting game player cards
 	/// </summary>
-	public class GameRoundCard
+	public interface IInsert
 	{
-		public GameRoundCard()
-		{
-			PlayOrder = 1;
-			Winner = false;
-			PlayedBy = new User();
-		}
-
-		public GameRoundCard(Card card, Int32 userId, Int32 gameRoundID, Int32 gameID)
-			:this()
-		{
-			Card = card;
-			Card_CardID = card.CardID;
-			DatePlayed = DateTime.UtcNow;
-			PlayedBy_UserId = userId;
-			GameRound_GameRoundID = gameRoundID;
-			Game_GameID = gameID;
-		}
-
 		/// <summary>
-		/// The ID for this card
+		/// Insert game player cards into the database
 		/// </summary>
-		public Int32 GameRoundCardID { get; set; }
-
-		/// <summary>
-		/// The date the card was played
-		/// </summary>
-		public DateTime DatePlayed { get; set; }
-
-		/// <summary>
-		/// Played By UserId
-		/// </summary>
-		public Int32 PlayedBy_UserId { get; set; }
-
-		/// <summary>
-		/// Played By User
-		/// </summary>
-		public User PlayedBy { get; set; }
-
-		/// <summary>
-		/// The CardID for the played card
-		/// </summary>
-		public Int32 Card_CardID { get; set; }
-
-		/// <summary>
-		/// The Card played
-		/// </summary>
-		public Card Card { get; set; }
-
-		/// <summary>
-		/// The ID for the round the card was played
-		/// </summary>
-		public Int32 GameRound_GameRoundID { get; set; }
-
-		/// <summary>
-		/// The ID for the game it was played in
-		/// </summary>
-		public Int32 Game_GameID { get; set; }
-
-		/// <summary>
-		/// The winner of the round
-		/// </summary>
-		public Boolean Winner { get; set; }
-
-		/// <summary>
-		/// The order in which the card was played
-		/// </summary>
-		public Int16 PlayOrder { get; set; }
+		/// <param name="playerCards">Cards to insert</param>
+		void Execute(List<Entities.GamePlayerCard> playerCards);
 	}
 }

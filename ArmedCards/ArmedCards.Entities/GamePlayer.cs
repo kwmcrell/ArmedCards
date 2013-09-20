@@ -37,6 +37,7 @@ namespace ArmedCards.Entities
     public class GamePlayer
     {
         public GamePlayer(IDataReader idr)
+			:this()
         {
             GameID  = idr.GetValueByName<Int32>("GameID");
             User    = new User(idr);

@@ -41,6 +41,14 @@ namespace ArmedCards.Entities
 
 		}
 
+		public GamePlayerCard(Entities.Card card, Int32 gameID, Int32 userId)
+		{
+			this.Card = card;
+			this.CardID = card.CardID;
+			this.GameID = gameID;
+			this.UserId = userId;
+		}
+
 		public GamePlayerCard(IDataReader idr)
 		{
 

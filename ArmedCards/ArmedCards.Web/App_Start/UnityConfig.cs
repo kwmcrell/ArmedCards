@@ -141,6 +141,8 @@ namespace ArmedCards.Web
 
 			Container.RegisterType<BusinessLogic.DomainServices.Card.Base.IExcludeCurrentHands, BusinessLogic.DomainServices.Card.ExcludeCurrentHands>();
 
+			Container.RegisterType<BusinessLogic.DomainServices.Card.Base.IShuffle,				BusinessLogic.DomainServices.Card.Shuffle>();
+
 			#endregion "Card"
 
 			#region "Hub"
@@ -167,6 +169,36 @@ namespace ArmedCards.Web
 			Container.RegisterType<DataAccess.GameRound.Base.ISelect,							DataAccess.GameRound.Select>();
 
 			#endregion "Game Round"
+
+			#region "Game Player Card"
+
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayerCard.Base.IDeal,			BusinessLogic.AppServices.GamePlayerCard.Deal>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.IDeal,		BusinessLogic.DomainServices.GamePlayerCard.Deal>();
+
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.IInsert,	BusinessLogic.DomainServices.GamePlayerCard.Insert>();
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayerCard.Base.IInsert,		BusinessLogic.Repositories.GamePlayerCard.Insert>();
+
+			Container.RegisterType<DataAccess.GamePlayerCard.Base.IInsert,						DataAccess.GamePlayerCard.Insert>();
+
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.ICalculateDrawCount, 
+									BusinessLogic.DomainServices.GamePlayerCard.CalculateDrawCount>();
+			
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.ICreateHand, 
+									BusinessLogic.DomainServices.GamePlayerCard.CreateHand>();
+
+			
+
+			#endregion "Game Player Card"
+
+			#region "Game Round Card"
+
+			Container.RegisterType<BusinessLogic.AppServices.GameRoundCard.Base.IInsert,		BusinessLogic.AppServices.GameRoundCard.Insert>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRoundCard.Base.IInsert,		BusinessLogic.DomainServices.GameRoundCard.Insert>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRoundCard.Base.IInsert,		BusinessLogic.Repositories.GameRoundCard.Insert>();
+
+			Container.RegisterType<DataAccess.GameRoundCard.Base.IInsert,						DataAccess.GameRoundCard.Insert>();
+
+			#endregion "Game Round Card"
 		}
     }
 }

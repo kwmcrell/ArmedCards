@@ -23,83 +23,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using REPO = ArmedCards.BusinessLogic.Repositories.GameRoundCard;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.DomainServices.GameRoundCard
 {
 	/// <summary>
-	/// Class that defines a card played during a round
+	/// Implementation of <seealso cref="Base.IInsert"/>
 	/// </summary>
-	public class GameRoundCard
+	public class Insert : Base.IInsert
 	{
-		public GameRoundCard()
-		{
-			PlayOrder = 1;
-			Winner = false;
-			PlayedBy = new User();
-		}
+		private REPO.Base.IInsert _insertGameRoundCard;
 
-		public GameRoundCard(Card card, Int32 userId, Int32 gameRoundID, Int32 gameID)
-			:this()
+		public Insert(REPO.Base.IInsert insertGameRoundCard)
 		{
-			Card = card;
-			Card_CardID = card.CardID;
-			DatePlayed = DateTime.UtcNow;
-			PlayedBy_UserId = userId;
-			GameRound_GameRoundID = gameRoundID;
-			Game_GameID = gameID;
+			this._insertGameRoundCard = insertGameRoundCard;
 		}
 
 		/// <summary>
-		/// The ID for this card
+		/// Insert Game Round cards into database
 		/// </summary>
-		public Int32 GameRoundCardID { get; set; }
-
-		/// <summary>
-		/// The date the card was played
-		/// </summary>
-		public DateTime DatePlayed { get; set; }
-
-		/// <summary>
-		/// Played By UserId
-		/// </summary>
-		public Int32 PlayedBy_UserId { get; set; }
-
-		/// <summary>
-		/// Played By User
-		/// </summary>
-		public User PlayedBy { get; set; }
-
-		/// <summary>
-		/// The CardID for the played card
-		/// </summary>
-		public Int32 Card_CardID { get; set; }
-
-		/// <summary>
-		/// The Card played
-		/// </summary>
-		public Card Card { get; set; }
-
-		/// <summary>
-		/// The ID for the round the card was played
-		/// </summary>
-		public Int32 GameRound_GameRoundID { get; set; }
-
-		/// <summary>
-		/// The ID for the game it was played in
-		/// </summary>
-		public Int32 Game_GameID { get; set; }
-
-		/// <summary>
-		/// The winner of the round
-		/// </summary>
-		public Boolean Winner { get; set; }
-
-		/// <summary>
-		/// The order in which the card was played
-		/// </summary>
-		public Int16 PlayOrder { get; set; }
+		/// <param name="roundCards">Cards to insert</param>
+		public void Execute(List<Entities.GameRoundCard> roundCards)
+		{
+			_insertGameRoundCard.Execute(roundCards);
+		}
 	}
 }

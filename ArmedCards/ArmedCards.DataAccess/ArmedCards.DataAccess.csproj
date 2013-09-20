@@ -37,7 +37,9 @@
       <HintPath>..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,12 +57,17 @@
     <Compile Include="Card\Select.cs" />
     <Compile Include="Deck\Base\ISelect.cs" />
     <Compile Include="Deck\Select.cs" />
+    <Compile Include="Extensions\EntityDataReader.cs" />
+    <Compile Include="GamePlayerCard\Base\IInsert.cs" />
+    <Compile Include="GamePlayerCard\Insert.cs" />
     <Compile Include="GamePlayer\Base\IDelete.cs" />
     <Compile Include="GamePlayer\Base\IInsert.cs" />
     <Compile Include="GamePlayer\Base\ISelect.cs" />
     <Compile Include="GamePlayer\Delete.cs" />
     <Compile Include="GamePlayer\Insert.cs" />
     <Compile Include="GamePlayer\Select.cs" />
+    <Compile Include="GameRoundCard\Base\IInsert.cs" />
+    <Compile Include="GameRoundCard\Insert.cs" />
     <Compile Include="GameRound\Base\IInsert.cs" />
     <Compile Include="GameRound\Base\ISelect.cs" />
     <Compile Include="GameRound\Insert.cs" />
@@ -118,10 +125,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GamePlayerCard\Base\" />
-    <Folder Include="GameRoundCard\Base\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

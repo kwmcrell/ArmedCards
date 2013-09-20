@@ -26,53 +26,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AS = ArmedCards.BusinessLogic.AppServices;
+using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerCard;
 
-namespace ArmedCards.BusinessLogic.DomainServices.GameRound
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IStart"/>
+	/// Implementation of <seealso cref="Base.ICreateHand"/>
 	/// </summary>
-	public class Start : Base.IStart
+	public class CreateHand : Base.ICreateHand
 	{
-		private AS.GameRound.Base.IInsert _insertGameRound;
-		private AS.GamePlayerCard.Base.IDeal _dealCards;
+		private DS.Base.IInsert _insertPlayerCard;
 
-		public Start(AS.GameRound.Base.IInsert insertGameRound,
-					 AS.GamePlayerCard.Base.IDeal dealCards)
+		public CreateHand(DS.Base.IInsert insertPlayerCard)
 		{
-			this._insertGameRound = insertGameRound;
-			this._dealCards = dealCards;
+			this._insertPlayerCard = insertPlayerCard;
 		}
 
 		/// <summary>
-		/// Starts a round if certain requirements are met
+		/// Create hands for all players in the game
 		/// </summary>
-		/// <param name="game">The game to start a new round for</param>
-		/// <param name="commander">The new round's commander</param>
-		/// <returns>If a round was successfully started</returns>
-		public Boolean Execute(Entities.Game game, Entities.User commander)
+		/// <param name="answers">List of answers that can be dealt</param>
+		/// <param name="drawCount">Dictionary for the number of cards needed for each player</param>
+		/// <param name="game">The current game</param>
+		public void Execute(List<Entities.Card> answers, Dictionary<Int32, Int32> numbersToDraw, Entities.Game game)
 		{
-			Boolean successful = false;
+			List<Entities.GamePlayerCard> dealtAnswers = new List<Entities.GamePlayerCard>();
 
-			if (game.HasRequiredNumberOfPlayers())
+			Int32 drawCount = 0;
+
+			foreach (Entities.GamePlayer player in game.Players)
 			{
-				Entities.GameRound round = _insertGameRound.Execute(game.GameID, commander);
+				drawCount = 0;
 
-				successful = round.GameRoundID > 0;
+				numbersToDraw.TryGetValue(player.User.UserId, out drawCount);
 
-				if (successful)
-				{
-					game.Rounds.Add(round);
+				List<Entities.GamePlayerCard> hand = Execute(drawCount, player.User.UserId, game.GameID, answers);
 
-					game.RoundCount++;
+				player.Hand.AddRange(hand);
 
-					//Deal Cards
-					_dealCards.Execute(game);
-				}
+				dealtAnswers.AddRange(hand);
 			}
 
-			return successful;
+			_insertPlayerCard.Execute(dealtAnswers);
+		}
+
+		private List<Entities.GamePlayerCard> Execute(Int32 drawCount, Int32 userId, Int32 gameID,
+															 List<Entities.Card> answers)
+		{
+			IEnumerable<Entities.GamePlayerCard> hand =
+				answers.Take(drawCount).Select(card => new Entities.GamePlayerCard(card, gameID, userId));
+
+			answers.RemoveRange(0, drawCount);
+
+			return hand.ToList();
 		}
 	}
 }

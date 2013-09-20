@@ -23,83 +23,37 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Samples.EntityDataReader;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.DataAccess.GamePlayerCard
 {
 	/// <summary>
-	/// Class that defines a card played during a round
+	/// Implementation of <seealso cref="Base.IInsert"/>
 	/// </summary>
-	public class GameRoundCard
+	public class Insert : Base.IInsert
 	{
-		public GameRoundCard()
+		public Insert()
 		{
-			PlayOrder = 1;
-			Winner = false;
-			PlayedBy = new User();
-		}
 
-		public GameRoundCard(Card card, Int32 userId, Int32 gameRoundID, Int32 gameID)
-			:this()
-		{
-			Card = card;
-			Card_CardID = card.CardID;
-			DatePlayed = DateTime.UtcNow;
-			PlayedBy_UserId = userId;
-			GameRound_GameRoundID = gameRoundID;
-			Game_GameID = gameID;
 		}
 
 		/// <summary>
-		/// The ID for this card
+		/// Insert game player cards into the database
 		/// </summary>
-		public Int32 GameRoundCardID { get; set; }
+		/// <param name="playerCards">Cards to insert</param>
+		public void Execute(List<Entities.GamePlayerCard> playerCards)
+		{
+			string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-		/// <summary>
-		/// The date the card was played
-		/// </summary>
-		public DateTime DatePlayed { get; set; }
+			SqlBulkCopy bulkCopy = new SqlBulkCopy(connectionString);
+			bulkCopy.DestinationTableName = "GamePlayerCard";
 
-		/// <summary>
-		/// Played By UserId
-		/// </summary>
-		public Int32 PlayedBy_UserId { get; set; }
-
-		/// <summary>
-		/// Played By User
-		/// </summary>
-		public User PlayedBy { get; set; }
-
-		/// <summary>
-		/// The CardID for the played card
-		/// </summary>
-		public Int32 Card_CardID { get; set; }
-
-		/// <summary>
-		/// The Card played
-		/// </summary>
-		public Card Card { get; set; }
-
-		/// <summary>
-		/// The ID for the round the card was played
-		/// </summary>
-		public Int32 GameRound_GameRoundID { get; set; }
-
-		/// <summary>
-		/// The ID for the game it was played in
-		/// </summary>
-		public Int32 Game_GameID { get; set; }
-
-		/// <summary>
-		/// The winner of the round
-		/// </summary>
-		public Boolean Winner { get; set; }
-
-		/// <summary>
-		/// The order in which the card was played
-		/// </summary>
-		public Int16 PlayOrder { get; set; }
+			bulkCopy.WriteToServer(playerCards.ToDataTable());
+		}
 	}
 }

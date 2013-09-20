@@ -75,8 +75,8 @@ namespace ArmedCards.Entities
             GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
             PlayerCount         =   idr.GetValueByName<Int32>("PlayerCount");
 			RoundCount			=	idr.GetValueByName<Int32>("RoundCount");
-			PlayerCount			=	idr.GetValueByName<Int32>("QuestionShuffleCount");
-			RoundCount			=	idr.GetValueByName<Int32>("AnswerShuffleCount");
+			QuestionShuffleCount = idr.GetValueByName<Int32>("QuestionShuffleCount");
+			AnswerShuffleCount	= idr.GetValueByName<Int32>("AnswerShuffleCount");
         }
 
         /// <summary>

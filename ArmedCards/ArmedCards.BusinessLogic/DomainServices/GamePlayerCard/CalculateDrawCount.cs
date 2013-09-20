@@ -27,79 +27,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
 	/// <summary>
-	/// Class that defines a card played during a round
+	/// Implementation of <seealso cref="Base.ICalculateDrawCount"/>
 	/// </summary>
-	public class GameRoundCard
+	public class CalculateDrawCount : Base.ICalculateDrawCount
 	{
-		public GameRoundCard()
+		private const Int32 HAND_SIZE = 10;
+
+		/// <summary>
+		/// Calculate the number of cards each player needs to draw in order to have a full hand
+		/// </summary>
+		/// <param name="question">The question card for the round</param>
+		/// <param name="players">List of players in the game</param>
+		/// <returns>A Dictionary that uses UserId as keys and number of cards needed as values</returns>
+		public Dictionary<Int32, Int32> Execute(Entities.Card question, List<Entities.GamePlayer> players)
 		{
-			PlayOrder = 1;
-			Winner = false;
-			PlayedBy = new User();
+			Dictionary<Int32, Int32> drawCount = new Dictionary<Int32, Int32>();
+
+			foreach (Entities.GamePlayer player in players)
+			{
+				drawCount.Add(player.User.UserId, Execute(question, player.CardCount));
+			}
+
+			return drawCount;
 		}
 
-		public GameRoundCard(Card card, Int32 userId, Int32 gameRoundID, Int32 gameID)
-			:this()
+		/// <summary>
+		/// Calculates the number of cards needed for a single player
+		/// </summary>
+		/// <param name="question">The question card</param>
+		/// <param name="playerCardCount">The number of cards the player currently has</param>
+		/// <returns>The number of cards the current player needs in order to have a valid hand</returns>
+		private Int32 Execute(Entities.Card question, Int32 playerCardCount)
 		{
-			Card = card;
-			Card_CardID = card.CardID;
-			DatePlayed = DateTime.UtcNow;
-			PlayedBy_UserId = userId;
-			GameRound_GameRoundID = gameRoundID;
-			Game_GameID = gameID;
+			Int32 numberToDraw = HAND_SIZE - playerCardCount;
+
+			if (question == null || question.Instructions == Entities.Enums.Card.Instructions.Draw2Pick3)
+			{
+				numberToDraw += 2;
+			}
+
+			return numberToDraw;
 		}
-
-		/// <summary>
-		/// The ID for this card
-		/// </summary>
-		public Int32 GameRoundCardID { get; set; }
-
-		/// <summary>
-		/// The date the card was played
-		/// </summary>
-		public DateTime DatePlayed { get; set; }
-
-		/// <summary>
-		/// Played By UserId
-		/// </summary>
-		public Int32 PlayedBy_UserId { get; set; }
-
-		/// <summary>
-		/// Played By User
-		/// </summary>
-		public User PlayedBy { get; set; }
-
-		/// <summary>
-		/// The CardID for the played card
-		/// </summary>
-		public Int32 Card_CardID { get; set; }
-
-		/// <summary>
-		/// The Card played
-		/// </summary>
-		public Card Card { get; set; }
-
-		/// <summary>
-		/// The ID for the round the card was played
-		/// </summary>
-		public Int32 GameRound_GameRoundID { get; set; }
-
-		/// <summary>
-		/// The ID for the game it was played in
-		/// </summary>
-		public Int32 Game_GameID { get; set; }
-
-		/// <summary>
-		/// The winner of the round
-		/// </summary>
-		public Boolean Winner { get; set; }
-
-		/// <summary>
-		/// The order in which the card was played
-		/// </summary>
-		public Int16 PlayOrder { get; set; }
 	}
 }

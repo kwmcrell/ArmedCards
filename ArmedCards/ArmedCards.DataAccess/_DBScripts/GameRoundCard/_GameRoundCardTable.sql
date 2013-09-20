@@ -29,7 +29,7 @@ IF OBJECT_ID('[dbo].[GameRoundCard]') IS NULL
 		[DatePlayed]				[datetime] NOT NULL,
 		[PlayedBy_UserId]			[int] NOT NULL,
 		[Card_CardID]				[int] NOT NULL,
-		[Round_RoundID]				[int] NOT NULL,
+		[GameRound_GameRoundID]		[int] NOT NULL,
 		[Game_GameID]				[int] NOT NULL,
 		[Winner]					[bit] NOT NULL,
 		[PlayOrder]					[smallint] NOT NULL,
@@ -41,7 +41,7 @@ IF OBJECT_ID('[dbo].[GameRoundCard]') IS NULL
 
 	ALTER TABLE [dbo].[GameRoundCard] ADD  DEFAULT ((0)) FOR [Winner]
 
-	ALTER TABLE [dbo].[GameRoundCard] ADD  DEFAULT ((0)) FOR [PlayOrder]
+	ALTER TABLE [dbo].[GameRoundCard] ADD  DEFAULT ((1)) FOR [PlayOrder]
 
 	ALTER TABLE [dbo].[GameRoundCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GameRoundCard_dbo.Card_Card_CardID] FOREIGN KEY([Card_CardID])
 	REFERENCES [dbo].[Card] ([CardID])
@@ -59,8 +59,8 @@ IF OBJECT_ID('[dbo].[GameRoundCard]') IS NULL
 
 	ALTER TABLE [dbo].[GameRoundCard] CHECK CONSTRAINT [FK_dbo.GameRoundCard_dbo.Game_Game_GameID]
 
-	ALTER TABLE [dbo].[GameRoundCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_Round_RoundID] FOREIGN KEY([Round_RoundID])
+	ALTER TABLE [dbo].[GameRoundCard]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_GameRound_GameRoundID] FOREIGN KEY([GameRound_GameRoundID])
 	REFERENCES [dbo].[GameRound] ([GameRoundID])
 
-	ALTER TABLE [dbo].[GameRoundCard] CHECK CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_Round_RoundID]
+	ALTER TABLE [dbo].[GameRoundCard] CHECK CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_GameRound_GameRoundID]
 END

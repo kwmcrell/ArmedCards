@@ -37,19 +37,26 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 	/// </summary>
 	public class Deal :	Base.IDeal
 	{
-		private const Int32 HAND_SIZE = 10;
-
 		private DS.Card.Base.IShuffle _shuffleCards;
 		private DS.Card.Base.IExcludeCurrentHands _excludeCurrentHands;
 		private DS.Card.Base.IExcludeByCount _excludeByCount;
+		private Base.ICalculateDrawCount _calculateDrawCount;
+		private Base.ICreateHand _createHand;
+		private DS.GameRoundCard.Base.IInsert _insertGameRoundCard;
 
 		public Deal(DS.Card.Base.IShuffle shuffleCards,
 					DS.Card.Base.IExcludeCurrentHands excludeCurrentHands,
-					DS.Card.Base.IExcludeByCount excludeByCount)
+					DS.Card.Base.IExcludeByCount excludeByCount,
+					Base.ICalculateDrawCount calculateDrawCount,
+					Base.ICreateHand createHand,
+					DS.GameRoundCard.Base.IInsert insertGameRoundCard)
 		{
 			this._shuffleCards = shuffleCards;
 			this._excludeCurrentHands = excludeCurrentHands;
 			this._excludeByCount = excludeByCount;
+			this._calculateDrawCount = calculateDrawCount;
+			this._createHand = createHand;
+			this._insertGameRoundCard = insertGameRoundCard;
 		}
 
 		/// <summary>
@@ -64,126 +71,48 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 			IEnumerable<Entities.Card> filteredQuestions = _excludeByCount.Execute(questions, game.QuestionShuffleCount);
 
-			Entities.GamePlayerCard dealtQuestion = CreateQuestion(filteredQuestions, game);
+			Entities.GameRoundCard dealtQuestion = CreateQuestion(filteredQuestions, game);
 
 			IEnumerable<Entities.Card> filteredAnswers = _excludeCurrentHands.Execute(answers);
 
-			Dictionary<Int32, Int32> numbersToDraw = CalculateNumbersToDraw(filteredAnswers, dealtQuestion.Card, game);
+			Dictionary<Int32, Int32> drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
 
 			Boolean needMoreQuestions = dealtQuestion == null;
-			Boolean needMoreAnswers = numbersToDraw.Values.Sum() > filteredAnswers.Count();
+			Boolean needMoreAnswers = drawCount.Values.Sum() > filteredAnswers.Count();
 
 			if (needMoreQuestions || needMoreAnswers)
 			{
 				//Update reshuffle counts
-				
+				filteredQuestions = _excludeByCount.Execute(questions, ++game.QuestionShuffleCount);
+
 				//Reselect question card
-				dealtQuestion = CreateQuestion(questions , game);
+				dealtQuestion = CreateQuestion(filteredQuestions, game);
 
-				numbersToDraw = CalculateNumbersToDraw(filteredAnswers, dealtQuestion.Card, game);
+				drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
 			}
 
-			List<Entities.GamePlayerCard> dealtAnswers = CreatePlayerHands(filteredAnswers, numbersToDraw, game);
+			_insertGameRoundCard.Execute(new List<Entities.GameRoundCard> { dealtQuestion });
+			_createHand.Execute(filteredAnswers.ToList(), drawCount, game);
 		}
-
-		#region "Calculate number of cards needed per player"
-
-		private Dictionary<Int32, Int32> CalculateNumbersToDraw(IEnumerable<Entities.Card> answers, Entities.Card question,
-																Entities.Game game)
-		{
-			Dictionary<Int32, Int32> numberToDraw = new Dictionary<Int32, Int32>();
-
-			foreach (Entities.GamePlayer player in game.Players)
-			{
-				numberToDraw.Add(player.User.UserId, CalculateNumberToDraw(question, player.CardCount));
-			}
-
-			return numberToDraw;
-		}
-
-		private Int32 CalculateNumberToDraw(Entities.Card question, Int32 playerCardCount)
-		{
-			Int32 numberToDraw = HAND_SIZE - playerCardCount;
-
-			if (question == null || question.Instructions == Entities.Enums.Card.Instructions.Draw2Pick3)
-			{
-				numberToDraw += 2;
-			}
-
-			return numberToDraw;
-		}
-
-		#endregion "Calculate number of cards needed per player"
 
 		#region "Create Cards"
 
-		private Entities.GamePlayerCard CreateQuestion(IEnumerable<Entities.Card> cards, Entities.Game game)
+		private Entities.GameRoundCard CreateQuestion(IEnumerable<Entities.Card> cards, Entities.Game game)
 		{
 			Entities.Card card = cards.FirstOrDefault();
 
-			Entities.GamePlayerCard question = CreateGamePlayerCard(card, game.GameID, game.DetermineCommander().UserId);
+			Entities.GameRoundCard question = null;
+
+			if (card != null)
+			{
+				Entities.GameRound round = game.CurrentRound();
+
+				question = new Entities.GameRoundCard(card, round.CardCommander.UserId, round.GameRoundID, game.GameID);
+			}
 
 			return question;
 		}
 
-		private Entities.GamePlayerCard CreateGamePlayerCard(Entities.Card card, Int32 gameID, Int32 userId)
-		{
-			Entities.GamePlayerCard playerCard = null;
-
-			if (card != null)
-			{
-				playerCard = new Entities.GamePlayerCard();
-				playerCard.Card = card;
-				playerCard.GameID = gameID;
-				playerCard.UserId = userId;
-			}
-
-			return playerCard;
-		}
-
 		#endregion "Create Cards"
-
-		#region "Create Hands"
-
-		private List<Entities.GamePlayerCard> CreatePlayerHands(IEnumerable<Entities.Card> answers,
-																Dictionary<Int32, Int32> numbersToDraw,
-																Entities.Game game)
-		{
-			List<Entities.GamePlayerCard> dealtAnswers = new List<Entities.GamePlayerCard>();
-			List<Entities.Card> answersToRemove = new List<Entities.Card>();
-
-			Int32 drawCount = 0;
-
-			foreach (Entities.GamePlayer player in game.Players)
-			{
-				drawCount = 0;
-
-				numbersToDraw.TryGetValue(player.User.UserId, out drawCount);
-
-				player.Hand.AddRange(CreateHand(drawCount, game.GameID, player.User.UserId, answers, out answersToRemove));
-			}
-
-			return dealtAnswers;
-		}
-
-		private List<Entities.GamePlayerCard> CreateHand(Int32 drawCount,
-														 Int32 userId,
-														 Int32 gameID,
-														 IEnumerable<Entities.Card> answers,
-														 out List<Entities.Card> answersToRemove)
-		{
-			List<Entities.GamePlayerCard> hand = new List<Entities.GamePlayerCard>();
-
-			answersToRemove = answers.Take(drawCount).ToList();
-
-			foreach (Entities.Card card in answersToRemove)
-			{
-				hand.Add(CreateGamePlayerCard(card, gameID, userId));
-			}
-
-			return hand;
-		}
-
-		#endregion "Create Hands"
 	}
 }
