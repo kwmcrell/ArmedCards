@@ -21,49 +21,36 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayerCard_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerCard_Select] 
+END 
+GO
 
-namespace ArmedCards.Web.Models.Game.Board
-{
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/19/2013
+-- Description:	Select GamePlayerCards
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerCard_Select]
+	@GameID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
+	SELECT	GPC.[CardID],
+			GPC.[GameID],
+			GPC.[UserId],
+			C.[Content],
+			C.[Instructions],
+			C.[Type],
+			C.[CreatedBy_UserId]
+	FROM [dbo].[GamePlayerCard] GPC
+	INNER JOIN [dbo].[Card] C ON C.[CardID] = GPC.[CardID]
+	WHERE GPC.[GameID] = @GameID
 
-		/// <summary>
-		/// Get the current round
-		/// </summary>
-		public Entities.GameRound CurrentRound
-		{
-			get
-			{
-				return Game.CurrentRound();
-			}
-		}
+	COMMIT
+GO
 
-		/// <summary>
-		/// Get the current card commander
-		/// </summary>
-		public Entities.User CardCommander
-		{
-			get
-			{
-				return Game.DetermineCommander();
-			}
-		}
-    }
-}

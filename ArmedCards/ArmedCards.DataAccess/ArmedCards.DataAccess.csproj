@@ -92,6 +92,7 @@
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />
     <Content Include="_DBScripts\Deck\DefaultDecks.sql" />
     <Content Include="_DBScripts\Deck\_DeckTable.sql" />
+    <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Select.sql" />
     <Content Include="_DBScripts\GamePlayerCard\_GamePlayerCardTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />

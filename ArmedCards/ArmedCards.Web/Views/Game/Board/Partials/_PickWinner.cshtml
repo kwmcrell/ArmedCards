@@ -21,15 +21,10 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = String.Format("{0} is the Card Commander", Model.CardCommander.DisplayName);
-}
+<div id="winnerConfirm" class="confirmMessage cardSubmit">
+	<h3>Confirm Winner?</h3>
+	<div id="winnerCard">
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-@Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
-@Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
-<div class="asked">
-	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.CurrentRound.Question)
+	</div>
+	<a id="winnerSubmit" href="#" class="button">Do it!</a><a id="winnerNope" href="#" class="button nope">Nope</a>
 </div>

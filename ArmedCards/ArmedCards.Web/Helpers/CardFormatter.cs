@@ -26,44 +26,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
-namespace ArmedCards.Web.Models.Game.Board
+namespace ArmedCards.Web.Helpers
 {
-    /// <summary>
-    /// Model used to render the game board
-    /// </summary>
-    public class GameBoard
-    {
-        /// <summary>
-        /// The current game
-        /// </summary>
-        public Entities.Game Game { get; set; }
-
-        /// <summary>
-        /// The current User Id
-        /// </summary>
-        public Int32 UserId { get; set; }
-
-		/// <summary>
-		/// Get the current round
-		/// </summary>
-		public Entities.GameRound CurrentRound
+	public static class CardFormatter
+	{
+		public static string ReplaceBlankWithHtml(string cardContext)
 		{
-			get
-			{
-				return Game.CurrentRound();
-			}
+			TagBuilder blankSpan = new TagBuilder("span");
+			blankSpan.AddCssClass("blank");
+
+			return cardContext.Replace("_____", blankSpan.ToString());
 		}
 
-		/// <summary>
-		/// Get the current card commander
-		/// </summary>
-		public Entities.User CardCommander
+		public static string GetBrandingHtml()
 		{
-			get
-			{
-				return Game.DetermineCommander();
-			}
+			TagBuilder brandDiv = new TagBuilder("div");
+			brandDiv.AddCssClass("branding");
+			brandDiv.InnerHtml = "Armed Cards!#&amp;?";
+
+			return brandDiv.ToString();
 		}
-    }
+	}
 }

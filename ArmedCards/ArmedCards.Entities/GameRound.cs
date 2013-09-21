@@ -37,16 +37,19 @@ namespace ArmedCards.Entities
     public class GameRound
     {
 		public GameRound(IDataReader idr)
+			: this()
         {
 			GameRoundID		= idr.GetValueByName<Int32>("GameRoundID");
 			Started			= idr.GetValueByName<DateTime>("Started");
             GameID			= idr.GetValueByName<Int32>("Game_GameID");
 			CardCommander	= new User(idr);
+			Question		= new Card(idr);
         }
 
 		public GameRound()
 		{
 			CardCommander = new User();
+			CardsPlayed = new List<GameRoundCard>();
 		}
 
 		/// <summary>
@@ -68,6 +71,11 @@ namespace ArmedCards.Entities
 		/// The round's card commander
 		/// </summary>
 		public User CardCommander { get; set; }
+
+		/// <summary>
+		/// The question for the round
+		/// </summary>
+		public Card Question { get; set; }
 
 		/// <summary>
 		/// List of cards played during the round

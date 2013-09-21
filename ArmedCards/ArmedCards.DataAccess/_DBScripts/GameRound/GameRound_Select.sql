@@ -44,9 +44,16 @@ AS
 			GR.[Started],
 			GR.[Game_GameID],
 			GR.[CardCommander_UserId] AS UserId,
-			UP.[UserName]
+			UP.[UserName],
+			C.[CardID],
+			C.[Content],
+			C.[Instructions],
+			C.[Type],
+			C.[CreatedBy_UserId]
 	FROM [dbo].[GameRound] GR
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GR.[CardCommander_UserId]
+	INNER JOIN [dbo].[GameRoundCard] GRC ON GRC.[GameRound_GameRoundID] = GR.[GameRoundID]
+	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID] AND C.[Type] = 0
 	WHERE GR.[Game_GameID] = @GameID
 
 	COMMIT

@@ -21,15 +21,17 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = String.Format("{0} is the Card Commander", Model.CardCommander.DisplayName);
-}
+@model ArmedCards.Entities.Card
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-@Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
-@Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
-<div class="asked">
-	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.CurrentRound.Question)
+<div class="question card">
+	@Html.Raw(CardFormatter.ReplaceBlankWithHtml(Model.Content))
+	@Html.Raw(CardFormatter.GetBrandingHtml())
+    @if(Model.Instructions == ArmedCards.Entities.Enums.Card.Instructions.Pick2)
+    {
+        <div class="pickTwo">Pick 2</div>
+    }
+	else if (Model.Instructions == ArmedCards.Entities.Enums.Card.Instructions.Draw2Pick3)
+    {
+        <div class="pickTwo">Pick 3</div>
+    }
 </div>

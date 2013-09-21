@@ -86,6 +86,11 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 				game.Rounds = _selectGameRound.Execute(game.GameID);
 			}
 
+			if (filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.GamePlayerCards))
+			{
+
+			}
+
             return game;
         }
     }

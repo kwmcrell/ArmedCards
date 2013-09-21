@@ -236,6 +236,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CardFormatter.cs" />
     <Compile Include="Helpers\HubActions.cs" />
     <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
@@ -314,6 +315,10 @@
     <Content Include="Views\Game\Board\Sidebar\_Players.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Player.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Game.cshtml" />
+    <Content Include="Views\Shared\Partials\_Question.cshtml" />
+    <Content Include="Views\Shared\Partials\_Answer.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_PickWinner.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_PlayCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
