@@ -51,6 +51,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
 			String key = String.Format("Game_{0}_Passphrase", id);
 			String passphrase = String.Empty;
+			Int32 currentUserId = WebSecurity.CurrentUserId;
+
 
             if (Session[key] != null)
             {
@@ -60,7 +62,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.User user = new Entities.User
 			{
-				UserId = WebSecurity.CurrentUserId,
+				UserId = currentUserId,
 				DisplayName = WebSecurity.CurrentUserName
 			};
 
@@ -71,12 +73,16 @@ namespace ArmedCards.Web.Controllers.Game.Board
             {
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
                 model.Game = response.Game;
-                model.UserId = WebSecurity.CurrentUserId;
+                model.UserId = currentUserId;
 
-				if (model.Game.IsWaiting() && 
+				if (model.Game.IsWaiting() &&
 					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
 				{
 					_sendMessage.Execute(model.Game, Helpers.HubActions.SendWaitingMessage);
+				}
+				else
+				{
+					model.Hand = model.Game.Players.First(x => x.User.UserId == currentUserId).Hand;
 				}
 
                 return View("~/Views/Game/Board/Index.cshtml", model);

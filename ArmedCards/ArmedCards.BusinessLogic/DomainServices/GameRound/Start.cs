@@ -55,20 +55,25 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 		{
 			Boolean successful = false;
 
+			//Check to make sure game still has required number of players
 			if (game.HasRequiredNumberOfPlayers())
 			{
-				Entities.GameRound round = _insertGameRound.Execute(game.GameID, commander);
-
-				successful = round.GameRoundID > 0;
-
-				if (successful)
+				//Check to make sure the game has not been ended.
+				if (game.GameOver.HasValue == false)
 				{
-					game.Rounds.Add(round);
+					Entities.GameRound round = _insertGameRound.Execute(game.GameID, commander);
 
-					game.RoundCount++;
+					successful = round.GameRoundID > 0;
 
-					//Deal Cards
-					_dealCards.Execute(game);
+					if (successful)
+					{
+						game.Rounds.Add(round);
+
+						game.RoundCount++;
+
+						//Deal Cards
+						_dealCards.Execute(game);
+					}
 				}
 			}
 

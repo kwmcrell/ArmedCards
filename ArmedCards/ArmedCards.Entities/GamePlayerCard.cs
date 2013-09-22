@@ -51,7 +51,11 @@ namespace ArmedCards.Entities
 
 		public GamePlayerCard(IDataReader idr)
 		{
+			this.CardID = idr.GetValueByName<Int32>("CardID");
+			this.GameID = idr.GetValueByName<Int32>("GameID");
+			this.UserId = idr.GetValueByName<Int32>("UserId");
 
+			this.Card = new Card(idr);
 		}
 
 		/// <summary>

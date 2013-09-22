@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL = ArmedCards.DataAccess.GamePlayer;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 {
@@ -39,10 +40,13 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
     public class Select : Base.ISelect
     {
         private DAL.Base.ISelect _selectGamePlayers;
+		private AS.GamePlayerCard.Base.ISelect _selectGamePlayerCards;
 
-        public Select(DAL.Base.ISelect selectGamePlayers)
+        public Select(DAL.Base.ISelect selectGamePlayers,
+					  AS.GamePlayerCard.Base.ISelect selectGamePlayerCards)
         {
             this._selectGamePlayers = selectGamePlayers;
+			this._selectGamePlayerCards = selectGamePlayerCards;
         }
 
         /// <summary>
@@ -52,8 +56,26 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
         /// <returns>A list of game players that satisfy the supplied filter</returns>
         public List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.Select filter)
         {
-            return _selectGamePlayers.Execute(filter);
+			List<Entities.GamePlayer> players = _selectGamePlayers.Execute(filter);
+
+			if (filter.SelectCards)
+			{
+				SelectCards(filter, players);
+			}
+
+			return players;
         }
+
+		private void SelectCards(Entities.Filters.GamePlayer.Select filter, List<Entities.GamePlayer> players)
+		{
+			List<Entities.GamePlayerCard> playerCards =
+							_selectGamePlayerCards.Execute(filter.GameID);
+
+			foreach (Entities.GamePlayer player in players)
+			{
+				player.Hand = playerCards.Where(x => x.UserId == player.User.UserId).ToList();
+			}
+		}
 
         /// <summary>
         /// Selects game players base on supplied filter

@@ -186,7 +186,11 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.ICreateHand, 
 									BusinessLogic.DomainServices.GamePlayerCard.CreateHand>();
 
-			
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayerCard.Base.ISelect,		BusinessLogic.AppServices.GamePlayerCard.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.ISelect,	BusinessLogic.DomainServices.GamePlayerCard.Select>();
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayerCard.Base.ISelect,		BusinessLogic.Repositories.GamePlayerCard.Select>();
+
+			Container.RegisterType<DataAccess.GamePlayerCard.Base.ISelect,						DataAccess.GamePlayerCard.Select>();
 
 			#endregion "Game Player Card"
 

@@ -21,46 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.Game;
+using REPO = ArmedCards.BusinessLogic.Repositories.GamePlayerCard;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
-    /// <summary>
-    /// Implementation of IJoin
-    /// </summary>
-    public class Join : Base.IJoin
-    {
-        private DS.Base.IJoin _joinGame;
-        private Base.ISelect _selectGame;
+	/// <summary>
+	/// Implementation of <seealso cref="Base.ISelect"/>
+	/// </summary>
+	public class Select : Base.ISelect
+	{
+		private REPO.Base.ISelect _select;
 
-        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame)
-        {
-            this._joinGame = joinGame;
-            this._selectGame = selectGame;
-        }
+		public Select(REPO.Base.ISelect select)
+		{
+			this._select = select;
+		}
 
-        /// <summary>
-        /// Join a game
-        /// </summary>
-        /// <param name="gameID">The id of the game to join</param>
-        /// <param name="user">The current user</param>
-        /// <param name="passphrase">The passphrase for the game</param>
-        /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase)
-        {
-            Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
-            filter.GameID = gameID;
-			filter.DataToSelect |= Entities.Enums.Game.Select.Rounds;
-			filter.DataToSelect |= Entities.Enums.Game.Select.GamePlayerCards;
-
-            Entities.Game game = _selectGame.Execute(filter);
-
-            return _joinGame.Execute(game, user, passphrase);;
-        }
-    }
+		/// <summary>
+		/// Selects game player cards base on supplied filter
+		/// </summary>
+		/// <param name="filter">Filter used to select game player cards</param>
+		/// <returns>A list of game player cards that satisfy the supplied filter</returns>
+		public List<Entities.GamePlayerCard> Execute(Entities.Filters.GamePlayerCard.Select filter)
+		{
+			return _select.Execute(filter);
+		}
+	}
 }

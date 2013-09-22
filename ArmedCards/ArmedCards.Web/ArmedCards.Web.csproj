@@ -244,13 +244,14 @@
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
-    <Compile Include="Models\Game\Board\Game.cs" />
+    <Compile Include="Models\Game\Board\GameBoard.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Home\Index.cs" />
     <Compile Include="Models\Hub\ChatMessage.cs" />
     <Compile Include="Models\Hub\Lobby.cs" />
+    <Compile Include="Models\Shared\AnswerCard.cs" />
     <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -319,6 +320,7 @@
     <Content Include="Views\Shared\Partials\_Answer.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PickWinner.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PlayCard.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Hand.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

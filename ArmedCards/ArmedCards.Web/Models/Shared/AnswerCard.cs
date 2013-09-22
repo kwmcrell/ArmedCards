@@ -26,41 +26,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game
+namespace ArmedCards.Web.Models.Shared
 {
-    /// <summary>
-    /// Implementation of IJoin
-    /// </summary>
-    public class Join : Base.IJoin
-    {
-        private DS.Base.IJoin _joinGame;
-        private Base.ISelect _selectGame;
+	/// <summary>
+	/// Model used to answer render cards
+	/// </summary>
+	public class AnswerCard
+	{
+		/// <summary>
+		/// The actual card
+		/// </summary>
+		public Entities.Card Card { get; set; }
 
-        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame)
-        {
-            this._joinGame = joinGame;
-            this._selectGame = selectGame;
-        }
-
-        /// <summary>
-        /// Join a game
-        /// </summary>
-        /// <param name="gameID">The id of the game to join</param>
-        /// <param name="user">The current user</param>
-        /// <param name="passphrase">The passphrase for the game</param>
-        /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase)
-        {
-            Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
-            filter.GameID = gameID;
-			filter.DataToSelect |= Entities.Enums.Game.Select.Rounds;
-			filter.DataToSelect |= Entities.Enums.Game.Select.GamePlayerCards;
-
-            Entities.Game game = _selectGame.Execute(filter);
-
-            return _joinGame.Execute(game, user, passphrase);;
-        }
-    }
+		/// <summary>
+		/// Any extra Css Classes
+		/// </summary>
+		public string CssClasses { get; set; }
+	}
 }

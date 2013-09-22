@@ -34,6 +34,11 @@ namespace ArmedCards.Web.Models.Game.Board
     /// </summary>
     public class GameBoard
     {
+		public GameBoard()
+		{
+			Hand = new List<Entities.GamePlayerCard>();
+		}
+
         /// <summary>
         /// The current game
         /// </summary>
@@ -65,5 +70,10 @@ namespace ArmedCards.Web.Models.Game.Board
 				return Game.DetermineCommander();
 			}
 		}
+
+		/// <summary>
+		/// The current user's hand
+		/// </summary>
+		public List<Entities.GamePlayerCard> Hand { get; set; }
     }
 }

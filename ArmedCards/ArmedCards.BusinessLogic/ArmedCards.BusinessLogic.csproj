@@ -62,7 +62,9 @@
     <Compile Include="AppServices\Deck\Base\ISelect.cs" />
     <Compile Include="AppServices\Deck\Select.cs" />
     <Compile Include="AppServices\GamePlayerCard\Base\IDeal.cs" />
+    <Compile Include="AppServices\GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="AppServices\GamePlayerCard\Deal.cs" />
+    <Compile Include="AppServices\GamePlayerCard\Select.cs" />
     <Compile Include="AppServices\GameRoundCard\Base\IInsert.cs" />
     <Compile Include="AppServices\GameRoundCard\Insert.cs" />
     <Compile Include="AppServices\GameRound\Base\IInsert.cs" />
@@ -106,11 +108,13 @@
     <Compile Include="DomainServices\GamePlayerCard\Base\IDeal.cs" />
     <Compile Include="DomainServices\Card\Base\IExcludeCurrentHands.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\IInsert.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="DomainServices\GamePlayerCard\CalculateDrawCount.cs" />
     <Compile Include="DomainServices\GamePlayerCard\CreateHand.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Deal.cs" />
     <Compile Include="DomainServices\Card\ExcludeCurrentHands.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Insert.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Select.cs" />
     <Compile Include="DomainServices\GameRoundCard\Base\IInsert.cs" />
     <Compile Include="DomainServices\GameRoundCard\Insert.cs" />
     <Compile Include="DomainServices\GameRound\Base\IInsert.cs" />
@@ -143,7 +147,9 @@
     <Compile Include="Repositories\Deck\Base\ISelect.cs" />
     <Compile Include="Repositories\Deck\Select.cs" />
     <Compile Include="Repositories\GamePlayerCard\Base\IInsert.cs" />
+    <Compile Include="Repositories\GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="Repositories\GamePlayerCard\Insert.cs" />
+    <Compile Include="Repositories\GamePlayerCard\Select.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IDelete.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IInsert.cs" />
     <Compile Include="Repositories\GamePlayer\Base\ISelect.cs" />

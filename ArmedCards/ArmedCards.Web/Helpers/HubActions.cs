@@ -77,6 +77,7 @@ namespace ArmedCards.Web.Helpers
 			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
 			model.Game = game;
 			model.UserId = connection.User_UserId;
+			model.Hand = cards;
 
 			string partialView = GetRazorViewAsString("~/Views/Game/Board/Partials/_Game.cshtml", model);
 

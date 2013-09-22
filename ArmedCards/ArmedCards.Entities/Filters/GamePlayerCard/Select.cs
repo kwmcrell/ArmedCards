@@ -26,41 +26,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game
+namespace ArmedCards.Entities.Filters.GamePlayerCard
 {
-    /// <summary>
-    /// Implementation of IJoin
-    /// </summary>
-    public class Join : Base.IJoin
-    {
-        private DS.Base.IJoin _joinGame;
-        private Base.ISelect _selectGame;
-
-        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame)
-        {
-            this._joinGame = joinGame;
-            this._selectGame = selectGame;
-        }
-
-        /// <summary>
-        /// Join a game
-        /// </summary>
-        /// <param name="gameID">The id of the game to join</param>
-        /// <param name="user">The current user</param>
-        /// <param name="passphrase">The passphrase for the game</param>
-        /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase)
-        {
-            Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
-            filter.GameID = gameID;
-			filter.DataToSelect |= Entities.Enums.Game.Select.Rounds;
-			filter.DataToSelect |= Entities.Enums.Game.Select.GamePlayerCards;
-
-            Entities.Game game = _selectGame.Execute(filter);
-
-            return _joinGame.Execute(game, user, passphrase);;
-        }
-    }
+	/// <summary>
+	/// Used to select game player cards
+	/// </summary>
+	public class Select
+	{
+		/// <summary>
+		/// ID of the game to select cards for
+		/// </summary>
+		public Int32 GameID { get; set; }
+	}
 }

@@ -33,3 +33,12 @@
 <div class="asked">
 	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.CurrentRound.Question)
 </div>
+<div id="cardsPlayed" class="hidden">
+
+</div>
+@Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model)
+
+@Html.Hidden("CurrentRound.Question.Instructions", 
+			 (Int32)Model.CurrentRound.Question.Instructions, 
+			 new { id = "CurrentRound_Question_Instructions" })
+@Html.HiddenFor(x => x.CurrentRound.Question.Instructions)

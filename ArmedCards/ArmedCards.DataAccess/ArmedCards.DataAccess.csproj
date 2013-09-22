@@ -59,7 +59,9 @@
     <Compile Include="Deck\Select.cs" />
     <Compile Include="Extensions\EntityDataReader.cs" />
     <Compile Include="GamePlayerCard\Base\IInsert.cs" />
+    <Compile Include="GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="GamePlayerCard\Insert.cs" />
+    <Compile Include="GamePlayerCard\Select.cs" />
     <Compile Include="GamePlayer\Base\IDelete.cs" />
     <Compile Include="GamePlayer\Base\IInsert.cs" />
     <Compile Include="GamePlayer\Base\ISelect.cs" />

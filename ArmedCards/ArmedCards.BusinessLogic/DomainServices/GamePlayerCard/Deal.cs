@@ -92,6 +92,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 			}
 
 			_insertGameRoundCard.Execute(new List<Entities.GameRoundCard> { dealtQuestion });
+			game.CurrentRound().Question = dealtQuestion.Card;
+
 			_createHand.Execute(filteredAnswers.ToList(), drawCount, game);
 		}
 

@@ -73,6 +73,7 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 
             Entities.Filters.GamePlayer.Select playerFilter = new Entities.Filters.GamePlayer.Select();
             playerFilter.GameID = filter.GameID;
+			playerFilter.SelectCards = filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.GamePlayerCards);
 
             game.Players = _selectGamePlayerREPO.Execute(playerFilter);
 
@@ -84,11 +85,6 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 			if (filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.Rounds))
 			{
 				game.Rounds = _selectGameRound.Execute(game.GameID);
-			}
-
-			if (filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.GamePlayerCards))
-			{
-
 			}
 
             return game;
