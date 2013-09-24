@@ -56,7 +56,7 @@ namespace ArmedCards.Web.Controllers.Game
 
                 _insertGame.Execute(model.Game);
 
-                return Redirect("/");
+                return Redirect(Url.RouteUrl("Game_NoAction", new { id = model.Game.GameID }));
             }
             else
             {
