@@ -590,6 +590,10 @@ fieldset > .button.active
 	opacity: 1;
 }
 
+.hidePickOrder {
+	opacity: 0 !important;
+}
+
 .confirmMessage.suggest
 {
 	margin-top: -13.45em;
