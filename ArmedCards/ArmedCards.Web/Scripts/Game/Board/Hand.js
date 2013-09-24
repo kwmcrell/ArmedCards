@@ -45,107 +45,90 @@ if (!ArmedCards.Game.Hand) {
 	ArmedCards.Game.Hand = new Hand();
 }
 
+Hand.prototype.DisplaySelectedCards = function (cards, $card) {
+	$('#overlay').addClass('on');
+	$('#cardToPlayConfirm').addClass('on');
+	ArmedCards.Game.Hand.CurrentPickCount++;
+
+	$card.addClass('picked');
+	$card.addClass('lastPicked');
+
+	cards.push(ArmedCards.Game.Hand.GetFullElementHTML($card));
+
+	$('#cardToPlay').html(cards.join(""));
+}
+
 Hand.prototype.CardSelected = function (event) {
 	event.preventDefault();
+	var $card = $(this);
 
 	if (ArmedCards.Game.Hand.CurrentInstructions == ArmedCards.Game.Hand.QuestionInstructions.Pick2) {
-		ArmedCards.Game.Hand.CardSelectedPick2($(this));
+		ArmedCards.Game.Hand.CardSelectedPick2($card);
 	}
 	else if (ArmedCards.Game.Hand.CurrentInstructions == ArmedCards.Game.Hand.QuestionInstructions.Draw2Pick3) {
-		ArmedCards.Game.Hand.CardSelectedPick3($(this));
+		ArmedCards.Game.Hand.CardSelectedPick3($card);
 	}
 	else {
-		$('#overlay').addClass('on');
-		$('#cardToPlayConfirm').addClass('on');
-
-		var html = $(this).clone().wrap('<div />').parent().html();
-
-		$('#cardToPlay').html(html);
+		var cards = new Array();
+		ArmedCards.Game.Hand.DisplaySelectedCards(cards, $card);
 	}
 };
 
 Hand.prototype.CardSelectedPick2 = function ($card) {
-	if (ArmedCards.Game.Hand.CurrentPickCount == 1) {
-		$('[name="pickOrder"]', $card).removeClass('hidePickOrder');
-		$card.addClass('picked');
-		$card.addClass(ArmedCards.Game.Hand.MultiPicks.Pick1.CssClass);
-		ArmedCards.Game.Hand.MultiPicks.Pick1.Available = false;
-
-		ArmedCards.Game.Hand.CurrentPickCount++;
-		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
+	if (ArmedCards.Game.Hand.CurrentPickCount == 1 && !$card.hasClass('picked')) {
+		ArmedCards.Game.Hand.SelectCard($card);
 	}
 	else if (ArmedCards.Game.Hand.CurrentPickCount == 2 && !$card.hasClass('picked')) {
-		$('#overlay').addClass('on');
-		$('#cardToPlayConfirm').addClass('on');
+		var cards = new Array();
+		cards.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.first')));
 
-		$card.addClass('picked');
-		$card.addClass('lastPicked');
-		ArmedCards.Game.Hand.CurrentPickCount++;
-
-		var html = new Array();
-
-		html.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.first')));
-		html.push(ArmedCards.Game.Hand.GetFullElementHTML($card));
-
-		$('#cardToPlay').html(html.join(""));
+		ArmedCards.Game.Hand.DisplaySelectedCards(cards, $card);
 	}
-	else if ($card.hasClass('picked')) {
-		$card.removeClass('picked');
-		$card.removeClass(ArmedCards.Game.Hand.MultiPicks.Pick1.CssClass);
-
-		ArmedCards.Game.Hand.CurrentPickCount = ArmedCards.Game.Hand.MultiPicks.Pick1.Number;
-		ArmedCards.Game.Hand.MultiPicks.Pick1.Available = true;
-		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
-
-		var $pickOrder = $('[name="pickOrder"]', $card);
-		$pickOrder.addClass('hidePickOrder');
-		$card.one({
-			mouseout: function () {
-				$pickOrder.removeClass('hidePickOrder');
-			}
-		});
+	else {
+		ArmedCards.Game.Hand.UnselectCard($card);
 	}
 };
 
 Hand.prototype.CardSelectedPick3 = function ($card) {
 	if (ArmedCards.Game.Hand.CurrentPickCount < 3 && !$card.hasClass('picked')) {
-		$('[name="pickOrder"]', $card).removeClass('hidePickOrder');
-		$card.addClass('picked');
-		
-		if (ArmedCards.Game.Hand.MultiPicks.Pick1.Available == true) {
-			$card.addClass(ArmedCards.Game.Hand.MultiPicks.Pick1.CssClass);
-			ArmedCards.Game.Hand.MultiPicks.Pick1.Available = false;
-		}
-		else if (ArmedCards.Game.Hand.MultiPicks.Pick2.Available == true)
-		{
-			$card.addClass(ArmedCards.Game.Hand.MultiPicks.Pick2.CssClass);
-			ArmedCards.Game.Hand.MultiPicks.Pick2.Available = false;
-		}
-
-		ArmedCards.Game.Hand.CurrentPickCount++;
-		if (ArmedCards.Game.Hand.MultiPicks.Pick2.Available == true) {
-			ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
-		}
-		else {
-			ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick3.Number);
-		}
+		ArmedCards.Game.Hand.SelectCard($card);
 	}
 	else if (ArmedCards.Game.Hand.CurrentPickCount == 3 && !$card.hasClass('picked')) {
-		$('#overlay').addClass('on');
-		$('#cardToPlayConfirm').addClass('on');
-		ArmedCards.Game.Hand.CurrentPickCount++;
+		var cards = new Array();
+		cards.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.first')));
+		cards.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.second')));
 
-		$card.addClass('picked');
-		$card.addClass('lastPicked');
-		var html = new Array();
-
-		html.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.first')));
-		html.push(ArmedCards.Game.Hand.GetFullElementHTML($('.answer.card.picked.second')));
-		html.push(ArmedCards.Game.Hand.GetFullElementHTML($card));
-
-		$('#cardToPlay').html(html.join(""));
+		ArmedCards.Game.Hand.DisplaySelectedCards(cards, $card);
 	}
 	else {
+		ArmedCards.Game.Hand.UnselectCard($card);
+	}
+};
+
+Hand.prototype.SelectCard = function ($card) {
+	$('[name="pickOrder"]', $card).removeClass('hidePickOrder');
+	$card.addClass('picked');
+
+	if (ArmedCards.Game.Hand.MultiPicks.Pick1.Available == true) {
+		$card.addClass(ArmedCards.Game.Hand.MultiPicks.Pick1.CssClass);
+		ArmedCards.Game.Hand.MultiPicks.Pick1.Available = false;
+	}
+	else if (ArmedCards.Game.Hand.MultiPicks.Pick2.Available == true) {
+		$card.addClass(ArmedCards.Game.Hand.MultiPicks.Pick2.CssClass);
+		ArmedCards.Game.Hand.MultiPicks.Pick2.Available = false;
+	}
+
+	ArmedCards.Game.Hand.CurrentPickCount++;
+	if (ArmedCards.Game.Hand.MultiPicks.Pick2.Available == true) {
+		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
+	}
+	else {
+		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick3.Number);
+	}
+};
+
+Hand.prototype.UnselectCard = function ($card) {
+	if ($card.hasClass('picked')) {
 		$card.removeClass('picked');
 
 		var pick1 = $card.hasClass(ArmedCards.Game.Hand.MultiPicks.Pick1.CssClass);
@@ -159,7 +142,12 @@ Hand.prototype.CardSelectedPick3 = function ($card) {
 		else if (pick2) {
 			$card.removeClass(ArmedCards.Game.Hand.MultiPicks.Pick2.CssClass);
 			ArmedCards.Game.Hand.MultiPicks.Pick2.Available = true;
-			ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
+			if (ArmedCards.Game.Hand.MultiPicks.Pick1.Available == true) {
+				ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
+			}
+			else {
+				ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
+			}
 		}
 
 		ArmedCards.Game.Hand.CurrentPickCount--;
@@ -181,14 +169,16 @@ Hand.prototype.CancelPlay = function (event) {
 
 	$('#cardToPlay').empty();
 
+	var $lastPicked = $('.answer.card.picked.lastPicked');
+	$lastPicked.removeClass('picked');
+	$lastPicked.removeClass('lastPicked');
+
 	if (ArmedCards.Game.Hand.CurrentInstructions == ArmedCards.Game.Hand.QuestionInstructions.Pick2) {
-		$('.answer.card.picked.lastPicked').removeClass('picked');
-		ArmedCards.Game.Hand.CurrentPickCount = ArmedCards.Game.Hand.MultiPicks.Pick1.Number;
+		ArmedCards.Game.Hand.CurrentPickCount = ArmedCards.Game.Hand.MultiPicks.Pick2.Number;
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick2.Number);
 	}
 	else if (ArmedCards.Game.Hand.CurrentInstructions == ArmedCards.Game.Hand.QuestionInstructions.Draw2Pick3) {
-		$('.answer.card.picked.lastPicked').removeClass('picked');
-		ArmedCards.Game.Hand.CurrentPickCount = ArmedCards.Game.Hand.MultiPicks.Pick2.Number;
+		ArmedCards.Game.Hand.CurrentPickCount = ArmedCards.Game.Hand.MultiPicks.Pick3.Number;
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick3.Number);
 	}
 };
