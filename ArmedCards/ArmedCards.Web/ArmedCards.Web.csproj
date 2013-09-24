@@ -232,7 +232,6 @@
     <Compile Include="Extensions\ExternalLoginResult.cs" />
     <Compile Include="Extensions\Html\Checkbox.cs" />
     <Compile Include="Extensions\UnityControllerFactory.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

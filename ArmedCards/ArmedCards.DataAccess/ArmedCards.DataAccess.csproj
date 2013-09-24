@@ -83,28 +83,27 @@
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_DeleteAll.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Insert.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Select.sql" />
-    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Update.sql" />
-    <Content Include="_DBScripts\ActiveConnection\_ActiveConnectionTable.sql" />
+    <Content Include="_DBScripts\ActiveConnection\%40ActiveConnectionTable.sql" />
     <Content Include="_DBScripts\Card\Card_Select.sql" />
     <Content Include="_DBScripts\Card\Card_SelectForDeal.sql" />
     <Content Include="_DBScripts\Card\DefaultCards.sql" />
-    <Content Include="_DBScripts\Card\_CardTable.sql" />
+    <Content Include="_DBScripts\Card\%40CardTable.sql" />
     <Content Include="_DBScripts\DeckCard\DefaultDeckCard.sql" />
-    <Content Include="_DBScripts\DeckCard\_DeckCardTable.sql" />
+    <Content Include="_DBScripts\DeckCard\%40DeckCardTable.sql" />
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />
     <Content Include="_DBScripts\Deck\DefaultDecks.sql" />
-    <Content Include="_DBScripts\Deck\_DeckTable.sql" />
+    <Content Include="_DBScripts\Deck\%40DeckTable.sql" />
     <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Select.sql" />
-    <Content Include="_DBScripts\GamePlayerCard\_GamePlayerCardTable.sql" />
+    <Content Include="_DBScripts\GamePlayerCard\%40GamePlayerCardTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />
-    <Content Include="_DBScripts\GamePlayer\_GamePlayerTable.sql" />
-    <Content Include="_DBScripts\GameRoundCard\_GameRoundCardTable.sql" />
+    <Content Include="_DBScripts\GamePlayer\%40GamePlayerTable.sql" />
+    <Content Include="_DBScripts\GameRoundCard\%40GameRoundCardTable.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_Insert.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_Select.sql" />
-    <Content Include="_DBScripts\GameRound\_GameRoundTable.sql" />
-    <Content Include="_DBScripts\Game\_GameTable.sql" />
+    <Content Include="_DBScripts\GameRound\%40GameRoundTable.sql" />
+    <Content Include="_DBScripts\Game\%40GameTable.sql" />
     <Content Include="_DBScripts\Game\Game_Select.sql" />
     <Content Include="_DBScripts\Game\Game_Insert.sql" />
     <Compile Include="User\Base\IGet.cs" />
@@ -122,11 +121,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="_DBScripts\GameDeck\_GameDeckTable.sql" />
+    <Content Include="_DBScripts\GameDeck\%40GameDeckTable.sql" />
+    <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\User_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="_DBScripts\CombineFiles.ps1" />
+    <None Include="_DBScripts\CombineScript.ps1" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

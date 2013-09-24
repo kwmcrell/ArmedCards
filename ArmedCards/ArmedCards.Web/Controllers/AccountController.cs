@@ -31,12 +31,11 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using ArmedCards.Web.Filters;
 using ArmedCards.Web.Models;
 
 namespace ArmedCards.Web.Controllers
 {
-    [ArmedCards.Web.Extensions.ArmedCardsAuthorize, InitializeSimpleMembership]
+    [ArmedCards.Web.Extensions.ArmedCardsAuthorize]
     public class AccountController : Extensions.ArmedCardsController
     {
         private readonly BusinessLogic.AppServices.User.Base.IInsert _insertUser;

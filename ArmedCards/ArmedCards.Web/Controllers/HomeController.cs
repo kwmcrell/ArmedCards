@@ -29,8 +29,7 @@ using System.Web.Mvc;
 
 namespace ArmedCards.Web.Controllers
 {
-    [Filters.InitializeSimpleMembership]
-    public class HomeController : Controller
+    public class HomeController : Extensions.ArmedCardsController
     {
         public ActionResult Index(bool? showLogIn)
         {

@@ -21,6 +21,9 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+IF NOT EXISTS (SELECT TOP 1 [DeckID] FROM [dbo].[Deck])
+BEGIN
+
 SET IDENTITY_INSERT [dbo].[Deck] ON;
 
 BEGIN TRANSACTION;
@@ -28,6 +31,9 @@ INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_User
 SELECT 1, 0, N'Main', 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Deck]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 SET IDENTITY_INSERT [dbo].[Deck] OFF;
+
+END
+
+GO

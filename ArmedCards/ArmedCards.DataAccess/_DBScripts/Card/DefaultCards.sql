@@ -21,6 +21,9 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card])
+BEGIN
+
 SET IDENTITY_INSERT [dbo].[Card] ON;
 
 BEGIN TRANSACTION;
@@ -77,7 +80,6 @@ SELECT 49, N'The Devil himself.', 1, 0, 1 UNION ALL
 SELECT 50, N'The World of Warcraft.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -133,7 +135,6 @@ SELECT 99, N'A good sniff.', 1, 0, 1 UNION ALL
 SELECT 100, N'Destroying the evidence.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 2.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -189,7 +190,6 @@ SELECT 149, N'Lockjaw.', 1, 0, 1 UNION ALL
 SELECT 150, N'Attitude.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 3.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -245,7 +245,6 @@ SELECT 199, N'A robust mongoloid.', 1, 0, 1 UNION ALL
 SELECT 200, N'Mutually-assured destruction.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 4.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -301,7 +300,6 @@ SELECT 249, N'A sassy black woman.', 1, 0, 1 UNION ALL
 SELECT 250, N'Being a motherfucking sorcerer.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 5.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -357,7 +355,6 @@ SELECT 299, N'Switching to Geico®.', 1, 0, 1 UNION ALL
 SELECT 300, N'Wearing underwear inside-out to avoid doing laundry.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 6.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -413,7 +410,6 @@ SELECT 349, N'Centaurs.', 1, 0, 1 UNION ALL
 SELECT 350, N'A salty surprise.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 7.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -469,7 +465,6 @@ SELECT 399, N'Hospice care.', 1, 0, 1 UNION ALL
 SELECT 400, N'Passive-aggressive Post-it notes.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 8.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -525,7 +520,6 @@ SELECT 449, N'Child beauty pageants.', 1, 0, 1 UNION ALL
 SELECT 450, N'Child abuse.', 1, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 9.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -581,7 +575,6 @@ SELECT 499, N'During sex, I like to think about _____.', 0, 0, 1 UNION ALL
 SELECT 500, N'What are my parents hiding from me?', 0, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 10.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
@@ -636,6 +629,9 @@ SELECT 548, N'What''s the new fad diet?', 0, 0, 1 UNION ALL
 SELECT 549, N'Major League Baseball has banned _____ for giving players an unfair advantage.', 0, 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Card]: Insert Batch: 11.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO

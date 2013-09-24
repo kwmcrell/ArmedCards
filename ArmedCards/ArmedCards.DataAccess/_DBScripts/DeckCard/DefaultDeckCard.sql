@@ -20,6 +20,8 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard])
+BEGIN
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -75,7 +77,6 @@ SELECT 49, 1 UNION ALL
 SELECT 50, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -131,7 +132,6 @@ SELECT 99, 1 UNION ALL
 SELECT 100, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 2.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -187,7 +187,6 @@ SELECT 149, 1 UNION ALL
 SELECT 150, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 3.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -243,7 +242,6 @@ SELECT 199, 1 UNION ALL
 SELECT 200, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 4.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -299,7 +297,6 @@ SELECT 249, 1 UNION ALL
 SELECT 250, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 5.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -355,7 +352,6 @@ SELECT 299, 1 UNION ALL
 SELECT 300, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 6.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -411,7 +407,6 @@ SELECT 349, 1 UNION ALL
 SELECT 350, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 7.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -467,7 +462,6 @@ SELECT 399, 1 UNION ALL
 SELECT 400, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 8.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -523,7 +517,6 @@ SELECT 449, 1 UNION ALL
 SELECT 450, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 9.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -579,7 +572,6 @@ SELECT 499, 1 UNION ALL
 SELECT 500, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 10.....Done!', 10, 1) WITH NOWAIT;
-GO
 
 BEGIN TRANSACTION;
 INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
@@ -634,4 +626,5 @@ SELECT 548, 1 UNION ALL
 SELECT 549, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 11.....Done!', 10, 1) WITH NOWAIT;
-GO
+
+END

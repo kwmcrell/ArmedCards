@@ -53,7 +53,7 @@ IF OBJECT_ID('[dbo].[Game]') IS NULL
 
 IF NOT EXISTS(	SELECT * 
 				FROM sys.columns 
-				WHERE Name = N'[AnswerShuffleCount]' 
+				WHERE Name = N'AnswerShuffleCount' 
 				AND Object_ID = Object_ID(N'Game'))
 BEGIN
     ALTER TABLE [dbo].[Game] ADD [AnswerShuffleCount] [int] NOT NULL DEFAULT 1	
@@ -61,7 +61,7 @@ END
 
 IF NOT EXISTS(	SELECT * 
 				FROM sys.columns 
-				WHERE Name = N'[QuestionShuffleCount]' 
+				WHERE Name = N'QuestionShuffleCount' 
 				AND Object_ID = Object_ID(N'Game'))
 BEGIN
     ALTER TABLE [dbo].[Game] ADD [QuestionShuffleCount] [int] NOT NULL DEFAULT 1

@@ -21,7 +21,6 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using ArmedCards.Web.Filters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +33,6 @@ namespace ArmedCards.Web.Extensions
     /// <summary>
     /// Class to always provide Render Partial View to String inside controllers
     /// </summary>
-    [InitializeSimpleMembership]
     public class ArmedCardsController : Controller
     {
         public string RenderPartialToString(string viewName, object model)
