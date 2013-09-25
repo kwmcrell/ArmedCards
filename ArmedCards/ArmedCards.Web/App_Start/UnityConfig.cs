@@ -109,6 +109,8 @@ namespace ArmedCards.Web
 
             Container.RegisterType<DataAccess.GamePlayer.Base.IInsert,                          DataAccess.GamePlayer.Insert>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayer.Base.ISelect,			BusinessLogic.AppServices.GamePlayer.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayer.Base.ISelect,		BusinessLogic.DomainServices.GamePlayer.Select>();
             Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.ISelect,          BusinessLogic.Repositories.GamePlayer.Select>();
 
             Container.RegisterType<DataAccess.GamePlayer.Base.ISelect,                          DataAccess.GamePlayer.Select>();
@@ -175,6 +177,9 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.AppServices.GamePlayerCard.Base.IDeal,			BusinessLogic.AppServices.GamePlayerCard.Deal>();
 			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.IDeal,		BusinessLogic.DomainServices.GamePlayerCard.Deal>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayerCard.Base.IPlay,			BusinessLogic.AppServices.GamePlayerCard.Play>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.IPlay,		BusinessLogic.DomainServices.GamePlayerCard.Play>();
+
 			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerCard.Base.IInsert,	BusinessLogic.DomainServices.GamePlayerCard.Insert>();
 			Container.RegisterType<BusinessLogic.Repositories.GamePlayerCard.Base.IInsert,		BusinessLogic.Repositories.GamePlayerCard.Insert>();
 
@@ -201,6 +206,12 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.Repositories.GameRoundCard.Base.IInsert,		BusinessLogic.Repositories.GameRoundCard.Insert>();
 
 			Container.RegisterType<DataAccess.GameRoundCard.Base.IInsert,						DataAccess.GameRoundCard.Insert>();
+
+			Container.RegisterType<BusinessLogic.AppServices.GameRoundCard.Base.ISelect,		BusinessLogic.AppServices.GameRoundCard.Select>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRoundCard.Base.ISelect,		BusinessLogic.DomainServices.GameRoundCard.Select>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRoundCard.Base.ISelect,		BusinessLogic.Repositories.GameRoundCard.Select>();
+
+			Container.RegisterType<DataAccess.GameRoundCard.Base.ISelect,						DataAccess.GameRoundCard.Select>();
 
 			#endregion "Game Round Card"
 		}

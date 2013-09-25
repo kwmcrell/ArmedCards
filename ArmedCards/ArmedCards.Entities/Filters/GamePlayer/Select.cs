@@ -34,6 +34,11 @@ namespace ArmedCards.Entities.Filters.GamePlayer
     /// </summary>
     public class Select
     {
+		/// <summary>
+		/// The player to select
+		/// </summary>
+		public Int32 UserId { get; set; }
+
         /// <summary>
         /// The game ID used to select players
         /// </summary>

@@ -24,28 +24,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
+using WebMatrix.WebData;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.DataAccess.GameRound.Base
+namespace ArmedCards.Web.Controllers.Game.Board
 {
-	/// <summary>
-	/// Interface defining Select for GameRound
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Selects game rounds base on supplied filter
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+	[Extensions.ArmedCardsAuthorize]
+    public class PlayCardController : Extensions.ArmedCardsController
+    {
+		private AS.GamePlayerCard.Base.IPlay _playCard;
 
-		/// <summary>
-		/// Selects the current round for a game
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
-	}
+		public PlayCardController(AS.GamePlayerCard.Base.IPlay playCard)
+		{
+			this._playCard = playCard;
+		}
+
+        public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
+        {
+			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, WebSecurity.CurrentUserId);
+
+			return Json(new { response.ResponseCode });
+        }
+
+    }
 }

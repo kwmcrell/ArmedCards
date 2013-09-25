@@ -38,7 +38,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard.Base
 		/// Selects game player
 		/// </summary>
 		/// <param name="gameID">The game ID used to filter game player cards</param>
+		/// <param name="userId">Current user Id</param>
 		/// <returns>A list of game player cards that satisfy the supplied filter</returns>
-		List<Entities.GamePlayerCard> Execute(Int32 gameID);
+		List<Entities.GamePlayerCard> Execute(Int32 gameID, Int32? userId);
 	}
 }

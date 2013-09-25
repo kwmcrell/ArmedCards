@@ -27,25 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.GameRound.Base
+namespace ArmedCards.Entities.ActionResponses.Enums
 {
 	/// <summary>
-	/// Interface defining Select for GameRound
+	/// Response code for Play Card action
 	/// </summary>
-	public interface ISelect
+	public enum PlayCardResponseCode
 	{
-		/// <summary>
-		/// Selects game rounds base on supplied filter
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+		Success = 0,
 
-		/// <summary>
-		/// Selects the current round for a game
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
+		InvalidNumberOfCardsPlayed = 1,
+
+		InvalidCardPlayed = 2
 	}
 }

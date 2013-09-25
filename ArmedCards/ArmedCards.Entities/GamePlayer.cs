@@ -74,5 +74,29 @@ namespace ArmedCards.Entities
 		/// List of cards in player's hand
 		/// </summary>
 		public List<Entities.GamePlayerCard> Hand { get; set; }
+
+		/// <summary>
+		/// Check to see if the player has <paramref name="cardIDs"/> in their hand
+		/// </summary>
+		/// <param name="cardIDs">List of card IDs to check if present in player's hand</param>
+		/// <returns>Any ids that were not found in the player's hand</returns>
+		public List<Int32> CheckHand(List<Int32> cardIDs)
+		{
+			List<Int32> missingIds = new List<int>();
+
+			Int32 indexOf = -1;
+
+			foreach (Int32 cardID in cardIDs)
+			{
+				indexOf = Hand.FindIndex(x => x.CardID == cardID);
+
+				if (indexOf < 0)
+				{
+					missingIds.Add(cardID);
+				}
+			}
+
+			return missingIds;
+		}
     }
 }

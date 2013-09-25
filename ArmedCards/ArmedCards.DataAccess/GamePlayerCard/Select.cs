@@ -57,6 +57,11 @@ namespace ArmedCards.DataAccess.GamePlayerCard
 			{
 				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
 
+				if (filter.UserId.HasValue)
+				{
+					_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId.Value);
+				}
+
 				using (IDataReader idr = _db.ExecuteReader(cmd))
 				{
 					while (idr.Read())

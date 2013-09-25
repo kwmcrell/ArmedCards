@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL = ArmedCards.DataAccess.GameRound;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.Repositories.GameRound
 {
@@ -39,10 +40,13 @@ namespace ArmedCards.BusinessLogic.Repositories.GameRound
 	public class Select : Base.ISelect
 	{
 		private DAL.Base.ISelect _selectGameRound;
+		private AS.GameRoundCard.Base.ISelect _selectGameRoundCards;
 
-		public Select(DAL.Base.ISelect selectGameRound)
+		public Select(DAL.Base.ISelect selectGameRound,
+					  AS.GameRoundCard.Base.ISelect selectGameRoundCards)
 		{
 			this._selectGameRound = selectGameRound;
+			this._selectGameRoundCards = selectGameRoundCards;
 		}
 
 		/// <summary>
@@ -53,6 +57,23 @@ namespace ArmedCards.BusinessLogic.Repositories.GameRound
 		public List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter)
 		{
 			return _selectGameRound.Execute(filter);
+		}
+
+		/// <summary>
+		/// Selects the current round for a game
+		/// </summary>
+		/// <param name="filter">Filter used to select game rounds</param>
+		/// <returns>The current round</returns>
+		public Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter)
+		{
+			Entities.GameRound round = _selectGameRound.Execute(filter);
+
+			if (filter.SelectCards)
+			{
+				round.CardsPlayed = _selectGameRoundCards.Execute(round.GameRoundID);
+			}
+
+			return round;
 		}
 	}
 }

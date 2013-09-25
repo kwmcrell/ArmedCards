@@ -54,5 +54,16 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 		{
 			return _selectGameRound.Execute(gameID);
 		}
+
+		/// <summary>
+		/// Selects the current round for a game
+		/// </summary>
+		/// <param name="gameID">Filter used to select game rounds</param>
+		/// <param name="selectCards">Select cards for the round</param>
+		/// <returns>The current round</returns>
+		public Entities.GameRound Execute(Int32 gameID, Boolean selectCards)
+		{
+			return _selectGameRound.Execute(gameID, selectCards);
+		}
 	}
 }

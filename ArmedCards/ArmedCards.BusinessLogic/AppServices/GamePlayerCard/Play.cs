@@ -26,26 +26,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices;
 
-namespace ArmedCards.DataAccess.GameRound.Base
+namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 {
 	/// <summary>
-	/// Interface defining Select for GameRound
+	/// Implementation of <seealso cref="Base.IPlay"/>
 	/// </summary>
-	public interface ISelect
+	public class Play : Base.IPlay
 	{
-		/// <summary>
-		/// Selects game rounds base on supplied filter
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+		private DS.GamePlayerCard.Base.IPlay _playCard;
+
+		public Play(DS.GamePlayerCard.Base.IPlay playCard)
+		{
+			this._playCard = playCard;
+		}
 
 		/// <summary>
-		/// Selects the current round for a game
+		/// Play a list of cards from a user's hand
 		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
+		/// <param name="cardIDs">The card IDs the user has selected </param>
+		/// <param name="gameID">The game ID in which the user wants to play the card</param>
+		/// <param name="userId">The user Id</param>
+		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
+		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
+		{
+			return _playCard.Execute(cardIDs, gameID, userId);
+		}
 	}
 }

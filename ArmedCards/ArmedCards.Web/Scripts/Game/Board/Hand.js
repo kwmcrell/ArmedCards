@@ -216,6 +216,31 @@ Hand.prototype.GetFullElementHTML = function ($element) {
 	return $element.clone().wrap('<div />').parent().html();
 };
 
+Hand.prototype.PlayCard = function (event) {
+	event.preventDefault();
+	$('#overlay').removeClass('on');
+	$('#cardToPlayConfirm').removeClass('on');
+
+	var data = {
+		gameID: $('#Game_GameID').val(),
+		cardIDs: ArmedCards.Game.Hand.GetChildrenIDs($('#cardToPlay'))
+	};
+
+	var url = "/PlayCard/Index";
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: JSON.stringify(data),
+		dataType: "json",
+		contentType: "application/json",
+		success: function () {
+		}
+	});
+
+	$('#cardToPlay').empty();
+};
+
 Hand.prototype.Init = function () {
 	$('.hand .answer.card').unbind().bind({
 		click: ArmedCards.Game.Hand.CardSelected

@@ -27,25 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.GameRound.Base
+namespace ArmedCards.Entities.ActionResponses
 {
 	/// <summary>
-	/// Interface defining Select for GameRound
+	/// Defines a response from the action of playing a card
 	/// </summary>
-	public interface ISelect
+	public class PlayCard
 	{
 		/// <summary>
-		/// Selects game rounds base on supplied filter
+		/// The response code for the action
 		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+		public Enums.PlayCardResponseCode ResponseCode { get; set; }
 
 		/// <summary>
-		/// Selects the current round for a game
+		/// The current round
 		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
+		public GameRound CurrentRound { get; set; }
 	}
 }

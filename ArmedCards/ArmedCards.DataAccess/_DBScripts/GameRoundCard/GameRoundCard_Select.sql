@@ -21,31 +21,44 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GameRoundCard_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRoundCard_Select] 
+END 
+GO
 
-namespace ArmedCards.DataAccess.GameRound.Base
-{
-	/// <summary>
-	/// Interface defining Select for GameRound
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Selects game rounds base on supplied filter
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/19/2013
+-- Description:	Select GameRoundCard
+-- ===============================================
+CREATE PROC [dbo].[GameRoundCard_Select]
+	@GameRoundID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-		/// <summary>
-		/// Selects the current round for a game
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
-	}
-}
+	SELECT	GRC.[Card_CardID] AS CardID,
+			GRC.[DatePlayed],
+			GRC.[Game_GameID],
+			GRC.[GameRound_GameRoundID],
+			GRC.[GameRoundCardID],
+			GRC.[PlayedBy_UserId],
+			GRC.[PlayOrder],
+			GRC.[Winner],
+			C.[Content],
+			C.[Instructions],
+			C.[Type],
+			C.[CreatedBy_UserId],
+			UP.[UserId],
+			UP.[UserName]
+	FROM [dbo].[GameRoundCard] GRC
+	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID]
+	INNER JOIN [dbo].[UserProfile] UP ON GRC.[PlayedBy_UserId] = UP.[UserId]
+	WHERE	GRC.[GameRound_GameRoundID] = @GameRoundID
+
+	COMMIT
+GO
+

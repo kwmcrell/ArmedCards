@@ -23,9 +23,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.Entities
 {
@@ -50,6 +52,21 @@ namespace ArmedCards.Entities
 			PlayedBy_UserId = userId;
 			GameRound_GameRoundID = gameRoundID;
 			Game_GameID = gameID;
+		}
+
+		public GameRoundCard(IDataReader idr)
+		{
+			Card_CardID = idr.GetValueByName<Int32>("CardID");
+			DatePlayed = idr.GetValueByName<DateTime>("DatePlayed");
+			Game_GameID = idr.GetValueByName<Int32>("Game_GameID");
+			GameRound_GameRoundID = idr.GetValueByName<Int32>("GameRound_GameRoundID");
+			GameRoundCardID = idr.GetValueByName<Int32>("GameRoundCardID");
+			PlayedBy_UserId = idr.GetValueByName<Int32>("PlayedBy_UserId");
+			PlayOrder = idr.GetValueByName<Int16>("PlayOrder");
+			Winner = idr.GetValueByName<Boolean>("Winner");
+
+			PlayedBy = new User(idr);
+			Card = new Card(idr);
 		}
 
 		/// <summary>

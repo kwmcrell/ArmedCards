@@ -21,31 +21,52 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.GameRound.Base
+namespace ArmedCards.DataAccess.GameRoundCard
 {
 	/// <summary>
-	/// Interface defining Select for GameRound
+	/// Implementation of <seealso cref="Base.ISelect"/>
 	/// </summary>
-	public interface ISelect
+	public class Select : Base.ISelect
 	{
-		/// <summary>
-		/// Selects game rounds base on supplied filter
-		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Entities.Filters.GameRound.Select filter);
+		private Database _db;
+
+		public Select(Database db)
+		{
+			this._db = db;
+		}
 
 		/// <summary>
-		/// Selects the current round for a game
+		/// Selects game round cards base on supplied filter
 		/// </summary>
-		/// <param name="filter">Filter used to select game rounds</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter);
+		/// <param name="filter">Filter used to select game round cards</param>
+		/// <returns>A list of game round cards that satisfy the supplied filter</returns>
+		public List<Entities.GameRoundCard> Execute(Entities.Filters.GameRoundCard.Select filter)
+		{
+			List<Entities.GameRoundCard> cards = new List<Entities.GameRoundCard>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GameRoundCard_Select"))
+			{
+				_db.AddInParameter(cmd, "@GameRoundID", DbType.Int32, filter.GameRoundID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						cards.Add(new Entities.GameRoundCard(idr));
+					}
+				}
+			}
+
+			return cards;
+		}
 	}
 }

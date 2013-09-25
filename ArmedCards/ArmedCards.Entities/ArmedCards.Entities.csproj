@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
+    <Compile Include="ActionResponses\PlayCard.cs" />
     <Compile Include="ActiveConnection.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
@@ -57,7 +59,9 @@
     <Compile Include="Filters\GamePlayerCard\Select.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
+    <Compile Include="Filters\GameRoundCard\Select.cs" />
     <Compile Include="Filters\GameRound\Select.cs" />
+    <Compile Include="Filters\GameRound\SelectCurrent.cs" />
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
     <Compile Include="Game.cs" />

@@ -68,5 +68,30 @@ namespace ArmedCards.DataAccess.GameRound
 
 			return gameRounds;
 		}
+
+		/// <summary>
+		/// Selects the current round for a game
+		/// </summary>
+		/// <param name="filter">Filter used to select game rounds</param>
+		/// <returns>The current round</returns>
+		public Entities.GameRound Execute(Entities.Filters.GameRound.SelectCurrent filter)
+		{
+			List<Entities.GameRound> gameRounds = new List<Entities.GameRound>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GameRound_SelectCurrent"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						gameRounds.Add(new Entities.GameRound(idr));
+					}
+				}
+			}
+
+			return gameRounds.FirstOrDefault();
+		}
 	}
 }

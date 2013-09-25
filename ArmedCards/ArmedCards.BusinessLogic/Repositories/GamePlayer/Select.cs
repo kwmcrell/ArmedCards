@@ -69,7 +69,7 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 		private void SelectCards(Entities.Filters.GamePlayer.Select filter, List<Entities.GamePlayer> players)
 		{
 			List<Entities.GamePlayerCard> playerCards =
-							_selectGamePlayerCards.Execute(filter.GameID);
+							_selectGamePlayerCards.Execute(filter.GameID, null);
 
 			foreach (Entities.GamePlayer player in players)
 			{

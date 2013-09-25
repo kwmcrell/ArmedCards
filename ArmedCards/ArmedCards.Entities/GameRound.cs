@@ -42,6 +42,9 @@ namespace ArmedCards.Entities
 			GameRoundID		= idr.GetValueByName<Int32>("GameRoundID");
 			Started			= idr.GetValueByName<DateTime>("Started");
             GameID			= idr.GetValueByName<Int32>("Game_GameID");
+			CurrentPlayerCount = idr.GetValueByName<Int32>("CurrentPlayers");
+			PlayedCount = idr.GetValueByName<Int32>("Played");
+
 			CardCommander	= new User(idr);
 			Question		= new Card(idr);
         }
@@ -81,5 +84,25 @@ namespace ArmedCards.Entities
 		/// List of cards played during the round
 		/// </summary>
 		public List<GameRoundCard> CardsPlayed { get; set; }
+
+		/// <summary>
+		/// Current player count
+		/// </summary>
+		public Int32 CurrentPlayerCount { get; set; }
+
+		/// <summary>
+		/// Number of players that have answered
+		/// </summary>
+		public Int32 PlayedCount { get; set; }
+
+		/// <summary>
+		/// Validate the right number of cards were played for the question
+		/// </summary>
+		/// <param name="cardsCount">The number of cards played</param>
+		/// <returns>If the proper number of cards were played</returns>
+		public Boolean ValidateCardPlayedCount(Int32 cardsCount)
+		{
+			return ((Int32)Question.Instructions + 1) == cardsCount;
+		}
     }
 }

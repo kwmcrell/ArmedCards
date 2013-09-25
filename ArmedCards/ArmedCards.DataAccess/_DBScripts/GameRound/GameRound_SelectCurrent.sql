@@ -21,38 +21,53 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerCard_Select]') IS NOT NULL
+IF OBJECT_ID('[dbo].[GameRound_SelectCurrent]') IS NOT NULL
 BEGIN 
-    DROP PROC [dbo].[GamePlayerCard_Select] 
+    DROP PROC [dbo].[GameRound_SelectCurrent] 
 END 
 GO
 
 -- ==============================================
 -- Author:		Kevin McRell
--- Create date: 9/19/2013
--- Description:	Select GamePlayerCards
+-- Create date: 9/16/2013
+-- Description:	Selects current round based on game id
 -- ===============================================
-CREATE PROC [dbo].[GamePlayerCard_Select]
-	@GameID			int,
-	@UserId			int = NULL
+CREATE PROC [dbo].[GameRound_SelectCurrent] 
+	@GameID			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
 	BEGIN TRAN
 
-	SELECT	GPC.[CardID],
-			GPC.[GameID],
-			GPC.[UserId],
-			C.[Content],
-			C.[Instructions],
-			C.[Type],
-			C.[CreatedBy_UserId]
-	FROM [dbo].[GamePlayerCard] GPC
-	INNER JOIN [dbo].[Card] C ON C.[CardID] = GPC.[CardID]
-	WHERE	GPC.[GameID] = @GameID
-	AND		GPC.[UserId] = @UserId OR @UserId IS NULL
+	SELECT TOP 1	GR.[GameRoundID],
+					GR.[Started],
+					GR.[Game_GameID],
+					GR.[CardCommander_UserId] AS UserId,
+					UP.[UserName],
+					C.[CardID],
+					C.[Content],
+					C.[Instructions],
+					C.[Type],
+					C.[CreatedBy_UserId],
+					(
+						SELECT COUNT(DISTINCT GPC.[UserId])
+						FROM [dbo].[GamePlayerCard] GPC
+						WHERE GPC.[GameID] = @GameID
+						AND	  GPC.[UserId] <> GR.[CardCommander_UserId]
+					) AS CurrentPlayers,
+					(
+						SELECT COUNT(DISTINCT GRC2.[PlayedBy_UserId])
+						FROM [dbo].[GameRoundCard] GRC2
+						WHERE GRC2.[GameRound_GameRoundID] = GR.[GameRoundID]
+						AND	  GRC2.[PlayedBy_UserId] <> GR.[CardCommander_UserId]
+					) AS Played
+	FROM [dbo].[GameRound] GR
+	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GR.[CardCommander_UserId]
+	INNER JOIN [dbo].[GameRoundCard] GRC ON GRC.[GameRound_GameRoundID] = GR.[GameRoundID]
+	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID] AND C.[Type] = 0
+	WHERE GR.[Game_GameID] = @GameID 
+	ORDER BY GR.[GameRoundID]
 
 	COMMIT
 GO
-
