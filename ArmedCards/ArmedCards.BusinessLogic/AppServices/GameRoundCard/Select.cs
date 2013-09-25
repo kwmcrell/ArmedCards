@@ -26,30 +26,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL = ArmedCards.DataAccess.GameRoundCard;
+using DS = ArmedCards.BusinessLogic.DomainServices.GameRoundCard;
 
-namespace ArmedCards.BusinessLogic.Repositories.GameRoundCard
+namespace ArmedCards.BusinessLogic.AppServices.GameRoundCard
 {
 	/// <summary>
 	/// Implementation of <seealso cref="Base.ISelect"/>
 	/// </summary>
 	public class Select : Base.ISelect
 	{
-		private DAL.Base.ISelect _selectGameRoundCard;
+		private DS.Base.ISelect _selectGameRoundCard;
 
-		public Select(DAL.Base.ISelect selectGameRoundCard)
+		public Select(DS.Base.ISelect selectGameRoundCard)
 		{
 			this._selectGameRoundCard = selectGameRoundCard;
 		}
 
 		/// <summary>
-		/// Selects game round cards base on supplied filter
+		/// Selects game round cards
 		/// </summary>
-		/// <param name="filter">Filter used to select game round cards</param>
-		/// <returns>A list of game round cards that satisfy the supplied filter</returns>
-		public List<Entities.GameRoundCard> Execute(Entities.Filters.GameRoundCard.Select filter)
+		/// <param name="gameRoundID">Game Round ID to select cards for</param>
+		/// <returns>A list of game round cards for the Game Round ID</returns>
+		public List<Entities.GameRoundCard> Execute(Int32 gameRoundID)
 		{
-			return _selectGameRoundCard.Execute(filter);
+			return _selectGameRoundCard.Execute(gameRoundID);
 		}
 	}
 }

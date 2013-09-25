@@ -27,7 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.Repositories.GameRoundCard.Base
+namespace ArmedCards.BusinessLogic.AppServices.GameRoundCard.Base
 {
 	/// <summary>
 	/// Interface that defines selecting game round cards
@@ -35,10 +35,10 @@ namespace ArmedCards.BusinessLogic.Repositories.GameRoundCard.Base
 	public interface ISelect
 	{
 		/// <summary>
-		/// Selects game round cards base on supplied filter
+		/// Selects game round cards
 		/// </summary>
-		/// <param name="filter">Filter used to select game round cards</param>
-		/// <returns>A list of game round cards that satisfy the supplied filter</returns>
-		List<Entities.GameRoundCard> Execute(Entities.Filters.GameRoundCard.Select filter);
+		/// <param name="gameRoundID">Game Round ID to select cards for</param>
+		/// <returns>A list of game round cards for the Game Round ID</returns>
+		List<Entities.GameRoundCard> Execute(Int32 gameRoundID);
 	}
 }
