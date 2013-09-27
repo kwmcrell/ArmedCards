@@ -50,30 +50,64 @@ namespace ArmedCards.Web.Models.Game.Board
         public Int32 UserId { get; set; }
 
 		/// <summary>
-		/// Get the current round
-		/// </summary>
-		public Entities.GameRound CurrentRound
-		{
-			get
-			{
-				return Game.CurrentRound();
-			}
-		}
-
-		/// <summary>
-		/// Get the current card commander
-		/// </summary>
-		public Entities.User CardCommander
-		{
-			get
-			{
-				return Game.DetermineCommander();
-			}
-		}
-
-		/// <summary>
 		/// The current user's hand
 		/// </summary>
 		public List<Entities.GamePlayerCard> Hand { get; set; }
+
+		/// <summary>
+		/// Determine if current user has answered
+		/// </summary>
+		/// <returns>True if the user has answered and false otherwise</returns>
+		public Boolean Answered()
+		{
+			Int32 indexOf = Game.CurrentRound().Answers.FindIndex(x => x.PlayedBy_UserId == UserId);
+
+			if (indexOf >= 0)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Is current user a active player
+		/// </summary>
+		public Boolean ActivePlayer
+		{
+			get
+			{
+				return Hand.Count > 0;
+			}
+		}
+
+		/// <summary>
+		/// Determine if hand div should be shown
+		/// </summary>
+		/// <returns></returns>
+		public Boolean ShowHand()
+		{
+			return ActivePlayer && !Answered();
+		}
+
+		/// <summary>
+		/// Determine if the current user is the commander
+		/// </summary>
+		/// <returns></returns>
+		public Boolean IsCommander()
+		{
+			return Game.IsCurrentCommander(UserId);
+		}
+
+		/// <summary>
+		/// Show answers if all players have played
+		/// </summary>
+		/// <returns></returns>
+		public Boolean ShowAnswers()
+		{
+			Entities.GameRound round = Game.CurrentRound();
+
+			return round.CurrentPlayerCount == round.PlayedCount;
+		}
     }
 }

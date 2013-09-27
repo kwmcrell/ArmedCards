@@ -22,20 +22,35 @@
  *@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-	header.SubHeaderText = String.Format("{0} is the Card Commander", Model.Game.DetermineCommander().DisplayName);
+@{	
+	String cssClass = Model.ShowHand() ? "hidden" : "";
+	Boolean isCommander = Model.IsCommander();
+	List<GameRoundCard> answers = Model.Game.CurrentRound().Answers;
+	
 }
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-@Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
-@Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
-<div class="asked">
-	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.Game.CurrentRound().Question)
+<div id="answers" class="@cssClass">
+    @if (Model.ShowAnswers())
+{
+    <div class="played">
+		<p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
+        <div class="played @(isCommander ? "pick" : "")">
+            @foreach(GameRoundCard card in answers)
+            {
+		        @Html.Partial("~/Views/Game/Board/Partials/_GameRoundCard.cshtml", card)
+            }
+	    </div>
+    </div>
+}
+else
+{
+    <div class="names played">
+		<p>Cards played.</p>
+        @for (int i = 0; i < answers.Count(); i++)
+        {
+		    <div class="answer card">
+		    </div>
+        }
+	</div>
+}   
 </div>
-@Html.Partial("~/Views/Game/Board/Partials/_Answers.cshtml", Model)
-@Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model)
-
-@Html.Hidden("CurrentRound.Question.Instructions", 
-			 (Int32)Model.Game.CurrentRound().Question.Instructions, 
-			 new { id = "CurrentRound_Question_Instructions" })

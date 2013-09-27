@@ -24,9 +24,11 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @{
 	AnswerCard cardModel = null;
+	
+	String cssClass = Model.ShowHand() ? "" : "hidden";
 }
 
-<div id="hand" class="">
+<div id="hand" class="@cssClass">
 	<p>Play a card.</p>
     <div id="myHand" class="hand pick">
         @foreach (GamePlayerCard playerCard in Model.Hand)

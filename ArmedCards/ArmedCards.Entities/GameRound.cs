@@ -39,14 +39,14 @@ namespace ArmedCards.Entities
 		public GameRound(IDataReader idr)
 			: this()
         {
-			GameRoundID		= idr.GetValueByName<Int32>("GameRoundID");
-			Started			= idr.GetValueByName<DateTime>("Started");
-            GameID			= idr.GetValueByName<Int32>("Game_GameID");
-			CurrentPlayerCount = idr.GetValueByName<Int32>("CurrentPlayers");
-			PlayedCount = idr.GetValueByName<Int32>("Played");
+			GameRoundID			= idr.GetValueByName<Int32>("GameRoundID");
+			Started				= idr.GetValueByName<DateTime>("Started");
+            GameID				= idr.GetValueByName<Int32>("Game_GameID");
+			CurrentPlayerCount	= idr.GetValueByName<Int32>("CurrentPlayers");
+			PlayedCount			= idr.GetValueByName<Int32>("Played");
 
-			CardCommander	= new User(idr);
-			Question		= new Card(idr);
+			CardCommander		= new User(idr);
+			Question			= new Card(idr);
         }
 
 		public GameRound()
@@ -103,6 +103,19 @@ namespace ArmedCards.Entities
 		public Boolean ValidateCardPlayedCount(Int32 cardsCount)
 		{
 			return ((Int32)Question.Instructions + 1) == cardsCount;
+		}
+
+		private List<GameRoundCard> _answers;
+
+		/// <summary>
+		/// Answers for the round
+		/// </summary>
+		public List<GameRoundCard> Answers
+		{
+			get
+			{
+				return _answers ?? (_answers = CardsPlayed.Where(x => x.Card.Type == Enums.Card.CardType.Answer).ToList());
+			}
 		}
     }
 }

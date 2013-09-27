@@ -58,8 +58,10 @@
     <Compile Include="Deck\Base\ISelect.cs" />
     <Compile Include="Deck\Select.cs" />
     <Compile Include="Extensions\EntityDataReader.cs" />
+    <Compile Include="GamePlayerCard\Base\IDelete.cs" />
     <Compile Include="GamePlayerCard\Base\IInsert.cs" />
     <Compile Include="GamePlayerCard\Base\ISelect.cs" />
+    <Compile Include="GamePlayerCard\Delete.cs" />
     <Compile Include="GamePlayerCard\Insert.cs" />
     <Compile Include="GamePlayerCard\Select.cs" />
     <Compile Include="GamePlayer\Base\IDelete.cs" />
@@ -95,6 +97,7 @@
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />
     <Content Include="_DBScripts\Deck\DefaultDecks.sql" />
     <Content Include="_DBScripts\Deck\%40DeckTable.sql" />
+    <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Delete.sql" />
     <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Select.sql" />
     <Content Include="_DBScripts\GamePlayerCard\%40GamePlayerCardTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />

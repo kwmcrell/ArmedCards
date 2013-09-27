@@ -23,46 +23,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Library.Extensions
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard.Base
 {
-    /// <summary>
-    /// Class containing all IDataReader extensions
-    /// </summary>
-    public static class IDataReaderExtension
-    {
-        /// <summary>
-        /// Get the value by column name
-        /// </summary>
-        /// <typeparam name="T">The expected type</typeparam>
-        /// <param name="idr">The IDataReader being used</param>
-        /// <param name="columnName">The column name to read</param>
-        /// <returns>The value of the column or the default of <paramref name="T"/></returns>
-        public static T GetValueByName<T>(this IDataReader idr, String columnName)
-        {
-			Int32 ordinal = 0;
-
-			try
-			{
-				ordinal = idr.GetOrdinal(columnName);
-			}
-			catch
-			{
-				return default(T);
-			}
-
-            if (idr.IsDBNull(ordinal))
-            {
-                return default(T);
-            }
-            else
-            {
-                return (T)idr.GetValue(ordinal);
-            }
-        }
-    }
+	/// <summary>
+	/// Interface removing cards from a players hand
+	/// </summary>
+	public interface IDelete
+	{
+		/// <summary>
+		/// Remove cards from a players base on the provided parameters
+		/// </summary>
+		/// <param name="cardIDs">The card IDs to remove</param>
+		/// <param name="gameID">The game ID</param>
+		/// <param name="userId">The current user Id</param>
+		void Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId);
+	}
 }

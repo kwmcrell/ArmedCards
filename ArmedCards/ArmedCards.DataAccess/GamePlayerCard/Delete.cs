@@ -21,48 +21,44 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Library.Extensions
+namespace ArmedCards.DataAccess.GamePlayerCard
 {
-    /// <summary>
-    /// Class containing all IDataReader extensions
-    /// </summary>
-    public static class IDataReaderExtension
-    {
-        /// <summary>
-        /// Get the value by column name
-        /// </summary>
-        /// <typeparam name="T">The expected type</typeparam>
-        /// <param name="idr">The IDataReader being used</param>
-        /// <param name="columnName">The column name to read</param>
-        /// <returns>The value of the column or the default of <paramref name="T"/></returns>
-        public static T GetValueByName<T>(this IDataReader idr, String columnName)
-        {
-			Int32 ordinal = 0;
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// </summary>
+	public class Delete : Base.IDelete
+	{
+		private Database _db;
 
-			try
-			{
-				ordinal = idr.GetOrdinal(columnName);
-			}
-			catch
-			{
-				return default(T);
-			}
+		public Delete(Database db)
+		{
+			this._db = db;
+		}
 
-            if (idr.IsDBNull(ordinal))
-            {
-                return default(T);
-            }
-            else
-            {
-                return (T)idr.GetValue(ordinal);
-            }
-        }
-    }
+		/// <summary>
+		/// Remove cards from a players base on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">The filter used to delete cards</param>
+		public void Execute(Entities.Filters.GamePlayerCard.Delete filter)
+		{
+			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayerCard_Delete"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+				_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+				_db.AddInParameter(cmd, "@CardIDs", DbType.Xml, filter.CardIDs.ConvertCollectionToXML());
+
+				_db.ExecuteNonQuery(cmd);
+			}
+		}
+	}
 }

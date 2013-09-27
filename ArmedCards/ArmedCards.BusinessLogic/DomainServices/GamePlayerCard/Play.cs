@@ -39,14 +39,17 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		private AS.GamePlayerCard.Base.ISelect _selectGamePlayerCard;
 		private AS.GameRound.Base.ISelect _selectGameRound;
 		private AS.GameRoundCard.Base.IInsert _insertGameRoundCard;
+		private Base.IDelete _deleteGamePlayerCard;
 
 		public Play(AS.GamePlayerCard.Base.ISelect selectGamePlayerCard,
 					AS.GameRound.Base.ISelect selectGameRound,
-					AS.GameRoundCard.Base.IInsert insertGameRoundCard)
+					AS.GameRoundCard.Base.IInsert insertGameRoundCard,
+					Base.IDelete deleteGamePlayerCard)
 		{
 			this._selectGamePlayerCard = selectGamePlayerCard;
 			this._selectGameRound = selectGameRound;
 			this._insertGameRoundCard = insertGameRoundCard;
+			this._deleteGamePlayerCard = deleteGamePlayerCard;
 		}
 
 		/// <summary>
@@ -80,6 +83,9 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 					//Select round with game cards
 					round = _selectGameRound.Execute(gameID, true);
+
+					//Remove cards from player's hand
+					_deleteGamePlayerCard.Execute(cardIDs, gameID, userId);
 
 					playResponse.CurrentRound = round;
 					playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.Success;

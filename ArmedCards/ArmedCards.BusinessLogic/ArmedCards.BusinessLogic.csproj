@@ -113,6 +113,7 @@
     <Compile Include="DomainServices\GamePlayerCard\Base\ICreateHand.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\IDeal.cs" />
     <Compile Include="DomainServices\Card\Base\IExcludeCurrentHands.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Base\IDelete.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\IInsert.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\IPlay.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Base\ISelect.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="DomainServices\GamePlayerCard\CreateHand.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Deal.cs" />
     <Compile Include="DomainServices\Card\ExcludeCurrentHands.cs" />
+    <Compile Include="DomainServices\GamePlayerCard\Delete.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Insert.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Play.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Select.cs" />
@@ -158,8 +160,10 @@
     <Compile Include="Repositories\Card\Select.cs" />
     <Compile Include="Repositories\Deck\Base\ISelect.cs" />
     <Compile Include="Repositories\Deck\Select.cs" />
+    <Compile Include="Repositories\GamePlayerCard\Base\IDelete.cs" />
     <Compile Include="Repositories\GamePlayerCard\Base\IInsert.cs" />
     <Compile Include="Repositories\GamePlayerCard\Base\ISelect.cs" />
+    <Compile Include="Repositories\GamePlayerCard\Delete.cs" />
     <Compile Include="Repositories\GamePlayerCard\Insert.cs" />
     <Compile Include="Repositories\GamePlayerCard\Select.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IDelete.cs" />

@@ -23,46 +23,39 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.GamePlayerCard;
 
-namespace ArmedCards.Library.Extensions
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
-    /// <summary>
-    /// Class containing all IDataReader extensions
-    /// </summary>
-    public static class IDataReaderExtension
-    {
-        /// <summary>
-        /// Get the value by column name
-        /// </summary>
-        /// <typeparam name="T">The expected type</typeparam>
-        /// <param name="idr">The IDataReader being used</param>
-        /// <param name="columnName">The column name to read</param>
-        /// <returns>The value of the column or the default of <paramref name="T"/></returns>
-        public static T GetValueByName<T>(this IDataReader idr, String columnName)
-        {
-			Int32 ordinal = 0;
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// </summary>
+	public class Delete : Base.IDelete
+	{
+		private DAL.Base.IDelete _delete;
 
-			try
-			{
-				ordinal = idr.GetOrdinal(columnName);
-			}
-			catch
-			{
-				return default(T);
-			}
+		public Delete(DAL.Base.IDelete delete)
+		{
+			this._delete = delete;
+		}
 
-            if (idr.IsDBNull(ordinal))
-            {
-                return default(T);
-            }
-            else
-            {
-                return (T)idr.GetValue(ordinal);
-            }
-        }
-    }
+		/// <summary>
+		/// Remove cards from a players base on the provided parameters
+		/// </summary>
+		/// <param name="cardIDs">The card IDs to remove</param>
+		/// <param name="gameID">The game ID</param>
+		/// <param name="userId">The current user Id</param>
+		public void Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
+		{
+			Entities.Filters.GamePlayerCard.Delete filter = new Entities.Filters.GamePlayerCard.Delete();
+			filter.CardIDs = cardIDs;
+			filter.GameID = gameID;
+			filter.UserId = userId;
+
+			_delete.Execute(filter);
+		}
+	}
 }

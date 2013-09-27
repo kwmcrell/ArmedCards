@@ -84,7 +84,7 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 
 			if (filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.Rounds))
 			{
-				game.Rounds = _selectGameRound.Execute(game.GameID);
+				game.Rounds.Add(_selectGameRound.Execute(game.GameID, true));
 			}
 
             return game;

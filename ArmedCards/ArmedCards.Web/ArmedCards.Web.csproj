@@ -321,6 +321,8 @@
     <Content Include="Views\Game\Board\Partials\_PickWinner.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PlayCard.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Hand.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Answers.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_GameRoundCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

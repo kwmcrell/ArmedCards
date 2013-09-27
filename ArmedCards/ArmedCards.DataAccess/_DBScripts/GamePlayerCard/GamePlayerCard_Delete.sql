@@ -21,48 +21,34 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayerCard_Delete]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerCard_Delete] 
+END 
+GO
 
-namespace ArmedCards.Library.Extensions
-{
-    /// <summary>
-    /// Class containing all IDataReader extensions
-    /// </summary>
-    public static class IDataReaderExtension
-    {
-        /// <summary>
-        /// Get the value by column name
-        /// </summary>
-        /// <typeparam name="T">The expected type</typeparam>
-        /// <param name="idr">The IDataReader being used</param>
-        /// <param name="columnName">The column name to read</param>
-        /// <returns>The value of the column or the default of <paramref name="T"/></returns>
-        public static T GetValueByName<T>(this IDataReader idr, String columnName)
-        {
-			Int32 ordinal = 0;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/19/2013
+-- Description:	Delete GamePlayerCards
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerCard_Delete]
+	@GameID			int,
+	@UserId			int,
+	@CardIDs		XML
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	DELETE
+	FROM [dbo].[GamePlayerCard]
+	WHERE [CardID] IN (SELECT ids.id.value('@value', 'int')
+					   FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
+	AND [GameID] = @GameID
+	AND [UserId] = @UserId
 
-			try
-			{
-				ordinal = idr.GetOrdinal(columnName);
-			}
-			catch
-			{
-				return default(T);
-			}
+	COMMIT
+GO
 
-            if (idr.IsDBNull(ordinal))
-            {
-                return default(T);
-            }
-            else
-            {
-                return (T)idr.GetValue(ordinal);
-            }
-        }
-    }
-}
