@@ -21,43 +21,15 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{	
-	String cssClass = Model.ShowHand() ? "hidden" : "";
-	Boolean isCommander = Model.IsCommander();
-	GameRound round = Model.Game.CurrentRound();
-	
-	List<GameRoundCard> answers =	round.Answers;
+@model List<GameRoundCard>
+
+@{
+	IEnumerable<IGrouping<Int32, GameRoundCard>> groupedAnswers = Model.GroupBy(x => x.PlayedBy_UserId);
 }
 
-<div id="answers" class="@cssClass">
-    @if (Model.ShowAnswers())
+@foreach (IGrouping<Int32, GameRoundCard> group in groupedAnswers)
 {
-    <div class="played">
-		<p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
-        <div class="played @(isCommander ? "pick" : "")">
-			<div>
-				@if(round.Question.Instructions == ArmedCards.Entities.Enums.Card.Instructions.None)
-	{
-			    @Html.Partial("~/Views/Game/Board/Partials/_SingleAnswers.cshtml", answers)
-	}
-	else
-	{
-				@Html.Partial("~/Views/Game/Board/Partials/_MultiAnswers.cshtml", answers)
-	}
-			</div>
-		</div>
-    </div>
-}
-else
-{
-    <div class="names played">
-		<p>Cards played.</p>
-        @for (int i = 0; i < answers.Count(); i++)
-        {
-		    <div class="answer card">
-		    </div>
-        }
+	<div class="pickMultiple">
+		@Html.Partial("~/Views/Game/Board/Partials/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
 	</div>
-}   
-</div>
+}

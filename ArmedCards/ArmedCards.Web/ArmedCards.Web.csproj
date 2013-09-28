@@ -323,6 +323,8 @@
     <Content Include="Views\Game\Board\Partials\_Hand.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Answers.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameRoundCard.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_SingleAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_MultiAnswers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
