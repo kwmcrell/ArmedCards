@@ -86,6 +86,28 @@ namespace ArmedCards.Web.Helpers
 		}
 
 		/// <summary>
+		/// Sends an update for a card played in the round
+		/// </summary>
+		/// <param name="connection">Connection to send to</param>
+		/// <param name="game">The current game</param>
+		public static void CardPlayed(Entities.ActiveConnection connection, Entities.Game game)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard
+			{
+				Game = game,
+				Hand = game.Players.Find(x => x.User.UserId == connection.User_UserId).Hand,
+				UserId = connection.User_UserId
+			};
+
+			string partialView = GetRazorViewAsString("~/Views/Game/Board/Partials/_Answers.cshtml", model);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .UpdateAnswers(partialView, !model.ShowHand());
+		}
+
+		/// <summary>
 		/// Renders a razor view as a string
 		/// </summary>
 		/// <param name="viewPath">The view path</param>

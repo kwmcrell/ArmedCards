@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 {
@@ -36,10 +37,16 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 	public class Play : Base.IPlay
 	{
 		private DS.GamePlayerCard.Base.IPlay _playCard;
+		private AS.Game.Base.ISelect _selectGame;
+		private AS.Hub.Base.ISendMessage _sendMessage;
 
-		public Play(DS.GamePlayerCard.Base.IPlay playCard)
+		public Play(DS.GamePlayerCard.Base.IPlay playCard,
+					AS.Game.Base.ISelect selectGame,
+					AS.Hub.Base.ISendMessage sendMessage)
 		{
 			this._playCard = playCard;
+			this._selectGame = selectGame;
+			this._sendMessage = sendMessage;
 		}
 
 		/// <summary>
@@ -48,10 +55,27 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 		/// <param name="cardIDs">The card IDs the user has selected </param>
 		/// <param name="gameID">The game ID in which the user wants to play the card</param>
 		/// <param name="userId">The user Id</param>
+		/// <param name="playedAction">Action to send to all active players</param>
 		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
-		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
+		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId,
+														 Action<Entities.ActiveConnection, Entities.Game> playedAction)
 		{
-			return _playCard.Execute(cardIDs, gameID, userId);
+			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, userId);
+
+			if (response.ResponseCode == Entities.ActionResponses.Enums.PlayCardResponseCode.Success)
+			{
+				Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+				filter.DataToSelect = Entities.Enums.Game.Select.GamePlayerCards;
+				filter.GameID = gameID;
+
+				Entities.Game game = _selectGame.Execute(filter);
+
+				game.Rounds.Add(response.CurrentRound);
+
+				_sendMessage.Execute(game, playedAction);
+			}
+
+			return response;
 		}
 	}
 }

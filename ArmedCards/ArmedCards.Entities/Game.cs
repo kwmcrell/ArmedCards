@@ -286,7 +286,7 @@ namespace ArmedCards.Entities
         /// <returns></returns>
         public Boolean IsCurrentCommander(Int32 userId)
         {
-            return DetermineCommander().UserId == userId;
+			return CurrentRound().IsCommander(userId);
         }
 
 		/// <summary>

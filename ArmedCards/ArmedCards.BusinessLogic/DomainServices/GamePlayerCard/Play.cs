@@ -70,29 +70,38 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 			if (missedIds.Count == 0)
 			{
-				Entities.GameRound round = _selectGameRound.Execute(gameID, false);
+				Entities.GameRound round = _selectGameRound.Execute(gameID, true);
 
-				//Validate the correct number of cards were played
-				if (round.ValidateCardPlayedCount(cardIDs.Count))
+				//Validate the user isn't trying to answer multiple times
+				if (round.HasAnswer(userId) == false)
 				{
-					//Create GameRoundCards for played cards
-					List<Entities.GameRoundCard> playedCards = CreateRoundCards(cardIDs, userId, round.GameRoundID, gameID);
+					//Validate the correct number of cards were played
+					if (round.ValidateCardPlayedCount(cardIDs.Count))
+					{
+						//Create GameRoundCards for played cards
+						List<Entities.GameRoundCard> playedCards = CreateRoundCards(cardIDs, userId, round.GameRoundID, gameID);
 
-					//Insert playedCards
-					_insertGameRoundCard.Execute(playedCards);
+						//Insert playedCards
+						_insertGameRoundCard.Execute(playedCards);
 
-					//Select round with game cards
-					round = _selectGameRound.Execute(gameID, true);
+						//Select round with game cards
+						round = _selectGameRound.Execute(gameID, true);
 
-					//Remove cards from player's hand
-					_deleteGamePlayerCard.Execute(cardIDs, gameID, userId);
+						//Remove cards from player's hand
+						//_deleteGamePlayerCard.Execute(cardIDs, gameID, userId);
 
-					playResponse.CurrentRound = round;
-					playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.Success;
+						playResponse.CurrentRound = round;
+						playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.Success;
+					}
+					else
+					{
+						playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.InvalidNumberOfCardsPlayed;
+					}
 				}
 				else
 				{
-					playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.InvalidNumberOfCardsPlayed;
+					playResponse.CurrentRound = round;
+					playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.Success;
 				}
 			}
 			else

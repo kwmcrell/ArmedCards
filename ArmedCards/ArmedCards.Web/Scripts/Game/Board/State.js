@@ -36,9 +36,19 @@ State.prototype.UpdateGame = function (html) {
 	$('#gameContainer').html(html);
 };
 
+State.prototype.UpdateAnswers = function (answers, answered) {
+	if (answered) {
+		$('#hand').addClass('hidden');
+		$('#answers').removeClass('hidden');
+	}
+
+	$('#answers').html(answers);
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateGame = ArmedCards.Game.State.UpdateGame;
+	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 };
 
 State.prototype.ConnectionSuccess = function () {

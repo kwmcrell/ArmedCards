@@ -41,9 +41,16 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			this._playCard = playCard;
 		}
 
+		/// <summary>
+		/// Action responsible for playing a card in a game
+		/// </summary>
+		/// <param name="cardIDs">The cards to play</param>
+		/// <param name="gameID">The game ID</param>
+		/// <returns>The response code</returns>
         public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
         {
-			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, WebSecurity.CurrentUserId);
+			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, WebSecurity.CurrentUserId,
+																			Helpers.HubActions.CardPlayed);
 
 			return Json(new { response.ResponseCode });
         }

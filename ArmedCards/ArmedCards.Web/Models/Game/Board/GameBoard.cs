@@ -60,14 +60,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns>True if the user has answered and false otherwise</returns>
 		public Boolean Answered()
 		{
-			Int32 indexOf = Game.CurrentRound().Answers.FindIndex(x => x.PlayedBy_UserId == UserId);
-
-			if (indexOf >= 0)
-			{
-				return true;
-			}
-
-			return false;
+			return Game.CurrentRound().HasAnswer(UserId);
 		}
 
 		/// <summary>
@@ -87,7 +80,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public Boolean ShowHand()
 		{
-			return ActivePlayer && !Answered();
+			return ActivePlayer && !Answered() && !IsCommander();
 		}
 
 		/// <summary>

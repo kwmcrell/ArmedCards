@@ -117,5 +117,32 @@ namespace ArmedCards.Entities
 				return _answers ?? (_answers = CardsPlayed.Where(x => x.Card.Type == Enums.Card.CardType.Answer).ToList());
 			}
 		}
+
+		/// <summary>
+		/// Check to see if user has answered the question already
+		/// </summary>
+		/// <param name="userId">The user Id to check</param>
+		/// <returns>If the user has already answered the question</returns>
+		public Boolean HasAnswer(Int32 userId)
+		{
+			Int32 indexOf = Answers.FindIndex(x => x.PlayedBy_UserId == userId);
+
+			if (indexOf >= 0)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Determine if the user is the card commander
+		/// </summary>
+		/// <param name="userId">The user Id to check</param>
+		/// <returns></returns>
+		public Boolean IsCommander(Int32 userId)
+		{
+			return CardCommander.UserId == userId;
+		}
     }
 }
