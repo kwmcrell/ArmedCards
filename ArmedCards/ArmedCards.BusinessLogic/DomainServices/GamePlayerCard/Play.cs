@@ -88,7 +88,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 						round = _selectGameRound.Execute(gameID, true);
 
 						//Remove cards from player's hand
-						//_deleteGamePlayerCard.Execute(cardIDs, gameID, userId);
+						_deleteGamePlayerCard.Execute(cardIDs, gameID, userId);
 
 						playResponse.CurrentRound = round;
 						playResponse.ResponseCode = Entities.ActionResponses.Enums.PlayCardResponseCode.Success;

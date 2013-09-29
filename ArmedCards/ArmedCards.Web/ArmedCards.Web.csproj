@@ -219,6 +219,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
+    <Compile Include="Controllers\Game\Board\PickWinnerController.cs" />
     <Compile Include="Controllers\Game\Board\PlayCardController.cs" />
     <Compile Include="Controllers\Game\Board\SelectCardsController.cs" />
     <Compile Include="Controllers\Game\Board\StartController.cs" />
@@ -271,6 +272,8 @@
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
     <Content Include="Scripts\Core\Utilities.js" />
+    <Content Include="Scripts\Game\Board\Commander.js" />
+    <Content Include="Scripts\Game\Board\Common.js" />
     <Content Include="Scripts\Game\Board\State.js" />
     <Content Include="Scripts\Game\Board\Hand.js" />
     <Content Include="Scripts\Game\Board\Sidebar.js" />

@@ -22,13 +22,43 @@
 *@
 
 @using ArmedCards.Entities;
-@model IEnumerable<GamePlayer>
-
+@model List<GamePlayer>
+@{
+	List<String> placeKittens = new List<String>
+		{
+			"http://placekitten.com/50/50",
+			"http://placekitten.com/60/60",
+			"http://placekitten.com/70/70",
+			"http://placekitten.com/90/90",
+			"http://placekitten.com/110/110",
+			"http://placekitten.com/120/120",
+			"http://placekitten.com/130/130",
+			"http://placekitten.com/150/150",
+		};
+}
 <div class="lobbyPlayers">
 	<ul class="playerList">
         @foreach (GamePlayer player in Model)
         {
-            @Html.Partial("~/Views/Game/Board/Sidebar/_Player.cshtml", player)
+			<li>
+				<span class="loggedIn">
+					<span class="playerMenu">
+						<img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
+						<span class="menu">
+							<ul>
+								@*<li><a href="#">Add as friend</a></li>*@
+								@*<li><a name="@Model.User.UserId" href="#">Kick Player</a></li>*@
+								<li><a name="@player.User.UserId" href="#">Nothing yet</a></li>
+							</ul>
+						</span>
+					</span>
+					<img height="50" width="50" src="@placeKittens[Model.IndexOf(player)]">
+					<a id="@player.User.UserId" href="#">@player.User.DisplayName</a>
+				</span>
+				<span class="gamePoints">
+					@player.Points points
+				</span>
+			</li>
         }
 	</ul>
 </div>

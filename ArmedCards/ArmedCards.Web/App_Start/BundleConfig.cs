@@ -59,7 +59,9 @@ namespace ArmedCards.Web
 						"~/Scripts/Game/Board/Waiting.js",
 						"~/Scripts/Game/Board/Sidebar.js",
 						"~/Scripts/Game/Board/State.js",
-						"~/Scripts/Game/Board/Hand.js"));
+						"~/Scripts/Game/Board/Common.js",
+						"~/Scripts/Game/Board/Hand.js",
+						"~/Scripts/Game/Board/Commander.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Core/Hub").Include(
                         "~/Scripts/jquery.signalR-1.1.3.js",

@@ -42,6 +42,7 @@ namespace ArmedCards.Entities
             GameID  = idr.GetValueByName<Int32>("GameID");
             User    = new User(idr);
             Points  = idr.GetValueByName<Int32>("Points");
+			CardCount = idr.GetValueByName<Int32>("CardCount");
         }
 
         public GamePlayer()

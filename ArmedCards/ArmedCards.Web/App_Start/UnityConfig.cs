@@ -118,7 +118,13 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IDelete,			BusinessLogic.Repositories.GamePlayer.Delete>();
 
 			Container.RegisterType<DataAccess.GamePlayer.Base.IDelete,							DataAccess.GamePlayer.Delete>();
-			
+
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayer.Base.IUpdate,			BusinessLogic.AppServices.GamePlayer.Update>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayer.Base.IUpdate,		BusinessLogic.DomainServices.GamePlayer.Update>();
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayer.Base.IUpdate,			BusinessLogic.Repositories.GamePlayer.Update>();
+
+			Container.RegisterType<DataAccess.GamePlayer.Base.IUpdate,							DataAccess.GamePlayer.Update>();
+
 			#endregion "Game Player"
 
 			#region "Deck"
@@ -170,6 +176,9 @@ namespace ArmedCards.Web
 
 			Container.RegisterType<DataAccess.GameRound.Base.ISelect,							DataAccess.GameRound.Select>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IComplete,			BusinessLogic.AppServices.GameRound.Complete>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IComplete,		BusinessLogic.DomainServices.GameRound.Complete>();
+
 			#endregion "Game Round"
 
 			#region "Game Player Card"
@@ -217,6 +226,12 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.Repositories.GameRoundCard.Base.ISelect,		BusinessLogic.Repositories.GameRoundCard.Select>();
 
 			Container.RegisterType<DataAccess.GameRoundCard.Base.ISelect,						DataAccess.GameRoundCard.Select>();
+
+			Container.RegisterType<BusinessLogic.AppServices.GameRoundCard.Base.IUpdate,		BusinessLogic.AppServices.GameRoundCard.Update>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRoundCard.Base.IUpdate,		BusinessLogic.DomainServices.GameRoundCard.Update>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRoundCard.Base.IUpdate,		BusinessLogic.Repositories.GameRoundCard.Update>();
+
+			Container.RegisterType<DataAccess.GameRoundCard.Base.IUpdate,						DataAccess.GameRoundCard.Update>();
 
 			#endregion "Game Round Card"
 		}

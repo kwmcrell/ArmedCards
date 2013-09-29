@@ -144,5 +144,29 @@ namespace ArmedCards.Entities
 		{
 			return CardCommander.UserId == userId;
 		}
+
+		/// <summary>
+		/// Validate that the selected winner was in fact played during the round
+		/// </summary>
+		/// <param name="cardIDs">The IDs of winning cards</param>
+		/// <returns>Any IDs that were not actually played during the round</returns>
+		public List<Int32> ValidateWinnerSelection(List<Int32> cardIDs)
+		{
+			List<Int32> invalidCardIDs = new List<Int32>();
+
+			Int32 indexOf = -1;
+
+			foreach (Int32 cardID in cardIDs)
+			{
+				indexOf = Answers.FindIndex(x => x.Card_CardID == cardID);
+
+				if (indexOf < 0)
+				{
+					invalidCardIDs.Add(cardID);
+				}
+			}
+
+			return invalidCardIDs;
+		}
     }
 }
