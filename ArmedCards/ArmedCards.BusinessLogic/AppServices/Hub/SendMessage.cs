@@ -91,5 +91,32 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 				}
 			}
 		}
+
+		/// <summary>
+		/// Send a message to a hub group
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="round">The current round</param>
+		/// <param name="action">The action to fire</param>
+		public void Execute(Entities.Game game, Entities.GameRound round,
+							Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action)
+		{
+			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+			filter.GroupName = String.Format("Game_{0}", game.GameID);
+
+			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+			Entities.GamePlayer sendToPlayer = null;
+
+			foreach (Entities.ActiveConnection connection in connections)
+			{
+				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
+
+				if (sendToPlayer != null)
+				{
+					action(connection, game, round.GroupedAnswers());
+				}
+			}
+		}
 	}
 }

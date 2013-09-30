@@ -122,17 +122,29 @@ Commander.prototype.PickWinner = function (event) {
 };
 
 Commander.prototype.Init = function () {
-	$('#gameContainer').off().on({
+	$('#gameContainer')
+	.off({
+		click: ArmedCards.Game.Commander.WinnerSelected
+	}, '.played.pick .answer.card')
+	.on({
 		click: ArmedCards.Game.Commander.WinnerSelected
 	}, '.played.pick .answer.card');
 
-	$('#winnerNope').unbind().bind({
+	$('#gameContainer')
+	.off({
 		click: ArmedCards.Game.Commander.CancelWinner
-	});
+	}, '#winnerNope')
+	.on({
+		click: ArmedCards.Game.Commander.CancelWinner
+	}, '#winnerNope');
 
-	$('#winnerSubmit').unbind().bind({
+	$('#gameContainer')
+	.off({
 		click: ArmedCards.Game.Commander.PickWinner
-	});
+	}, '#winnerSubmit')
+	.on({
+		click: ArmedCards.Game.Commander.PickWinner
+	}, '#winnerSubmit');
 };
 
 $.Topic("beforeHubStart").subscribe(ArmedCards.Game.Commander.Init);

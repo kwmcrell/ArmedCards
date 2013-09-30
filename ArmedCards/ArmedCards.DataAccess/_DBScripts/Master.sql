@@ -296,6 +296,38 @@ GO
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'PictureUrl' 
+				AND Object_ID = Object_ID(N'UserProfile'))
+BEGIN
+    ALTER TABLE [dbo].[UserProfile] ADD [PictureUrl] [varchar](500) NULL
+END
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 IF OBJECT_ID('[dbo].[User_Insert]') IS NOT NULL
 BEGIN 
     DROP PROC [dbo].[User_Insert] 
@@ -2478,6 +2510,7 @@ AS
 			GP.[UserId],
 			GP.[JoinDate],
 			UP.[UserName],
+			UP.[PictureUrl],
 			(SELECT COUNT(CardID)
 			 FROM [dbo].[GamePlayerCard]
 			 WHERE	[UserId] = GP.UserId
@@ -2487,6 +2520,58 @@ AS
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
 	ORDER BY GP.[JoinDate] ASC
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayer_UpdatePoints]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayer_UpdatePoints] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/28/2013
+-- Description:	Update player points
+-- ===============================================
+CREATE PROC [dbo].[GamePlayer_UpdatePoints] 
+	@GameID			int,
+	@UserId			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
+
+	UPDATE [dbo].[GamePlayer]
+	SET Points = (Points + 1)
+	WHERE	GameID = @GameID
+	AND		UserId = @UserId
 
 	COMMIT
 GO
@@ -2822,6 +2907,7 @@ AS
 			GR.[Game_GameID],
 			GR.[CardCommander_UserId] AS UserId,
 			UP.[UserName],
+			UP.[PictureUrl],
 			C.[CardID],
 			C.[Content],
 			C.[Instructions],
@@ -2884,6 +2970,7 @@ AS
 					GR.[Game_GameID],
 					GR.[CardCommander_UserId] AS UserId,
 					UP.[UserName],
+					UP.[PictureUrl],
 					C.[CardID],
 					C.[Content],
 					C.[Instructions],
@@ -2906,7 +2993,7 @@ AS
 	INNER JOIN [dbo].[GameRoundCard] GRC ON GRC.[GameRound_GameRoundID] = GR.[GameRoundID]
 	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID] AND C.[Type] = 0
 	WHERE GR.[Game_GameID] = @GameID 
-	ORDER BY GR.[GameRoundID]
+	ORDER BY GR.[GameRoundID] DESC
 
 	COMMIT
 GO
@@ -3035,7 +3122,8 @@ AS
 			C.[Type],
 			C.[CreatedBy_UserId],
 			UP.[UserId],
-			UP.[UserName]
+			UP.[UserName],
+			UP.[PictureUrl]
 	FROM [dbo].[GameRoundCard] GRC
 	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID]
 	INNER JOIN [dbo].[UserProfile] UP ON GRC.[PlayedBy_UserId] = UP.[UserId]
@@ -3044,3 +3132,56 @@ AS
 	COMMIT
 GO
 
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GameRoundCard_UpdateWinners]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRoundCard_UpdateWinners] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/28/2013
+-- Description:	Update round winning cards
+-- ===============================================
+CREATE PROC [dbo].[GameRoundCard_UpdateWinners]
+	@CardIDs			XML,
+	@GameID				INT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [dbo].[GameRoundCard]
+	SET [Winner] = 1
+	WHERE [Card_CardID] IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
+	AND [Game_GameID] = @GameID
+
+	COMMIT
+GO

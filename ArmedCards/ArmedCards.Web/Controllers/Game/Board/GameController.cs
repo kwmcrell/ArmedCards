@@ -39,11 +39,14 @@ namespace ArmedCards.Web.Controllers.Game.Board
     {
         private AS.Game.Base.IJoin _joinGame;
 		private AS.Hub.Base.ISendMessage _sendMessage;
+		private AS.User.Base.ISelect _selectUser;
 
-		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage)
+		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage,
+								AS.User.Base.ISelect selectUser)
         {
             this._joinGame = joinGame;
 			this._sendMessage = sendMessage;
+			this._selectUser = selectUser;
         }
 
         [HttpGet]
@@ -60,11 +63,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 Session.Remove(key);
             }
 
-			Entities.User user = new Entities.User
-			{
-				UserId = currentUserId,
-				DisplayName = WebSecurity.CurrentUserName
-			};
+			Entities.User user = _selectUser.Execute(currentUserId);
 
 			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase);
 

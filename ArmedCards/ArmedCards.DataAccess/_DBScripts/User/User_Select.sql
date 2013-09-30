@@ -20,28 +20,30 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF OBJECT_ID('[dbo].[User_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[User_Select] 
+END 
+GO
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/29/2013
+-- Description:	Select a user profile
+-- ===============================================
+CREATE PROC [dbo].[User_Select] 
+    @UserId int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+			
+	SELECT	UP.[UserId],
+			UP.[UserName],
+			UP.[PictureUrl]
+	FROM [dbo].[UserProfile] UP
+	WHERE UP.[UserId] = @UserId
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
-{
-	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
-	/// </summary>
-	public interface IComplete
-	{
-		/// <summary>
-		/// Complete the current round
-		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected);
-	}
-}
+	COMMIT
+GO

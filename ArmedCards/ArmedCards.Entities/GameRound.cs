@@ -164,9 +164,22 @@ namespace ArmedCards.Entities
 				{
 					invalidCardIDs.Add(cardID);
 				}
+				else
+				{
+					Answers[indexOf].Winner = true;
+				}
 			}
 
 			return invalidCardIDs;
+		}
+
+		/// <summary>
+		/// Return grouped answers based on who played them
+		/// </summary>
+		/// <returns></returns>
+		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
+		{
+			return Answers.GroupBy(x => x.PlayedBy_UserId).ToList();
 		}
     }
 }

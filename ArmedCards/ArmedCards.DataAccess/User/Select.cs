@@ -21,27 +21,52 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+namespace ArmedCards.DataAccess.User
 {
 	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
+	/// Implementation of <seealso cref="Base.ISelect"/>
 	/// </summary>
-	public interface IComplete
+	public class Select : Base.ISelect
 	{
+		private Database _db;
+
+		public Select(Database db)
+		{
+			this._db = db;
+		}
+
 		/// <summary>
-		/// Complete the current round
+		/// Select a user based on the <paramref name="filter"/>
 		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected);
+		/// <param name="filter">The filter used to select a user</param>
+		/// <returns>The user matching <paramref name="filter"/></returns>
+		public Entities.User Execute(Entities.Filters.User.Select filter)
+		{
+			List<Entities.User> users = new List<Entities.User>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("User_Select"))
+			{
+				_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						users.Add(new Entities.User(idr));
+					}
+				}
+			}
+
+			return users.FirstOrDefault();
+		}
 	}
 }

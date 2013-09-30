@@ -311,5 +311,14 @@ namespace ArmedCards.Entities
 				return true;
 			}
 		}
+
+		/// <summary>
+		/// Determine if the game has a winner
+		/// </summary>
+		/// <returns></returns>
+		public Boolean HasWinner()
+		{
+			return Players.Any(x => x.Points >= PointToWin);
+		}
     }
 }

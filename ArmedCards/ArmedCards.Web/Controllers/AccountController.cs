@@ -124,7 +124,9 @@ namespace ArmedCards.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                Entities.User user = new Entities.User { DisplayName = model.UserName };
+                Entities.User user = new Entities.User { DisplayName = model.UserName,
+														 PictureUrl = String.Format("http://lorempixel.com/50/50/cats/{0}", new Random(1).Next(12)) 
+													   };
 
                 // Insert name into the profile table
                 _insertUser.Execute(user);

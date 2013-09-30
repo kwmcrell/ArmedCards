@@ -212,17 +212,29 @@ Hand.prototype.PlayCard = function (event) {
 };
 
 Hand.prototype.Init = function () {
-	$('.hand .answer.card').unbind().bind({
+	$('#gameContainer')
+	.off({
 		click: ArmedCards.Game.Hand.CardSelected
-	});
+	}, '.hand .answer.card')
+	.on({
+		click: ArmedCards.Game.Hand.CardSelected
+	}, '.hand .answer.card');
 
-	$('#cardToPlayNope').unbind().bind({
+	$('#gameContainer')
+	.off({
 		click: ArmedCards.Game.Hand.CancelPlay
-	});
+	}, '#cardToPlayNope')
+	.on({
+		click: ArmedCards.Game.Hand.CancelPlay
+	}, '#cardToPlayNope');
 
-	$('#cardToPlaySubmit').unbind().bind({
+	$('#gameContainer')
+	.off({
 		click: ArmedCards.Game.Hand.PlayCard
-	});
+	}, '#cardToPlaySubmit')
+	.on({
+		click: ArmedCards.Game.Hand.PlayCard
+	}, '#cardToPlaySubmit');
 
 	if (ArmedCards.Game.Common.CurrentInstructions > ArmedCards.Game.Common.QuestionInstructions.Normal) {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);

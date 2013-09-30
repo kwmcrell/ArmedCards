@@ -57,6 +57,7 @@ namespace ArmedCards.DataAccess.User
             using (DbCommand cmd = db.GetStoredProcCommand("User_Insert"))
             {
                 db.AddInParameter(cmd, "UserName", DbType.String, user.DisplayName);
+				db.AddInParameter(cmd, "PictureUrl", DbType.String, user.PictureUrl);
                 db.AddOutParameter(cmd, "NewID", DbType.Int32, sizeof(Int32));
 
                 db.ExecuteScalar(cmd);

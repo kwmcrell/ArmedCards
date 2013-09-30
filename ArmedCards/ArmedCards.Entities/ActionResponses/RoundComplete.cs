@@ -27,21 +27,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+namespace ArmedCards.Entities.ActionResponses
 {
 	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
+	/// Result of a completed round action
 	/// </summary>
-	public interface IComplete
+	public class RoundComplete
 	{
 		/// <summary>
-		/// Complete the current round
+		/// The round that was completed
 		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected);
+		public Entities.GameRound CompletedRound { get; set; }
+
+		/// <summary>
+		/// The current game
+		/// </summary>
+		public Entities.Game Game { get; set; }
+
+		/// <summary>
+		/// Was a new round created
+		/// </summary>
+		public Boolean NewRoundCreated { get; set; }
 	}
 }

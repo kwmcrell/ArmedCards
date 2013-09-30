@@ -317,17 +317,20 @@
     <Content Include="Views\Shared\Layout\_ChatRight.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Sidebar.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Players.cshtml" />
-    <Content Include="Views\Game\Board\Sidebar\_Player.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Game.cshtml" />
     <Content Include="Views\Shared\Partials\_Question.cshtml" />
     <Content Include="Views\Shared\Partials\_Answer.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PickWinner.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PlayCard.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Hand.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_Answers.cshtml" />
+    <Content Include="Views\Game\Board\Answers\_Answers.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameRoundCard.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_SingleAnswers.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_MultiAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Answers\_SingleAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Answers\_MultiAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Answers\_WinnerSelected.cshtml" />
+    <Content Include="Views\Game\Board\Answers\_ShowAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_GameContainer.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_GameOver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

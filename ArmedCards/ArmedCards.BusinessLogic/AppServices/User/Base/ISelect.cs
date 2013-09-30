@@ -27,21 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+namespace ArmedCards.BusinessLogic.AppServices.User.Base
 {
 	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
+	/// Interface defining selecting a user profile
 	/// </summary>
-	public interface IComplete
+	public interface ISelect
 	{
 		/// <summary>
-		/// Complete the current round
+		/// Select a user
 		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected);
+		/// <param name="userId">The Id of the user to select</param>
+		/// <returns>The user matching <paramref name="userId"/></returns>
+		Entities.User Execute(Int32 userId);
 	}
 }

@@ -101,10 +101,36 @@ namespace ArmedCards.Web.Helpers
 				UserId = connection.User_UserId
 			};
 
-			string partialView = GetRazorViewAsString("~/Views/Game/Board/Partials/_Answers.cshtml", model);
+			string partialView = GetRazorViewAsString("~/Views/Game/Board/Answers/_Answers.cshtml", model);
 
 			hub.Clients.Client(connection.ActiveConnectionID)
 							   .UpdateAnswers(partialView, !model.ShowHand());
+		}
+
+		/// <summary>
+		/// Sends an update that a winnder has been selected
+		/// </summary>
+		/// <param name="connection">Connection to send to</param>
+		/// <param name="game">The current game</param>
+		/// <param name="answers">The grouped answers</param>
+		public static void WinnerSelected(Entities.ActiveConnection connection, Entities.Game game,
+										  List<IGrouping<Int32, Entities.GameRoundCard>> answers)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			String winnerSelectedPartial = GetRazorViewAsString("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", answers);
+
+			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+
+			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+			model.Game = game;
+			model.UserId = connection.User_UserId;
+			model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
+
+			String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
 		}
 
 		/// <summary>

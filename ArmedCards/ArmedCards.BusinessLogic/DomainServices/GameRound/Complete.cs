@@ -60,8 +60,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 		/// <param name="gameID">The ID of the game that contains the round</param>
 		/// <param name="cardIDs">The IDs of the winning cards</param>
 		/// <param name="userId">The user Id trying to complete the round</param>
-		public void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId)
+		/// <returns></returns>
+		public Entities.ActionResponses.RoundComplete Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId)
 		{
+			Entities.ActionResponses.RoundComplete response = new Entities.ActionResponses.RoundComplete();
+
 			Entities.GameRound currentRound = _selectGameRound.Execute(gameID, true);
 
 			//Validate that the user trying to complete the round is in fact the commander
@@ -91,12 +94,18 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 					//Start round
 					Entities.Filters.Game.Select gameFilter = new Entities.Filters.Game.Select();
 					gameFilter.GameID = gameID;
+					gameFilter.DataToSelect = Entities.Enums.Game.Select.GamePlayerCards;
 
 					Entities.Game game = _selectGame.Execute(gameFilter);
 
-					_startGameRoud.Execute(game, newCommander);
+					response.NewRoundCreated = _startGameRoud.Execute(game, newCommander);
+
+					response.CompletedRound = currentRound;
+					response.Game = game;
 				}
 			}
+			
+			return response;
 		}
 	}
 }

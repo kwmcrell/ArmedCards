@@ -53,7 +53,8 @@ AS
 			C.[Type],
 			C.[CreatedBy_UserId],
 			UP.[UserId],
-			UP.[UserName]
+			UP.[UserName],
+			UP.[PictureUrl]
 	FROM [dbo].[GameRoundCard] GRC
 	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID]
 	INNER JOIN [dbo].[UserProfile] UP ON GRC.[PlayedBy_UserId] = UP.[UserId]

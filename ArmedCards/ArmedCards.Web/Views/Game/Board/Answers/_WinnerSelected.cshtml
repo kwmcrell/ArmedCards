@@ -21,31 +21,42 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@using ArmedCards.Entities;
-@model List<GamePlayer>
-<div class="lobbyPlayers">
-	<ul class="playerList">
-        @foreach (GamePlayer player in Model)
-        {
-			<li>
-				<span class="loggedIn">
-					<span class="playerMenu">
-						<img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
-						<span class="menu">
-							<ul>
-								@*<li><a href="#">Add as friend</a></li>*@
-								@*<li><a name="@Model.User.UserId" href="#">Kick Player</a></li>*@
-								<li><a name="@player.User.UserId" href="#">Nothing yet</a></li>
-							</ul>
-						</span>
-					</span>
-					<img src="@player.User.PictureUrl">
-					<a id="@player.User.UserId" href="#">@player.User.DisplayName</a>
-				</span>
-				<span class="gamePoints">
-					@player.Points points
-				</span>
-			</li>
-        }
-	</ul>
-</div>
+@model List<IGrouping<Int32, GameRoundCard>>
+
+<div class="played winnerPicked">
+	<p>Winner selected.</p>
+	@foreach (IGrouping<Int32, GameRoundCard> group in Model)
+	{
+		ArmedCards.Entities.User player = group.First().PlayedBy;
+		if (group.Count(x => x.Winner) > 0)
+		{
+			<div class="winner">
+				<div class="user">
+					<h3>Winner</h3>
+					<a href="#" class="loggedIn">
+						<img src="@player.PictureUrl">
+						@group.First().PlayedBy.DisplayName
+					</a>
+					<p class="addPoints">+1 points</p>
+				</div>
+				<div class="pickMultiple">
+					@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+				</div>
+			</div>
+		}
+		else
+		{
+			<div>
+				<div class="pickMultiple">
+					@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+				</div>
+				<div class="user">
+					<a href="#" class="loggedIn">
+						<img src="@player.PictureUrl">
+						@group.First().PlayedBy.DisplayName
+					</a>
+				</div>
+			</div>
+		}
+	}
+</div>  

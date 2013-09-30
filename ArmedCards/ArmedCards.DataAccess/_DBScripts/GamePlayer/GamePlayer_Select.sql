@@ -45,6 +45,7 @@ AS
 			GP.[UserId],
 			GP.[JoinDate],
 			UP.[UserName],
+			UP.[PictureUrl],
 			(SELECT COUNT(CardID)
 			 FROM [dbo].[GamePlayerCard]
 			 WHERE	[UserId] = GP.UserId

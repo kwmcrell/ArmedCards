@@ -1,4 +1,5 @@
-﻿/*
+﻿/// <reference path="../../Core/Utilities.js" />
+/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -45,10 +46,59 @@ State.prototype.UpdateAnswers = function (answers, answered) {
 	$('#answers').html(answers);
 };
 
+State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {
+	$('#answers').html(answers);
+
+	$('#gameLobby').html(playerList)
+
+	ArmedCards.Game.State.NewRoundStarting(gameView, isWaiting, gameOver);
+};
+
+State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
+	var options = {
+		"positionClass": "toast-bottom-full-width",
+		"fadeIn": 300,
+		"fadeOut": 1000,
+		"timeOut": 14000,
+		"extendedTimeOut": 0,
+		"newestOnTop": false
+	};
+
+	var message = "Starting in {0} seconds...";
+	var title = "New Round";
+
+	if (gameOver) {
+		message = "Display final scoreboard in {0} seconds...";
+		title = "Game Over!";
+	}
+
+	toastr.info(message.format("15"), title, options);
+	for (var i = 14; i > 0; i--) {
+		var delay = (15 - i) * 1000;
+
+		ArmedCards.Game.State.RoundAlert(delay, i.toString(), message);
+	}
+
+	setTimeout(function () {
+		$('#gameContainer').html(gameView);
+
+		if (isWaiting) {
+			ArmedCards.Game.Waiting.StartWaiting();
+		}
+	}, 15000);
+};
+
+State.prototype.RoundAlert = function (timeDelay, timeLeft, message) {
+	setTimeout(function () {
+		toastr.updateMessageDiv(message.format(timeLeft))
+	}, timeDelay);
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateGame = ArmedCards.Game.State.UpdateGame;
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
+	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
 };
 
 State.prototype.ConnectionSuccess = function () {

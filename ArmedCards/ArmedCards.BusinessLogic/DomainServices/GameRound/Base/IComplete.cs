@@ -43,6 +43,6 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound.Base
 		/// <param name="gameID">The ID of the game that contains the round</param>
 		/// <param name="cardIDs">The IDs of the winning cards</param>
 		/// <param name="userId">The user Id trying to complete the round</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId);
+		Entities.ActionResponses.RoundComplete Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId);
 	}
 }

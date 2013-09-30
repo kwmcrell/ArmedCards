@@ -33,7 +33,7 @@
 <div class="asked">
 	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.Game.CurrentRound().Question)
 </div>
-@Html.Partial("~/Views/Game/Board/Partials/_Answers.cshtml", Model)
+@Html.Partial("~/Views/Game/Board/Answers/_Answers.cshtml", Model)
 @Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model)
 
 @Html.Hidden("CurrentRound.Question.Instructions", 

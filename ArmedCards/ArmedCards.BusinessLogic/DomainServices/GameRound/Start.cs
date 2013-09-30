@@ -59,7 +59,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 			if (game.HasRequiredNumberOfPlayers())
 			{
 				//Check to make sure the game has not been ended.
-				if (game.GameOver.HasValue == false)
+				if (game.GameOver.HasValue == false && !game.HasWinner())
 				{
 					Entities.GameRound round = _insertGameRound.Execute(game.GameID, commander);
 

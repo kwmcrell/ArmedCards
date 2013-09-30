@@ -45,16 +45,22 @@ namespace ArmedCards.Entities
         {
             UserId      = idr.GetValueByName<Int32>("UserId");
             DisplayName = idr.GetValueByName<String>("UserName");
+			PictureUrl = idr.GetValueByName<String>("PictureUrl");
         }
 
         /// <summary>
         /// The primary key for the user
         /// </summary>
-        public int UserId { get; set; }
+        public Int32 UserId { get; set; }
 
         /// <summary>
         /// The user's display name
         /// </summary>
-        public string DisplayName { get; set; }
+        public String DisplayName { get; set; }
+
+		/// <summary>
+		/// Url for user picture
+		/// </summary>
+		public String PictureUrl { get; set; }
     }
 }

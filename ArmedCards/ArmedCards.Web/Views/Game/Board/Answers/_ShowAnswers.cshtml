@@ -21,31 +21,27 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@using ArmedCards.Entities;
-@model List<GamePlayer>
-<div class="lobbyPlayers">
-	<ul class="playerList">
-        @foreach (GamePlayer player in Model)
-        {
-			<li>
-				<span class="loggedIn">
-					<span class="playerMenu">
-						<img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
-						<span class="menu">
-							<ul>
-								@*<li><a href="#">Add as friend</a></li>*@
-								@*<li><a name="@Model.User.UserId" href="#">Kick Player</a></li>*@
-								<li><a name="@player.User.UserId" href="#">Nothing yet</a></li>
-							</ul>
-						</span>
-					</span>
-					<img src="@player.User.PictureUrl">
-					<a id="@player.User.UserId" href="#">@player.User.DisplayName</a>
-				</span>
-				<span class="gamePoints">
-					@player.Points points
-				</span>
-			</li>
-        }
-	</ul>
+@model ArmedCards.Web.Models.Game.Board.GameBoard
+@{	
+	Boolean isCommander = Model.IsCommander();
+	GameRound round = Model.Game.CurrentRound();
+	
+	List<GameRoundCard> answers =	round.Answers;
+	Int32 winnerCount = answers.Count(x => x.Winner);
+}
+	
+<div class="played">
+	<p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
+    <div class="played @(isCommander ? "pick" : "")">
+		<div>
+			@if(round.Question.Instructions == ArmedCards.Entities.Enums.Card.Instructions.None)
+{
+			@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", answers)
+}
+else
+{
+			@Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", answers)
+}
+		</div>
+	</div>
 </div>

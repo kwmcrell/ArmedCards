@@ -29,15 +29,8 @@
 
 @Html.HiddenFor(x => x.Game.GameID)
 
-<div id="gameContainer" class="game gameScreen">
-    @if (Model.Game.IsWaiting())
-    {
-        @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
-	}
-	else
-	{
-		@Html.Partial("~/Views/Game/Board/Partials/_Game.cshtml", Model)
-	}
+<div id="gameContainer" class="game gameScreen clearfix">
+    @Html.Partial("~/Views/Game/Board/Partials/_GameContainer.cshtml", Model)
 </div>
 
 @section Sidebar

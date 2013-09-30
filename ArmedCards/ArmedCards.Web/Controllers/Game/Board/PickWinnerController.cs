@@ -49,7 +49,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 		/// <returns>The response code</returns>
 		public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
         {
-			_completeRound.Execute(gameID, cardIDs, WebSecurity.CurrentUserId);
+			_completeRound.Execute(gameID, cardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
 
             return Json(new { });
         }

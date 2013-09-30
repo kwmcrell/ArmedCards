@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
     <Compile Include="ActionResponses\PlayCard.cs" />
+    <Compile Include="ActionResponses\RoundComplete.cs" />
     <Compile Include="ActiveConnection.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Filters\GameRound\SelectCurrent.cs" />
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
+    <Compile Include="Filters\User\Select.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="GamePlayerCard.cs" />

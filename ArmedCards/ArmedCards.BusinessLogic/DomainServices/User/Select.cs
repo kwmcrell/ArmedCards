@@ -21,27 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using REPO = ArmedCards.BusinessLogic.Repositories.User;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+namespace ArmedCards.BusinessLogic.DomainServices.User
 {
 	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
+	/// Implementation of <seealso cref="Base.ISelect"/>
 	/// </summary>
-	public interface IComplete
+	public class Select : Base.ISelect
 	{
+		private REPO.Base.ISelect _select;
+
+		public Select(REPO.Base.ISelect select)
+		{
+			this._select = select;
+		}
+
 		/// <summary>
-		/// Complete the current round
+		/// Select a user based on the <paramref name="filter"/>
 		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected);
+		/// <param name="filter">The filter used to select a user</param>
+		/// <returns>The user matching <paramref name="filter"/></returns>
+		public Entities.User Execute(Entities.Filters.User.Select filter)
+		{
+			return _select.Execute(filter);
+		}
 	}
 }

@@ -41,9 +41,16 @@ AS
 	
 	BEGIN TRAN 
 
-	DELETE
-	FROM [dbo].[GamePlayer] 
-	WHERE [GameID] = @GameID AND [UserId] = @UserId
+	IF (SELECT G.[GameOver] 
+		FROM [dbo].[Game] G 
+		WHERE G.[GameID] = @GameID) IS NULL
+		BEGIN
+
+			DELETE
+			FROM [dbo].[GamePlayer] 
+			WHERE [GameID] = @GameID AND [UserId] = @UserId
+
+		END
 
 	COMMIT
 GO

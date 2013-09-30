@@ -45,6 +45,7 @@ AS
 			GR.[Game_GameID],
 			GR.[CardCommander_UserId] AS UserId,
 			UP.[UserName],
+			UP.[PictureUrl],
 			C.[CardID],
 			C.[Content],
 			C.[Instructions],

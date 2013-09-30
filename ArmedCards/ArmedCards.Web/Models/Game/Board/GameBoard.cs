@@ -100,7 +100,14 @@ namespace ArmedCards.Web.Models.Game.Board
 		{
 			Entities.GameRound round = Game.CurrentRound();
 
-			return round.CurrentPlayerCount == round.PlayedCount;
+			return round.CurrentPlayerCount == round.PlayedCount && round.Answers.Count > 0;
+		}
+
+		private List<IGrouping<Int32, Entities.GameRoundCard>> _groupedAnswers;
+
+		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
+		{
+			return _groupedAnswers ?? (_groupedAnswers = Game.CurrentRound().Answers.GroupBy(x => x.PlayedBy_UserId).ToList());
 		}
     }
 }

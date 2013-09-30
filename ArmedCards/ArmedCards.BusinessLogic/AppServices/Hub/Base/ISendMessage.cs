@@ -47,5 +47,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
 		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.GamePlayerCard>> action);
+
+		/// <summary>
+		/// Send a message to a hub group
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="round">The current round</param>
+		/// <param name="action">The action to fire</param>
+		void Execute(Entities.Game game, Entities.GameRound round,
+		 			 Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action);
 	}
 }

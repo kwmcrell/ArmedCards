@@ -24,30 +24,20 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @{	
 	String cssClass = Model.ShowHand() ? "hidden" : "";
-	Boolean isCommander = Model.IsCommander();
 	GameRound round = Model.Game.CurrentRound();
 	
 	List<GameRoundCard> answers =	round.Answers;
+	Int32 winnerCount = answers.Count(x => x.Winner);
 }
 
 <div id="answers" class="@cssClass">
-    @if (Model.ShowAnswers())
+@if(winnerCount > 0)
 {
-    <div class="played">
-		<p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
-        <div class="played @(isCommander ? "pick" : "")">
-			<div>
-				@if(round.Question.Instructions == ArmedCards.Entities.Enums.Card.Instructions.None)
-	{
-			    @Html.Partial("~/Views/Game/Board/Partials/_SingleAnswers.cshtml", answers)
-	}
-	else
-	{
-				@Html.Partial("~/Views/Game/Board/Partials/_MultiAnswers.cshtml", answers)
-	}
-			</div>
-		</div>
-    </div>
+	@Html.Partial("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", Model.GroupedAnswers())
+}
+else if (Model.ShowAnswers())
+{
+	@Html.Partial("~/Views/Game/Board/Answers/_ShowAnswers.cshtml", Model)
 }
 else
 {
