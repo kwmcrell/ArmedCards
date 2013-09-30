@@ -67,7 +67,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase);
 
-			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.Successful) ||
+			if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful ||
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
             {
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();

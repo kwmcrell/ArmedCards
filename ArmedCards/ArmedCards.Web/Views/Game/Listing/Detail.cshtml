@@ -61,5 +61,8 @@
 	    Wrong!
     </div>
 }
-<a id="detailDoIt" href="#" class="button">Do it!</a>
+@if(Model.Game.PlayerCount < Model.Game.MaxNumberOfPlayers)
+{
+	<a id="detailDoIt" href="#" class="button">Do it!</a>
+}
 <a id="detailNope" href="#" class="button nope">Nope</a>
