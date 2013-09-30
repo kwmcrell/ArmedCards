@@ -48,7 +48,7 @@ namespace ArmedCards.Entities
         public Game()
         {
             MaxNumberOfPlayers = 3;
-            PointToWin = 8;
+            PointToWin = 10;
             GameDeckIDs = new List<int>();
             Players = new List<GamePlayer>();
             Rounds = new List<GameRound>();
@@ -124,10 +124,33 @@ namespace ArmedCards.Entities
             }
         }
 
+		private Int32 _pointsToWin { get; set; }
+
         /// <summary>
         /// Points to win the game.
         /// </summary>
-        public Int32 PointToWin { get; set; }
+		public Int32 PointToWin 
+		{
+			get
+			{
+				return _pointsToWin;
+			}
+			set
+			{
+				if (value < 10)
+				{
+					_pointsToWin = 10;
+				}
+				else if(value > 95)
+				{
+					_pointsToWin = 95;
+				}
+				else
+				{
+					_pointsToWin = value;
+				}
+			}
+		}
 
         /// <summary>
         /// Max number of players for game.
@@ -286,7 +309,14 @@ namespace ArmedCards.Entities
         /// <returns></returns>
         public Boolean IsCurrentCommander(Int32 userId)
         {
-			return CurrentRound().IsCommander(userId);
+			if (HasRounds())
+			{
+				return CurrentRound().IsCommander(userId);
+			}
+			else
+			{
+				return Players.First().User.UserId == userId;
+			}
         }
 
 		/// <summary>

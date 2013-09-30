@@ -68,7 +68,7 @@ namespace ArmedCards.BusinessLogic.Repositories.GameRound
 		{
 			Entities.GameRound round = _selectGameRound.Execute(filter);
 
-			if (filter.SelectCards)
+			if (filter.SelectCards && round != null)
 			{
 				round.CardsPlayed = _selectGameRoundCards.Execute(round.GameRoundID);
 			}

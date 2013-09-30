@@ -386,6 +386,57 @@ GO
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF OBJECT_ID('[dbo].[User_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[User_Select] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/29/2013
+-- Description:	Select a user profile
+-- ===============================================
+CREATE PROC [dbo].[User_Select] 
+    @UserId int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+			
+	SELECT	UP.[UserId],
+			UP.[UserName],
+			UP.[PictureUrl]
+	FROM [dbo].[UserProfile] UP
+	WHERE UP.[UserId] = @UserId
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 
 IF OBJECT_ID('[dbo].[Card]') IS NULL
 	BEGIN
@@ -2374,9 +2425,16 @@ AS
 	
 	BEGIN TRAN 
 
-	DELETE
-	FROM [dbo].[GamePlayer] 
-	WHERE [GameID] = @GameID AND [UserId] = @UserId
+	IF (SELECT G.[GameOver] 
+		FROM [dbo].[Game] G 
+		WHERE G.[GameID] = @GameID) IS NULL
+		BEGIN
+
+			DELETE
+			FROM [dbo].[GamePlayer] 
+			WHERE [GameID] = @GameID AND [UserId] = @UserId
+
+		END
 
 	COMMIT
 GO
@@ -2740,7 +2798,7 @@ AS
 	FROM [dbo].[GamePlayerCard] GPC
 	INNER JOIN [dbo].[Card] C ON C.[CardID] = GPC.[CardID]
 	WHERE	GPC.[GameID] = @GameID
-	AND		GPC.[UserId] = @UserId OR @UserId IS NULL
+	AND		(GPC.[UserId] = @UserId OR @UserId IS NULL)
 
 	COMMIT
 GO

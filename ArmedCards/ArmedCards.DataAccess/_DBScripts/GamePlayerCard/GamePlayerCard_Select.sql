@@ -51,7 +51,7 @@ AS
 	FROM [dbo].[GamePlayerCard] GPC
 	INNER JOIN [dbo].[Card] C ON C.[CardID] = GPC.[CardID]
 	WHERE	GPC.[GameID] = @GameID
-	AND		GPC.[UserId] = @UserId OR @UserId IS NULL
+	AND		(GPC.[UserId] = @UserId OR @UserId IS NULL)
 
 	COMMIT
 GO

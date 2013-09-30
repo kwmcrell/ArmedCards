@@ -66,13 +66,14 @@
                 <div>
                     <div class="fakeSelect">
                         <select id="Game_PointToWin" name="Game.PointToWin">
-                            @for (int i = 8; i < 101; i++)
+                            @for (int i = 10; i < 96; i += 5)
                             {
                                 <option @(Model.Game.PointToWin == i ? "selected='selected'" : "") value="@i">@i</option>
                             }
                         </select>
                     </div>
                     <label for="Game_PointToWin">points needed to win game.</label>
+					@Html.ValidationMessageFor(m => m.Game.PointToWin)
                 </div>
             </div>
         </div>
