@@ -208,6 +208,8 @@
     <Compile Include="Repositories\Game\Join.cs" />
     <Compile Include="Repositories\Game\Leave.cs" />
     <Compile Include="Repositories\Game\Select.cs" />
+    <Compile Include="Repositories\ProviderInfo\Base\ISelect.cs" />
+    <Compile Include="Repositories\ProviderInfo\Select.cs" />
     <Compile Include="Repositories\User\Base\IInsert.cs" />
     <Compile Include="Repositories\User\Base\ISelect.cs" />
     <Compile Include="Repositories\User\Insert.cs" />

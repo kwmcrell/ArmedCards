@@ -49,13 +49,13 @@ namespace ArmedCards.Web
 
             AreaRegistration.RegisterAllAreas();
 
+			DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
+
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
-            DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
 
             UnityConfig.InitContainer();
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));

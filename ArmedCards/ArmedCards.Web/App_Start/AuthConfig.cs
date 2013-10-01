@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
 using ArmedCards.Web.Models;
+using System.Web.Security;
 
 namespace ArmedCards.Web
 {
@@ -41,13 +42,28 @@ namespace ArmedCards.Web
             //    clientId: "",
             //    clientSecret: "");
 
-            //OAuthWebSecurity.RegisterTwitterClient(
-            //    consumerKey: "",
-            //    consumerSecret: "");
+			BusinessLogic.Repositories.ProviderInfo.Base.ISelect _select 
+				= new BusinessLogic.Repositories.ProviderInfo.Select();
 
-            //OAuthWebSecurity.RegisterFacebookClient(
-            //    appId: "",
-            //    appSecret: "");
+			List<Entities.ProviderInfo> providers = _select.Execute();
+
+			Entities.ProviderInfo twitter = providers.Find(x => x.Name.ToLower() == "twitter");
+
+            OAuthWebSecurity.RegisterTwitterClient(
+                consumerKey: twitter.Key,
+				consumerSecret: Encoding.ASCII.GetString(MachineKey.Unprotect(Convert.FromBase64String(twitter.Secret),
+																				new string[] { twitter.Purpose })
+														)
+			);
+
+			Entities.ProviderInfo facebook = providers.Find(x => x.Name.ToLower() == "facebook");
+
+            OAuthWebSecurity.RegisterFacebookClient(
+                appId: facebook.Key,
+				appSecret: Encoding.ASCII.GetString(MachineKey.Unprotect(Convert.FromBase64String(facebook.Secret),
+																				new string[] { facebook.Purpose })
+													)
+			);
 
             OAuthWebSecurity.RegisterGoogleClient();
         }

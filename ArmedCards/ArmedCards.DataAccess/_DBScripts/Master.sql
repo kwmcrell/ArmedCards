@@ -341,6 +341,7 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[User_Insert] 
     @UserName varchar(max),
+	@PictureUrl varchar(500),
 	@NewID int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -350,8 +351,8 @@ AS
 	
 	IF NOT EXISTS (SELECT UserId FROM UserProfile WHERE UserName = @userName)
 		BEGIN
-			INSERT INTO [dbo].[UserProfile] ([UserName])
-			SELECT @UserName
+			INSERT INTO [dbo].[UserProfile] ([UserName], [PictureUrl])
+			SELECT @UserName, @PictureUrl
 	
 			SET @NewID = @@IDENTITY
 		END
