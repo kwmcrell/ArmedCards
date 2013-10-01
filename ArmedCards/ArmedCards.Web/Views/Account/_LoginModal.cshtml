@@ -34,9 +34,15 @@
                 {
 		            <a href="#" class="button google" id="googleLoginIn">Google+</a><br>
                 }
+				else if (p.AuthenticationClient.ProviderName.ToLower() == "facebook")
+				{
+					<a href="#" class="button facebook" id="facebookLoginIn">Facebook</a><br>
+				}
+				else if (p.AuthenticationClient.ProviderName.ToLower() == "twitter")
+				{
+					<a href="#" class="button twitter" id="twitterLoginIn">Twitter</a><br>
+				}
             }
-		    @*<a href="#" class="button facebook">Facebook</a><br>
-		    <a href="#" class="button twitter">Twitter</a><br>*@
             @Html.Hidden("provider")
 		    <a href="#" class="button nope" id="signInNope">Nope</a>
 	    </div>

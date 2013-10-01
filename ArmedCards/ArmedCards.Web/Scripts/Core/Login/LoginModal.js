@@ -44,6 +44,18 @@ LoginModal.prototype.googleLogin = function (event) {
     $('#externalLoginForm').submit();
 }
 
+LoginModal.prototype.facebookLogin = function (event) {
+	event.preventDefault();
+	$('#provider').val('facebook');
+	$('#externalLoginForm').submit();
+}
+
+LoginModal.prototype.twitterLogin = function (event) {
+	event.preventDefault();
+	$('#provider').val('twitter');
+	$('#externalLoginForm').submit();
+}
+
 LoginModal.prototype.showLoginIn = function () {
     $('#overlay').addClass('on');
     $('#confirmMessage').addClass('on');
@@ -58,6 +70,14 @@ LoginModal.prototype.init = function () {
         click: ArmedCards.Core.LoginModal.googleLogin
     });
 
+    $('#facebookLoginIn').unbind().bind({
+    	click: ArmedCards.Core.LoginModal.facebookLogin
+    });
+
+    $('#twitterLoginIn').unbind().bind({
+    	click: ArmedCards.Core.LoginModal.twitterLogin
+    });
+    
     var showLogin = $('#showLogin').val();
 
     if (showLogin != null && showLogin.toLowerCase() == "true") {
