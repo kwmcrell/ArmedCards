@@ -48,10 +48,9 @@ namespace ArmedCards.DataAccess.ProviderInfo
 		/// Get a list of open id provider information
 		/// </summary>
 		/// <returns></returns>
-		public List<Entities.ProviderInfo> Execute(out Entities.MachineKey key)
+		public List<Entities.ProviderInfo> Execute()
 		{
 			List<Entities.ProviderInfo> info = new List<Entities.ProviderInfo>();
-			key = null;
 
 			using (DbCommand cmd = _db.GetStoredProcCommand("ProviderInfo_Select"))
 			{
@@ -60,13 +59,6 @@ namespace ArmedCards.DataAccess.ProviderInfo
 					while (idr.Read())
 					{
 						info.Add(new Entities.ProviderInfo(idr));
-					}
-
-					idr.NextResult();
-
-					while (idr.Read())
-					{
-						key = new Entities.MachineKey(idr);
 					}
 				}
 			}

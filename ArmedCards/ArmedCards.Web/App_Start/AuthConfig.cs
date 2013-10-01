@@ -33,7 +33,7 @@ namespace ArmedCards.Web
 {
     public static class AuthConfig
     {
-        public static void RegisterAuth(List<Entities.ProviderInfo> providers)
+        public static void RegisterAuth()
         {
             // To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,
             // you must update this site. For more information visit http://go.microsoft.com/fwlink/?LinkID=252166
@@ -42,22 +42,23 @@ namespace ArmedCards.Web
             //    clientId: "",
             //    clientSecret: "");
 
+			BusinessLogic.Repositories.ProviderInfo.Base.ISelect _select 
+				= new BusinessLogic.Repositories.ProviderInfo.Select();
+
+			List<Entities.ProviderInfo> providers = _select.Execute();
+
 			Entities.ProviderInfo twitter = providers.Find(x => x.Name.ToLower() == "twitter");
 
             OAuthWebSecurity.RegisterTwitterClient(
                 consumerKey: twitter.Key,
-				consumerSecret: Encoding.ASCII.GetString(MachineKey.Unprotect(Convert.FromBase64String(twitter.Secret),
-																				new string[] { twitter.Purpose })
-														)
+				consumerSecret: Encoding.ASCII.GetString(Convert.FromBase64String(twitter.Secret))
 			);
 
 			Entities.ProviderInfo facebook = providers.Find(x => x.Name.ToLower() == "facebook");
 
             OAuthWebSecurity.RegisterFacebookClient(
                 appId: facebook.Key,
-				appSecret: Encoding.ASCII.GetString(MachineKey.Unprotect(Convert.FromBase64String(facebook.Secret),
-																				new string[] { facebook.Purpose })
-													)
+				appSecret: Encoding.ASCII.GetString(Convert.FromBase64String(facebook.Secret))
 			);
 
             OAuthWebSecurity.RegisterGoogleClient();

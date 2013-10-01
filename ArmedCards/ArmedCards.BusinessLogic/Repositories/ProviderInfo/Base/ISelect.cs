@@ -38,6 +38,6 @@ namespace ArmedCards.BusinessLogic.Repositories.ProviderInfo.Base
 		/// Get a list of open id provider information
 		/// </summary>
 		/// <returns></returns>
-		List<Entities.ProviderInfo> Execute(out Entities.MachineKey key);
+		List<Entities.ProviderInfo> Execute();
 	}
 }

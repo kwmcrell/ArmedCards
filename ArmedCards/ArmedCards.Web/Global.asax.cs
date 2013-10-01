@@ -47,25 +47,17 @@ namespace ArmedCards.Web
     {
         protected void Application_Start()
         {
-			DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
-
-			Entities.MachineKey key;
-
-			BusinessLogic.Repositories.ProviderInfo.Base.ISelect _select
-				= new BusinessLogic.Repositories.ProviderInfo.Select();
-
-			List<Entities.ProviderInfo> providers = _select.Execute(out key);
-
-			HandleMachineKey(key);
-
             RouteTable.Routes.MapHubs();
 
             AreaRegistration.RegisterAllAreas();
+
+			DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
+
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth(providers);
+            AuthConfig.RegisterAuth();
 
             UnityConfig.InitContainer();
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
@@ -78,23 +70,6 @@ namespace ArmedCards.Web
             Entities.Filters.ActiveConnection.DeleteAll filter = new Entities.Filters.ActiveConnection.DeleteAll();
             _deleteActiveConnection.Execute(filter);
         }
-
-		private static void HandleMachineKey(Entities.MachineKey key)
-		{
-			Configuration config = WebConfigurationManager.OpenWebConfiguration("~");
-
-			MachineKeySection machineKey = config.GetSection("system.web/machineKey") as MachineKeySection;
-
-			if (machineKey != null)
-			{
-				machineKey.ValidationKey = key.ValidationKey;
-				machineKey.DecryptionKey = key.DecryptionKey;
-				machineKey.Validation = (MachineKeyValidation)key.Validation;
-				machineKey.Decryption = key.Decryption;
-
-				config.Save();
-			}
-		}
 
 		private void DatabaseInitialize()
 		{
