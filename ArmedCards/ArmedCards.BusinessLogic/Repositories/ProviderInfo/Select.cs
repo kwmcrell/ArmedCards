@@ -54,9 +54,9 @@ namespace ArmedCards.BusinessLogic.Repositories.ProviderInfo
 		/// Get a list of open id provider information
 		/// </summary>
 		/// <returns></returns>
-		public List<Entities.ProviderInfo> Execute()
+		public List<Entities.ProviderInfo> Execute(out Entities.MachineKey key)
 		{
-			return _select.Execute();
+			return _select.Execute(out key);
 		}
 	}
 }

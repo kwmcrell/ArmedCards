@@ -213,3 +213,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+# Specific Files
+@ProviderTable.sql
+@MKTable.sql
+

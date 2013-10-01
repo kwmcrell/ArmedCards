@@ -21,57 +21,44 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.DataAccess.ProviderInfo
+namespace ArmedCards.Entities
 {
-	/// <summary>
-	/// Implementation of <seealso cref="Base.ISelect"/>
-	/// </summary>
-	public class Select : Base.ISelect
+	public class MachineKey
 	{
-		private Database _db;
-
-		public Select(Database db)
+		public MachineKey(IDataReader idr)
 		{
-			this._db = db;
+			ValidationKey = idr.GetValueByName<String>("ValidationKey");
+			DecryptionKey = idr.GetValueByName<String>("DecryptionKey");
+			Validation = idr.GetValueByName<Int32>("Validation");
+			Decryption = idr.GetValueByName<String>("Decryption");
 		}
 
 		/// <summary>
-		/// Get a list of open id provider information
+		/// Validation Key
 		/// </summary>
-		/// <returns></returns>
-		public List<Entities.ProviderInfo> Execute(out Entities.MachineKey key)
-		{
-			List<Entities.ProviderInfo> info = new List<Entities.ProviderInfo>();
-			key = null;
+		public String ValidationKey { get; set; }
 
-			using (DbCommand cmd = _db.GetStoredProcCommand("ProviderInfo_Select"))
-			{
-				using (IDataReader idr = _db.ExecuteReader(cmd))
-				{
-					while (idr.Read())
-					{
-						info.Add(new Entities.ProviderInfo(idr));
-					}
+		/// <summary>
+		/// Decryption Key
+		/// </summary>
+		public String DecryptionKey { get; set; }
 
-					idr.NextResult();
+		/// <summary>
+		/// Type of validation
+		/// </summary>
+		public Int32 Validation { get; set; }
 
-					while (idr.Read())
-					{
-						key = new Entities.MachineKey(idr);
-					}
-				}
-			}
-
-			return info;
-		}
+		/// <summary>
+		/// Type of Decryption
+		/// </summary>
+		public String Decryption { get; set; }
 	}
 }
