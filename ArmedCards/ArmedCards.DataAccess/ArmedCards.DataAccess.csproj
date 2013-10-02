@@ -138,7 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="_DBScripts\GameDeck\%40GameDeckTable.sql" />
-    <Content Include="_DBScripts\ProviderInfo\%40ProviderInfoTable.sql" />
     <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\%40UserProfileTable.sql" />
     <Content Include="_DBScripts\User\User_Select.sql" />
@@ -149,7 +148,9 @@
     <None Include="_DBScripts\CombineFiles.ps1" />
     <None Include="_DBScripts\CombineScript.ps1" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="_DBScripts\ProviderInfo\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

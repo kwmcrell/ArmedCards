@@ -61,7 +61,7 @@
 	    Wrong!
     </div>
 }
-@if(Model.Game.PlayerCount < Model.Game.MaxNumberOfPlayers)
+@if(Model.Game.PlayerCount < Model.Game.MaxNumberOfPlayers || Model.Game.IsCurrentPlayer(WebSecurity.CurrentUserId))
 {
 	<a id="detailDoIt" href="#" class="button">Do it!</a>
 }
