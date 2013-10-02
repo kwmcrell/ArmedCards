@@ -36,6 +36,10 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 	{
 		/// <summary>
 		/// Send a message to a hub group
+		/// Used to send the following messages:
+		/// 1. Update Waiting Header
+		/// 2. UpdateGameView
+		/// 3. UpdateLobby
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
@@ -43,13 +47,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 
 		/// <summary>
 		/// Send a message to a hub group
-		/// </summary>
-		/// <param name="game">The current game</param>
-		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game, List<Entities.GamePlayerCard>> action);
-
-		/// <summary>
-		/// Send a message to a hub group
+		/// 1. Winner Selected
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="round">The current round</param>

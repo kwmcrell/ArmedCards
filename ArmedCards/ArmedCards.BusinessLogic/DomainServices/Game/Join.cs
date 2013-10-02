@@ -38,11 +38,14 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
     {
         private Base.IValidatePassphrase _validatePassphrase;
 		private REPO.Game.Base.IJoin _joinGame;
+		private AS.GameRound.Base.IStart _startRound;
 
-		public Join(Base.IValidatePassphrase validatePassphrase, REPO.Game.Base.IJoin joinGame)
+		public Join(Base.IValidatePassphrase validatePassphrase, REPO.Game.Base.IJoin joinGame,
+					AS.GameRound.Base.IStart _startRound)
         {
             this._validatePassphrase = validatePassphrase;
 			this._joinGame = joinGame;
+			this._startRound = _startRound;
         }
 
         /// <summary>
@@ -55,6 +58,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
         public Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase)
         {
             Entities.JoinResponse response = new Entities.JoinResponse();
+
+			Boolean wasWaiting = game.IsWaiting();
 
 			if (game.IsCurrentPlayer(user.UserId) == false)
 			{
@@ -74,6 +79,25 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
 					{
 						response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
 					}
+					else
+					{
+						if (wasWaiting && !game.IsWaiting())
+						{
+							Entities.User newCommander = game.NextCommander(null);
+
+							if (newCommander != null)
+							{
+								if (_startRound.Execute(game, game.NextCommander(null)) == true)
+								{
+									response.Result |= Entities.Enums.Game.JoinResponseCode.NewRoundStart;
+								}
+							}
+							else
+							{
+								response.Result |= Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection;
+							}
+						}
+					}
 				}
 			}
 			else
@@ -81,8 +105,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
 				response.Result |= Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer;
 			}
 
-			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.Successful) ||
-				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
+			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
+				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
 				response.Game = game;
 			}

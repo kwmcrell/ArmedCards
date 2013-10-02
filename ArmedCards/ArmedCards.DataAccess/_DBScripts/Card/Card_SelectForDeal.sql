@@ -58,8 +58,8 @@ AS
 											FROM [dbo].[GamePlayerCard] GPC
 											WHERE GPC.[CardID] = C.[CardID]
 										)
-								THEN 1
-							ELSE 0
+								THEN CAST(1 as BIT)
+							ELSE CAST(0 as BIT)
 						END
 					) AS CurrentlyInAHand
 	FROM [dbo].[Card] C

@@ -41,6 +41,10 @@ namespace ArmedCards.Entities.Enums.Game
 
         FullGame = 2,
 
-        BadPassphrase = 4
+        BadPassphrase = 4,
+
+		NewRoundStart = 8,
+
+		WaitingOnWinnerSelection = 16
     }
 }

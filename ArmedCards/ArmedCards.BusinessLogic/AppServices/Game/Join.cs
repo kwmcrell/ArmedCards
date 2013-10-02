@@ -37,11 +37,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
     {
         private DS.Base.IJoin _joinGame;
         private Base.ISelect _selectGame;
+		private Hub.Base.ISendMessage _sendMessage;
 
-        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame)
+        public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame,
+					Hub.Base.ISendMessage sendMessage)
         {
             this._joinGame = joinGame;
             this._selectGame = selectGame;
+			this._sendMessage = sendMessage;
         }
 
         /// <summary>
@@ -50,8 +53,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
         /// <param name="gameID">The id of the game to join</param>
         /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
+		/// <param name="sendWaitingMessage">Action used to send a update to the waiting message</param>
+		/// <param name="updateGameView">Action used to send a update that a new player has joined and started a new round</param>
+		/// <param name="updateLobbyView">Action used to send a update that a new player has joined</param>
         /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase)
+		public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase,
+											Action<Entities.ActiveConnection, Entities.Game> sendWaitingMessage,
+											Action<Entities.ActiveConnection, Entities.Game> updateGameView,
+											Action<Entities.ActiveConnection, Entities.Game> updateLobbyView)
         {
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = gameID;
@@ -60,7 +69,23 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
             Entities.Game game = _selectGame.Execute(filter);
 
-            return _joinGame.Execute(game, user, passphrase);;
+			Entities.JoinResponse response = _joinGame.Execute(game, user, passphrase);
+
+			if (response.Game.IsWaiting() &&
+					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
+			{
+				_sendMessage.Execute(response.Game, sendWaitingMessage);
+			}
+			else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.NewRoundStart) == true)
+			{
+				_sendMessage.Execute(response.Game, updateGameView);
+			}
+			else if(response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection) == false)
+			{
+				_sendMessage.Execute(response.Game, updateLobbyView);
+			}
+
+			return response;
         }
     }
 }

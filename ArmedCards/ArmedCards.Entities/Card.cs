@@ -48,6 +48,8 @@ namespace ArmedCards.Entities
 			Instructions		= idr.GetValueByName<Enums.Card.Instructions>("Instructions");
 			Type				= idr.GetValueByName<Enums.Card.CardType>("Type");
 			CreatedBy_UserId	= idr.GetValueByName<Int32>("CreatedBy_UserId");
+			NumberOfTimesPlayed = idr.GetValueByName<Int32>("NumberOfTimesPlayed");
+			CurrentlyInAHand	= idr.GetValueByName<Boolean>("CurrentlyInAHand");
 		}
 
 		/// <summary>

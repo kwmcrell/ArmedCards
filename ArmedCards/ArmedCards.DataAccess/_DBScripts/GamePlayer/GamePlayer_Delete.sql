@@ -51,14 +51,10 @@ AS
 			WHERE [GameID] = @GameID AND [UserId] = @UserId
 
 		END
-	ELSE
-		BEGIN
-			
-			DELETE
-			FROM [dbo].[GamePlayerCard]
-			WHERE [GameID] = @GameID AND [UserId] = @UserId
-
-		END
+		
+		DELETE
+		FROM [dbo].[GamePlayerCard]
+		WHERE [GameID] = @GameID AND [UserId] = @UserId
 
 	COMMIT
 GO

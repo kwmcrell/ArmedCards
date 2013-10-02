@@ -75,7 +75,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 
 				if (invalidWinners.Count == 0)
 				{
-					Entities.User newCommander = currentRound.Answers.Find(x => x.Card_CardID == cardIDs.First()).PlayedBy;
+					Entities.User newCommander = currentRound.Winner();
 
 					//Update cards as winners
 					Entities.Filters.GameRoundCard.UpdateWinner cardfilter = new Entities.Filters.GameRoundCard.UpdateWinner();
@@ -98,7 +98,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 
 					Entities.Game game = _selectGame.Execute(gameFilter);
 
-					response.NewRoundCreated = _startGameRoud.Execute(game, newCommander);
+					response.NewRoundCreated = _startGameRoud.Execute(game, game.NextCommander(newCommander));
 
 					response.CompletedRound = currentRound;
 					response.Game = game;

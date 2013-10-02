@@ -74,6 +74,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 			Entities.GameRoundCard dealtQuestion = CreateQuestion(filteredQuestions, game);
 
 			IEnumerable<Entities.Card> filteredAnswers = _excludeCurrentHands.Execute(answers);
+			filteredAnswers = _excludeByCount.Execute(filteredAnswers, game.AnswerShuffleCount);
 
 			Dictionary<Int32, Int32> drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
 

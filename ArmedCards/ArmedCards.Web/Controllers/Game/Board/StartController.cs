@@ -48,7 +48,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			user.UserId = WebSecurity.CurrentUserId;
 			user.DisplayName = WebSecurity.CurrentUserName;
 
-			_startGame.Execute(id, user, Helpers.HubActions.SendGameStartedMessage);
+			_startGame.Execute(id, user, Helpers.HubActions.UpdateGameView);
         }
 
     }

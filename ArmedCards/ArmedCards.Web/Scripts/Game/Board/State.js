@@ -1,4 +1,6 @@
-﻿/// <reference path="../../Core/Utilities.js" />
+﻿/// <reference path="Hand.js" />
+/// <reference path="Common.js" />
+/// <reference path="../../Core/Utilities.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -35,6 +37,9 @@ if (!ArmedCards.Game.State) {
 
 State.prototype.UpdateGame = function (html) {
 	$('#gameContainer').html(html);
+
+	ArmedCards.Game.Common.Init();
+	ArmedCards.Game.Hand.Init();
 };
 
 State.prototype.UpdateAnswers = function (answers, answered) {
@@ -47,9 +52,9 @@ State.prototype.UpdateAnswers = function (answers, answered) {
 };
 
 State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {
-	$('#answers').html(answers);
+	ArmedCards.Game.State.UpdateAnswers(answers, true);
 
-	$('#gameLobby').html(playerList)
+	ArmedCards.Game.State.UpdateLobby(playerList);
 
 	ArmedCards.Game.State.NewRoundStarting(gameView, isWaiting, gameOver);
 };
@@ -80,10 +85,13 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 	}
 
 	setTimeout(function () {
-		$('#gameContainer').html(gameView);
+		ArmedCards.Game.State.UpdateGame(gameView);
 
 		if (isWaiting) {
 			ArmedCards.Game.Waiting.StartWaiting();
+		}
+		else {
+
 		}
 	}, 15000);
 };
@@ -94,11 +102,21 @@ State.prototype.RoundAlert = function (timeDelay, timeLeft, message) {
 	}, timeDelay);
 };
 
+State.prototype.UpdateGameView = function (gameView, playerList) {
+	ArmedCards.Game.State.UpdateGame(gameView);
+	ArmedCards.Game.State.UpdateLobby(playerList);
+};
+
+State.prototype.UpdateLobby = function (playerList) {
+	$('#gameLobby').html(playerList)
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
-	hub.client.UpdateGame = ArmedCards.Game.State.UpdateGame;
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
+	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
+	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
 };
 
 State.prototype.ConnectionSuccess = function () {

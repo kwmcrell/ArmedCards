@@ -27,7 +27,7 @@
 {
 	@Html.Partial("~/Views/Game/Board/Partials/_GameOver.cshtml", Model.Game)
 }
-else if (Model.Game.IsWaiting())
+else if (Model.Game.IsWaiting() && !Model.ShowAnswers())
 {
     @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
 }

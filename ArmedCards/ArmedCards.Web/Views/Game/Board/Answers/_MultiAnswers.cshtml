@@ -30,6 +30,6 @@
 @foreach (IGrouping<Int32, GameRoundCard> group in groupedAnswers)
 {
 	<div class="pickMultiple">
-		@Html.Partial("~/Views/Game/Board/Partials/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+		@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
 	</div>
 }

@@ -327,7 +327,7 @@ namespace ArmedCards.Entities
 		{
 			if (this.HasRounds())
 			{
-				if (this.HasRequiredNumberOfPlayers())
+				if (this.HasRequiredNumberOfPlayers() || GameOver.HasValue)
 				{
 					return false;
 				}
@@ -349,6 +349,26 @@ namespace ArmedCards.Entities
 		public Boolean HasWinner()
 		{
 			return Players.Any(x => x.Points >= PointToWin);
+		}
+
+		/// <summary>
+		/// Get the next commander
+		/// </summary>
+		/// <param name="newCommander">The winner of the last round</param>
+		/// <returns></returns>
+		public Entities.User NextCommander(Entities.User newCommander)
+		{
+			if (newCommander == null)
+			{
+				newCommander = CurrentRound().Winner();
+			}
+
+			if(newCommander != null && Players.Any(x => x.User.UserId == newCommander.UserId) == false)
+			{
+				newCommander = Players.OrderByDescending(x => x.Points).First().User;
+			}
+
+			return newCommander;
 		}
     }
 }

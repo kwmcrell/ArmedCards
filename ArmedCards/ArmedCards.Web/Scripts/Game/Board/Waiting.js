@@ -184,7 +184,11 @@ Waiting.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateWaiting = ArmedCards.Game.Waiting.UpdateWaiting;
 
-	ArmedCards.Game.Waiting.StartWaiting();
+	var startWaiting = $('#Game_Waiting').val();
+	
+	if (startWaiting.toLowerCase() == 'true') {
+		ArmedCards.Game.Waiting.StartWaiting();
+	}
 
 	$(window).resize(function () {
 		clearTimeout(timer);

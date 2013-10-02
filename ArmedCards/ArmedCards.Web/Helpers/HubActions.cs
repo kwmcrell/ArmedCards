@@ -64,28 +64,6 @@ namespace ArmedCards.Web.Helpers
 		}
 
 		/// <summary>
-		/// Sends an update for the game has been stated
-		/// </summary>
-		/// <param name="connection">Connection to send to</param>
-		/// <param name="game">The current game</param>
-		/// <param name="cards">The cards in the hand of the user the connection belongs to</param>
-		public static void SendGameStartedMessage(Entities.ActiveConnection connection, Entities.Game game,
-												  List<Entities.GamePlayerCard> cards)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-
-			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-			model.Game = game;
-			model.UserId = connection.User_UserId;
-			model.Hand = cards;
-
-			string partialView = GetRazorViewAsString("~/Views/Game/Board/Partials/_Game.cshtml", model);
-
-			hub.Clients.Client(connection.ActiveConnectionID)
-					   .UpdateGame(partialView);
-		}
-
-		/// <summary>
 		/// Sends an update for a card played in the round
 		/// </summary>
 		/// <param name="connection">Connection to send to</param>
@@ -122,16 +100,45 @@ namespace ArmedCards.Web.Helpers
 
 			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
 
-			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-			model.Game = game;
-			model.UserId = connection.User_UserId;
-			model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
-
-			String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
+			String gameView = RenderGameView(connection, game);
 
 			hub.Clients.Client(connection.ActiveConnectionID)
 							   .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
 		}
+
+		/// <summary>
+		/// Update Game View after a player has joined and restarted the game
+		/// </summary>
+		/// <param name="connection">The connection to send to</param>
+		/// <param name="game">The current game</param>
+		public static void UpdateGameView(Entities.ActiveConnection connection, Entities.Game game)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+
+			String gameView = RenderGameView(connection, game);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .UpdateGameView(gameView, playerList);
+		}
+
+		/// <summary>
+		/// Update lobby view after a player has joined/left a game
+		/// </summary>
+		/// <param name="connection">The connection to send to</param>
+		/// <param name="game">The current game</param>
+		public static void UpdateLobby(Entities.ActiveConnection connection, Entities.Game game)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .UpdateLobbyView(playerList);
+		}
+
+		#region "Private Helpers"
 
 		/// <summary>
 		/// Renders a razor view as a string
@@ -152,5 +159,24 @@ namespace ArmedCards.Web.Helpers
 				return sw.ToString();
 			}
 		}
+
+		/// <summary>
+		/// Get the game view
+		/// </summary>
+		/// <param name="connection">The connection the message is being sent to</param>
+		/// <param name="game">The game to render the view for</param>
+		/// <returns></returns>
+		private static string RenderGameView(Entities.ActiveConnection connection, Entities.Game game)
+		{
+			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+			model.Game = game;
+			model.UserId = connection.User_UserId;
+			model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
+
+			String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
+			return gameView;
+		}
+
+		#endregion "Private Helpers"
 	}
 }

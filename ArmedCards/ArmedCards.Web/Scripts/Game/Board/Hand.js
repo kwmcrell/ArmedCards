@@ -239,6 +239,7 @@ Hand.prototype.Init = function () {
 	if (ArmedCards.Game.Common.CurrentInstructions > ArmedCards.Game.Common.QuestionInstructions.Normal) {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
 	}
+	ArmedCards.Game.Hand.CurrentPickCount = 1;
 };
 
 Hand.prototype.ConnectionSuccess = function () {

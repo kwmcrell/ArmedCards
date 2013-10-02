@@ -56,7 +56,6 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			String passphrase = String.Empty;
 			Int32 currentUserId = WebSecurity.CurrentUserId;
 
-
             if (Session[key] != null)
             {
                 passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
@@ -65,21 +64,18 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.User user = _selectUser.Execute(currentUserId);
 
-			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase);
-
-			if (response.Result == Entities.Enums.Game.JoinResponseCode.Successful ||
-				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer))
-            {
+			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
+																Helpers.HubActions.SendWaitingMessage,
+																Helpers.HubActions.UpdateGameView,
+																Helpers.HubActions.UpdateLobby);
+			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
+				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
+			{
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
                 model.Game = response.Game;
                 model.UserId = currentUserId;
 
-				if (model.Game.IsWaiting() &&
-					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
-				{
-					_sendMessage.Execute(model.Game, Helpers.HubActions.SendWaitingMessage);
-				}
-				else
+				if (!model.Game.IsWaiting())
 				{
 					model.Hand = model.Game.Players.First(x => x.User.UserId == currentUserId).Hand;
 				}

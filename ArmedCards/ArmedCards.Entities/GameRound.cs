@@ -181,5 +181,21 @@ namespace ArmedCards.Entities
 		{
 			return Answers.GroupBy(x => x.PlayedBy_UserId).ToList();
 		}
+
+		/// <summary>
+		/// Get the next commander based round winner
+		/// </summary>
+		/// <returns></returns>
+		public Entities.User Winner()
+		{
+			Entities.GameRoundCard card = Answers.Find(x => x.Winner);
+
+			if (card != null)
+			{
+				return card.PlayedBy;
+			}
+
+			return null;
+		}
     }
 }
