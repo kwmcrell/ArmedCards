@@ -82,27 +82,30 @@ namespace ArmedCards.Web.Controllers
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
             AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+			
+			if (result.IsSuccessful)
+			{
+				if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+				{
+					return RedirectToLocal(returnUrl);
+				}
 
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
-            {
-                return RedirectToLocal(returnUrl);
-            }
+				if (!User.Identity.IsAuthenticated)
+				{
+					// User is new, ask for their desired membership name
+					string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+					Models.Account.RegisterExternalLogin model = new Models.Account.RegisterExternalLogin
+					{
+						UserName = result.UserName,
+						ExternalLoginData = loginData,
+						ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName,
+						ReturnUrl = returnUrl
+					};
 
-                Models.Account.RegisterExternalLogin model = new Models.Account.RegisterExternalLogin
-                {
-                    UserName = result.UserName,
-                    ExternalLoginData = loginData,
-                    ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName,
-                    ReturnUrl = returnUrl
-                };
-
-                return View("ExternalLoginConfirmation", model);
-            }
+					return View("ExternalLoginConfirmation", model);
+				}
+			}
 
             return RedirectToAction("ExternalLoginFailure");
         }
