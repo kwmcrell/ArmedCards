@@ -54,5 +54,15 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// <param name="action">The action to fire</param>
 		void Execute(Entities.Game game, Entities.GameRound round,
 		 			 Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action);
+
+				/// <summary>
+		/// Send a message to a hub group
+		/// Used to send the following messages:
+		/// 1. Commander leaves game
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="commanderName">Name of the commander that left</param>
+		/// <param name="action">The action to fire</param>
+		void Execute(Entities.Game game, String commanderName, Action<Entities.ActiveConnection, Entities.Game, String> action);
 	}
 }

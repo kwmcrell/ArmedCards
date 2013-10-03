@@ -185,6 +185,12 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IComplete,			BusinessLogic.AppServices.GameRound.Complete>();
 			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IComplete,		BusinessLogic.DomainServices.GameRound.Complete>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IDelete,			BusinessLogic.AppServices.GameRound.Delete>();
+			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IDelete,			BusinessLogic.DomainServices.GameRound.Delete>();
+			Container.RegisterType<BusinessLogic.Repositories.GameRound.Base.IDelete,			BusinessLogic.Repositories.GameRound.Delete>();
+
+			Container.RegisterType<DataAccess.GameRound.Base.IDelete,							DataAccess.GameRound.Delete>();
+
 			#endregion "Game Round"
 
 			#region "Game Player Card"

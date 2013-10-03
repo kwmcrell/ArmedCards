@@ -24,7 +24,14 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @{
     ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-	header.SubHeaderText = String.Format("{0} is the Card Commander", Model.Game.DetermineCommander().DisplayName);
+	if(Model.Game.IsWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
+	{
+		header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId);	
+	}
+	else
+	{
+		header.SubHeaderText = String.Format("{0} is the Card Commander", Model.Game.DetermineCommander().DisplayName);
+	}
 }
 
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)

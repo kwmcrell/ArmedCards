@@ -28,7 +28,6 @@
 }
 
 @Html.HiddenFor(x => x.Game.GameID)
-@Html.Hidden("Game_Waiting", Model.Game.IsWaiting())
 
 <div id="gameContainer" class="game gameScreen clearfix">
     @Html.Partial("~/Views/Game/Board/Partials/_GameContainer.cshtml", Model)

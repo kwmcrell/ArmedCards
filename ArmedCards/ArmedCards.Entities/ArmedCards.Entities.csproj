@@ -64,6 +64,7 @@
     <Compile Include="Filters\GamePlayer\UpdatePoints.cs" />
     <Compile Include="Filters\GameRoundCard\Select.cs" />
     <Compile Include="Filters\GameRoundCard\UpdateWinner.cs" />
+    <Compile Include="Filters\GameRound\Delete.cs" />
     <Compile Include="Filters\GameRound\Select.cs" />
     <Compile Include="Filters\GameRound\SelectCurrent.cs" />
     <Compile Include="Filters\Game\Select.cs" />

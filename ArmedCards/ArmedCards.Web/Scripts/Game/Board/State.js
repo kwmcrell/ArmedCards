@@ -88,6 +88,7 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 		ArmedCards.Game.State.UpdateGame(gameView);
 
 		if (isWaiting) {
+			ArmedCards.Game.Waiting.currentQuestion = null;
 			ArmedCards.Game.Waiting.StartWaiting();
 		}
 		else {
@@ -111,12 +112,36 @@ State.prototype.UpdateLobby = function (playerList) {
 	$('#gameLobby').html(playerList)
 };
 
+State.prototype.CommanderLeft = function (gameView, playerList, commanderName, isWaiting) {
+	ArmedCards.Game.State.UpdateGameView(gameView, playerList);
+
+	var options = {
+		"positionClass": "toast-bottom-full-width",
+		"fadeIn": 300,
+		"fadeOut": 1000,
+		"timeOut": 8000,
+		"extendedTimeOut": 0,
+		"newestOnTop": false
+	};
+
+	var message = "{0} cares about nobody and has abandoned their post.";
+	var title = "Round has been lost";
+
+	toastr.info(message.format(commanderName), title, options);
+
+	if (isWaiting) {
+		ArmedCards.Game.Waiting.currentQuestion = null;
+		ArmedCards.Game.Waiting.Init();
+	}
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
 	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
 	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
+	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 };
 
 State.prototype.ConnectionSuccess = function () {

@@ -21,30 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GameRound_Delete]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRound_Delete] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.AppServices.Game.Base
-{
-	/// <summary>
-	/// Interface that defines leaving a game
-	/// </summary>
-	public interface ILeave
-	{
-		/// <summary>
-		/// Removes a player from the game
-		/// </summary>
-		/// <param name="gameID">The ID of the game to leave</param>
-		/// <param name="user">The user leaving the game</param>
-		/// <param name="waitingAction">Action to call if game is waiting</param>
-		/// <param name="commanderLeft">Action to call if the commander left</param>
-		/// <param name="updateGameView">Action to call if a user leaves and no special action needed</param>
-		void Execute(Int32 gameID, Entities.User user,
-							Action<Entities.ActiveConnection, Entities.Game> waitingAction,
-							Action<Entities.ActiveConnection, Entities.Game, String> commanderLeft,
-							Action<Entities.ActiveConnection, Entities.Game> updateGameView);
-	}
-}
+-- =====================================================
+-- Author:		Kevin McRell
+-- Create date: 10/02/2013
+-- Description:	Delete a round and all the cards played
+-- ======================================================
+CREATE PROC [dbo].[GameRound_Delete] 
+	@GameRoundID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	DELETE
+	FROM [dbo].[GameRoundCard]
+	WHERE [GameRound_GameRoundID] = @GameRoundID
+
+	DELETE
+	FROM [dbo].[GameRound]
+	WHERE [GameRoundID] = @GameRoundID
+
+	COMMIT
+GO

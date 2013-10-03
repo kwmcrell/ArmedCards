@@ -46,10 +46,12 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
 			Entities.User user = new Entities.User
 			{
-				UserId = WebSecurity.CurrentUserId
+				UserId = WebSecurity.CurrentUserId,
+				DisplayName = WebSecurity.CurrentUserName
 			};
 
-			_leaveGame.Execute(id, user, Helpers.HubActions.SendWaitingMessage);
+			_leaveGame.Execute(id, user, Helpers.HubActions.SendWaitingMessage, Helpers.HubActions.CommanderLeft,
+										 Helpers.HubActions.UpdateGameView);
 
 			return Redirect("/GameListing");
         }

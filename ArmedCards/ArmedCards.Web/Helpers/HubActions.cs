@@ -138,6 +138,18 @@ namespace ArmedCards.Web.Helpers
 							   .UpdateLobbyView(playerList);
 		}
 
+		public static void CommanderLeft(Entities.ActiveConnection connection, Entities.Game game, String commanderName)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+
+			String gameView = RenderGameView(connection, game);
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
+		}
+
 		#region "Private Helpers"
 
 		/// <summary>
@@ -165,6 +177,7 @@ namespace ArmedCards.Web.Helpers
 		/// </summary>
 		/// <param name="connection">The connection the message is being sent to</param>
 		/// <param name="game">The game to render the view for</param>
+		/// <param name="commanderLeft">Commander left game</param>
 		/// <returns></returns>
 		private static string RenderGameView(Entities.ActiveConnection connection, Entities.Game game)
 		{

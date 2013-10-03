@@ -32,7 +32,6 @@ var answers = [];
 var numberOfQuestions;
 var numberOfAnswers;
 
-var currentQuestion;
 var timer;
 var firstRound = true;
 
@@ -42,6 +41,8 @@ function Waiting() {
 
 	numberOfQuestions = questions.length;
 	numberOfAnswers = answers.length;
+
+	this.currentQuestion = null;
 }
 
 if (!ArmedCards.Game.Waiting) {
@@ -67,7 +68,7 @@ Waiting.prototype.TransitionQuestionComplete = function (e) {
 
 	var question = ArmedCards.Game.Waiting.GenerateCard(questions[newQuestionIndex].Content, 0);
 
-	currentQuestion = questions[newQuestionIndex];
+	ArmedCards.Game.Waiting.currentQuestion = questions[newQuestionIndex];
 
 	$waitingDiv.append(question);
 
@@ -96,10 +97,10 @@ Waiting.prototype.TransitionAnswerComplete = function (e) {
 
 	ArmedCards.Game.Waiting.CreateAnswerCard();
 
-	if (currentQuestion.Instructions > 0) {
+	if (ArmedCards.Game.Waiting.currentQuestion.Instructions > 0) {
 		ArmedCards.Game.Waiting.CreateAnswerCard();
 
-		if (currentQuestion.Instructions > 1) {
+		if (ArmedCards.Game.Waiting.currentQuestion.Instructions > 1) {
 			ArmedCards.Game.Waiting.CreateAnswerCard();
 		}
 	}
@@ -198,7 +199,7 @@ Waiting.prototype.Init = function () {
 		$('#questionDiv').html('');
 
 		timer = setTimeout(function () {
-			currentQuestion = null;
+			ArmedCards.Game.Waiting.currentQuestion = null;
 			ArmedCards.Game.Waiting.StartWaiting();
 		}, 1000);
 	});
@@ -209,7 +210,7 @@ Waiting.prototype.Init = function () {
 };
 
 Waiting.prototype.StartWaiting = function () {
-	if (currentQuestion == null) {
+	if (ArmedCards.Game.Waiting.currentQuestion == null) {
 		$('#resizingMessage').hide();
 		ArmedCards.Game.Waiting.TransitionQuestionComplete();
 		ArmedCards.Game.Waiting.TransitionAnswerComplete();

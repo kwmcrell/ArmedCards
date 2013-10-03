@@ -38,14 +38,20 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		private DS.Game.Base.ILeave _leaveGame;
 		private Game.Base.ISelect _selectGame;
 		private Hub.Base.ISendMessage _sendMessage;
+		private GameRound.Base.IStart _startRound;
+		private GameRound.Base.IDelete _deleteRound;
 
 		public Leave(DS.Game.Base.ILeave leaveGame, 
 					 Game.Base.ISelect selectGame,
-					 Hub.Base.ISendMessage sendMessage)
+					 Hub.Base.ISendMessage sendMessage,
+					 GameRound.Base.IStart startRound,
+					 GameRound.Base.IDelete deleteRound)
 		{
 			this._leaveGame = leaveGame;
 			this._selectGame = selectGame;
 			this._sendMessage = sendMessage;
+			this._startRound = startRound;
+			this._deleteRound = deleteRound;
 		}
 
 		/// <summary>
@@ -54,20 +60,63 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
 		/// <param name="waitingAction">Action to call if game is waiting</param>
+		/// <param name="commanderLeft">Action to call if the commander left</param>
+		/// <param name="updateGameView">Action to call if a user leaves and no special action needed</param>
 		public void Execute(Int32 gameID, Entities.User user, 
-							Action<Entities.ActiveConnection, Entities.Game> waitingAction)
+							Action<Entities.ActiveConnection, Entities.Game> waitingAction,
+							Action<Entities.ActiveConnection, Entities.Game, String> commanderLeft,
+							Action<Entities.ActiveConnection, Entities.Game> updateGameView)
 		{
-			_leaveGame.Execute(gameID, user);
-
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;
+			filter.DataToSelect = Entities.Enums.Game.Select.Rounds;
 
 			Entities.Game game = _selectGame.Execute(filter);
 
-			if (game.IsWaiting())
+			Boolean wasWaiting = game.IsWaiting();
+
+			Boolean wasCurrentCommander = game.IsCurrentCommander(user.UserId);
+
+			Entities.GamePlayer player = game.Players.Find(x => x.User.UserId == user.UserId);
+
+			game.Players.Remove(player);
+			game.PlayerCount--;
+
+			if (wasCurrentCommander)
+			{
+				if (game.HasRounds())
+				{
+					Entities.GameRound current = game.CurrentRound();
+
+					game.Rounds.Remove(current);
+					game.RoundCount--;
+
+					Entities.Filters.GameRound.Delete deleteRoundFilter = new Entities.Filters.GameRound.Delete();
+					deleteRoundFilter.GameRoundID = current.GameRoundID;
+
+					_deleteRound.Execute(deleteRoundFilter);
+				}
+			
+				Boolean started = _startRound.Execute(game, game.NextCommander(null));
+
+				_sendMessage.Execute(game, user.DisplayName, commanderLeft);
+			}
+			else if (game.IsWaiting() && wasWaiting)
 			{
 				_sendMessage.Execute(game, waitingAction);
 			}
+			else
+			{
+				if (game.HasRounds())
+				{
+					Entities.GameRound current = game.CurrentRound();
+					current.CurrentPlayerCount--;
+				}
+
+				_sendMessage.Execute(game, updateGameView);
+			}
+
+			_leaveGame.Execute(gameID, user);
 		}
 	}
 }

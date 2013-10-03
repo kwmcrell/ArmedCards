@@ -27,24 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game.Base
+namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
 {
 	/// <summary>
-	/// Interface that defines leaving a game
+	/// Interface defining deleting a game round
 	/// </summary>
-	public interface ILeave
+	public interface IDelete
 	{
 		/// <summary>
-		/// Removes a player from the game
+		/// Delete a game round and all cards played during the round
 		/// </summary>
-		/// <param name="gameID">The ID of the game to leave</param>
-		/// <param name="user">The user leaving the game</param>
-		/// <param name="waitingAction">Action to call if game is waiting</param>
-		/// <param name="commanderLeft">Action to call if the commander left</param>
-		/// <param name="updateGameView">Action to call if a user leaves and no special action needed</param>
-		void Execute(Int32 gameID, Entities.User user,
-							Action<Entities.ActiveConnection, Entities.Game> waitingAction,
-							Action<Entities.ActiveConnection, Entities.Game, String> commanderLeft,
-							Action<Entities.ActiveConnection, Entities.Game> updateGameView);
+		/// <param name="filter">The filter used to determine what to delete</param>
+		void Execute(Entities.Filters.GameRound.Delete filter);
 	}
 }

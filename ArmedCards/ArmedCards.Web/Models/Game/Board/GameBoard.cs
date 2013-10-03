@@ -100,11 +100,25 @@ namespace ArmedCards.Web.Models.Game.Board
 		{
 			Entities.GameRound round = Game.CurrentRound();
 
+			if (round == null)
+			{
+				return false;
+			}
+
 			return round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
+		}
+
+		public Boolean ShowWaiting()
+		{
+			return (!ShowAnswers() || Game.CurrentRound() == null) && Game.IsWaiting();
 		}
 
 		private List<IGrouping<Int32, Entities.GameRoundCard>> _groupedAnswers;
 
+		/// <summary>
+		/// Get answers grouped by who played them
+		/// </summary>
+		/// <returns></returns>
 		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
 		{
 			return _groupedAnswers ?? (_groupedAnswers = Game.CurrentRound().Answers.GroupBy(x => x.PlayedBy_UserId).ToList());

@@ -69,6 +69,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 				numberToDraw += 2;
 			}
 
+			if (numberToDraw < 0)
+			{
+				numberToDraw = 0;
+			}
+
 			return numberToDraw;
 		}
 	}

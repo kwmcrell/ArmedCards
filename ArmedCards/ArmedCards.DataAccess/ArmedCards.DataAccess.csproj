@@ -78,8 +78,10 @@
     <Compile Include="GameRoundCard\Insert.cs" />
     <Compile Include="GameRoundCard\Select.cs" />
     <Compile Include="GameRoundCard\Update.cs" />
+    <Compile Include="GameRound\Base\IDelete.cs" />
     <Compile Include="GameRound\Base\IInsert.cs" />
     <Compile Include="GameRound\Base\ISelect.cs" />
+    <Compile Include="GameRound\Delete.cs" />
     <Compile Include="GameRound\Insert.cs" />
     <Compile Include="GameRound\Select.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
@@ -115,6 +117,7 @@
     <Content Include="_DBScripts\GameRoundCard\%40GameRoundCardTable.sql" />
     <Content Include="_DBScripts\GameRoundCard\GameRoundCard_Select.sql" />
     <Content Include="_DBScripts\GameRoundCard\GameRoundCard_UpdateWinners.sql" />
+    <Content Include="_DBScripts\GameRound\GameRound_Delete.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_Insert.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_Select.sql" />
     <Content Include="_DBScripts\GameRound\%40GameRoundTable.sql" />

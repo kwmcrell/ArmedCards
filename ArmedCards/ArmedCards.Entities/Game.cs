@@ -360,7 +360,12 @@ namespace ArmedCards.Entities
 		{
 			if (newCommander == null)
 			{
-				newCommander = CurrentRound().Winner();
+				Entities.GameRound current = CurrentRound();
+
+				if (current != null)
+				{
+					newCommander = current.Winner();
+				}
 			}
 
 			if(newCommander != null && Players.Any(x => x.User.UserId == newCommander.UserId) == false)

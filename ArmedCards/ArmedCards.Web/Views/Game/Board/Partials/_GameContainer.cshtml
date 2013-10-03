@@ -23,11 +23,13 @@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 
+@Html.Hidden("Game_Waiting", Model.Game.IsWaiting())
+
 @if (Model.Game.HasWinner())
 {
 	@Html.Partial("~/Views/Game/Board/Partials/_GameOver.cshtml", Model.Game)
 }
-else if (Model.Game.IsWaiting() && !Model.ShowAnswers())
+else if (Model.ShowWaiting())
 {
     @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
 }

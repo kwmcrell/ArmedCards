@@ -92,5 +92,33 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 				}
 			}
 		}
+
+		/// <summary>
+		/// Send a message to a hub group
+		/// Used to send the following messages:
+		/// 1. Commander leaves game
+		/// </summary>
+		/// <param name="game">The current game</param>
+		/// <param name="commanderName">Name of the commander that left</param>
+		/// <param name="action">The action to fire</param>
+		public void Execute(Entities.Game game, String commanderName, Action<Entities.ActiveConnection, Entities.Game, String> action)
+		{
+			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+			filter.GroupName = String.Format("Game_{0}", game.GameID);
+
+			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+			Entities.GamePlayer sendToPlayer = null;
+
+			foreach (Entities.ActiveConnection connection in connections)
+			{
+				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
+
+				if (sendToPlayer != null)
+				{
+					action(connection, game, commanderName);
+				}
+			}
+		}
 	}
 }

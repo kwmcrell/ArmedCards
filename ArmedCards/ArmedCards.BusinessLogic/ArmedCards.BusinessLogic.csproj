@@ -78,10 +78,12 @@
     <Compile Include="AppServices\GameRoundCard\Select.cs" />
     <Compile Include="AppServices\GameRoundCard\Update.cs" />
     <Compile Include="AppServices\GameRound\Base\IComplete.cs" />
+    <Compile Include="AppServices\GameRound\Base\IDelete.cs" />
     <Compile Include="AppServices\GameRound\Base\IInsert.cs" />
     <Compile Include="AppServices\GameRound\Base\ISelect.cs" />
     <Compile Include="AppServices\GameRound\Base\IStart.cs" />
     <Compile Include="AppServices\GameRound\Complete.cs" />
+    <Compile Include="AppServices\GameRound\Delete.cs" />
     <Compile Include="AppServices\GameRound\Insert.cs" />
     <Compile Include="AppServices\GameRound\Select.cs" />
     <Compile Include="AppServices\GameRound\Start.cs" />
@@ -144,10 +146,12 @@
     <Compile Include="DomainServices\GameRoundCard\Select.cs" />
     <Compile Include="DomainServices\GameRoundCard\Update.cs" />
     <Compile Include="DomainServices\GameRound\Base\IComplete.cs" />
+    <Compile Include="DomainServices\GameRound\Base\IDelete.cs" />
     <Compile Include="DomainServices\GameRound\Base\IInsert.cs" />
     <Compile Include="DomainServices\GameRound\Base\ISelect.cs" />
     <Compile Include="DomainServices\GameRound\Base\IStart.cs" />
     <Compile Include="DomainServices\GameRound\Complete.cs" />
+    <Compile Include="DomainServices\GameRound\Delete.cs" />
     <Compile Include="DomainServices\GameRound\Insert.cs" />
     <Compile Include="DomainServices\GameRound\Select.cs" />
     <Compile Include="DomainServices\GameRound\Start.cs" />
@@ -196,8 +200,10 @@
     <Compile Include="Repositories\GameRoundCard\Insert.cs" />
     <Compile Include="Repositories\GameRoundCard\Select.cs" />
     <Compile Include="Repositories\GameRoundCard\Update.cs" />
+    <Compile Include="Repositories\GameRound\Base\IDelete.cs" />
     <Compile Include="Repositories\GameRound\Base\IInsert.cs" />
     <Compile Include="Repositories\GameRound\Base\ISelect.cs" />
+    <Compile Include="Repositories\GameRound\Delete.cs" />
     <Compile Include="Repositories\GameRound\Insert.cs" />
     <Compile Include="Repositories\GameRound\Select.cs" />
     <Compile Include="Repositories\Game\Base\IInsert.cs" />
