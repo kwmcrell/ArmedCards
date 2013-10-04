@@ -26,38 +26,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound
+namespace ArmedCards.BusinessLogic.Repositories.Game.Base
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IStart"/>
+	/// Interface for Updating a game record
 	/// </summary>
-	public class Start : Base.IStart
+	public interface IUpdate
 	{
-		private DS.Base.IStart _startRound;
-		private Game.Base.IUpdate _updateGame;
-
-		public Start(DS.Base.IStart startRound,
-					 Game.Base.IUpdate updateGame)
-		{
-			this._startRound = startRound;
-			this._updateGame = updateGame;
-		}
-
 		/// <summary>
-		/// Starts a round if certain requirements are met
+		/// Update last played and possibly game over date based on <paramref name="filter"/>
 		/// </summary>
-		/// <param name="game">The game to start a new round for</param>
-		/// <param name="commander">The new round's commander</param>
-		/// <returns>If a round was successfully started</returns>
-		public Boolean Execute(Entities.Game game, Entities.User commander)
-		{
-			Boolean started = _startRound.Execute(game, commander);
-
-			_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
-			
-			return started;
-		}
+		/// <param name="filter">The filter used to determine what game to update and the dates to update it with</param>
+		void Execute(Entities.Filters.Game.UpdateDates filter);
 	}
 }

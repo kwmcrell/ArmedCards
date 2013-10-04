@@ -37,12 +37,15 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 	{
 		private DS.Base.IComplete _completeGameRound;
 		private Hub.Base.ISendMessage _sendMessage;
+		private Game.Base.IUpdate _updateGame;
 
 		public Complete(DS.Base.IComplete completeGameRound,
-						Hub.Base.ISendMessage sendMessage)
+						Hub.Base.ISendMessage sendMessage,
+						Game.Base.IUpdate updateGame)
 		{
 			this._completeGameRound = completeGameRound;
 			this._sendMessage = sendMessage;
+			this._updateGame = updateGame;
 		}
 
 		/// <summary>
@@ -60,6 +63,16 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 			if (response.CompletedRound != null && response.Game != null)
 			{
 				_sendMessage.Execute(response.Game, response.CompletedRound, winnerSelected);
+				
+				DateTime playedLast = DateTime.UtcNow;
+				DateTime? gameOver = null;
+
+				if(response.Game.HasWinner())
+				{
+					gameOver = playedLast;
+				}
+
+				_updateGame.Execute(gameID, playedLast, gameOver);
 			}
 		}
 	}

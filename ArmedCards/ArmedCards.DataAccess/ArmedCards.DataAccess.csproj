@@ -86,8 +86,10 @@
     <Compile Include="GameRound\Select.cs" />
     <Compile Include="Game\Base\ISelect.cs" />
     <Compile Include="Game\Base\IInsert.cs" />
+    <Compile Include="Game\Base\IUpdate.cs" />
     <Compile Include="Game\Insert.cs" />
     <Compile Include="Game\Select.cs" />
+    <Compile Include="Game\Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderInfo\Base\ISelect.cs" />
     <Compile Include="ProviderInfo\Select.cs" />
@@ -141,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="_DBScripts\GameDeck\%40GameDeckTable.sql" />
+    <Content Include="_DBScripts\Game\Game_Update.sql" />
     <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\%40UserProfileTable.sql" />
     <Content Include="_DBScripts\User\User_Select.sql" />

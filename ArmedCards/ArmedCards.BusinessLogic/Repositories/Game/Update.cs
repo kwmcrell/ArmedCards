@@ -21,43 +21,37 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
+using DAL = ArmedCards.DataAccess.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound
+namespace ArmedCards.BusinessLogic.Repositories.Game
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IStart"/>
+	/// Implementation of <seealso cref="Base.IUpdate"/>
 	/// </summary>
-	public class Start : Base.IStart
+	public class Update : Base.IUpdate
 	{
-		private DS.Base.IStart _startRound;
-		private Game.Base.IUpdate _updateGame;
+		private DAL.Base.IUpdate _update;
 
-		public Start(DS.Base.IStart startRound,
-					 Game.Base.IUpdate updateGame)
-		{
-			this._startRound = startRound;
-			this._updateGame = updateGame;
-		}
+		public Update(DAL.Base.IUpdate update)
+        {
+			this._update = update;
+        }
 
 		/// <summary>
-		/// Starts a round if certain requirements are met
+		/// Update last played and possibly game over date based on <paramref name="filter"/>
 		/// </summary>
-		/// <param name="game">The game to start a new round for</param>
-		/// <param name="commander">The new round's commander</param>
-		/// <returns>If a round was successfully started</returns>
-		public Boolean Execute(Entities.Game game, Entities.User commander)
+		/// <param name="filter">The filter used to determine what game to update and the dates to update it with</param>
+		public void Execute(Entities.Filters.Game.UpdateDates filter)
 		{
-			Boolean started = _startRound.Execute(game, commander);
-
-			_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
-			
-			return started;
+			_update.Execute(filter);
 		}
 	}
 }

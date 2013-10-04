@@ -21,43 +21,44 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
+using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound
+namespace ArmedCards.BusinessLogic.AppServices.Game
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IStart"/>
+	/// Implementation of <seealso cref="Base.IUpdate"/>
 	/// </summary>
-	public class Start : Base.IStart
+	public class Update : Base.IUpdate
 	{
-		private DS.Base.IStart _startRound;
-		private Game.Base.IUpdate _updateGame;
+		private DS.Base.IUpdate _update;
 
-		public Start(DS.Base.IStart startRound,
-					 Game.Base.IUpdate updateGame)
-		{
-			this._startRound = startRound;
-			this._updateGame = updateGame;
-		}
+		public Update(DS.Base.IUpdate update)
+        {
+			this._update = update;
+        }
 
 		/// <summary>
-		/// Starts a round if certain requirements are met
+		/// Update last played and possibly game over date
 		/// </summary>
-		/// <param name="game">The game to start a new round for</param>
-		/// <param name="commander">The new round's commander</param>
-		/// <returns>If a round was successfully started</returns>
-		public Boolean Execute(Entities.Game game, Entities.User commander)
+		/// <param name="gameID">The ID of the game to update</param>
+		/// <param name="playedLast">The datetime to mark the game as last played</param>
+		/// <param name="gameOver">The datetime the game was ended</param>
+		public void Execute(Int32 gameID, DateTime playedLast, DateTime? gameOver)
 		{
-			Boolean started = _startRound.Execute(game, commander);
+			Entities.Filters.Game.UpdateDates filter = new Entities.Filters.Game.UpdateDates();
+			filter.GameID = gameID;
+			filter.PlayedLast = playedLast;
+			filter.GameOver = gameOver;
 
-			_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
-			
-			return started;
+			_update.Execute(filter);
 		}
 	}
 }

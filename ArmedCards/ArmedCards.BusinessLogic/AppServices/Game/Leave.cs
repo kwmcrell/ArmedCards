@@ -40,18 +40,21 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		private Hub.Base.ISendMessage _sendMessage;
 		private GameRound.Base.IStart _startRound;
 		private GameRound.Base.IDelete _deleteRound;
+		private Base.IUpdate _updateGame;
 
 		public Leave(DS.Game.Base.ILeave leaveGame, 
 					 Game.Base.ISelect selectGame,
 					 Hub.Base.ISendMessage sendMessage,
 					 GameRound.Base.IStart startRound,
-					 GameRound.Base.IDelete deleteRound)
+					 GameRound.Base.IDelete deleteRound,
+					 Base.IUpdate updateGame)
 		{
 			this._leaveGame = leaveGame;
 			this._selectGame = selectGame;
 			this._sendMessage = sendMessage;
 			this._startRound = startRound;
 			this._deleteRound = deleteRound;
+			this._updateGame = updateGame;
 		}
 
 		/// <summary>
@@ -117,6 +120,13 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 			}
 
 			_leaveGame.Execute(gameID, user);
+
+			if (game.PlayerCount == 0)
+			{
+				DateTime now = DateTime.UtcNow;
+
+				_updateGame.Execute(gameID, now, now);
+			}
 		}
 	}
 }

@@ -85,6 +85,13 @@ namespace ArmedCards.Web
 			Container.RegisterType<BusinessLogic.Repositories.Game.Base.ILeave,					BusinessLogic.Repositories.Game.Leave>();
 
 			Container.RegisterType<BusinessLogic.AppServices.Game.Base.IStart,					BusinessLogic.AppServices.Game.Start>();
+
+			Container.RegisterType<BusinessLogic.AppServices.Game.Base.IUpdate,					BusinessLogic.AppServices.Game.Update>();
+			Container.RegisterType<BusinessLogic.DomainServices.Game.Base.IUpdate,				BusinessLogic.DomainServices.Game.Update>();
+			Container.RegisterType<BusinessLogic.Repositories.Game.Base.IUpdate,				BusinessLogic.Repositories.Game.Update>();
+
+			Container.RegisterType<DataAccess.Game.Base.IUpdate,								DataAccess.Game.Update>();
+
             #endregion "Game"
 
             #region "Active Connection"

@@ -69,6 +69,7 @@
     <Compile Include="Filters\GameRound\SelectCurrent.cs" />
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
+    <Compile Include="Filters\Game\UpdateDates.cs" />
     <Compile Include="Filters\User\Select.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GamePlayer.cs" />

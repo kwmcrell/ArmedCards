@@ -39,14 +39,17 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 		private DS.GamePlayerCard.Base.IPlay _playCard;
 		private AS.Game.Base.ISelect _selectGame;
 		private AS.Hub.Base.ISendMessage _sendMessage;
+		private AS.Game.Base.IUpdate _updateGame;
 
 		public Play(DS.GamePlayerCard.Base.IPlay playCard,
 					AS.Game.Base.ISelect selectGame,
-					AS.Hub.Base.ISendMessage sendMessage)
+					AS.Hub.Base.ISendMessage sendMessage,
+					AS.Game.Base.IUpdate updateGame)
 		{
 			this._playCard = playCard;
 			this._selectGame = selectGame;
 			this._sendMessage = sendMessage;
+			this._updateGame = updateGame;
 		}
 
 		/// <summary>
@@ -73,6 +76,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 				game.Rounds.Add(response.CurrentRound);
 
 				_sendMessage.Execute(game, playedAction);
+				_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
 			}
 
 			return response;
