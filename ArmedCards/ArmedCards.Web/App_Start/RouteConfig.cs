@@ -31,6 +31,18 @@ namespace ArmedCards.Web
                 defaults: new { controller = "ValidatePassphrase", action = "Index", id = UrlParameter.Optional }
             );
 
+			routes.MapRoute(
+				name: "Profile_ChangeDisplayName",
+				url: "Profile/ChangeDisplayName",
+				defaults: new { controller = "Profile", action = "ChangeDisplayName" }
+			);
+
+			routes.MapRoute(
+				name: "Profile_Id",
+				url: "Profile/{id}",
+				defaults: new { controller = "Profile", action = "Index", id = UrlParameter.Optional }
+			);
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

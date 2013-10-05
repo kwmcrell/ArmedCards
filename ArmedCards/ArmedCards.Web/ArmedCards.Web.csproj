@@ -229,6 +229,7 @@
     <Compile Include="Controllers\Game\Listing\GameListingController.cs" />
     <Compile Include="Controllers\Game\Listing\ValidatePassphraseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
     <Compile Include="Extensions\ArmedCardsAuthorize.cs" />
     <Compile Include="Extensions\ExternalLoginResult.cs" />
@@ -252,6 +253,8 @@
     <Compile Include="Models\Home\Index.cs" />
     <Compile Include="Models\Hub\ChatMessage.cs" />
     <Compile Include="Models\Hub\Lobby.cs" />
+    <Compile Include="Models\Profile\ChangeDisplayName.cs" />
+    <Compile Include="Models\Profile\Profile.cs" />
     <Compile Include="Models\Shared\AnswerCard.cs" />
     <Compile Include="Models\Shared\Header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -331,6 +334,8 @@
     <Content Include="Views\Game\Board\Answers\_ShowAnswers.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameContainer.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameOver.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Profile\ChangeDisplayName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
