@@ -68,6 +68,9 @@ namespace ArmedCards.Web
                         "~/Scripts/Core/Hub.js",
                          "~/Scripts/Core/Chat.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/Core/Profile").Include(
+						"~/Scripts/Core/Profile/Profile.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

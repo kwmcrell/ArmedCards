@@ -274,6 +274,7 @@
     <Content Include="Scripts\Core\jQueryTopic.js" />
     <Content Include="Scripts\Core\Login\LoginModal.js" />
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
+    <Content Include="Scripts\Core\Profile\Profile.js" />
     <Content Include="Scripts\Core\Utilities.js" />
     <Content Include="Scripts\Game\Board\Commander.js" />
     <Content Include="Scripts\Game\Board\Common.js" />

@@ -105,8 +105,10 @@
     <Compile Include="AppServices\Hub\SendMessage.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
     <Compile Include="AppServices\User\Base\ISelect.cs" />
+    <Compile Include="AppServices\User\Base\IUpdate.cs" />
     <Compile Include="AppServices\User\Insert.cs" />
     <Compile Include="AppServices\User\Select.cs" />
+    <Compile Include="AppServices\User\Update.cs" />
     <Compile Include="DomainServices\ActiveConnection\Base\IDelete.cs" />
     <Compile Include="DomainServices\ActiveConnection\Base\IInsert.cs" />
     <Compile Include="DomainServices\ActiveConnection\Base\ISelect.cs" />
@@ -171,8 +173,10 @@
     <Compile Include="DomainServices\Game\ValidatePassphrase.cs" />
     <Compile Include="DomainServices\User\Base\IInsert.cs" />
     <Compile Include="DomainServices\User\Base\ISelect.cs" />
+    <Compile Include="DomainServices\User\Base\IUpdate.cs" />
     <Compile Include="DomainServices\User\Insert.cs" />
     <Compile Include="DomainServices\User\Select.cs" />
+    <Compile Include="DomainServices\User\Update.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActiveConnection\Base\IDelete.cs" />
     <Compile Include="Repositories\ActiveConnection\Base\IInsert.cs" />
@@ -224,8 +228,10 @@
     <Compile Include="Repositories\ProviderInfo\Select.cs" />
     <Compile Include="Repositories\User\Base\IInsert.cs" />
     <Compile Include="Repositories\User\Base\ISelect.cs" />
+    <Compile Include="Repositories\User\Base\IUpdate.cs" />
     <Compile Include="Repositories\User\Insert.cs" />
     <Compile Include="Repositories\User\Select.cs" />
+    <Compile Include="Repositories\User\Update.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ArmedCards.DataAccess\ArmedCards.DataAccess.csproj">

@@ -21,6 +21,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Microsoft.Web.WebPages.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +36,13 @@ namespace ArmedCards.Web.Controllers
 	public class ProfileController : Extensions.ArmedCardsController
     {
 		private AS.User.Base.ISelect _selectUser;
+		private AS.User.Base.IUpdate _updateUser;
 
-		public ProfileController(AS.User.Base.ISelect selectUser)
+		public ProfileController(AS.User.Base.ISelect selectUser,
+								 AS.User.Base.IUpdate updateUser)
 		{
 			this._selectUser = selectUser;
+			this._updateUser = updateUser;
 		}
 		
 		[HttpGet]
@@ -46,11 +50,19 @@ namespace ArmedCards.Web.Controllers
         {
 			Entities.User viewedProfile = _selectUser.Execute(id);
 
-			Models.Profile.Profile model = new Models.Profile.Profile();
-			model.ViewedProfile = viewedProfile;
-			model.MyProfile = viewedProfile.UserId == WebSecurity.CurrentUserId;
+			Int32 currentUserId = WebSecurity.CurrentUserId;
 
-			return View(model);
+			if (viewedProfile != null)
+			{
+				Models.Profile.Profile model = new Models.Profile.Profile();
+				model.ViewedProfile = viewedProfile;
+				model.MyProfile = viewedProfile.UserId == currentUserId;
+				return View(model);
+			}
+			else
+			{
+				return Redirect(string.Format("/Profile/{0}", currentUserId));
+			}
         }
 
 		[HttpGet]
@@ -62,5 +74,38 @@ namespace ArmedCards.Web.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
+		public ActionResult ChangeDisplayName(Models.Profile.ChangeDisplayName model)
+		{
+			if (ModelState.IsValid)
+			{
+				int currentUserId = WebSecurity.CurrentUserId;
+				String currentDisplayName = WebSecurity.CurrentUserName;
+
+				Entities.OAMembership memberShipData = null;
+
+				if (!WebSecurity.UserExists(model.DisplayName))
+				{
+					memberShipData = _updateUser.Execute(currentUserId, model.DisplayName, currentDisplayName);
+				}
+
+				if (memberShipData != null)
+				{
+					WebSecurity.Logout();
+					OAuthWebSecurity.Login(memberShipData.Provider, memberShipData.ProviderUserId, false);
+					return Redirect(string.Format("/Profile/{0}", currentUserId));
+				}
+				else if (model.DisplayName == currentDisplayName)
+				{
+					return Redirect(string.Format("/Profile/{0}", currentUserId));
+				}
+				else
+				{
+					ModelState.AddModelError("DisplayName", "Display name already exists. Please enter a different display name.");
+				}
+			}
+
+			return View(model);
+		}
     }
 }

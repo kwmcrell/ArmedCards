@@ -57,6 +57,12 @@ namespace ArmedCards.Web
 
 			Container.RegisterType<DataAccess.User.Base.ISelect,								DataAccess.User.Select>();
 
+			Container.RegisterType<BusinessLogic.AppServices.User.Base.IUpdate,					BusinessLogic.AppServices.User.Update>();
+			Container.RegisterType<BusinessLogic.DomainServices.User.Base.IUpdate,				BusinessLogic.DomainServices.User.Update>();
+			Container.RegisterType<BusinessLogic.Repositories.User.Base.IUpdate,				BusinessLogic.Repositories.User.Update>();
+
+			Container.RegisterType<DataAccess.User.Base.IUpdate,								DataAccess.User.Update>();
+
             #endregion "User"
 
             #region "Game"

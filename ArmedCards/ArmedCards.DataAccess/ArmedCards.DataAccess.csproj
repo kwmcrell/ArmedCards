@@ -93,7 +93,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderInfo\Base\ISelect.cs" />
     <Compile Include="ProviderInfo\Select.cs" />
+    <Compile Include="User\Base\IUpdate.cs" />
     <Compile Include="User\Select.cs" />
+    <Compile Include="User\Update.cs" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Delete.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_DeleteAll.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Insert.sql" />
@@ -146,6 +148,7 @@
     <Content Include="_DBScripts\Game\Game_Update.sql" />
     <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\%40UserProfileTable.sql" />
+    <Content Include="_DBScripts\User\User_UpdateDisplayName.sql" />
     <Content Include="_DBScripts\User\User_Select.sql" />
     <Content Include="_DBScripts\User\User_Insert.sql" />
   </ItemGroup>
