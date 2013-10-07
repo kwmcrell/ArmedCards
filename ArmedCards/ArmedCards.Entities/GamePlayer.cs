@@ -43,6 +43,11 @@ namespace ArmedCards.Entities
             User    = new User(idr);
             Points  = idr.GetValueByName<Int32>("Points");
 			CardCount = idr.GetValueByName<Int32>("CardCount");
+
+			if (idr.HasColumn("Title"))
+			{
+				Game = new Game(idr);
+			}
         }
 
         public GamePlayer()
@@ -75,6 +80,11 @@ namespace ArmedCards.Entities
 		/// List of cards in player's hand
 		/// </summary>
 		public List<Entities.GamePlayerCard> Hand { get; set; }
+
+		/// <summary>
+		/// The game the user belongs to
+		/// </summary>
+		public Entities.Game Game { get; set; }
 
 		/// <summary>
 		/// Check to see if the player has <paramref name="cardIDs"/> in their hand

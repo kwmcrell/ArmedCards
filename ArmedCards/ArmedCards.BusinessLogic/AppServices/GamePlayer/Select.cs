@@ -66,5 +66,15 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayer
         {
             return _selectGamePlayers.Execute(filter);
         }
+
+		/// <summary>
+		/// Select all game players based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select game players for a specific user</param>
+		/// <returns>A list of game players that satisfy <paramref name="filter"/></returns>
+		public List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectForUser filter)
+		{
+			return _selectGamePlayers.Execute(filter);
+		}
     }
 }

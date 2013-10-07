@@ -46,11 +46,11 @@ namespace ArmedCards.Library.Extensions
         {
 			Int32 ordinal = 0;
 
-			try
+			if (HasColumn(idr, columnName))
 			{
 				ordinal = idr.GetOrdinal(columnName);
 			}
-			catch
+			else
 			{
 				return default(T);
 			}
@@ -64,5 +64,25 @@ namespace ArmedCards.Library.Extensions
                 return (T)idr.GetValue(ordinal);
             }
         }
+
+		/// <summary>
+		/// Determine if <paramref name="idr"/> has a column with the name of <paramref name="columnName"/>
+		/// </summary>
+		/// <param name="idr">The IDataReader being used</param>
+		/// <param name="columnName">The column name to read</param>
+		/// <returns>If <paramref name="idr"/> has the column <paramref name="columnName"/></returns>
+		public static Boolean HasColumn(this IDataReader idr, String columnName)
+		{
+			try
+			{
+				idr.GetOrdinal(columnName);
+			}
+			catch
+			{
+				return false;
+			}
+
+			return true;
+		}
     }
 }

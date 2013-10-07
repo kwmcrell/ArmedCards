@@ -27,32 +27,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.Repositories.GamePlayer.Base
+namespace ArmedCards.Entities.Filters.GamePlayer
 {
-    /// <summary>
-    /// Interface defining Select for GamePlayer
-    /// </summary>
-    public interface ISelect
-    {
-        /// <summary>
-        /// Selects game players base on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game players</param>
-        /// <returns>A list of game players that satisfy the supplied filter</returns>
-        List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.Select filter);
-
-        /// <summary>
-        /// Selects game players base on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game players</param>
-        /// <returns>A list of game players that satisfy the supplied filter</returns>
-        List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectAll filter);
-
+	/// <summary>
+	/// Filter used to select all games the user is a part of.
+	/// </summary>
+	public class SelectForUser
+	{
 		/// <summary>
-		/// Select all game players based on <paramref name="filter"/>
+		/// The ID of the user
 		/// </summary>
-		/// <param name="filter">Filter used to select game players for a specific user</param>
-		/// <returns>A list of game players that satisfy <paramref name="filter"/></returns>
-		List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectForUser filter);
-    }
+		public Int32 UserId { get; set; }
+	}
 }

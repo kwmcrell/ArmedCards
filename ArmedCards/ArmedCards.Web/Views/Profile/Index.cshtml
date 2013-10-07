@@ -34,11 +34,23 @@
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 <div class="user me">
     <h3 class="username loggedIn">
-        <img src="@Model.ViewedProfile.PictureUrl"><span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">0 points</span></h3>
+        <img src="@Model.ViewedProfile.PictureUrl"><span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">@Model.TotalPoints points</span></h3>
     @if(Model.MyProfile)
     {
         <div class="options">
             <a href="/Profile/ChangeDisplayName" id="changeDisplayName" class="button">Change Display Name</a>
         </div>
     }
+	@if(Model.MyProfile)
+	{
+		<div class="activeGames">
+			<h4>Active Games</h4>
+			<div>
+				@foreach(ArmedCards.Entities.GamePlayer profile in Model.GameProfiles.Where(x => x.Game.GameOver == null))
+				{
+					<a href="@Url.RouteUrl("Game_NoAction", new { id = profile.GameID })">@profile.Game.Title</a>
+				}
+			</div>
+		</div>
+	}
 </div>

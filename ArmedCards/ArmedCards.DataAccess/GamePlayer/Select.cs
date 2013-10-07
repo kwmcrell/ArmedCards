@@ -91,5 +91,30 @@ namespace ArmedCards.DataAccess.GamePlayer
 
             return gamePlayers;
         }
+
+		/// <summary>
+		/// Select all game players based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select game players for a specific user</param>
+		/// <returns>A list of game players that satisfy <paramref name="filter"/></returns>
+		public List<Entities.GamePlayer> Execute(Entities.Filters.GamePlayer.SelectForUser filter)
+		{
+			List<Entities.GamePlayer> gamePlayers = new List<Entities.GamePlayer>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_SelectForUser"))
+			{
+				_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						gamePlayers.Add(new Entities.GamePlayer(idr));
+					}
+				}
+			}
+
+			return gamePlayers;
+		}
     }
 }

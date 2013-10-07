@@ -37,12 +37,15 @@ namespace ArmedCards.Web.Controllers
     {
 		private AS.User.Base.ISelect _selectUser;
 		private AS.User.Base.IUpdate _updateUser;
+		private AS.GamePlayer.Base.ISelect _selectGamePlayer;
 
 		public ProfileController(AS.User.Base.ISelect selectUser,
-								 AS.User.Base.IUpdate updateUser)
+								 AS.User.Base.IUpdate updateUser,
+								 AS.GamePlayer.Base.ISelect selectGamePlayer)
 		{
 			this._selectUser = selectUser;
 			this._updateUser = updateUser;
+			this._selectGamePlayer = selectGamePlayer;
 		}
 		
 		[HttpGet]
@@ -57,6 +60,14 @@ namespace ArmedCards.Web.Controllers
 				Models.Profile.Profile model = new Models.Profile.Profile();
 				model.ViewedProfile = viewedProfile;
 				model.MyProfile = viewedProfile.UserId == currentUserId;
+
+				Entities.Filters.GamePlayer.SelectForUser filter = new Entities.Filters.GamePlayer.SelectForUser();
+				filter.UserId = id;
+
+				model.GameProfiles = _selectGamePlayer.Execute(filter);
+
+				model.TotalPoints = model.GameProfiles.Sum(x => x.Points);
+
 				return View(model);
 			}
 			else

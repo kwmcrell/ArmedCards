@@ -10,6 +10,11 @@ namespace ArmedCards.Web.Models.Profile
 	/// </summary>
 	public class Profile
 	{
+		public Profile()
+		{
+			GameProfiles = new List<Entities.GamePlayer>();
+		}
+
 		/// <summary>
 		/// The profile being viewed
 		/// </summary>
@@ -19,5 +24,15 @@ namespace ArmedCards.Web.Models.Profile
 		/// Is my profile
 		/// </summary>
 		public Boolean MyProfile { get; set; }
+
+		/// <summary>
+		/// User's total points
+		/// </summary>
+		public Int32 TotalPoints { get; set; }
+
+		/// <summary>
+		/// The games the user belongs to
+		/// </summary>
+		public List<Entities.GamePlayer> GameProfiles { get; set; }
 	}
 }
