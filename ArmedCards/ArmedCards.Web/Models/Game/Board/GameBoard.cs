@@ -60,7 +60,14 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns>True if the user has answered and false otherwise</returns>
 		public Boolean Answered()
 		{
-			return Game.CurrentRound().HasAnswer(UserId);
+			if (Game.HasRounds())
+			{
+				return Game.CurrentRound().HasAnswer(UserId);
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		/// <summary>

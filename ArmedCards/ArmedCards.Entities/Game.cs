@@ -278,7 +278,7 @@ namespace ArmedCards.Entities
 			}
 			else
 			{
-				throw new ArgumentNullException("There are no rounds");
+				return null;
 			}
 		}
 
