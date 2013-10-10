@@ -1575,11 +1575,6 @@ body .chat.right .openClose a span.mobileOpenClose
 	margin: 0 1.5em 1.5em 0;
 	padding: 1em 1em 3em;
 	position: relative;
-	-webkit-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
-	-moz-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
-	-ms-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
-	-o-transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
-	transition: opacity 500ms, left 2s ease-out, bottom 2s ease-out, 100ms;
 	text-align: left;
 	text-decoration: none;
 	vertical-align: top;
@@ -2444,14 +2439,6 @@ body #toast-container > .toast-info
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAMFBMVEXw8PDu7u729vbv7+/29vb////////+/v7////x8fH///////8AAAD8/Pz9/f3///9NTWjrAAAADXRSTlPu/cf2xYdHo0LnZH8Azb03eAAAAINJREFUeNqF0VsOxCAIBVDfIlbZ/24njqTQqPF+NTkSe8U8h9whxeCbDzF9AXKnmZ5BARaSFHwBLelYZAA+b5zhGZiQaaY+lb/yH1JfoKcBkRagOCBsIAzwG/AD2gbaceJ4B/+VFORE7iGRHqq5q06ay1upOwrI6+oJi9d9rBu873zND9mTHAMLUWGEAAAAAElFTkSuQmCC') !important;
 }
 
-.transitionDown {
-    transform:scale(.5);
-    -ms-transform:scale(.5); /* IE 9 */
-    -webkit-transform:scale(.5); /* Safari and Chrome */
-    transition: all 2.0s ease-in-out;
-    -webkit-transition: all 2.0s ease-in-out; /* Safari */
-}
-
 @media screen and (min-width: 2250px)
 {
 	.gameListing .game
@@ -2906,22 +2893,6 @@ body #toast-container > .toast-info
 	{
 		margin-left: 0;
 	}
-
-    .transitionUp {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
-
-    .transitionDown {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
 }
 
 @media screen and (max-width: 435px)
@@ -3139,22 +3110,6 @@ body #toast-container > .toast-info
 	{
 		position: static;
 	}
-
-    .transitionUp {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
-
-    .transitionDown {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
 }
 
 @media screen and (max-width: 360px)
@@ -3224,22 +3179,6 @@ body #toast-container > .toast-info
 	{
 		text-align: center;
 	}
-
-    .transitionUp {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
-
-    .transitionDown {
-        transform:scale(.5);
-        -ms-transform:scale(.5); /* IE 9 */
-        -webkit-transform:scale(.5); /* Safari and Chrome */
-        transition: all 2.0s ease-in-out;
-        -webkit-transition: all 2.0s ease-in-out; /* Safari */
-    }
 }
 
 @media screen and (-webkit-min-device-pixel-ratio: 1.5),
