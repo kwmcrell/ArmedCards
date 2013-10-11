@@ -1584,7 +1584,7 @@ body .chat.right .openClose a span.mobileOpenClose
 .card.out
 {
 	bottom: -10em;
-	left: -95%;
+	left: -100%;
 }
 
 .card.out:nth-child(1)

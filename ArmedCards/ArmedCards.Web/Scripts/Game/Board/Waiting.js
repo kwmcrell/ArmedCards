@@ -1,5 +1,5 @@
 ﻿/// <reference path="../jQuery/jquery-1.9.1.js" />
-/// <reference path="../../GreenSock/TweenMax.js" />
+/// <reference path="../../jquery.transit.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -53,7 +53,7 @@ if (!ArmedCards.Game.Waiting) {
 Waiting.prototype.TransitionQuestion = function () {
 	answerCount = 0;
 
-	TweenMax.to(".question.card", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionQuestionComplete });
+	$('.question.card').transition({ opacity: 0 }, 500, 'out', ArmedCards.Game.Waiting.TransitionQuestionComplete);
 };
 
 Waiting.prototype.TransitionQuestionComplete = function (e) {
@@ -71,7 +71,7 @@ Waiting.prototype.TransitionQuestionComplete = function (e) {
 
 	$waitingDiv.append(question);
 
-	TweenMax.to(".question.card", 2, { alpha: 1 });
+	$('.question.card').transition({ opacity: 1 }, 1000, 'int');
 };
 
 Waiting.prototype.HandleTransition = function () {
@@ -85,7 +85,7 @@ Waiting.prototype.HandleTransition = function () {
 Waiting.prototype.TransitionAnswer = function () {
 	answerCount = answerCount + 1;
 
-	TweenMax.to(".answer.card", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionAnswerComplete });
+	$('.answer.card').transition({ opacity: 0 }, 500, 'out', ArmedCards.Game.Waiting.TransitionAnswerComplete);
 };
 
 Waiting.prototype.TransitionAnswerComplete = function (e) {
@@ -93,7 +93,7 @@ Waiting.prototype.TransitionAnswerComplete = function (e) {
 
 	ArmedCards.Game.Waiting.CreateAnswerCard();
 
-	TweenMax.to(".answer.card", 2, { alpha: 1 });
+	$('.answer.card').transition({ opacity: 1 }, 1000, 'in');
 
 	if (ArmedCards.Game.Waiting.currentQuestion.Instructions > 0) {
 		ArmedCards.Game.Waiting.CreateAnswerCard();
