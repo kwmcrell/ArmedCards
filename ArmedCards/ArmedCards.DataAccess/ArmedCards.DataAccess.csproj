@@ -113,6 +113,7 @@
     <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Delete.sql" />
     <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Select.sql" />
     <Content Include="_DBScripts\GamePlayerCard\%40GamePlayerCardTable.sql" />
+    <Content Include="_DBScripts\GamePlayerKickVote\%40GamePlayerKickVoteTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />
