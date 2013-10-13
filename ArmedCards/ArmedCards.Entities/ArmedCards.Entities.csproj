@@ -76,6 +76,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="GamePlayerCard.cs" />
+    <Compile Include="GamePlayerKickVote.cs" />
     <Compile Include="GameRound.cs" />
     <Compile Include="GameRoundCard.cs" />
     <Compile Include="JoinResponse.cs" />

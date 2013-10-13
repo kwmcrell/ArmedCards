@@ -21,32 +21,47 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote]') IS NULL
-	BEGIN
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
 
-	CREATE TABLE [dbo].[GamePlayerKickVote](
-		[GameID]		[int] NOT NULL,
-		[KickUserId]	[int] NOT NULL,
-		[VotedUserId]	[int] NOT NULL,
-		[Vote]			[bit] NOT NULL,
-	 CONSTRAINT [PK_dbo.GamePlayerKickVote] PRIMARY KEY CLUSTERED 
-	(
-		[GameID] ASC,
-		[KickUserId] ASC,
-		[VotedUserId] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
+namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
+{
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// </summary>
+	public class Insert : Base.IInsert
+	{
+		private DS.Base.IInsert _insert;
 
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId] FOREIGN KEY([KickUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
+		public Insert(DS.Base.IInsert insert)
+		{
+			this._insert = insert;
+		}
 
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId]
-	
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId] FOREIGN KEY([VotedUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
+		/// <summary>
+		/// Insert a vote to kick a user
+		/// </summary>
+		/// <param name="gameID">The id of the game to cast the vote in</param>
+		/// <param name="kickUserId">The id of the user voted to kick</param>
+		/// <param name="votedUserId">The id of the user voting</param>
+		/// <param name="vote">Voted to kick</param>
+		/// <returns>The number that have already casted a vote against the user</returns>
+		public Int32 Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote)
+		{
+			Entities.GamePlayerKickVote userVote = new Entities.GamePlayerKickVote();
+			userVote.GameID = gameID;
+			userVote.KickUserId = kickUserId;
+			userVote.VotedUserId = votedUserId;
+			userVote.Vote = vote;
 
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId]
-
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.Game_GameID] FOREIGN KEY([GameID])
-	REFERENCES [dbo].[Game] ([GameID])
-END
+			return _insert.Execute(userVote);
+		}
+	}
+}

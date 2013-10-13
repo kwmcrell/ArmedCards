@@ -21,32 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote]') IS NULL
-	BEGIN
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.GamePlayerKickVote;
 
-	CREATE TABLE [dbo].[GamePlayerKickVote](
-		[GameID]		[int] NOT NULL,
-		[KickUserId]	[int] NOT NULL,
-		[VotedUserId]	[int] NOT NULL,
-		[Vote]			[bit] NOT NULL,
-	 CONSTRAINT [PK_dbo.GamePlayerKickVote] PRIMARY KEY CLUSTERED 
-	(
-		[GameID] ASC,
-		[KickUserId] ASC,
-		[VotedUserId] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
+namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote
+{
+	/// <summary>
+	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// </summary>
+	public class Insert : Base.IInsert
+	{
+		private DAL.Base.IInsert _insert;
 
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId] FOREIGN KEY([KickUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
+		public Insert(DAL.Base.IInsert insert)
+		{
+			this._insert = insert;
+		}
 
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId]
-	
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId] FOREIGN KEY([VotedUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
-
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId]
-
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.Game_GameID] FOREIGN KEY([GameID])
-	REFERENCES [dbo].[Game] ([GameID])
-END
+		/// <summary>
+		/// Insert a vote to kick a user <paramref name="vote"/>
+		/// </summary>
+		/// <param name="vote">The user's vote to kick</param>
+		/// <returns></returns>
+		public Int32 Execute(Entities.GamePlayerKickVote vote)
+		{
+			return _insert.Execute(vote);
+		}
+	}
+}

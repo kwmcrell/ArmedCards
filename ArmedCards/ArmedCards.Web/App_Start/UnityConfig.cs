@@ -238,6 +238,16 @@ namespace ArmedCards.Web
 
 			#endregion "Game Player Card"
 
+			#region "Game Player Kick Vote"
+
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayerKickVote.Base.IInsert, BusinessLogic.AppServices.GamePlayerKickVote.Insert>();
+			Container.RegisterType<BusinessLogic.DomainServices.GamePlayerKickVote.Base.IInsert, BusinessLogic.DomainServices.GamePlayerKickVote.Insert>();
+			Container.RegisterType<BusinessLogic.Repositories.GamePlayerKickVote.Base.IInsert, BusinessLogic.Repositories.GamePlayerKickVote.Insert>();
+
+			Container.RegisterType<DataAccess.GamePlayerKickVote.Base.IInsert, DataAccess.GamePlayerKickVote.Insert>();
+
+			#endregion "Game Player Kick Vote"
+
 			#region "Game Round Card"
 
 			Container.RegisterType<BusinessLogic.AppServices.GameRoundCard.Base.IInsert,		BusinessLogic.AppServices.GameRoundCard.Insert>();

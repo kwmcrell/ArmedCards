@@ -41,14 +41,31 @@ namespace ArmedCards.Web.Controllers.Game.Board
 	[Extensions.ArmedCardsAuthorize]
     public class KickPlayerController : Extensions.ArmedCardsController
 	{
-		public KickPlayerController()
+		private AS.GamePlayerKickVote.Base.IInsert _insert;
+
+		public KickPlayerController(AS.GamePlayerKickVote.Base.IInsert insert)
 		{
+			this._insert = insert;
 		}
 
 		[HttpPost]
-		public ActionResult Vote(Int32 kickUserId, Int32 gameID)
+		public ActionResult Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
 		{
+			Int32 otherVoteCounts = _insert.Execute(gameID, kickUserId, WebSecurity.CurrentUserId, voteToKick);
+
+			if (otherVoteCounts == 0 && voteToKick)
+			{
+				Task.Factory.StartNew(() => CheckVotes(gameID, kickUserId));
+			}
+
 			return null;
+		}
+
+		private async void CheckVotes(Int32 gameID, Int32 kickUserId)
+		{
+			Int32 delay = 30000;
+
+			await Task.Delay(delay);
 		}
 	}
 }

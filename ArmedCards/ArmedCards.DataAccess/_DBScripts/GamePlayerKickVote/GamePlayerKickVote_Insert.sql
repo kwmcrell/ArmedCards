@@ -21,32 +21,46 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote]') IS NULL
-	BEGIN
+IF OBJECT_ID('[dbo].[GamePlayerKickVote_Insert]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerKickVote_Insert] 
+END 
+GO
 
-	CREATE TABLE [dbo].[GamePlayerKickVote](
-		[GameID]		[int] NOT NULL,
-		[KickUserId]	[int] NOT NULL,
-		[VotedUserId]	[int] NOT NULL,
-		[Vote]			[bit] NOT NULL,
-	 CONSTRAINT [PK_dbo.GamePlayerKickVote] PRIMARY KEY CLUSTERED 
-	(
-		[GameID] ASC,
-		[KickUserId] ASC,
-		[VotedUserId] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-	) ON [PRIMARY]
-
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId] FOREIGN KEY([KickUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
-
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId]
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/12/2013
+-- Description:	Inserts a new vote to kick a user
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerKickVote_Insert] 
+	@GameID			int,
+	@KickUserId		int,
+	@VotedUserId	int,
+	@Vote			bit,
+	@OtherVotes		int OUTPUT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
 	
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId] FOREIGN KEY([VotedUserId])
-	REFERENCES [dbo].[UserProfile] ([UserId])
+	BEGIN TRAN 
 
-	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId]
+	SELECT @OtherVotes = COUNT(GPKV.[KickUserId])
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID AND GPKV.[KickUserId] = @KickUserId
+	
+	INSERT INTO [GamePlayerKickVote]
+	(
+		GameID,
+		KickUserId,
+		VotedUserId,
+		Vote
+	)
+	SELECT
+		@GameID,
+		@KickUserId,
+		@VotedUserId,
+		@Vote
 
-	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.Game_GameID] FOREIGN KEY([GameID])
-	REFERENCES [dbo].[Game] ([GameID])
-END
+	COMMIT TRAN
+		
+GO

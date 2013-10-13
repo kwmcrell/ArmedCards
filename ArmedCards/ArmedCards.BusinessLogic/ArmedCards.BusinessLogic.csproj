@@ -65,6 +65,8 @@
     <Compile Include="AppServices\GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="AppServices\GamePlayerCard\Deal.cs" />
     <Compile Include="AppServices\GamePlayerCard\Select.cs" />
+    <Compile Include="AppServices\GamePlayerKickVote\Base\IInsert.cs" />
+    <Compile Include="AppServices\GamePlayerKickVote\Insert.cs" />
     <Compile Include="AppServices\GamePlayer\Base\ISelect.cs" />
     <Compile Include="AppServices\GamePlayer\Base\IUpdate.cs" />
     <Compile Include="AppServices\GamePlayer\Select.cs" />
@@ -139,6 +141,8 @@
     <Compile Include="DomainServices\GamePlayerCard\Insert.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Play.cs" />
     <Compile Include="DomainServices\GamePlayerCard\Select.cs" />
+    <Compile Include="DomainServices\GamePlayerKickVote\Base\IInsert.cs" />
+    <Compile Include="DomainServices\GamePlayerKickVote\Insert.cs" />
     <Compile Include="DomainServices\GamePlayer\Base\ISelect.cs" />
     <Compile Include="DomainServices\GamePlayer\Base\IUpdate.cs" />
     <Compile Include="DomainServices\GamePlayer\Select.cs" />
@@ -194,6 +198,8 @@
     <Compile Include="Repositories\GamePlayerCard\Delete.cs" />
     <Compile Include="Repositories\GamePlayerCard\Insert.cs" />
     <Compile Include="Repositories\GamePlayerCard\Select.cs" />
+    <Compile Include="Repositories\GamePlayerKickVote\Base\IInsert.cs" />
+    <Compile Include="Repositories\GamePlayerKickVote\Insert.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IDelete.cs" />
     <Compile Include="Repositories\GamePlayer\Base\IInsert.cs" />
     <Compile Include="Repositories\GamePlayer\Base\ISelect.cs" />
