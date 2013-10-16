@@ -246,6 +246,8 @@ namespace ArmedCards.Web
 
 			Container.RegisterType<DataAccess.GamePlayerKickVote.Base.IInsert, DataAccess.GamePlayerKickVote.Insert>();
 
+			Container.RegisterType<BusinessLogic.AppServices.GamePlayerKickVote.Base.ICheckVotes, BusinessLogic.AppServices.GamePlayerKickVote.CheckVotes>();
+
 			#endregion "Game Player Kick Vote"
 
 			#region "Game Round Card"

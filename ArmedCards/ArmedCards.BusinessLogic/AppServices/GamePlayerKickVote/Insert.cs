@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
@@ -52,8 +53,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// <param name="kickUserId">The id of the user voted to kick</param>
 		/// <param name="votedUserId">The id of the user voting</param>
 		/// <param name="vote">Voted to kick</param>
-		/// <returns>The number that have already casted a vote against the user</returns>
-		public Int32 Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote)
+		/// <returns></returns>
+		public Entities.ActionResponses.VoteToKick Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote)
 		{
 			Entities.GamePlayerKickVote userVote = new Entities.GamePlayerKickVote();
 			userVote.GameID = gameID;
@@ -61,7 +62,9 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 			userVote.VotedUserId = votedUserId;
 			userVote.Vote = vote;
 
-			return _insert.Execute(userVote);
+			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
+
+			return response;
 		}
 	}
 }

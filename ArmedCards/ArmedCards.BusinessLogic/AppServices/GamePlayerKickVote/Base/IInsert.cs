@@ -41,7 +41,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
 		/// <param name="kickUserId">The id of the user voted to kick</param>
 		/// <param name="votedUserId">The id of the user voting</param>
 		/// <param name="vote">Voted to kick</param>
-		/// <returns>The number that have already casted a vote against the user</returns>
-		Int32 Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote);
+		/// <returns></returns>
+		Entities.ActionResponses.VoteToKick Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote);
 	}
 }

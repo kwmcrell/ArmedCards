@@ -21,53 +21,47 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.GamePlayerKickVote
+namespace ArmedCards.Entities.ActionResponses
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// Defines a vote to kick response
 	/// </summary>
-	public class Insert : Base.IInsert
+	public class VoteToKick
 	{
-		private Database _db;
-
-		public Insert(Database db)
-		{
-			this._db = db;
-		}
+		/// <summary>
+		/// Vote to kick response code
+		/// </summary>
+		public Enums.VoteToKick ResponseCode { get; set; }
 
 		/// <summary>
-		/// Insert a vote to kick a user <paramref name="vote"/>
+		/// Votes to Kick a user
 		/// </summary>
-		/// <param name="vote">The user's vote to kick</param>
-		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote vote)
+		public Int32 VotesToKick { get; set; }
+
+		/// <summary>
+		/// Votes to keep a user
+		/// </summary>
+		public Int32 VotesToStay { get; set; }
+
+		/// <summary>
+		/// The game
+		/// </summary>
+		public Entities.Game Game { get; set; }
+
+		/// <summary>
+		/// Total number of votes casted
+		/// </summary>
+		public Int32 TotalVotes 
 		{
-			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayerKickVote_Insert"))
+			get
 			{
-				Entities.ActionResponses.VoteToKick response = new Entities.ActionResponses.VoteToKick();
-
-				_db.AddInParameter(cmd, "@GameID", DbType.Int32, vote.GameID);
-				_db.AddInParameter(cmd, "@KickUserId", DbType.Int32, vote.KickUserId);
-				_db.AddInParameter(cmd, "@VotedUserId", DbType.Int32, vote.VotedUserId);
-				_db.AddInParameter(cmd, "@Vote", DbType.Boolean, vote.Vote);
-
-				_db.AddOutParameter(cmd, "@VotesToStay", DbType.Int32, sizeof(Int32));
-				_db.AddOutParameter(cmd, "@VotesToKick", DbType.Int32, sizeof(Int32));
-
-				_db.ExecuteScalar(cmd);
-				response.VotesToKick = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToStay").ToString());
-				response.VotesToStay = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToKick").ToString());
-
-				return response;
+				return VotesToKick + VotesToStay;
 			}
 		}
 	}

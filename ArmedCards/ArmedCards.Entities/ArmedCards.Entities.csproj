@@ -41,8 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
+    <Compile Include="ActionResponses\Enums\VoteToKick.cs" />
     <Compile Include="ActionResponses\PlayCard.cs" />
     <Compile Include="ActionResponses\RoundComplete.cs" />
+    <Compile Include="ActionResponses\VoteToKick.cs" />
     <Compile Include="ActiveConnection.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="Deck.cs" />

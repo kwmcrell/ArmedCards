@@ -39,6 +39,6 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote.Base
 		/// </summary>
 		/// <param name="vote">The user's vote to kick</param>
 		/// <returns></returns>
-		Int32 Execute(Entities.GamePlayerKickVote vote);
+		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote vote);
 	}
 }

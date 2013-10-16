@@ -37,16 +37,26 @@ CREATE PROC [dbo].[GamePlayerKickVote_Insert]
 	@KickUserId		int,
 	@VotedUserId	int,
 	@Vote			bit,
-	@OtherVotes		int OUTPUT
+	@VotesToStay	int OUTPUT,
+	@VotesToKick	int OUTPUT
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
 	BEGIN TRAN 
 
-	SELECT @OtherVotes = COUNT(GPKV.[KickUserId])
+	SELECT @VotesToKick = COUNT(GPKV.[KickUserId])
 	FROM [GamePlayerKickVote] GPKV
-	WHERE GPKV.[GameID] = @GameID AND GPKV.[KickUserId] = @KickUserId
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+	AND GPKV.[Vote] = 1
+
+	SELECT @VotesToStay = COUNT(GPKV.[KickUserId])
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+	AND GPKV.[Vote] = 0
+	
 	
 	INSERT INTO [GamePlayerKickVote]
 	(

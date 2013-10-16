@@ -42,30 +42,29 @@ namespace ArmedCards.Web.Controllers.Game.Board
     public class KickPlayerController : Extensions.ArmedCardsController
 	{
 		private AS.GamePlayerKickVote.Base.IInsert _insert;
+		private AS.Hub.Base.ISendMessage _sendMessage;
+		private AS.GamePlayerKickVote.Base.ICheckVotes _checkVotes;
 
-		public KickPlayerController(AS.GamePlayerKickVote.Base.IInsert insert)
+		public KickPlayerController(AS.GamePlayerKickVote.Base.IInsert insert,
+									AS.Hub.Base.ISendMessage sendMessage,
+									AS.GamePlayerKickVote.Base.ICheckVotes checkVotes)
 		{
 			this._insert = insert;
+			this._sendMessage = sendMessage;
+			this._checkVotes = checkVotes;
 		}
 
 		[HttpPost]
-		public ActionResult Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
+		public void Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
 		{
-			Int32 otherVoteCounts = _insert.Execute(gameID, kickUserId, WebSecurity.CurrentUserId, voteToKick);
+			Entities.ActionResponses.VoteToKick response = _insert.Execute(gameID, kickUserId, WebSecurity.CurrentUserId, voteToKick);
 
-			if (otherVoteCounts == 0 && voteToKick)
+			if (response.TotalVotes == 1 &&
+				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
+				voteToKick)
 			{
-				Task.Factory.StartNew(() => CheckVotes(gameID, kickUserId));
+				Task.Factory.StartNew(() => _checkVotes.Execute(gameID, kickUserId));
 			}
-
-			return null;
-		}
-
-		private async void CheckVotes(Int32 gameID, Int32 kickUserId)
-		{
-			Int32 delay = 30000;
-
-			await Task.Delay(delay);
 		}
 	}
 }

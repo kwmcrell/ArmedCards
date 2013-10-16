@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using REPO = ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 {
@@ -39,10 +40,12 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 	public class Insert : Base.IInsert
 	{
 		private REPO.Base.IInsert _insert;
+		private AS.Game.Base.ISelect _selectGame;
 
-		public Insert(REPO.Base.IInsert insert)
+		public Insert(REPO.Base.IInsert insert, AS.Game.Base.ISelect selectGame)
 		{
 			this._insert = insert;
+			this._selectGame = selectGame;
 		}
 
 		/// <summary>
@@ -50,9 +53,38 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 		/// </summary>
 		/// <param name="vote">The user's vote to kick</param>
 		/// <returns></returns>
-		public Int32 Execute(Entities.GamePlayerKickVote vote)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote vote)
 		{
-			return _insert.Execute(vote);
+			Entities.ActionResponses.VoteToKick response = new Entities.ActionResponses.VoteToKick();
+
+			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
+			filter.DataToSelect = Entities.Enums.Game.Select.None;
+			filter.GameID = vote.GameID;
+
+			Entities.Game game = _selectGame.Execute(filter);
+
+			if (game.IsCurrentPlayer(vote.VotedUserId))
+			{
+				response = _insert.Execute(vote);
+				response.ResponseCode = Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful;
+				response.Game = game;
+
+				if (vote.Vote)
+				{
+					response.VotesToKick++;
+				}
+				else
+				{
+					response.VotesToStay++;
+				}
+
+				return response;
+			}
+			else
+			{
+				response.ResponseCode = Entities.ActionResponses.Enums.VoteToKick.IneligiblePlayerToVote;
+				return response;
+			}
 		}
 	}
 }

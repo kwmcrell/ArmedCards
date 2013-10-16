@@ -21,54 +21,29 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.DataAccess.GamePlayerKickVote
+namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// Implementation of <seealso cref="Base.ICheckVotes"/>
 	/// </summary>
-	public class Insert : Base.IInsert
+	public class CheckVotes : Base.ICheckVotes
 	{
-		private Database _db;
-
-		public Insert(Database db)
-		{
-			this._db = db;
-		}
-
 		/// <summary>
-		/// Insert a vote to kick a user <paramref name="vote"/>
+		/// Check to see if the user has enough votes to be kicked
 		/// </summary>
-		/// <param name="vote">The user's vote to kick</param>
-		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote vote)
+		/// <param name="gameID">The ID of the game the user belongs to</param>
+		/// <param name="kickUserId">The ID of the user to kick</param>
+		public async void Execute(Int32 gameID, Int32 kickUserId)
 		{
-			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayerKickVote_Insert"))
-			{
-				Entities.ActionResponses.VoteToKick response = new Entities.ActionResponses.VoteToKick();
+			Int32 delay = 30000;
 
-				_db.AddInParameter(cmd, "@GameID", DbType.Int32, vote.GameID);
-				_db.AddInParameter(cmd, "@KickUserId", DbType.Int32, vote.KickUserId);
-				_db.AddInParameter(cmd, "@VotedUserId", DbType.Int32, vote.VotedUserId);
-				_db.AddInParameter(cmd, "@Vote", DbType.Boolean, vote.Vote);
-
-				_db.AddOutParameter(cmd, "@VotesToStay", DbType.Int32, sizeof(Int32));
-				_db.AddOutParameter(cmd, "@VotesToKick", DbType.Int32, sizeof(Int32));
-
-				_db.ExecuteScalar(cmd);
-				response.VotesToKick = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToStay").ToString());
-				response.VotesToStay = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToKick").ToString());
-
-				return response;
-			}
+			await Task.Delay(delay);
 		}
 	}
 }

@@ -65,7 +65,9 @@
     <Compile Include="AppServices\GamePlayerCard\Base\ISelect.cs" />
     <Compile Include="AppServices\GamePlayerCard\Deal.cs" />
     <Compile Include="AppServices\GamePlayerCard\Select.cs" />
+    <Compile Include="AppServices\GamePlayerKickVote\Base\ICheckVotes.cs" />
     <Compile Include="AppServices\GamePlayerKickVote\Base\IInsert.cs" />
+    <Compile Include="AppServices\GamePlayerKickVote\CheckVotes.cs" />
     <Compile Include="AppServices\GamePlayerKickVote\Insert.cs" />
     <Compile Include="AppServices\GamePlayer\Base\ISelect.cs" />
     <Compile Include="AppServices\GamePlayer\Base\IUpdate.cs" />

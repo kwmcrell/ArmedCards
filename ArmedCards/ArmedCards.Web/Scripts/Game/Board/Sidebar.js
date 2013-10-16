@@ -121,6 +121,22 @@ Sidebar.prototype.LobbyUpdate = function (result) {
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
 
+Sidebar.prototype.KickPlayer = function () {
+	var data = {
+		gameID: $('#Game_GameID').val(),
+		kickUserId: $(this).attr('data-userId'),
+		voteToKick: true
+	};
+
+	var url = "/KickPlayer/Vote";
+
+	$.ajax({
+		url: url,
+		type: "POST",
+		data: data
+	});
+};
+
 Sidebar.prototype.Init = function () {
 	$('#sideBarToggle').unbind().bind({
 		click: ArmedCards.Game.Sidebar.SideBarToggle
@@ -133,6 +149,14 @@ Sidebar.prototype.Init = function () {
 	$('#gameChatTab').unbind().bind({
 		click: ArmedCards.Game.Sidebar.GameChatTab
 	});
+
+	$('#gameLobby')
+	.off({
+		click: ArmedCards.Game.Sidebar.KickPlayer
+	}, '[name="kickPlayer"]')
+	.on({
+		click: ArmedCards.Game.Sidebar.KickPlayer
+	}, '[name="kickPlayer"]');
 
 	$(document).undelegate().delegate('.playerMenu', 'click', ArmedCards.Game.Sidebar.PlayerMenuOpen);
 };

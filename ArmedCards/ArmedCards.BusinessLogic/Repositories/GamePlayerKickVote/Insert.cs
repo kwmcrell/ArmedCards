@@ -50,7 +50,7 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote
 		/// </summary>
 		/// <param name="vote">The user's vote to kick</param>
 		/// <returns></returns>
-		public Int32 Execute(Entities.GamePlayerKickVote vote)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote vote)
 		{
 			return _insert.Execute(vote);
 		}
