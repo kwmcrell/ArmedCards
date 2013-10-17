@@ -438,6 +438,76 @@ GO
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF OBJECT_ID('[dbo].[User_UpdateDisplayName]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[User_UpdateDisplayName] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/05/2013
+-- Description:	Updates a user's display name
+-- ===============================================
+CREATE PROC [dbo].[User_UpdateDisplayName] 
+	@UserId			int,
+    @NewDisplayName	varchar(max),
+	@OldDisplayName varchar(max)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	DECLARE @count INT
+	
+	UPDATE UserProfile
+	SET UserName = @NewDisplayName
+	WHERE UserId = @UserId
+
+	SELECT @count = COUNT(UP.UserId)
+	FROM UserProfile UP 
+	WHERE UP.UserName = @NewDisplayName
+
+	IF @count > 1
+		BEGIN
+			UPDATE UserProfile
+			SET UserName = @OldDisplayName
+			WHERE UserId = @UserId
+		END
+	ELSE
+		BEGIN
+			SELECT OAM.Provider, OAM.ProviderUserId
+			FROM webpages_OAuthMembership OAM
+			WHERE OAM.UserId = @UserId
+		END
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 
 IF OBJECT_ID('[dbo].[Card]') IS NULL
 	BEGIN
@@ -2305,6 +2375,59 @@ GO
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+IF OBJECT_ID('[dbo].[Game_Update]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Game_Update] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/03/2013
+-- Description:	Update the game record
+-- ===============================================
+CREATE PROC [dbo].[Game_Update] 
+	@GameID					int,
+	@PlayedLast				datetime,
+	@GameOver				datetime  =	NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [dbo].[Game]
+	SET [GameOver] = @GameOver,
+		[PlayedLast] = @PlayedLast
+	WHERE [GameID] = @GameID
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 IF OBJECT_ID('[dbo].[GameDeck]') IS NULL
 	BEGIN
 		CREATE TABLE [dbo].[GameDeck](
@@ -2583,6 +2706,64 @@ AS
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
 	ORDER BY GP.[JoinDate] ASC
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayer_SelectForUser]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayer_SelectForUser] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/06/2013
+-- Description:	Select all for a user
+-- ===============================================
+CREATE PROC [dbo].[GamePlayer_SelectForUser]
+	@UserId			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+    SELECT	G.[GameID],
+			G.[Title],
+			G.[IsPrivate],
+			G.[GameOver],
+			GP.[Points],
+			GP.[GameID],
+			GP.[UserId],
+			GP.[JoinDate]
+	 FROM [dbo].[GamePlayer] GP
+	 INNER JOIN [dbo].[Game] G ON G.[GameID] = GP.[GameID]
+	 WHERE GP.[UserId] = @UserId
 
 	COMMIT
 GO
@@ -3301,4 +3482,205 @@ AS
 	AND [Game_GameID] = @GameID
 
 	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayerKickVote]') IS NULL
+	BEGIN
+
+	CREATE TABLE [dbo].[GamePlayerKickVote](
+		[GameID]		[int] NOT NULL,
+		[KickUserId]	[int] NOT NULL,
+		[VotedUserId]	[int] NOT NULL,
+		[Vote]			[bit] NOT NULL,
+	 CONSTRAINT [PK_dbo.GamePlayerKickVote] PRIMARY KEY CLUSTERED 
+	(
+		[GameID] ASC,
+		[KickUserId] ASC,
+		[VotedUserId] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+
+	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId] FOREIGN KEY([KickUserId])
+	REFERENCES [dbo].[UserProfile] ([UserId])
+
+	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_KickUserId]
+	
+	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId] FOREIGN KEY([VotedUserId])
+	REFERENCES [dbo].[UserProfile] ([UserId])
+
+	ALTER TABLE [dbo].[GamePlayerKickVote] CHECK CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.UserProfile_VotedUserId]
+
+	ALTER TABLE [dbo].[GamePlayerKickVote]  WITH NOCHECK ADD  CONSTRAINT [FK_dbo.GamePlayerKickVote_dbo.Game_GameID] FOREIGN KEY([GameID])
+	REFERENCES [dbo].[Game] ([GameID])
+END
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayerKickVote_Insert]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerKickVote_Insert] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/12/2013
+-- Description:	Inserts a new vote to kick a user
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerKickVote_Insert] 
+	@GameID			int,
+	@KickUserId		int,
+	@VotedUserId	int,
+	@Vote			bit,
+	@VotesToStay	int OUTPUT,
+	@VotesToKick	int OUTPUT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
+
+	SELECT @VotesToKick = COUNT(GPKV.[KickUserId])
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+	AND GPKV.[Vote] = 1
+
+	SELECT @VotesToStay = COUNT(GPKV.[KickUserId])
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+	AND GPKV.[Vote] = 0
+	
+	IF NOT EXISTS	(	
+						SELECT GPKV.[VotedUserId]
+						FROM [GamePlayerKickVote] GPKV
+						WHERE GPKV.[GameID] = @GameID 
+						AND GPKV.[KickUserId] = @KickUserId
+						AND GPKV.[VotedUserId] = @VotedUserId
+					)
+		BEGIN
+			INSERT INTO [GamePlayerKickVote]
+			(
+				GameID,
+				KickUserId,
+				VotedUserId,
+				Vote
+			)
+			SELECT
+				@GameID,
+				@KickUserId,
+				@VotedUserId,
+				@Vote
+		END
+
+	COMMIT TRAN
+		
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayerKickVote_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerKickVote_Select] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/16/2013
+-- Description:	Select all votes to kick a user
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerKickVote_Select] 
+	@GameID			int,
+	@KickUserId		int,
+	@TotalPlayers	int output
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
+	
+	SELECT @TotalPlayers = COUNT(GP.[UserId])
+	FROM [GamePlayer] GP
+	WHERE GP.[GameID] = @GameID
+
+	SELECT	GPKV.[GameID],
+			GPKV.[KickUserId],
+			GPKV.[Vote],
+			GPKV.[VotedUserId]
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+
+	COMMIT TRAN
+		
 GO

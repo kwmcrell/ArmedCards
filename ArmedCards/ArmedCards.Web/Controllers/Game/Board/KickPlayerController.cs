@@ -57,14 +57,18 @@ namespace ArmedCards.Web.Controllers.Game.Board
 		[HttpPost]
 		public void Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
 		{
-			Entities.ActionResponses.VoteToKick response = _insert.Execute(gameID, kickUserId, WebSecurity.CurrentUserId, voteToKick);
+			Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
+			vote.GameID = gameID;
+			vote.KickUserId = kickUserId;
+			vote.VotedUserId = WebSecurity.CurrentUserId;
+			vote.Vote = voteToKick;
 
-			if (response.TotalVotes == 1 &&
-				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
-				voteToKick)
-			{
-				Task.Factory.StartNew(() => _checkVotes.Execute(gameID, kickUserId));
-			}
+			vote.CheckVotes = _checkVotes.Execute;
+			vote.LeaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
+			vote.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
+			vote.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
+
+			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote);
 		}
 	}
 }

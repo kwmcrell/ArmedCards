@@ -57,19 +57,27 @@ AS
 	AND GPKV.[KickUserId] = @KickUserId
 	AND GPKV.[Vote] = 0
 	
-	
-	INSERT INTO [GamePlayerKickVote]
-	(
-		GameID,
-		KickUserId,
-		VotedUserId,
-		Vote
-	)
-	SELECT
-		@GameID,
-		@KickUserId,
-		@VotedUserId,
-		@Vote
+	IF NOT EXISTS	(	
+						SELECT GPKV.[VotedUserId]
+						FROM [GamePlayerKickVote] GPKV
+						WHERE GPKV.[GameID] = @GameID 
+						AND GPKV.[KickUserId] = @KickUserId
+						AND GPKV.[VotedUserId] = @VotedUserId
+					)
+		BEGIN
+			INSERT INTO [GamePlayerKickVote]
+			(
+				GameID,
+				KickUserId,
+				VotedUserId,
+				Vote
+			)
+			SELECT
+				@GameID,
+				@KickUserId,
+				@VotedUserId,
+				@Vote
+		END
 
 	COMMIT TRAN
 		

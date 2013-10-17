@@ -49,20 +49,18 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// <summary>
 		/// Insert a vote to kick a user
 		/// </summary>
-		/// <param name="gameID">The id of the game to cast the vote in</param>
-		/// <param name="kickUserId">The id of the user voted to kick</param>
-		/// <param name="votedUserId">The id of the user voting</param>
-		/// <param name="vote">Voted to kick</param>
+		/// <param name="userVote">The user's vote</param>
 		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Int32 gameID, Int32 kickUserId, Int32 votedUserId, Boolean vote)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote)
 		{
-			Entities.GamePlayerKickVote userVote = new Entities.GamePlayerKickVote();
-			userVote.GameID = gameID;
-			userVote.KickUserId = kickUserId;
-			userVote.VotedUserId = votedUserId;
-			userVote.Vote = vote;
-
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
+
+			if (response.TotalVotes == 1 &&
+				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
+				userVote.Vote)
+			{
+				Task.Factory.StartNew(() => userVote.ExecuteCheckVotes());
+			}
 
 			return response;
 		}

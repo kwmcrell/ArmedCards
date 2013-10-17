@@ -27,18 +27,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
+namespace ArmedCards.Entities.ActionContainers
 {
-	/// <summary>
-	/// Defines inserting a vote to kick a user from a game
-	/// </summary>
-	public interface IInsert
+	public class LeaveGame
 	{
-		/// <summary>
-		/// Insert a vote to kick a user
-		/// </summary>
-		/// <param name="userVote">The user's vote</param>
-		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote);
+		public Action<Entities.ActiveConnection, Entities.Game> WaitingAction { get; set; }
+
+		public Action<Entities.ActiveConnection, Entities.Game, String> CommanderLeft { get; set; }
+
+		public Action<Entities.ActiveConnection, Entities.Game> UpdateGameView { get; set; }
 	}
 }

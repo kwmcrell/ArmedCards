@@ -23,72 +23,25 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.Entities.Filters.GamePlayerKickVote
 {
 	/// <summary>
-	/// Defines a game player's vote to kick
+	/// Used to select all the GamePlayerKickVotes
 	/// </summary>
-	public class GamePlayerKickVote
+	public class Select
 	{
-		public GamePlayerKickVote(IDataReader idr)
-			:this()
-		{
-			GameID = idr.GetValueByName<Int32>("GameID");
-			KickUserId = idr.GetValueByName<Int32>("KickUserId");
-			Vote = idr.GetValueByName<Boolean>("Vote");
-			VotedUserId = idr.GetValueByName<Int32>("VotedUserId");
-		}
-
-		public GamePlayerKickVote()
-		{
-			LeaveGameContainer = new ActionContainers.LeaveGame();
-		}
-
 		/// <summary>
-		/// The id of the game the vote was casted for
+		/// The ID of the game
 		/// </summary>
 		public Int32 GameID { get; set; }
 
 		/// <summary>
-		/// The id of the user voted to kick
+		/// The ID of the user being voted to kick
 		/// </summary>
 		public Int32 KickUserId { get; set; }
-
-		/// <summary>
-		/// The id of the user voting
-		/// </summary>
-		public Int32 VotedUserId { get; set; }
-
-		/// <summary>
-		/// Voted to kick the user
-		/// </summary>
-		public Boolean Vote { get; set; }
-
-		/// <summary>
-		/// Action to call to check votes
-		/// </summary>
-		public Action<Int32, Int32, ActionContainers.LeaveGame> CheckVotes;
-
-		/// <summary>
-		/// Calls CheckVotes
-		/// </summary>
-		public void ExecuteCheckVotes()
-		{
-			if (CheckVotes != null)
-			{
-				CheckVotes(GameID, KickUserId, LeaveGameContainer);
-			}
-		}
-
-		/// <summary>
-		/// Object containing all actions for leaving a game
-		/// </summary>
-		public ActionContainers.LeaveGame LeaveGameContainer { get; set; }
 	}
 }

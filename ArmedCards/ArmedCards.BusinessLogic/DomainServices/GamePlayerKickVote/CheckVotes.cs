@@ -26,20 +26,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
+namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 {
 	/// <summary>
-	/// Interface defining checking votes for kicking a user
+	/// Implementation of <seealso cref="Base.ICheckVotes"/>
 	/// </summary>
-	public interface ICheckVotes
+	public class CheckVotes : Base.ICheckVotes
 	{
+		private AS.Game.Base.ILeave _leaveGame;
+		private AS.User.Base.ISelect _selectUser;
+		private AS.GamePlayerKickVote.Base.ISelect _selectVotes;
+
+		public CheckVotes(AS.Game.Base.ILeave leaveGame, AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectVotes)
+		{
+			this._leaveGame = leaveGame;
+			this._selectUser = selectUser;
+			this._selectVotes = selectVotes;
+		}
+
 		/// <summary>
 		/// Check to see if the user has enough votes to be kicked
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
 		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
-		void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer);
+		public void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer)
+		{
+			Entities.Filters.GamePlayerKickVote.Select filter = new Entities.Filters.GamePlayerKickVote.Select();
+			filter.GameID = gameID;
+			filter.KickUserId = kickUserId;
+
+			Int32 totalPlayers = 0;
+
+			List<Entities.GamePlayerKickVote> votes = _selectVotes.Execute(filter, out totalPlayers);
+
+			Int32 votedToKick = votes.Count(x => x.Vote);
+			Int32 votedNotToKick = votes.Count(x => !x.Vote);
+
+			Int32 notVoted = totalPlayers - votedToKick - votedNotToKick;
+
+			votedNotToKick += notVoted;
+
+			if (votedToKick >= votedNotToKick)
+			{
+				Entities.User kickedUser = _selectUser.Execute(kickUserId);
+
+				_leaveGame.Execute(gameID, kickedUser, leaveGameContainer);
+			}
+		}
 	}
 }

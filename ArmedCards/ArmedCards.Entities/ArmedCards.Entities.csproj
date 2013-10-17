@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionContainers\LeaveGame.cs" />
     <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
     <Compile Include="ActionResponses\Enums\VoteToKick.cs" />
     <Compile Include="ActionResponses\PlayCard.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Filters\Deck\Select.cs" />
     <Compile Include="Filters\GamePlayerCard\Delete.cs" />
     <Compile Include="Filters\GamePlayerCard\Select.cs" />
+    <Compile Include="Filters\GamePlayerKickVote\Select.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
     <Compile Include="Filters\GamePlayer\UpdatePoints.cs" />

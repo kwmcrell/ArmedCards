@@ -39,12 +39,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// </summary>
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
-		/// <param name="waitingAction">Action to call if game is waiting</param>
-		/// <param name="commanderLeft">Action to call if the commander left</param>
-		/// <param name="updateGameView">Action to call if a user leaves and no special action needed</param>
-		void Execute(Int32 gameID, Entities.User user,
-							Action<Entities.ActiveConnection, Entities.Game> waitingAction,
-							Action<Entities.ActiveConnection, Entities.Game, String> commanderLeft,
-							Action<Entities.ActiveConnection, Entities.Game> updateGameView);
+		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
+		void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer);
 	}
 }

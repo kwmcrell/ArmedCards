@@ -65,7 +65,9 @@
     <Compile Include="GamePlayerCard\Insert.cs" />
     <Compile Include="GamePlayerCard\Select.cs" />
     <Compile Include="GamePlayerKickVote\Base\IInsert.cs" />
+    <Compile Include="GamePlayerKickVote\Base\ISelect.cs" />
     <Compile Include="GamePlayerKickVote\Insert.cs" />
+    <Compile Include="GamePlayerKickVote\Select.cs" />
     <Compile Include="GamePlayer\Base\IDelete.cs" />
     <Compile Include="GamePlayer\Base\IInsert.cs" />
     <Compile Include="GamePlayer\Base\ISelect.cs" />
@@ -117,6 +119,7 @@
     <Content Include="_DBScripts\GamePlayerCard\%40GamePlayerCardTable.sql" />
     <Content Include="_DBScripts\GamePlayerKickVote\%40GamePlayerKickVoteTable.sql" />
     <Content Include="_DBScripts\GamePlayerKickVote\GamePlayerKickVote_Insert.sql" />
+    <Content Include="_DBScripts\GamePlayerKickVote\GamePlayerKickVote_Select.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Delete.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />

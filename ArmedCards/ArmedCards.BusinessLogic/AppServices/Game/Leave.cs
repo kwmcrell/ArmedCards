@@ -62,13 +62,8 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// </summary>
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
-		/// <param name="waitingAction">Action to call if game is waiting</param>
-		/// <param name="commanderLeft">Action to call if the commander left</param>
-		/// <param name="updateGameView">Action to call if a user leaves and no special action needed</param>
-		public void Execute(Int32 gameID, Entities.User user, 
-							Action<Entities.ActiveConnection, Entities.Game> waitingAction,
-							Action<Entities.ActiveConnection, Entities.Game, String> commanderLeft,
-							Action<Entities.ActiveConnection, Entities.Game> updateGameView)
+		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
+		public void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer)
 		{
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;
@@ -102,11 +97,11 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 			
 				Boolean started = _startRound.Execute(game, game.NextCommander(null));
 
-				_sendMessage.Execute(game, user.DisplayName, commanderLeft);
+				_sendMessage.Execute(game, user.DisplayName, leaveGameContainer.CommanderLeft);
 			}
 			else if (game.IsWaiting() && wasWaiting)
 			{
-				_sendMessage.Execute(game, waitingAction);
+				_sendMessage.Execute(game, leaveGameContainer.WaitingAction);
 			}
 			else
 			{
@@ -116,7 +111,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 					current.CurrentPlayerCount--;
 				}
 
-				_sendMessage.Execute(game, updateGameView);
+				_sendMessage.Execute(game, leaveGameContainer.UpdateGameView);
 			}
 
 			_leaveGame.Execute(gameID, user);

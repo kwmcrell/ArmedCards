@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
@@ -34,16 +35,26 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 	/// </summary>
 	public class CheckVotes : Base.ICheckVotes
 	{
+		private DS.Base.ICheckVotes _checkVotes;
+
+		public CheckVotes(DS.Base.ICheckVotes checkVotes)
+		{
+			this._checkVotes = checkVotes;
+		}
+		
 		/// <summary>
 		/// Check to see if the user has enough votes to be kicked
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
-		public async void Execute(Int32 gameID, Int32 kickUserId)
+		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
+		public async void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer)
 		{
 			Int32 delay = 30000;
 
 			await Task.Delay(delay);
+
+			_checkVotes.Execute(gameID, kickUserId, leaveGameContainer);
 		}
 	}
 }

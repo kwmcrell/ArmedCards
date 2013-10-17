@@ -21,74 +21,63 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.DataAccess.GamePlayerKickVote
 {
 	/// <summary>
-	/// Defines a game player's vote to kick
+	/// Implements <seealso cref="Base.ISelect"/>
 	/// </summary>
-	public class GamePlayerKickVote
+	public class Select: Base.ISelect
 	{
-		public GamePlayerKickVote(IDataReader idr)
-			:this()
-		{
-			GameID = idr.GetValueByName<Int32>("GameID");
-			KickUserId = idr.GetValueByName<Int32>("KickUserId");
-			Vote = idr.GetValueByName<Boolean>("Vote");
-			VotedUserId = idr.GetValueByName<Int32>("VotedUserId");
-		}
+		private Database _db;
 
-		public GamePlayerKickVote()
+		public Select(Database db)
 		{
-			LeaveGameContainer = new ActionContainers.LeaveGame();
+			this._db = db;
 		}
 
 		/// <summary>
-		/// The id of the game the vote was casted for
+		/// Select all the votes based on <paramref name="filter"/>
 		/// </summary>
-		public Int32 GameID { get; set; }
-
-		/// <summary>
-		/// The id of the user voted to kick
-		/// </summary>
-		public Int32 KickUserId { get; set; }
-
-		/// <summary>
-		/// The id of the user voting
-		/// </summary>
-		public Int32 VotedUserId { get; set; }
-
-		/// <summary>
-		/// Voted to kick the user
-		/// </summary>
-		public Boolean Vote { get; set; }
-
-		/// <summary>
-		/// Action to call to check votes
-		/// </summary>
-		public Action<Int32, Int32, ActionContainers.LeaveGame> CheckVotes;
-
-		/// <summary>
-		/// Calls CheckVotes
-		/// </summary>
-		public void ExecuteCheckVotes()
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <param name="totalPlayers">The total number of players in the game</param>
+		/// <returns>The list of votes</returns>
+		public List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.Select filter, out Int32 totalPlayers)
 		{
-			if (CheckVotes != null)
+			bool totalPlayersRead = false;
+			List<Entities.GamePlayerKickVote> votes = new List<Entities.GamePlayerKickVote>();
+			totalPlayers = 0;
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayerKickVote_Select"))
 			{
-				CheckVotes(GameID, KickUserId, LeaveGameContainer);
-			}
-		}
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+				_db.AddInParameter(cmd, "@KickUserId", DbType.Int32, filter.KickUserId);
+				_db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
 
-		/// <summary>
-		/// Object containing all actions for leaving a game
-		/// </summary>
-		public ActionContainers.LeaveGame LeaveGameContainer { get; set; }
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						votes.Add(new Entities.GamePlayerKickVote(idr));
+					}
+				}
+
+				if (totalPlayersRead == false)
+				{
+					totalPlayers = (Int32)_db.GetParameterValue(cmd, "@TotalPlayers");
+					totalPlayersRead = true;
+				}
+			}
+
+			return votes;
+		}
 	}
 }

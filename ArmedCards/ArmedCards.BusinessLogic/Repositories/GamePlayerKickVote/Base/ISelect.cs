@@ -23,72 +23,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArmedCards.Library.Extensions;
 
-namespace ArmedCards.Entities
+namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote.Base
 {
 	/// <summary>
-	/// Defines a game player's vote to kick
+	/// Select game player kick votes
 	/// </summary>
-	public class GamePlayerKickVote
+	public interface ISelect
 	{
-		public GamePlayerKickVote(IDataReader idr)
-			:this()
-		{
-			GameID = idr.GetValueByName<Int32>("GameID");
-			KickUserId = idr.GetValueByName<Int32>("KickUserId");
-			Vote = idr.GetValueByName<Boolean>("Vote");
-			VotedUserId = idr.GetValueByName<Int32>("VotedUserId");
-		}
-
-		public GamePlayerKickVote()
-		{
-			LeaveGameContainer = new ActionContainers.LeaveGame();
-		}
-
 		/// <summary>
-		/// The id of the game the vote was casted for
+		/// Select all the votes based on <paramref name="filter"/>
 		/// </summary>
-		public Int32 GameID { get; set; }
-
-		/// <summary>
-		/// The id of the user voted to kick
-		/// </summary>
-		public Int32 KickUserId { get; set; }
-
-		/// <summary>
-		/// The id of the user voting
-		/// </summary>
-		public Int32 VotedUserId { get; set; }
-
-		/// <summary>
-		/// Voted to kick the user
-		/// </summary>
-		public Boolean Vote { get; set; }
-
-		/// <summary>
-		/// Action to call to check votes
-		/// </summary>
-		public Action<Int32, Int32, ActionContainers.LeaveGame> CheckVotes;
-
-		/// <summary>
-		/// Calls CheckVotes
-		/// </summary>
-		public void ExecuteCheckVotes()
-		{
-			if (CheckVotes != null)
-			{
-				CheckVotes(GameID, KickUserId, LeaveGameContainer);
-			}
-		}
-
-		/// <summary>
-		/// Object containing all actions for leaving a game
-		/// </summary>
-		public ActionContainers.LeaveGame LeaveGameContainer { get; set; }
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <param name="totalPlayers">The total number of players in the game</param>
+		/// <returns>The list of votes</returns>
+		List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.Select filter, out Int32 totalPlayers);
 	}
 }

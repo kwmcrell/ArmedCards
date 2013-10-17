@@ -21,24 +21,44 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayerKickVote_Select]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerKickVote_Select] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
-{
-	/// <summary>
-	/// Defines inserting a vote to kick a user from a game
-	/// </summary>
-	public interface IInsert
-	{
-		/// <summary>
-		/// Insert a vote to kick a user
-		/// </summary>
-		/// <param name="userVote">The user's vote</param>
-		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote);
-	}
-}
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/16/2013
+-- Description:	Select all votes to kick a user
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerKickVote_Select] 
+	@GameID			int,
+	@KickUserId		int,
+	@TotalPlayers	int output
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
+	
+	SELECT @TotalPlayers = COUNT(GP.[UserId])
+	FROM [GamePlayer] GP
+	WHERE GP.[GameID] = @GameID
+
+	SELECT	GPKV.[GameID],
+			GPKV.[KickUserId],
+			GPKV.[Vote],
+			GPKV.[VotedUserId]
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
+
+	DELETE
+	FROM [GamePlayerKickVote]
+	WHERE [GameID] = @GameID 
+	AND [KickUserId] = @KickUserId
+
+	COMMIT TRAN
+		
+GO
