@@ -68,7 +68,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			vote.CheckVotes = HandleWait;
 
-			String siteHost = String.Format("{0}://{1}:{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port);
+			String siteHost = String.Format("{0}://{1}", Request.Url.Scheme, Request.Url.Host);
 
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, siteHost);
 		}
