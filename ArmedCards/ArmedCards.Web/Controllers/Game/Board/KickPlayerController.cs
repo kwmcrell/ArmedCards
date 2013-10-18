@@ -78,7 +78,13 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			await Task.Delay(300);
 
 			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-			hub.Clients.All.BroadcastGameMessage("test");
+
+			Models.Hub.ChatMessage message = new Models.Hub.ChatMessage();
+			message.SentBy = "Debug";
+			message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
+			message.Message = string.Format("gameID: {0}, kickUserId: {1}, host: {2}", gameID, kickUserId, siteHost);
+
+			hub.Clients.All.BroadcastGameMessage(message);
 
 			HttpClient client = new HttpClient();
 
@@ -94,6 +100,15 @@ namespace ArmedCards.Web.Controllers.Game.Board
 		[HttpPost]
 		public void HandleVoteTimer(Int32 kickUserId, Int32 gameID, String accessKey)
 		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			Models.Hub.ChatMessage message = new Models.Hub.ChatMessage();
+			message.SentBy = "Debug";
+			message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
+			message.Message = "Made It";
+
+			hub.Clients.All.BroadcastGameMessage(message);
+
 			Byte[] uprotected = MachineKey.Unprotect(Convert.FromBase64String(accessKey), "VoteHandler");
 
 			String unprotectedKey = Encoding.ASCII.GetString(uprotected);
