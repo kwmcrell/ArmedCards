@@ -70,6 +70,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			String siteHost = String.Format("{0}://{1}", Request.Url.Scheme, Request.Url.Host);
 
+			if (siteHost.ToLower().Contains("localhost"))
+			{
+				siteHost += string.Format(":{0}", Request.Url.Port);
+			}
+
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, siteHost);
 		}
 
