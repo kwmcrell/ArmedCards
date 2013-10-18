@@ -75,7 +75,10 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 		private async void HandleWait(Int32 gameID, Int32 kickUserId, String siteHost)
 		{
-			await Task.Delay(30000);
+			await Task.Delay(300);
+
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+			hub.Clients.All.BroadcastGameMessage("test");
 
 			HttpClient client = new HttpClient();
 
