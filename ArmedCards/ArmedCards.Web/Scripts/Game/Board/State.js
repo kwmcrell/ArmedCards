@@ -135,6 +135,13 @@ State.prototype.CommanderLeft = function (gameView, playerList, commanderName, i
 	}
 };
 
+State.prototype.VoteToKickResults = function (message, kick) {
+	alert(message);
+	if (kick) {
+		window.location = "/GameListing";
+	}
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
@@ -142,6 +149,7 @@ State.prototype.Init = function () {
 	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
 	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
+	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 };
 
 State.prototype.ConnectionSuccess = function () {

@@ -21,49 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
-using AS = ArmedCards.BusinessLogic.AppServices;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
+namespace ArmedCards.Entities.ActionContainers
 {
 	/// <summary>
-	/// Implementation of <seealso cref="Base.IInsert"/>
+	/// Class that contains all the actions needed for a finished vote to kick
 	/// </summary>
-	public class Insert : Base.IInsert
+	public class KickPlayer
 	{
-		private DS.Base.IInsert _insert;
-
-		public Insert(DS.Base.IInsert insert)
+		public KickPlayer()
 		{
-			this._insert = insert;
+			LeaveGameContainer = new LeaveGame();
 		}
 
 		/// <summary>
-		/// Insert a vote to kick a user
+		/// Leave game containers
 		/// </summary>
-		/// <param name="userVote">The user's vote</param>
-		/// <param name="siteHost">The website host name</param>
-		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost)
-		{
-			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
+		public LeaveGame LeaveGameContainer { get; set; }
 
-			if (response.TotalVotes == 1 &&
-				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
-				userVote.Vote)
-			{
-				Task.Factory.StartNew(() => userVote.ExecuteCheckVotes(siteHost));
-			}
-
-			return response;
-		}
+		/// <summary>
+		/// Alert users of the vote results
+		/// </summary>
+		public Action<Entities.ActiveConnection, Entities.User, Int32, Int32, Boolean> AlertUsersOfResult { get; set; }
 	}
 }

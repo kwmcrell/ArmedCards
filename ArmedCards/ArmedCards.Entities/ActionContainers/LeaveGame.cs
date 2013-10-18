@@ -29,12 +29,24 @@ using System.Threading.Tasks;
 
 namespace ArmedCards.Entities.ActionContainers
 {
+	/// <summary>
+	/// Class containing all actions that could occur on a user leaving a game
+	/// </summary>
 	public class LeaveGame
 	{
+		/// <summary>
+		/// Action for updating the waiting screen
+		/// </summary>
 		public Action<Entities.ActiveConnection, Entities.Game> WaitingAction { get; set; }
 
+		/// <summary>
+		/// Action for the commander left
+		/// </summary>
 		public Action<Entities.ActiveConnection, Entities.Game, String> CommanderLeft { get; set; }
 
+		/// <summary>
+		/// Action for just updating the game view
+		/// </summary>
 		public Action<Entities.ActiveConnection, Entities.Game> UpdateGameView { get; set; }
 	}
 }

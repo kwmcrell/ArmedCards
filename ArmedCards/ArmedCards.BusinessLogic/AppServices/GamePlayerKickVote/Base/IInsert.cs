@@ -38,7 +38,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
 		/// Insert a vote to kick a user
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
+		/// <param name="siteHost">The website host name</param>
 		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote);
+		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost);
 	}
 }

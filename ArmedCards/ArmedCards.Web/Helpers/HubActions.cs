@@ -150,6 +150,34 @@ namespace ArmedCards.Web.Helpers
 							   .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
 		}
 
+		/// <summary>
+		/// Alert users of a vote to kick results
+		/// </summary>
+		/// <param name="connection">The connection to send to</param>
+		/// <param name="kickedUser">The user being voted on</param>
+		/// <param name="votesToKick">The number of votes to kick</param>
+		/// <param name="votesNotToKick">The number of votes not to kick</param>
+		/// <param name="isKicked">Is kicked</param>
+		public static void AlertUserOfResult(Entities.ActiveConnection connection, Entities.User kickedUser, 
+											 Int32 votesToKick, Int32 votesNotToKick, Boolean isKicked)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			String message = "";
+
+			if (isKicked)
+			{
+				message = String.Format("{0} was kicked.", kickedUser.DisplayName);
+			}
+			else
+			{
+				message = String.Format("{0} was not kicked.", kickedUser.DisplayName);
+			}
+
+			hub.Clients.Client(connection.ActiveConnectionID)
+							   .VoteToKickResults(message, (isKicked && kickedUser.UserId == connection.User_UserId));
+		}
+
 		#region "Private Helpers"
 
 		/// <summary>

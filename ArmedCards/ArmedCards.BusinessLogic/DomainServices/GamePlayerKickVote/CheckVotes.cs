@@ -35,14 +35,10 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 	/// </summary>
 	public class CheckVotes : Base.ICheckVotes
 	{
-		private AS.Game.Base.ILeave _leaveGame;
-		private AS.User.Base.ISelect _selectUser;
 		private AS.GamePlayerKickVote.Base.ISelect _selectVotes;
 
-		public CheckVotes(AS.Game.Base.ILeave leaveGame, AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectVotes)
+		public CheckVotes(AS.GamePlayerKickVote.Base.ISelect selectVotes)
 		{
-			this._leaveGame = leaveGame;
-			this._selectUser = selectUser;
 			this._selectVotes = selectVotes;
 		}
 
@@ -51,8 +47,9 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
-		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
-		public void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer)
+		/// <param name="votedToKick">Number of votes to kick</param>
+		/// <param name="votedNotToKick">Number of votes not to kick</param>
+		public void Execute(Int32 gameID, Int32 kickUserId, out Int32 votedToKick, out Int32 votedNotToKick)
 		{
 			Entities.Filters.GamePlayerKickVote.Select filter = new Entities.Filters.GamePlayerKickVote.Select();
 			filter.GameID = gameID;
@@ -62,19 +59,12 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 
 			List<Entities.GamePlayerKickVote> votes = _selectVotes.Execute(filter, out totalPlayers);
 
-			Int32 votedToKick = votes.Count(x => x.Vote);
-			Int32 votedNotToKick = votes.Count(x => !x.Vote);
+			votedToKick = votes.Count(x => x.Vote);
+			votedNotToKick = votes.Count(x => !x.Vote);
 
 			Int32 notVoted = totalPlayers - votedToKick - votedNotToKick;
 
 			votedNotToKick += notVoted;
-
-			if (votedToKick >= votedNotToKick)
-			{
-				Entities.User kickedUser = _selectUser.Execute(kickUserId);
-
-				_leaveGame.Execute(gameID, kickedUser, leaveGameContainer);
-			}
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace ArmedCards.Entities
 
 		public GamePlayerKickVote()
 		{
-			LeaveGameContainer = new ActionContainers.LeaveGame();
+			
 		}
 
 		/// <summary>
@@ -73,22 +73,17 @@ namespace ArmedCards.Entities
 		/// <summary>
 		/// Action to call to check votes
 		/// </summary>
-		public Action<Int32, Int32, ActionContainers.LeaveGame> CheckVotes;
+		public Action<Int32, Int32, String> CheckVotes;
 
 		/// <summary>
 		/// Calls CheckVotes
 		/// </summary>
-		public void ExecuteCheckVotes()
+		public void ExecuteCheckVotes(String siteHost)
 		{
 			if (CheckVotes != null)
 			{
-				CheckVotes(GameID, KickUserId, LeaveGameContainer);
+				CheckVotes(GameID, KickUserId, siteHost);
 			}
 		}
-
-		/// <summary>
-		/// Object containing all actions for leaving a game
-		/// </summary>
-		public ActionContainers.LeaveGame LeaveGameContainer { get; set; }
 	}
 }

@@ -39,7 +39,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
-		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
-		void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer);
+		/// <param name="kickPlayerContainer">Object containing all the actions for kick vote</param>
+		void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.KickPlayer kickPlayerContainer);
 	}
 }

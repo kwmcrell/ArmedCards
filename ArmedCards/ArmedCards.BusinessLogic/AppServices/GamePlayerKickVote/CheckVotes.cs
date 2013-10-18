@@ -35,11 +35,18 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 	/// </summary>
 	public class CheckVotes : Base.ICheckVotes
 	{
+		private Game.Base.ILeave _leaveGame;
+		private User.Base.ISelect _selectUser;
 		private DS.Base.ICheckVotes _checkVotes;
+		private Hub.Base.ISendMessage _sendMessage;
 
-		public CheckVotes(DS.Base.ICheckVotes checkVotes)
+		public CheckVotes(Game.Base.ILeave leaveGame, User.Base.ISelect selectUser, DS.Base.ICheckVotes checkVotes,
+						  Hub.Base.ISendMessage sendMessage)
 		{
+			this._leaveGame = leaveGame;
+			this._selectUser = selectUser;
 			this._checkVotes = checkVotes;
+			this._sendMessage = sendMessage;
 		}
 		
 		/// <summary>
@@ -47,14 +54,24 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
-		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
-		public async void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.LeaveGame leaveGameContainer)
+		/// <param name="kickPlayerContainer">Object containing all the actions for kick vote</param>
+		public void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.KickPlayer kickPlayerContainer)
 		{
-			Int32 delay = 30000;
+			Int32 votedToKick = 0;
+			Int32 votedNotToKick = 0;
 
-			await Task.Delay(delay);
+			_checkVotes.Execute(gameID, kickUserId, out votedToKick, out votedNotToKick);
 
-			_checkVotes.Execute(gameID, kickUserId, leaveGameContainer);
+			Boolean kickUser = votedToKick > votedNotToKick;
+			
+			Entities.User kickedUser = _selectUser.Execute(kickUserId);
+
+			_sendMessage.Execute(gameID, kickedUser, votedToKick, votedNotToKick, kickUser, kickPlayerContainer.AlertUsersOfResult);
+			
+			if (kickUser)
+			{
+				_leaveGame.Execute(gameID, kickedUser, kickPlayerContainer.LeaveGameContainer);
+			}
 		}
 	}
 }

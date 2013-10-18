@@ -32,18 +32,19 @@ using System.Web.Security;
 using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
 	/// <summary>
 	/// Controller to handle voting to kick a player
 	/// </summary>
-	[Extensions.ArmedCardsAuthorize]
     public class KickPlayerController : Extensions.ArmedCardsController
 	{
 		private AS.GamePlayerKickVote.Base.IInsert _insert;
 		private AS.Hub.Base.ISendMessage _sendMessage;
 		private AS.GamePlayerKickVote.Base.ICheckVotes _checkVotes;
+		private TaskFactory _taskFactory;
 
 		public KickPlayerController(AS.GamePlayerKickVote.Base.IInsert insert,
 									AS.Hub.Base.ISendMessage sendMessage,
@@ -52,9 +53,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			this._insert = insert;
 			this._sendMessage = sendMessage;
 			this._checkVotes = checkVotes;
+			this._taskFactory = new TaskFactory();
 		}
 
 		[HttpPost]
+		[Extensions.ArmedCardsAuthorize]
 		public void Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
 		{
 			Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
@@ -63,12 +66,46 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			vote.VotedUserId = WebSecurity.CurrentUserId;
 			vote.Vote = voteToKick;
 
-			vote.CheckVotes = _checkVotes.Execute;
-			vote.LeaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
-			vote.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
-			vote.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
+			vote.CheckVotes = HandleWait;
 
-			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote);
+			String siteHost = String.Format("{0}://{1}:{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port);
+
+			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, siteHost);
+		}
+
+		private async void HandleWait(Int32 gameID, Int32 kickUserId, String siteHost)
+		{
+			await Task.Delay(30000);
+
+			HttpClient client = new HttpClient();
+
+			Int64 combinedIds = kickUserId + gameID;
+
+			String accessKey = Convert.ToBase64String(MachineKey.Protect(Encoding.ASCII.GetBytes((combinedIds).ToString()),  "VoteHandler"));
+
+			String queryString = String.Format("?kickUserId={0}&gameID={1}&accessKey={2}", kickUserId.ToString(), gameID.ToString(), HttpUtility.UrlEncode(accessKey));
+
+			string result = client.PostAsJsonAsync(String.Format("{0}/KickPlayer/HandleVoteTimer{1}", siteHost, queryString), new StringContent("")).Result.Content.ReadAsStringAsync().Result;
+		}
+
+		[HttpPost]
+		public void HandleVoteTimer(Int32 kickUserId, Int32 gameID, String accessKey)
+		{
+			Byte[] uprotected = MachineKey.Unprotect(Convert.FromBase64String(accessKey), "VoteHandler");
+
+			String unprotectedKey = Encoding.ASCII.GetString(uprotected);
+
+			if (unprotectedKey == (kickUserId + gameID).ToString())
+			{
+				Entities.ActionContainers.KickPlayer kickPlayerContainer = new Entities.ActionContainers.KickPlayer();
+				kickPlayerContainer.LeaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
+				kickPlayerContainer.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
+				kickPlayerContainer.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
+
+				kickPlayerContainer.AlertUsersOfResult = Helpers.HubActions.AlertUserOfResult;
+
+				_checkVotes.Execute(gameID, kickUserId, kickPlayerContainer);
+			}
 		}
 	}
 }

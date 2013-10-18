@@ -120,5 +120,30 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 				}
 			}
 		}
+
+		/// <summary>
+		/// Send a message to a hub group
+		/// Used to send the following messages:
+		/// 1. AlertUserOfResult
+		/// </summary>
+		/// <param name="gameID">The ID of the game</param>
+		/// <param name="kickedUser">The user being voted on</param>
+		/// <param name="votesToKick">The number of votes to kick</param>
+		/// <param name="votesNotToKick">The number of votes not to kick</param>
+		/// <param name="isKicked">Is kicked</param>
+		/// <param name="action">The action to fire</param>
+		public void Execute(Int32 gameID, Entities.User kickedUser, Int32 votesToKick, Int32 votesNotToKick, Boolean isKicked,
+							Action<Entities.ActiveConnection, Entities.User, Int32, Int32, Boolean> action)
+		{
+			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+			filter.GroupName = String.Format("Game_{0}", gameID);
+
+			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+			foreach (Entities.ActiveConnection connection in connections)
+			{
+				action(connection, kickedUser, votesNotToKick, votesNotToKick, isKicked);
+			}
+		}
 	}
 }
