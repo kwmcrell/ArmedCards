@@ -1418,7 +1418,7 @@ body .chat.right .openClose a span.mobileOpenClose
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width: 80%;
+	/*width: 80%;*/
 }
 
 .chat.right .lobby

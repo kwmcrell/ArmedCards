@@ -159,6 +159,8 @@ Sidebar.prototype.Init = function () {
 	}, '[name="kickPlayer"]');
 
 	$(document).undelegate().delegate('.playerMenu', 'click', ArmedCards.Game.Sidebar.PlayerMenuOpen);
+
+	$(window).resize(ArmedCards.Game.Sidebar.CalculateChatHeight);
 };
 
 Sidebar.prototype.ConnectionSuccess = function () {
