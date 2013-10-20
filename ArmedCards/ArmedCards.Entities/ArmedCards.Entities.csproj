@@ -65,6 +65,7 @@
     <Compile Include="Filters\GamePlayerCard\Delete.cs" />
     <Compile Include="Filters\GamePlayerCard\Select.cs" />
     <Compile Include="Filters\GamePlayerKickVote\Select.cs" />
+    <Compile Include="Filters\GamePlayerKickVote\SelectForGame.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
     <Compile Include="Filters\GamePlayer\UpdatePoints.cs" />

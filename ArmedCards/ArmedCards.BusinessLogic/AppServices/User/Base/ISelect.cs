@@ -40,5 +40,12 @@ namespace ArmedCards.BusinessLogic.AppServices.User.Base
 		/// <param name="userId">The Id of the user to select</param>
 		/// <returns>The user matching <paramref name="userId"/></returns>
 		Entities.User Execute(Int32 userId);
+
+		/// <summary>
+		/// Select a users
+		/// </summary>
+		/// <param name="userIds">List of Ids of the users to select</param>
+		/// <returns></returns>
+		List<Entities.User> Execute(List<Int32> userIds);
 	}
 }

@@ -56,7 +56,12 @@ namespace ArmedCards.Entities
 		public Int32 GameID { get; set; }
 
 		/// <summary>
-		/// The id of the user voted to kick
+		/// The user to kick
+		/// </summary>
+		public Entities.User KickUser { get; set; }
+
+		/// <summary>
+		/// The id of the user to kick
 		/// </summary>
 		public Int32 KickUserId { get; set; }
 

@@ -29,6 +29,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.DataAccess.User
 {
@@ -45,17 +46,17 @@ namespace ArmedCards.DataAccess.User
 		}
 
 		/// <summary>
-		/// Select a user based on the <paramref name="filter"/>
+		/// Select users based on the <paramref name="filter"/>
 		/// </summary>
-		/// <param name="filter">The filter used to select a user</param>
-		/// <returns>The user matching <paramref name="filter"/></returns>
-		public Entities.User Execute(Entities.Filters.User.Select filter)
+		/// <param name="filter">The filter used to select users</param>
+		/// <returns></returns>
+		public List<Entities.User> Execute(Entities.Filters.User.Select filter)
 		{
 			List<Entities.User> users = new List<Entities.User>();
 
 			using (DbCommand cmd = _db.GetStoredProcCommand("User_Select"))
 			{
-				_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+				_db.AddInParameter(cmd, "@UserIds", DbType.Xml, filter.UserIds.ConvertCollectionToXML());
 
 				using (IDataReader idr = _db.ExecuteReader(cmd))
 				{
@@ -66,7 +67,7 @@ namespace ArmedCards.DataAccess.User
 				}
 			}
 
-			return users.FirstOrDefault();
+			return users;
 		}
 	}
 }

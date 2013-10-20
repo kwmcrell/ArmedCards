@@ -27,21 +27,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.User
+namespace ArmedCards.Entities.Filters.GamePlayerKickVote
 {
 	/// <summary>
-	/// Used to select a User Profile
+	/// Filter used to select all votes for a particular game
 	/// </summary>
-	public class Select
+	public class SelectForGame
 	{
-		public Select()
-		{
-			UserIds = new List<Int32>();
-		}
-
 		/// <summary>
-		/// The Id of the User to select
+		/// The ID of the game to select votes for
 		/// </summary>
-		public List<Int32> UserIds { get; set; }
+		public Int32 GameID { get; set; }
 	}
 }

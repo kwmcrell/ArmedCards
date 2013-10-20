@@ -21,27 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GamePlayerKickVote_SelectForGame]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayerKickVote_SelectForGame] 
+END 
+GO
 
-namespace ArmedCards.Entities.Filters.User
-{
-	/// <summary>
-	/// Used to select a User Profile
-	/// </summary>
-	public class Select
-	{
-		public Select()
-		{
-			UserIds = new List<Int32>();
-		}
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/19/2013
+-- Description:	Select all votes to kick users in a game
+-- ===============================================
+CREATE PROC [dbo].[GamePlayerKickVote_SelectForGame] 
+	@GameID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN 
 
-		/// <summary>
-		/// The Id of the User to select
-		/// </summary>
-		public List<Int32> UserIds { get; set; }
-	}
-}
+	SELECT	GPKV.[GameID],
+			GPKV.[KickUserId],
+			GPKV.[Vote],
+			GPKV.[VotedUserId]
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID
+
+	COMMIT TRAN
+		
+GO

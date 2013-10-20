@@ -40,13 +40,15 @@ namespace ArmedCards.Web.Controllers.Game.Board
         private AS.Game.Base.IJoin _joinGame;
 		private AS.Hub.Base.ISendMessage _sendMessage;
 		private AS.User.Base.ISelect _selectUser;
+		private AS.GamePlayerKickVote.Base.ISelect _selectKickVotes;
 
 		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage,
-								AS.User.Base.ISelect selectUser)
+								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes)
         {
             this._joinGame = joinGame;
 			this._sendMessage = sendMessage;
 			this._selectUser = selectUser;
+			this._selectKickVotes = selectKickVotes;
         }
 
         [HttpGet]
@@ -74,6 +76,29 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
                 model.Game = response.Game;
                 model.UserId = currentUserId;
+
+				Entities.Filters.GamePlayerKickVote.SelectForGame kickVoteFilter = new Entities.Filters.GamePlayerKickVote.SelectForGame();
+				kickVoteFilter.GameID = id;
+
+				List<Entities.GamePlayerKickVote> votes = _selectKickVotes.Execute(kickVoteFilter);
+				IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
+
+				Models.Game.Board.VoteToKick kickModel = null;
+
+				foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
+				{
+					if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
+					{
+						kickModel = new Models.Game.Board.VoteToKick();
+
+						kickModel.UserToKick = group.First().KickUser;
+						kickModel.VotesToKick = group.Count(x => x.Vote);
+						kickModel.VotesNotToKick = group.Count(x => !x.Vote);
+
+						model.VoteToKickList.Add(kickModel);
+					}
+				}
+				
 
 				if (!model.Game.IsWaiting())
 				{

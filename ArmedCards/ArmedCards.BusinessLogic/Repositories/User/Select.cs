@@ -46,11 +46,11 @@ namespace ArmedCards.BusinessLogic.Repositories.User
 		}
 
 		/// <summary>
-		/// Select a user based on the <paramref name="filter"/>
+		/// Select users based on the <paramref name="filter"/>
 		/// </summary>
-		/// <param name="filter">The filter used to select a user</param>
-		/// <returns>The user matching <paramref name="filter"/></returns>
-		public Entities.User Execute(Entities.Filters.User.Select filter)
+		/// <param name="filter">The filter used to select users</param>
+		/// <returns></returns>
+		public List<Entities.User> Execute(Entities.Filters.User.Select filter)
 		{
 			return _select.Execute(filter);
 		}

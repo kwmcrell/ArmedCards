@@ -35,10 +35,10 @@ namespace ArmedCards.BusinessLogic.Repositories.User.Base
 	public interface ISelect
 	{
 		/// <summary>
-		/// Select a user based on the <paramref name="filter"/>
+		/// Select users based on the <paramref name="filter"/>
 		/// </summary>
-		/// <param name="filter">The filter used to select a user</param>
-		/// <returns>The user matching <paramref name="filter"/></returns>
-		Entities.User Execute(Entities.Filters.User.Select filter);
+		/// <param name="filter">The filter used to select users</param>
+		/// <returns></returns>
+		List<Entities.User> Execute(Entities.Filters.User.Select filter);
 	}
 }

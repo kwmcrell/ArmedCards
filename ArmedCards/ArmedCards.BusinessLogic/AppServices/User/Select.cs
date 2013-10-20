@@ -53,7 +53,20 @@ namespace ArmedCards.BusinessLogic.AppServices.User
 		public Entities.User Execute(Int32 userId)
 		{
 			Entities.Filters.User.Select filter = new Entities.Filters.User.Select();
-			filter.UserId = userId;
+			filter.UserIds.Add(userId);
+
+			return _select.Execute(filter).FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Select a users
+		/// </summary>
+		/// <param name="userIds">List of Ids of the users to select</param>
+		/// <returns></returns>
+		public List<Entities.User> Execute(List<Int32> userIds)
+		{
+			Entities.Filters.User.Select filter = new Entities.Filters.User.Select();
+			filter.UserIds.AddRange(userIds);
 
 			return _select.Execute(filter);
 		}

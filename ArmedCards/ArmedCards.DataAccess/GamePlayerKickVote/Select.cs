@@ -79,5 +79,30 @@ namespace ArmedCards.DataAccess.GamePlayerKickVote
 
 			return votes;
 		}
+
+		/// <summary>
+		/// Select all the votes based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <returns>The list of votes</returns>
+		public List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.SelectForGame filter)
+		{
+			List<Entities.GamePlayerKickVote> votes = new List<Entities.GamePlayerKickVote>();
+
+			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayerKickVote_SelectForGame"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						votes.Add(new Entities.GamePlayerKickVote(idr));
+					}
+				}
+			}
+
+			return votes;
+		}
 	}
 }

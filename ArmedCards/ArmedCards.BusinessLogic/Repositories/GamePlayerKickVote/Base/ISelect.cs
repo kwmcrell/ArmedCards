@@ -41,5 +41,12 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote.Base
 		/// <param name="totalPlayers">The total number of players in the game</param>
 		/// <returns>The list of votes</returns>
 		List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.Select filter, out Int32 totalPlayers);
+
+		/// <summary>
+		/// Select all the votes based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <returns>The list of votes</returns>
+		List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.SelectForGame filter);
 	}
 }

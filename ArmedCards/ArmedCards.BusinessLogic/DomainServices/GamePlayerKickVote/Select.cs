@@ -55,5 +55,15 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 		{
 			return _select.Execute(filter, out totalPlayers);
 		}
+
+		/// <summary>
+		/// Select all the votes based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <returns>The list of votes</returns>
+		public List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.SelectForGame filter)
+		{
+			return _select.Execute(filter);
+		}
 	}
 }

@@ -37,6 +37,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		public GameBoard()
 		{
 			Hand = new List<Entities.GamePlayerCard>();
+			VoteToKickList = new List<VoteToKick>();
 		}
 
         /// <summary>
@@ -53,6 +54,11 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// The current user's hand
 		/// </summary>
 		public List<Entities.GamePlayerCard> Hand { get; set; }
+
+		/// <summary>
+		/// A list of votes to kick users
+		/// </summary>
+		public List<Models.Game.Board.VoteToKick> VoteToKickList { get; set; }
 
 		/// <summary>
 		/// Determine if current user has answered
@@ -115,6 +121,10 @@ namespace ArmedCards.Web.Models.Game.Board
 			return round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
 		}
 
+		/// <summary>
+		/// Determine if waiting screen should be shown
+		/// </summary>
+		/// <returns></returns>
 		public Boolean ShowWaiting()
 		{
 			return (!ShowAnswers() || Game.CurrentRound() == null) && Game.IsWaiting();

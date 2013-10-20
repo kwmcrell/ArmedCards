@@ -33,7 +33,10 @@
     @Html.Partial("~/Views/Game/Board/Partials/_GameContainer.cshtml", Model)
 </div>
 <div id="alert-container" class="alert-top-right">
-	
+	@foreach (ArmedCards.Web.Models.Game.Board.VoteToKick kickModel in Model.VoteToKickList)
+ {
+	   @Html.Partial("~/Views/Game/Board/Partials/_VoteToKick.cshtml", kickModel)
+ }
 </div>
 
 @section Sidebar

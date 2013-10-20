@@ -29,10 +29,10 @@ GO
 -- ==============================================
 -- Author:		Kevin McRell
 -- Create date: 9/29/2013
--- Description:	Select a user profile
+-- Description:	Select user profiles
 -- ===============================================
 CREATE PROC [dbo].[User_Select] 
-    @UserId int
+    @UserIds XML
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -43,7 +43,8 @@ AS
 			UP.[UserName],
 			UP.[PictureUrl]
 	FROM [dbo].[UserProfile] UP
-	WHERE UP.[UserId] = @UserId
+	WHERE UP.[UserId] IN (SELECT ids.id.value('@value', 'int')
+							FROM	@UserIds.nodes('ids/id') AS ids ( id ))
 
 	COMMIT
 GO

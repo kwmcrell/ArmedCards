@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL = ArmedCards.DataAccess.GamePlayerKickVote;
+using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote
 {
@@ -39,10 +40,12 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote
 	public class Select: Base.ISelect
 	{
 		private DAL.Base.ISelect _select;
+		private AS.User.Base.ISelect _selectUser;
 
-		public Select(DAL.Base.ISelect select)
+		public Select(DAL.Base.ISelect select, AS.User.Base.ISelect selectUser)
 		{
 			this._select = select;
+			this._selectUser = selectUser;
 		}
 
 		/// <summary>
@@ -54,6 +57,27 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayerKickVote
 		public List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.Select filter, out Int32 totalPlayers)
 		{
 			return _select.Execute(filter, out totalPlayers);
+		}
+
+		/// <summary>
+		/// Select all the votes based on <paramref name="filter"/>
+		/// </summary>
+		/// <param name="filter">Filter used to select votes to kick</param>
+		/// <returns>The list of votes</returns>
+		public List<Entities.GamePlayerKickVote> Execute(Entities.Filters.GamePlayerKickVote.SelectForGame filter)
+		{
+			List<Entities.GamePlayerKickVote> votesToKick = _select.Execute(filter);
+
+			List<Int32> userIds = votesToKick.Select(x => x.KickUserId).Distinct().ToList();
+
+			List<Entities.User> users = _selectUser.Execute(userIds);
+
+			foreach (Entities.GamePlayerKickVote vote in votesToKick)
+			{
+				vote.KickUser = users.Find(x => x.UserId == vote.KickUserId);
+			}
+
+			return votesToKick;
 		}
 	}
 }
