@@ -66,7 +66,10 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 			
 			Entities.User kickedUser = _selectUser.Execute(kickUserId);
 
-			_sendMessage.Execute(gameID, kickedUser, votedToKick, votedNotToKick, kickUser, kickPlayerContainer.AlertUsersOfResult);
+			if (votedToKick > 0)
+			{
+				_sendMessage.Execute(gameID, kickedUser, votedToKick, votedNotToKick, kickUser, kickPlayerContainer.AlertUsersOfResult);
+			}
 			
 			if (kickUser)
 			{

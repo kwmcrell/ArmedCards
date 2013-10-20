@@ -33,7 +33,8 @@ GO
 -- Description:	Creates a new User
 -- ===============================================
 CREATE PROC [dbo].[ActiveConnection_Select]
-	@GroupName				varchar(255)			  =	NULL
+	@GroupName				varchar(255)			  =	NULL,
+	@ExcludeUserIds			XML						  = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -47,5 +48,7 @@ AS
 	 FROM [dbo].[ActiveConnection] AC
 	 INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	 WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
+	 AND   (@ExcludeUserIds IS NULL OR UP.UserId NOT IN (SELECT ids.id.value('@value', 'int')
+														 FROM	@ExcludeUserIds.nodes('ids/id') AS ids ( id )))
 
 	COMMIT

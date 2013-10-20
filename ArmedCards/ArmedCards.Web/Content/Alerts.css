@@ -1,0 +1,171 @@
+﻿/*
+ * Copyright (c) 2013, Kevin McRell & Paul Miller
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions
+ *   and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice, this list of
+ *   conditions and the following disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/* Styles for Alert Notifictions */
+body #alert-container > div,
+body #alert-container > div:hover
+{
+	cursor: default;
+	background-color: #111;
+	background-position: 26px center;
+	border-radius: 0;
+	box-shadow: 3px -3px 0 #666;
+	opacity: 1;
+	padding-left: 75px;
+}
+
+body #alert-container > div .alert-title
+{
+	font-size: 1.2em;
+	font-weight: normal;
+}
+
+body #alert-container > div .alert-message
+{
+
+}
+
+body #alert-container > .alert-info
+{
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAMFBMVEXw8PDu7u729vbv7+/29vb////////+/v7////x8fH///////8AAAD8/Pz9/f3///9NTWjrAAAADXRSTlPu/cf2xYdHo0LnZH8Azb03eAAAAINJREFUeNqF0VsOxCAIBVDfIlbZ/24njqTQqPF+NTkSe8U8h9whxeCbDzF9AXKnmZ5BARaSFHwBLelYZAA+b5zhGZiQaaY+lb/yH1JfoKcBkRagOCBsIAzwG/AD2gbaceJ4B/+VFORE7iGRHqq5q06ay1upOwrI6+oJi9d9rBu873zND9mTHAMLUWGEAAAAAElFTkSuQmCC') !important;
+}
+
+.alert-title {
+  font-weight: bold;
+}
+.alert-message {
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
+}
+.alert-message a,
+.alert-message label {
+  color: #ffffff;
+}
+.alert-message a:hover {
+  color: #cccccc;
+  text-decoration: none;
+}
+.alert-top-full-width {
+  top: 0;
+  right: 0;
+  width: 100%;
+}
+.alert-bottom-full-width {
+  bottom: 0;
+  right: 0;
+  width: 100%;
+}
+.alert-top-left {
+  top: 12px;
+  left: 12px;
+}
+.alert-top-right {
+  top: 12px;
+  right: 12px;
+}
+.alert-bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+.alert-bottom-left {
+  bottom: 12px;
+  left: 12px;
+}
+#alert-container {
+  position: absolute;
+  z-index: 999999;
+  float: right;
+}
+#alert-container * {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+#alert-container > div {
+  margin: 0 0 6px;
+  padding: 15px 15px 15px 50px;
+  width: 300px;
+  -moz-border-radius: 3px 3px 3px 3px;
+  -webkit-border-radius: 3px 3px 3px 3px;
+  border-radius: 3px 3px 3px 3px;
+  background-position: 15px center;
+  background-repeat: no-repeat;
+  -moz-box-shadow: 0 0 12px #999999;
+  -webkit-box-shadow: 0 0 12px #999999;
+  box-shadow: 0 0 12px #999999;
+  color: #ffffff;
+  opacity: 0.8;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  filter: alpha(opacity=80);
+}
+#alert-container > :hover {
+  -moz-box-shadow: 0 0 12px #000000;
+  -webkit-box-shadow: 0 0 12px #000000;
+  box-shadow: 0 0 12px #000000;
+  opacity: 1;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  filter: alpha(opacity=100);
+  cursor: pointer;
+}
+#alert-container > .alert-warning {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=") !important;
+}
+#alert-container.alert-top-full-width > div,
+#alert-container.alert-bottom-full-width > div {
+  width: 96%;
+  margin: auto;
+}
+
+/*Responsive Design*/
+@media all and (max-width: 240px) {
+  #alert-container > div {
+    padding: 8px 8px 8px 50px;
+    width: 100%;
+  }
+
+  #alert-container {
+    width: 75%;
+  }
+}
+@media all and (min-width: 241px) and (max-width: 320px) {
+  #alert-container > div {
+    padding: 8px 8px 8px 50px;
+    width: 100%;
+  }
+
+  #alert-container {
+    width: 75%;
+  }
+}
+@media all and (min-width: 321px) and (max-width: 480px) {
+  #alert-container > div {
+    padding: 8px 8px 8px 50px;
+    width: 100%;
+  }
+}
+@media all and (min-width: 481px) and (max-width: 768px) {
+  #alert-container > div {
+    padding: 15px 15px 15px 50px;
+    width: 100%;
+  }
+}

@@ -19,31 +19,16 @@
  * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*@
+ *@
+@model ArmedCards.Web.Models.Game.Board.VoteToKick
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ViewBag.Title = Model.Game.Title;
-    Layout = "~/Views/Shared/Layout/_ChatRight.cshtml";
-}
-
-@Html.HiddenFor(x => x.Game.GameID)
-
-<div id="gameContainer" class="game gameScreen clearfix">
-    @Html.Partial("~/Views/Game/Board/Partials/_GameContainer.cshtml", Model)
+<div id="alert-vote-@Model.UserToKick.UserId" class="alert alert-warning">
+	<div class="alert-title">Kick Player</div>
+	<span class="loggedIn">
+		<img src="@Model.UserToKick.PictureUrl"> @Model.UserToKick.DisplayName
+	</span>
+	<div class="alert-message">
+		<a name="kickPlayer" data-userId="@Model.UserToKick.UserId" href="#" style="font-size: medium;" class="button">(@Model.VotesToKick) Kick!</a>
+		<a name="keepPlayer" data-userId="@Model.UserToKick.UserId" href="#" style="font-size: medium;" class="button">(@Model.VotesNotToKick) Nope!</a>
+	</div>
 </div>
-<div id="alert-container" class="alert-top-right">
-	
-</div>
-
-@section Sidebar
-{
-	@Html.Partial("~/Views/Game/Board/Sidebar/_Sidebar.cshtml", Model.Game)
-}
-
-@section Scripts
-{
-	@Scripts.Render("~/bundles/Core/Hub")
-    <script src='/SignalR/hubs'></script>
-	@Scripts.Render("~/bundles/Game/Board")
-}

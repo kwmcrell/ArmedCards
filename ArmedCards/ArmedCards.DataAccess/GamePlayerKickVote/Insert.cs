@@ -29,6 +29,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.DataAccess.GamePlayerKickVote
 {
@@ -63,9 +64,16 @@ namespace ArmedCards.DataAccess.GamePlayerKickVote
 				_db.AddOutParameter(cmd, "@VotesToStay", DbType.Int32, sizeof(Int32));
 				_db.AddOutParameter(cmd, "@VotesToKick", DbType.Int32, sizeof(Int32));
 
-				_db.ExecuteScalar(cmd);
-				response.VotesToKick = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToStay").ToString());
-				response.VotesToStay = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToKick").ToString());
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						response.AlreadyVoted.Add(idr.GetValueByName<Int32>("VotedUserId"));
+					}
+				}
+
+				response.VotesToKick = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToKick").ToString());
+				response.VotesToStay = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToStay").ToString());
 
 				return response;
 			}

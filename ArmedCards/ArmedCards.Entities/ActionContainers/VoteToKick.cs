@@ -27,57 +27,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.ActionResponses
+namespace ArmedCards.Entities.ActionContainers
 {
 	/// <summary>
-	/// Defines a vote to kick response
+	/// Class containing all actions possible to fire after casting a vote
 	/// </summary>
 	public class VoteToKick
 	{
-		public VoteToKick()
-		{
-			AlreadyVoted = new List<Int32>();
-		}
+		/// <summary>
+		/// Action to call to check votes
+		/// Arguments
+		/// 1. GameId
+		/// 2. KickUserId
+		/// 3. Sitehost
+		/// </summary>
+		public Action<Int32, Int32, String> CheckVotes { get; set; }
 
 		/// <summary>
-		/// Vote to kick response code
+		/// Action to call to alert users ha vote has been casted
+		/// 1. Connection to send the message to
+		/// 2. User to Kick
+		/// 3. Votes To Kick
+		/// 4. Votes Not To Kick
 		/// </summary>
-		public Enums.VoteToKick ResponseCode { get; set; }
-
-		/// <summary>
-		/// Votes to Kick a user
-		/// </summary>
-		public Int32 VotesToKick { get; set; }
-
-		/// <summary>
-		/// Votes to keep a user
-		/// </summary>
-		public Int32 VotesToStay { get; set; }
-
-		/// <summary>
-		/// The game
-		/// </summary>
-		public Entities.Game Game { get; set; }
-
-		/// <summary>
-		/// Total number of votes casted
-		/// </summary>
-		public Int32 TotalVotes 
-		{
-			get
-			{
-				return VotesToKick + VotesToStay;
-			}
-		}
-
-		/// <summary>
-		/// User Ids for anyone who has already voted
-		/// </summary>
-		public List<Int32> AlreadyVoted { get; set; }
-
-		/// <summary>
-		/// The user to kick
-		/// </summary>
-		public Entities.User KickUser { get; set; }
+		public Action<Entities.ActiveConnection, Entities.User, Int32, Int32> AlertUserOfVote { get; set; }
 	}
 }

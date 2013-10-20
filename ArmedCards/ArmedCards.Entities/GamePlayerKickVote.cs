@@ -69,21 +69,5 @@ namespace ArmedCards.Entities
 		/// Voted to kick the user
 		/// </summary>
 		public Boolean Vote { get; set; }
-
-		/// <summary>
-		/// Action to call to check votes
-		/// </summary>
-		public Action<Int32, Int32, String> CheckVotes;
-
-		/// <summary>
-		/// Calls CheckVotes
-		/// </summary>
-		public void ExecuteCheckVotes(String siteHost)
-		{
-			if (CheckVotes != null)
-			{
-				CheckVotes(GameID, KickUserId, siteHost);
-			}
-		}
 	}
 }

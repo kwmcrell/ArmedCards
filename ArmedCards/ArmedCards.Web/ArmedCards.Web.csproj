@@ -252,6 +252,7 @@
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
     <Compile Include="Models\Game\Board\GameBoard.cs" />
+    <Compile Include="Models\Game\Board\VoteToKick.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
@@ -268,6 +269,7 @@
     <Content Include="Content\Home.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
+    <Content Include="Content\Alerts.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\toastr.less" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
@@ -283,6 +285,7 @@
     <Content Include="Scripts\Core\Utilities.js" />
     <Content Include="Scripts\Game\Board\Commander.js" />
     <Content Include="Scripts\Game\Board\Common.js" />
+    <Content Include="Scripts\Game\Board\KickPlayer.js" />
     <Content Include="Scripts\Game\Board\State.js" />
     <Content Include="Scripts\Game\Board\Hand.js" />
     <Content Include="Scripts\Game\Board\Sidebar.js" />
@@ -343,6 +346,7 @@
     <Content Include="Views\Game\Board\Partials\_GameOver.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\ChangeDisplayName.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_VoteToKick.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -58,7 +58,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 		[HttpPost]
 		[Extensions.ArmedCardsAuthorize]
-		public void Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
+		public ActionResult Vote(Int32 kickUserId, Int32 gameID, Boolean voteToKick)
 		{
 			Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
 			vote.GameID = gameID;
@@ -66,7 +66,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			vote.VotedUserId = WebSecurity.CurrentUserId;
 			vote.Vote = voteToKick;
 
-			vote.CheckVotes = HandleWait;
+			Entities.ActionContainers.VoteToKick container = new Entities.ActionContainers.VoteToKick();
+			container.CheckVotes = HandleWait;
 
 			String siteHost = String.Format("{0}://{1}", Request.Url.Scheme, Request.Url.Host);
 
@@ -75,7 +76,16 @@ namespace ArmedCards.Web.Controllers.Game.Board
 				siteHost += string.Format(":{0}", Request.Url.Port);
 			}
 
-			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, siteHost);
+			container.AlertUserOfVote = Helpers.HubActions.AlertUsersVote;
+			Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, siteHost, container);
+
+			String message = String.Format("Votes To Kick: {0} <br/> Votes To Stay: {1}", 
+											response.VotesToKick,
+											response.VotesToStay);
+
+			String title = String.Format("Voted to {0} {1}.", (voteToKick ? "kick" : "keep"), response.KickUser.DisplayName);
+
+			return Json(new { message = message, title = title });
 		}
 
 		private async void HandleWait(Int32 gameID, Int32 kickUserId, String siteHost)

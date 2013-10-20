@@ -163,19 +163,49 @@ namespace ArmedCards.Web.Helpers
 		{
 			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String message = "";
+			String message;
+			String title = "Kick Player Results";
+			
+			TagBuilder userSpan = new TagBuilder("span");
+			userSpan.AddCssClass("loggedIn");
+			userSpan.InnerHtml = String.Format("<img src='{0}' /> {1}", kickedUser.PictureUrl, kickedUser.DisplayName);
 
 			if (isKicked)
 			{
-				message = String.Format("{0} was kicked.", kickedUser.DisplayName);
+				message = "{0} was kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
 			}
 			else
 			{
-				message = String.Format("{0} was not kicked.", kickedUser.DisplayName);
+				message = "{0} was not kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
 			}
 
 			hub.Clients.Client(connection.ActiveConnectionID)
-							   .VoteToKickResults(message, (isKicked && kickedUser.UserId == connection.User_UserId));
+							   .VoteToKickResults(String.Format(message, userSpan.ToString(), votesToKick, votesNotToKick),
+													title,
+													(isKicked && kickedUser.UserId == connection.User_UserId),
+													kickedUser.UserId);
+		}
+
+		/// <summary>
+		/// Action used to alert users someone has called a vote to kick a user
+		/// </summary>
+		/// <param name="connection">The connection to send to</param>
+		/// <param name="kickUser">The potential user to kick</param>
+		/// <param name="votesToKick">Number of users to voted kick</param>
+		/// <param name="votesNotToKick">Number of users voted not to kick</param>
+		public static void AlertUsersVote(Entities.ActiveConnection connection, Entities.User kickUser, 
+											Int32 votesToKick, Int32 votesNotToKick)
+		{
+			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+
+			Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick();
+			model.UserToKick = kickUser;
+			model.VotesToKick = votesToKick;
+			model.VotesNotToKick = votesNotToKick;
+
+			String alert = GetRazorViewAsString("~/Views/Game/Board/Partials/_VoteToKick.cshtml", model);
+
+			hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(alert, kickUser);
 		}
 
 		#region "Private Helpers"

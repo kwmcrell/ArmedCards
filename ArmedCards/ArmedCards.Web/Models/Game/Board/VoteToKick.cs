@@ -27,57 +27,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.ActionResponses
+namespace ArmedCards.Web.Models.Game.Board
 {
 	/// <summary>
-	/// Defines a vote to kick response
+	/// Model used to render a vote to kick
 	/// </summary>
 	public class VoteToKick
 	{
-		public VoteToKick()
-		{
-			AlreadyVoted = new List<Int32>();
-		}
-
 		/// <summary>
-		/// Vote to kick response code
+		/// User to kick
 		/// </summary>
-		public Enums.VoteToKick ResponseCode { get; set; }
+		public Entities.User UserToKick { get; set; }
 
 		/// <summary>
-		/// Votes to Kick a user
+		/// Number of votes to kick
 		/// </summary>
 		public Int32 VotesToKick { get; set; }
 
 		/// <summary>
-		/// Votes to keep a user
+		/// Number of votes not to kick
 		/// </summary>
-		public Int32 VotesToStay { get; set; }
-
-		/// <summary>
-		/// The game
-		/// </summary>
-		public Entities.Game Game { get; set; }
-
-		/// <summary>
-		/// Total number of votes casted
-		/// </summary>
-		public Int32 TotalVotes 
-		{
-			get
-			{
-				return VotesToKick + VotesToStay;
-			}
-		}
-
-		/// <summary>
-		/// User Ids for anyone who has already voted
-		/// </summary>
-		public List<Int32> AlreadyVoted { get; set; }
-
-		/// <summary>
-		/// The user to kick
-		/// </summary>
-		public Entities.User KickUser { get; set; }
+		public Int32 VotesNotToKick { get; set; }
 	}
 }

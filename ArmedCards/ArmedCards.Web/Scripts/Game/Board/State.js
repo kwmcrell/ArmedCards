@@ -135,10 +135,35 @@ State.prototype.CommanderLeft = function (gameView, playerList, commanderName, i
 	}
 };
 
-State.prototype.VoteToKickResults = function (message, kick) {
-	alert(message);
+State.prototype.VoteToKickResults = function (message, title, kick, kickUserId) {
+	var options = {
+		"positionClass": "toast-bottom-full-width",
+		"fadeIn": 300,
+		"fadeOut": 500,
+		"timeOut": 5000,
+		"extendedTimeOut": 0,
+		"newestOnTop": false
+	};
+
+	toastr.info(message, title, options);
+	
+	$('#alert-vote-{0}'.format(kickUserId)).remove();
+
 	if (kick) {
 		window.location = "/GameListing";
+	}
+};
+
+State.prototype.AlertUsersVote = function (partial, kickUser) {
+	var $alertContainer = $('#alert-container');
+
+	var $userAlert = $('#alert-vote-{0}'.format(kickUser.UserId));
+
+	if ($userAlert.length == 0) {
+		$alertContainer.append(partial);
+	}
+	else {
+		$('#alert-vote-{0}'.format(kickUser.UserId)).html(partial);
 	}
 };
 
@@ -150,6 +175,7 @@ State.prototype.Init = function () {
 	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
+	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;
 };
 
 State.prototype.ConnectionSuccess = function () {

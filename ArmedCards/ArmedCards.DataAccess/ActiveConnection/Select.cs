@@ -29,6 +29,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.DataAccess.ActiveConnection
 {
@@ -58,6 +59,11 @@ namespace ArmedCards.DataAccess.ActiveConnection
 				if (!String.IsNullOrWhiteSpace(filter.GroupName))
 				{
 					_db.AddInParameter(cmd, "@GroupName", DbType.String, filter.GroupName);
+				}
+
+				if (filter.ExcludeUsers != null && filter.ExcludeUsers.Count > 0)
+				{
+					_db.AddInParameter(cmd, "@ExcludeUserIds", DbType.Xml, filter.ExcludeUsers.ConvertCollectionToXML());
 				}
 
                 using (IDataReader idr = _db.ExecuteReader(cmd))

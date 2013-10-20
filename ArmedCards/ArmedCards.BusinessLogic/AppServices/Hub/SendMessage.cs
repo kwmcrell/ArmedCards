@@ -142,8 +142,41 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 
 			foreach (Entities.ActiveConnection connection in connections)
 			{
-				action(connection, kickedUser, votesNotToKick, votesNotToKick, isKicked);
+				action(connection, kickedUser, votesToKick, votesNotToKick, isKicked);
 			}
+		}
+
+		/// <summary>
+		/// Send message to hub group
+		/// Used to send the following messages:
+		/// 1. AlertUsersVote
+		/// </summary>
+		/// <param name="gameID">The ID of the game</param>
+		/// <param name="kickedUser">The user being voted on</param>
+		/// <param name="votesToKick">The number of votes to kick</param>
+		/// <param name="votesNotToKick">The number of votes not to kick</param>
+		/// <param name="alreadyVoted">List of user Ids that have already voted</param>
+		/// <param name="action">The action to fire</param>
+		public void Execute(Int32 gameID, Entities.User kickedUser, Int32 votesToKick, Int32 votesNotToKick, List<Int32> alreadyVoted,
+							Action<Entities.ActiveConnection, Entities.User, Int32, Int32> action)
+		{
+			List<Entities.ActiveConnection> connections = GetConnections(gameID, alreadyVoted);
+
+			foreach (Entities.ActiveConnection connection in connections)
+			{
+				action(connection, kickedUser, votesToKick, votesNotToKick);
+			}
+		}
+
+		private List<Entities.ActiveConnection> GetConnections(Int32 gameID, List<Int32> exclude)
+		{
+			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
+			filter.GroupName = String.Format("Game_{0}", gameID);
+			filter.ExcludeUsers = exclude;
+
+			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+			return connections;
 		}
 	}
 }

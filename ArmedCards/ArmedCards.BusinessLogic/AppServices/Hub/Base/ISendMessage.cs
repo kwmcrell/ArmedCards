@@ -78,5 +78,19 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// <param name="action">The action to fire</param>
 		void Execute(Int32 gameID, Entities.User kickedUser, Int32 votesToKick, Int32 votesNotToKick, Boolean isKicked,
 							Action<Entities.ActiveConnection, Entities.User, Int32, Int32, Boolean> action);
+
+		/// <summary>
+		/// Send message to hub group
+		/// Used to send the following messages:
+		/// 1. AlertUsersVote
+		/// </summary>
+		/// <param name="gameID">The ID of the game</param>
+		/// <param name="kickedUser">The user being voted on</param>
+		/// <param name="votesToKick">The number of votes to kick</param>
+		/// <param name="votesNotToKick">The number of votes not to kick</param>
+		/// <param name="alreadyVoted">List of user Ids that have already voted</param>
+		/// <param name="action">The action to fire</param>
+		void Execute(Int32 gameID, Entities.User kickedUser, Int32 votesToKick, Int32 votesNotToKick, List<Int32> alreadyVoted,
+							Action<Entities.ActiveConnection, Entities.User, Int32, Int32> action);
 	}
 }

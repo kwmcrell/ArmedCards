@@ -71,7 +71,7 @@ p
 	margin: 25px 0 15px;
 }
 
-h1,h2,h3,h4,h5,.branding,.button, .voteFlag,.title,.played > p,.hand > p, .game > p,.splash,.radHeader,.chat .chatField > input, .deckInfo p, .alertExclaim, .confirmMessage .passphrase input, .confirmMessage .wrong, .user .username.loggedIn div a, body #toast-container > div
+h1,h2,h3,h4,h5,.branding,.button, .voteFlag,.title,.played > p,.hand > p, .game > p,.splash,.radHeader,.chat .chatField > input, .deckInfo p, .alertExclaim, .confirmMessage .passphrase input, .confirmMessage .wrong, .user .username.loggedIn div a, body #toast-container > div, body #alert-container > div
 {
 	font-family: 'Roboto Condensed', sans-serif, Arial;
 	font-weight: 400;

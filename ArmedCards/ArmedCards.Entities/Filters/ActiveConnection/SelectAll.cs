@@ -38,5 +38,10 @@ namespace ArmedCards.Entities.Filters.ActiveConnection
 		/// The Group to select
 		/// </summary>
 		public String GroupName { get; set; }
+
+		/// <summary>
+		/// Exclude these users on select
+		/// </summary>
+		public List<Int32> ExcludeUsers { get; set; }
     }
 }

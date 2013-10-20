@@ -40,10 +40,15 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 	public class Insert : Base.IInsert
 	{
 		private DS.Base.IInsert _insert;
+		private User.Base.ISelect _selectUser;
+		private Hub.Base.ISendMessage _sendMessage;
 
-		public Insert(DS.Base.IInsert insert)
+		public Insert(DS.Base.IInsert insert, User.Base.ISelect selectUser,
+						Hub.Base.ISendMessage sendMessage)
 		{
 			this._insert = insert;
+			this._selectUser = selectUser;
+			this._sendMessage = sendMessage;
 		}
 
 		/// <summary>
@@ -51,18 +56,27 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
 		/// <param name="siteHost">The website host name</param>
+		/// <param name="actionContainer">Contains any actions that need to be fired</param>
 		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost,
+															Entities.ActionContainers.VoteToKick actionContainer)
 		{
+			Entities.User kickUser = _selectUser.Execute(userVote.KickUserId);
+
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
 
 			if (response.TotalVotes == 1 &&
 				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
 				userVote.Vote)
 			{
-				Task.Factory.StartNew(() => userVote.ExecuteCheckVotes(siteHost));
+				Task.Factory.StartNew(() => actionContainer.CheckVotes(userVote.GameID, userVote.KickUserId, siteHost));
 			}
 
+			_sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick, 
+															response.VotesToStay, 
+															response.AlreadyVoted, actionContainer.AlertUserOfVote);
+
+			response.KickUser = kickUser;
 			return response;
 		}
 	}

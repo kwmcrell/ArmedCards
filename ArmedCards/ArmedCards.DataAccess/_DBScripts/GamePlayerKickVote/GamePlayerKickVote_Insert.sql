@@ -58,7 +58,7 @@ AS
 	AND GPKV.[Vote] = 0
 	
 	IF NOT EXISTS	(	
-						SELECT GPKV.[VotedUserId]
+						SELECT TOP 1 GPKV.[VotedUserId]
 						FROM [GamePlayerKickVote] GPKV
 						WHERE GPKV.[GameID] = @GameID 
 						AND GPKV.[KickUserId] = @KickUserId
@@ -78,6 +78,11 @@ AS
 				@VotedUserId,
 				@Vote
 		END
+
+	SELECT GPKV.[VotedUserId]
+	FROM [GamePlayerKickVote] GPKV
+	WHERE GPKV.[GameID] = @GameID 
+	AND GPKV.[KickUserId] = @KickUserId
 
 	COMMIT TRAN
 		

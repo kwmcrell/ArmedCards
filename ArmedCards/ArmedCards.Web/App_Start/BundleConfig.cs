@@ -40,7 +40,8 @@ namespace ArmedCards.Web
 
             bundles.Add(new StyleBundle("~/bundles/Styles").Include(
                 "~/Content/Home.css",
-                "~/Content/toastr.css"));
+                "~/Content/toastr.css",
+				"~/Content/Alerts.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
                         "~/Scripts/toastr.js"));
@@ -62,7 +63,8 @@ namespace ArmedCards.Web
 						"~/Scripts/Game/Board/State.js",
 						"~/Scripts/Game/Board/Common.js",
 						"~/Scripts/Game/Board/Hand.js",
-						"~/Scripts/Game/Board/Commander.js"));
+						"~/Scripts/Game/Board/Commander.js",
+						"~/Scripts/Game/Board/KickPlayer.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Core/Hub").Include(
                         "~/Scripts/jquery.signalR-1.1.3.js",
