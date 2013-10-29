@@ -20,51 +20,24 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-IF OBJECT_ID('[dbo].[User_Insert]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[User_Insert] 
-END 
-GO
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 8/26/2013
--- Description:	Creates a new User
--- ===============================================
-CREATE PROC [dbo].[User_Insert] 
-    @UserName varchar(max),
-	@PictureUrl varchar(500),
-	@NewID int OUTPUT
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
-	
-	IF NOT EXISTS (SELECT UserId FROM UserProfile WHERE UserName = @userName)
-		BEGIN
-			INSERT INTO [dbo].[UserProfile] ([UserName], [PictureUrl])
-			SELECT @UserName, @PictureUrl
-	
-			SET @NewID = @@IDENTITY
+IF OBJECT_ID('[dbo].[Leaderboard]') IS NULL
+	BEGIN
 
-			-- Create Game points leaderboard
-			INSERT INTO [dbo].[Leaderboard] 
-			(
-				[UserId], 
-				[Points],
-				[Type]
-			)
-			SELECT
-				@NewID,   
-				0,
-				1
+	CREATE TABLE [dbo].[Leaderboard](
+		[LeaderboardID]				[bigint] IDENTITY(1,1) NOT NULL,
+		[UserId]					[int] NOT NULL,
+		[Points]					[bigint] NOT NULL,
+		[Type]						[tinyint] NOT NULL,
+	 CONSTRAINT [PK_dbo.GameLeaderboard] PRIMARY KEY CLUSTERED 
+	(
+		[LeaderboardID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
 
-		END
-	ELSE
-		BEGIN
-			SET @NewID = 0
-		END
+	ALTER TABLE [dbo].[Leaderboard] ADD  DEFAULT ((0)) FOR [Points]
+	ALTER TABLE [dbo].[Leaderboard] ADD  DEFAULT ((0)) FOR [Type]
 
-	COMMIT
-GO
+	ALTER TABLE [dbo].[Leaderboard] WITH NOCHECK ADD  CONSTRAINT [FK_dbo.Leaderboard_dbo.UserProfile_UserId] FOREIGN KEY([UserId])
+	REFERENCES [dbo].[UserProfile] ([UserId])
+END

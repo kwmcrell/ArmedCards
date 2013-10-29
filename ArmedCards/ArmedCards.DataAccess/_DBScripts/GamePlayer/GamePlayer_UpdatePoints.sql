@@ -46,5 +46,10 @@ AS
 	WHERE	GameID = @GameID
 	AND		UserId = @UserId
 
+	UPDATE [dbo].[Leaderboard]
+	SET Points = (Points + 1)
+	WHERE [UserId] = @UserId
+	AND	  [Type] = 1
+
 	COMMIT
 GO

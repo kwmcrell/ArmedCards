@@ -57,13 +57,14 @@ namespace ArmedCards.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
-
+            
             UnityConfig.InitContainer();
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
 
 			// Ensure ASP.NET Simple Membership is initialized only once per app start
 			DatabaseInitialize();
+
+            AuthConfig.RegisterAuth();
 
             AS.ActiveConnection.Base.IDelete _deleteActiveConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
 

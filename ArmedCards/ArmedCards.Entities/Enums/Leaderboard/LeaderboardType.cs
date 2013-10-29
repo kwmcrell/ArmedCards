@@ -20,51 +20,28 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-IF OBJECT_ID('[dbo].[User_Insert]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[User_Insert] 
-END 
-GO
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 8/26/2013
--- Description:	Creates a new User
--- ===============================================
-CREATE PROC [dbo].[User_Insert] 
-    @UserName varchar(max),
-	@PictureUrl varchar(500),
-	@NewID int OUTPUT
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
-	
-	IF NOT EXISTS (SELECT UserId FROM UserProfile WHERE UserName = @userName)
-		BEGIN
-			INSERT INTO [dbo].[UserProfile] ([UserName], [PictureUrl])
-			SELECT @UserName, @PictureUrl
-	
-			SET @NewID = @@IDENTITY
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-			-- Create Game points leaderboard
-			INSERT INTO [dbo].[Leaderboard] 
-			(
-				[UserId], 
-				[Points],
-				[Type]
-			)
-			SELECT
-				@NewID,   
-				0,
-				1
+namespace ArmedCards.Entities.Enums.Leaderboard
+{
+    /// <summary>
+    /// Enum defining leaderboard types
+    /// </summary>
+    public enum LeaderboardType
+    {
+        /// <summary>
+        /// Points for all leaderboards
+        /// </summary>
+        All = 0,
 
-		END
-	ELSE
-		BEGIN
-			SET @NewID = 0
-		END
-
-	COMMIT
-GO
+        /// <summary>
+        /// Points for just game leaderboards
+        /// </summary>
+        Game = 1
+    }
+}
