@@ -48,17 +48,15 @@ AS
 	
 			SET @NewID = @@IDENTITY
 
-			-- Create Game points leaderboard
+			--Create user's overall leaderboard
 			INSERT INTO [dbo].[Leaderboard] 
 			(
 				[UserId], 
-				[Points],
-				[Type]
+				[Points]
 			)
 			SELECT
 				@NewID,   
-				0,
-				1
+				0
 
 		END
 	ELSE

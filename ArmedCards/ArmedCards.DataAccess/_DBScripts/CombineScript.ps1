@@ -10,3 +10,4 @@
 .\CombineFiles.ps1 -output "Master.sql" -source "GameRound\" -filter "*.sql" -append
 .\CombineFiles.ps1 -output "Master.sql" -source "GameRoundCard\" -filter "*.sql" -append
 .\CombineFiles.ps1 -output "Master.sql" -source "GamePlayerKickVote\" -filter "*.sql" -append
+.\CombineFiles.ps1 -output "Master.sql" -source "Leaderboards\" -filter "*.sql" -append

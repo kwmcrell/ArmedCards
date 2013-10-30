@@ -46,10 +46,16 @@ AS
 	WHERE	GameID = @GameID
 	AND		UserId = @UserId
 
+	DECLARE @pointScale int
+
+	--Selects the scale for winning one round
+	SELECT @pointScale = LPS.Value
+	FROM dbo.LeaderboardPointScale LPS
+	WHERE LPS.LeaderboardPointScaleID = 4
+
 	UPDATE [dbo].[Leaderboard]
-	SET Points = (Points + 1)
+	SET Points = (Points + (1 *@pointScale))
 	WHERE [UserId] = @UserId
-	AND	  [Type] = 1
 
 	COMMIT
 GO

@@ -68,9 +68,16 @@ namespace ArmedCards.DataAccess.ActiveConnection
 
                 using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
+                    Entities.ActiveConnection connection = null;
+
                     while (idr.Read())
                     {
-                        activeConnections.Add(new Entities.ActiveConnection(idr));
+                        connection = new Entities.ActiveConnection(idr);
+
+                        if(activeConnections.Find(x => x.User_UserId == connection.User_UserId) == null)
+                        {
+                            activeConnections.Add(connection);
+                        }
                     }
                 }
             }

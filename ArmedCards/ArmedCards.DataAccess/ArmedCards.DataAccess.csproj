@@ -155,7 +155,8 @@
     <Content Include="_DBScripts\GameDeck\%40GameDeckTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_SelectForUser.sql" />
     <Content Include="_DBScripts\Game\Game_Update.sql" />
-    <Content Include="_DBScripts\Leaderboards\%40Leaderboard.sql" />
+    <Content Include="_DBScripts\Leaderboards\%40LeaderboardPointScale.sql" />
+    <Content Include="_DBScripts\Leaderboards\%40LeaderboardTable.sql" />
     <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\%40UserProfileTable.sql" />
     <Content Include="_DBScripts\User\User_UpdateDisplayName.sql" />

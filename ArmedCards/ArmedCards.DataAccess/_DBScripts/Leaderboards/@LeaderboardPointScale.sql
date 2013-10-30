@@ -21,27 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[LeaderboardPointScale]') IS NULL
+	BEGIN
 
-namespace ArmedCards.Entities.Enums.Leaderboard
-{
-    /// <summary>
-    /// Enum defining leaderboard types
-    /// </summary>
-    public enum LeaderboardType
-    {
-        /// <summary>
-        /// Points for all leaderboards
-        /// </summary>
-        All = 0,
+	CREATE TABLE [dbo].[LeaderboardPointScale](
+		[LeaderboardPointScaleID]	[int] IDENTITY(1,1) NOT NULL,
+		[Name]						[varchar](255) NOT NULL,
+		[Value]						[int] NOT NULL,
+	 CONSTRAINT [PK_dbo.LeaderboardPointScale] PRIMARY KEY CLUSTERED 
+	(
+		[LeaderboardPointScaleID] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+END
 
-        /// <summary>
-        /// Points for just game leaderboards
-        /// </summary>
-        Game = 1
-    }
-}
+IF NOT EXISTS (	SELECT LPS.LeaderboardPointScaleID
+			FROM dbo.LeaderboardPointScale LPS
+			WHERE LPS.[LeaderboardPointScaleID] = 1
+		  )
+	BEGIN
+		INSERT INTO dbo.LeaderboardPointScale
+		(
+			Name,
+			Value
+		)
+				SELECT 'Won Round',				5
+		UNION	SELECT 'Won Game',				15
+		UNION	SELECT 'Card Votes',			5
+		UNION	SELECT 'Card Selected For Deck',100 
+	END

@@ -28,15 +28,13 @@ IF OBJECT_ID('[dbo].[Leaderboard]') IS NULL
 		[LeaderboardID]				[bigint] IDENTITY(1,1) NOT NULL,
 		[UserId]					[int] NOT NULL,
 		[Points]					[bigint] NOT NULL,
-		[Type]						[tinyint] NOT NULL,
-	 CONSTRAINT [PK_dbo.GameLeaderboard] PRIMARY KEY CLUSTERED 
+	 CONSTRAINT [PK_dbo.Leaderboard] PRIMARY KEY CLUSTERED 
 	(
 		[LeaderboardID] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 	) ON [PRIMARY]
 
 	ALTER TABLE [dbo].[Leaderboard] ADD  DEFAULT ((0)) FOR [Points]
-	ALTER TABLE [dbo].[Leaderboard] ADD  DEFAULT ((0)) FOR [Type]
 
 	ALTER TABLE [dbo].[Leaderboard] WITH NOCHECK ADD  CONSTRAINT [FK_dbo.Leaderboard_dbo.UserProfile_UserId] FOREIGN KEY([UserId])
 	REFERENCES [dbo].[UserProfile] ([UserId])
