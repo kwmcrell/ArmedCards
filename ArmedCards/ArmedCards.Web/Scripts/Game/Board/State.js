@@ -1,5 +1,6 @@
 ﻿/// <reference path="Hand.js" />
 /// <reference path="Common.js" />
+/// <reference path="Waiting.js" />
 /// <reference path="../../Core/Utilities.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -36,6 +37,8 @@ if (!ArmedCards.Game.State) {
 }
 
 State.prototype.UpdateGame = function (html) {
+    ArmedCards.Game.Waiting.ClearTimeout();
+
 	$('#gameContainer').html(html);
 
 	ArmedCards.Game.Common.Init();
