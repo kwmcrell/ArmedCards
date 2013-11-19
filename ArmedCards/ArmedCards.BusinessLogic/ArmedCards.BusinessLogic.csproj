@@ -109,6 +109,8 @@
     <Compile Include="AppServices\Game\ValidatePassphrase.cs" />
     <Compile Include="AppServices\Hub\Base\ISendMessage.cs" />
     <Compile Include="AppServices\Hub\SendMessage.cs" />
+    <Compile Include="AppServices\Leaderboard\Base\ISelect.cs" />
+    <Compile Include="AppServices\Leaderboard\Select.cs" />
     <Compile Include="AppServices\User\Base\IInsert.cs" />
     <Compile Include="AppServices\User\Base\ISelect.cs" />
     <Compile Include="AppServices\User\Base\IUpdate.cs" />
@@ -183,6 +185,8 @@
     <Compile Include="DomainServices\Game\Select.cs" />
     <Compile Include="DomainServices\Game\Update.cs" />
     <Compile Include="DomainServices\Game\ValidatePassphrase.cs" />
+    <Compile Include="DomainServices\Leaderboard\Base\ISelect.cs" />
+    <Compile Include="DomainServices\Leaderboard\Select.cs" />
     <Compile Include="DomainServices\User\Base\IInsert.cs" />
     <Compile Include="DomainServices\User\Base\ISelect.cs" />
     <Compile Include="DomainServices\User\Base\IUpdate.cs" />
@@ -240,6 +244,8 @@
     <Compile Include="Repositories\Game\Leave.cs" />
     <Compile Include="Repositories\Game\Select.cs" />
     <Compile Include="Repositories\Game\Update.cs" />
+    <Compile Include="Repositories\Leaderboard\Base\ISelect.cs" />
+    <Compile Include="Repositories\Leaderboard\Select.cs" />
     <Compile Include="Repositories\ProviderInfo\Base\ISelect.cs" />
     <Compile Include="Repositories\ProviderInfo\Select.cs" />
     <Compile Include="Repositories\User\Base\IInsert.cs" />

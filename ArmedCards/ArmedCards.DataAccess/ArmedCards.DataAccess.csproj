@@ -94,6 +94,8 @@
     <Compile Include="Game\Insert.cs" />
     <Compile Include="Game\Select.cs" />
     <Compile Include="Game\Update.cs" />
+    <Compile Include="Leaderboard\Base\ISelect.cs" />
+    <Compile Include="Leaderboard\Select.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderInfo\Base\ISelect.cs" />
     <Compile Include="ProviderInfo\Select.cs" />
@@ -157,6 +159,7 @@
     <Content Include="_DBScripts\Game\Game_Update.sql" />
     <Content Include="_DBScripts\Leaderboards\%40LeaderboardPointScale.sql" />
     <Content Include="_DBScripts\Leaderboards\%40LeaderboardTable.sql" />
+    <Content Include="_DBScripts\Leaderboards\Leaderboard_Select.sql" />
     <Content Include="_DBScripts\Master.sql" />
     <Content Include="_DBScripts\User\%40UserProfileTable.sql" />
     <Content Include="_DBScripts\User\User_UpdateDisplayName.sql" />

@@ -278,6 +278,16 @@ namespace ArmedCards.Web
 			Container.RegisterType<DataAccess.GameRoundCard.Base.IUpdate,						DataAccess.GameRoundCard.Update>();
 
 			#endregion "Game Round Card"
-		}
+
+            #region "Leaderboard"
+
+            Container.RegisterType<BusinessLogic.AppServices.Leaderboard.Base.ISelect,      BusinessLogic.AppServices.Leaderboard.Select>();
+            Container.RegisterType<BusinessLogic.DomainServices.Leaderboard.Base.ISelect,   BusinessLogic.DomainServices.Leaderboard.Select>();
+            Container.RegisterType<BusinessLogic.Repositories.Leaderboard.Base.ISelect,     BusinessLogic.Repositories.Leaderboard.Select>();
+
+            Container.RegisterType<DataAccess.Leaderboard.Base.ISelect,                     DataAccess.Leaderboard.Select>();
+
+            #endregion "Leaderboard"
+        }
     }
 }

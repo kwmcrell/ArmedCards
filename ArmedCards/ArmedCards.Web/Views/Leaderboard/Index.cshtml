@@ -1,0 +1,35 @@
+﻿@model ArmedCards.Web.Models.Leaderboard.Index
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+
+    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
+    header.SubHeaderText = "Leaderboards";
+}
+<div class="leaderboard">
+    @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+
+    <div class="board clearfix">
+        <div>
+            <h3>Global</h3>
+            <ol>
+                @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.Top10])
+                {
+                    <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl">@record.User.DisplayName</a></li>
+                }
+            </ol>
+        </div>
+        @if (Model.Leaderboards.ContainsKey(ArmedCards.Entities.Enums.LeaderboardType.CurrentUser))
+        {
+            <div>
+                <h3>Me</h3>
+                <ol>
+                    @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.CurrentUser])
+                    {
+                        <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl">@record.User.DisplayName</a></li>
+                    }
+                </ol>
+            </div>
+        }
+    </div>
+</div>
