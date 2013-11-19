@@ -350,6 +350,7 @@
     <Content Include="Views\Profile\ChangeDisplayName.cshtml" />
     <Content Include="Views\Game\Board\Partials\_VoteToKick.cshtml" />
     <Content Include="Views\Leaderboard\Index.cshtml" />
+    <Content Include="Views\Shared\Layout\_Plain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
