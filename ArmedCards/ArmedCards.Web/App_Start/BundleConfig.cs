@@ -35,8 +35,7 @@ namespace ArmedCards.Web
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/Core/jQueryTopic.js",
                         "~/Scripts/Core/Utilities.js",
-                        "~/Scripts/jquery.signalR-1.1.3.js",
-						"~/Scripts/jquery.transit.js"));
+                        "~/Scripts/jquery.signalR-1.1.3.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Styles").Include(
                 "~/Content/Home.css",
@@ -73,6 +72,9 @@ namespace ArmedCards.Web
 
 			bundles.Add(new ScriptBundle("~/bundles/Core/Profile").Include(
 						"~/Scripts/Core/Profile/Profile.js"));
+
+			bundles.Add(new ScriptBundle("~/bundles/GreenSock")
+				   .IncludeDirectory("~/Scripts/GreenSock", "*.js", true));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

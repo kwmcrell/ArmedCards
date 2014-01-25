@@ -1,6 +1,4 @@
-﻿/// <reference path="../jQuery/jquery-1.9.1.js" />
-/// <reference path="Common.js" />
-/// <reference path="../../jquery.transit.js" />
+﻿/// <reference path="Common.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -238,30 +236,10 @@ Hand.prototype.Init = function () {
 		click: ArmedCards.Game.Hand.PlayCard
 	}, '#cardToPlaySubmit');
 
-	var hand = $.makeArray($('.hand .answer.card.out'));
-
-	if (hand.length > 0) {
-		var $firstCard = $(hand.shift());
-
-		$firstCard.transition({}, 200, 'in', ArmedCards.Game.Hand.DealCard);
-	}
-
 	if (ArmedCards.Game.Common.CurrentInstructions > ArmedCards.Game.Common.QuestionInstructions.Normal) {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
 	}
 	ArmedCards.Game.Hand.CurrentPickCount = 1;
-};
-
-Hand.prototype.DealCard = function () {
-	$(this).removeClass('out');
-
-	var hand = $.makeArray($('.hand .answer.card.out'));
-
-	if (hand.length > 0) {
-		var $firstCard = $(hand.shift());
-
-		$firstCard.transition({}, 200, 'in', ArmedCards.Game.Hand.DealCard);
-	}
 };
 
 Hand.prototype.ConnectionSuccess = function () {
