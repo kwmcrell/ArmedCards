@@ -1587,6 +1587,17 @@ body .chat.right .openClose a span.mobileOpenClose
 	left: -95%;
 }
 
+.card.outTop
+{
+    left:-1000% !important;
+    top: -100em !important;
+}
+
+.pickMultiple.noShadow
+{
+    box-shadow: none;
+}
+
 .card.out:nth-child(1)
 {
 	-webkit-transition-delay: 100ms;

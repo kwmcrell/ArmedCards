@@ -29,7 +29,7 @@
 
 @foreach (IGrouping<Int32, GameRoundCard> group in groupedAnswers)
 {
-	<div class="pickMultiple">
-		@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
-	</div>
+    <div class="pickMultiple noShadow" data-groupCount="@group.Count()">
+        @Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+    </div>
 }

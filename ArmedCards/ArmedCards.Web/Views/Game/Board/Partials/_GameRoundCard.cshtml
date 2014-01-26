@@ -23,7 +23,7 @@
 
 @model GameRoundCard
 
-<a data-playedBy="@Model.PlayedBy_UserId" data-playOrder="@Model.PlayOrder" id="@Model.Card_CardID" href="#" class="answer card">
+<a data-playedBy="@Model.PlayedBy_UserId" data-playOrder="@Model.PlayOrder" id="@Model.Card_CardID" href="#" class="answer card outTop">
 	@Html.Raw(Model.Card.Content)
     @Html.Raw(CardFormatter.GetBrandingHtml())
 </a>

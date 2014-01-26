@@ -1,4 +1,6 @@
 ﻿/// <reference path="Common.js" />
+/// <reference path="../jQuery/jquery-1.9.1.js" />
+/// <reference path="../../GreenSock/TweenMax.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -236,10 +238,42 @@ Hand.prototype.Init = function () {
 		click: ArmedCards.Game.Hand.PlayCard
 	}, '#cardToPlaySubmit');
 
+	if ($('#answers').is(':visible')) {
+	    ArmedCards.Game.Hand.DealAnswers();
+	}
+	else {
+	    ArmedCards.Game.Hand.DealHand();
+	}
+
 	if (ArmedCards.Game.Common.CurrentInstructions > ArmedCards.Game.Common.QuestionInstructions.Normal) {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
 	}
 	ArmedCards.Game.Hand.CurrentPickCount = 1;
+};
+
+Hand.prototype.DealHand = function () {
+    TweenMax.staggerTo($('.hand .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3);
+};
+
+Hand.prototype.DealAnswers = function () {
+    TweenMax.staggerTo($('#answers .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3);
+};
+
+Hand.prototype.DealCard = function () {
+    var $target = $(this.target);
+    var $parent = $target.parent();
+
+    $target.removeClass('outTop');
+
+    if($parent.hasClass('pickMultiple'))
+    {
+        var groupCount = parseInt($parent.attr('data-groupCount'));
+
+        if($parent.children().index($target) == groupCount - 1)
+        {
+            setTimeout(function () { $parent.removeClass('noShadow'); }, 300);
+        }
+    }
 };
 
 Hand.prototype.ConnectionSuccess = function () {

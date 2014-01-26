@@ -46,12 +46,28 @@ State.prototype.UpdateGame = function (html) {
 };
 
 State.prototype.UpdateAnswers = function (answers, answered) {
-	if (answered) {
+    var currentCardCount = $('#answers').find('.card:not(.outTop)').length;
+    var $tempDiv = $('<div />').html(answers); //
+    var showingAnswers = $tempDiv.find('.pickinTime').length > 0;
+    var newCardsCount = $tempDiv.find('.card').length - currentCardCount;
+
+    $('#answers').html(answers);
+
+    if (answered) {
+        if (!showingAnswers)
+        {
+            var completeCardArray = $('#answers').find('.card');
+
+            for (var i = 0; i < currentCardCount; i++) {
+                $(completeCardArray[i]).removeClass('outTop');
+            }
+        }
+
 		$('#hand').addClass('hidden');
 		$('#answers').removeClass('hidden');
-	}
 
-	$('#answers').html(answers);
+		ArmedCards.Game.Hand.DealAnswers();
+	}
 };
 
 State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {

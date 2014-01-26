@@ -34,8 +34,8 @@
         @foreach (GamePlayerCard playerCard in Model.Hand)
         {
 			cardModel = new AnswerCard();
-			cardModel.Card = playerCard.Card;
-			//cardModel.CssClasses = "out";
+            cardModel.Card = playerCard.Card;
+            cardModel.CssClasses = "outTop";
 			
             @Html.Partial("~/Views/Shared/Partials/_Answer.cshtml", cardModel)
         }
