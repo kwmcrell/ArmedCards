@@ -1589,13 +1589,33 @@ body .chat.right .openClose a span.mobileOpenClose
 
 .card.outTop
 {
-    left:-1000% !important;
-    top: -100em !important;
+    left:-1000%;
+    top: -100em;
 }
 
 .pickMultiple.noShadow
 {
     box-shadow: none;
+}
+
+.played .pickMultiple .card.outTop,
+.played .pickMultiple .card.outTop:hover,
+.played.pickMultiple .card.outTop:focus
+{
+	left:-1000%;
+    top: -100em;
+}
+
+.user.winningUser
+{
+    opacity: 0;
+    height: 0px;
+    display: none;
+}
+
+.user.winningUser.visible
+{
+    opacity: 1;
 }
 
 .card.out:nth-child(1)

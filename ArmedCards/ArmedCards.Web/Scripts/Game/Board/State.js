@@ -45,7 +45,7 @@ State.prototype.UpdateGame = function (html) {
 	ArmedCards.Game.Hand.Init();
 };
 
-State.prototype.UpdateAnswers = function (answers, answered) {
+State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
     var currentCardCount = $('#answers').find('.card:not(.outTop)').length;
     var $tempDiv = $('<div />').html(answers); //
     var showingAnswers = $tempDiv.find('.pickinTime').length > 0;
@@ -66,12 +66,17 @@ State.prototype.UpdateAnswers = function (answers, answered) {
 		$('#hand').addClass('hidden');
 		$('#answers').removeClass('hidden');
 
-		ArmedCards.Game.Hand.DealAnswers();
+		if (winnerSelected) {
+		    ArmedCards.Game.Hand.DealAnswersComplete();
+		}
+		else {
+		    ArmedCards.Game.Hand.DealAnswers();
+		}
 	}
 };
 
 State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {
-	ArmedCards.Game.State.UpdateAnswers(answers, true);
+	ArmedCards.Game.State.UpdateAnswers(answers, true, true);
 
 	ArmedCards.Game.State.UpdateLobby(playerList);
 

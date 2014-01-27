@@ -1,6 +1,7 @@
 ﻿/// <reference path="Common.js" />
 /// <reference path="../jQuery/jquery-1.9.1.js" />
 /// <reference path="../../GreenSock/TweenMax.js" />
+/// <reference path="../../GreenSock/TimelineMax.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -256,7 +257,31 @@ Hand.prototype.DealHand = function () {
 };
 
 Hand.prototype.DealAnswers = function () {
-    TweenMax.staggerTo($('#answers .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3);
+    TweenMax.staggerTo($('#answers .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3,
+                        ArmedCards.Game.Hand.DealAnswersComplete);
+};
+
+Hand.prototype.DealAnswersComplete = function () {
+    var winnerPicked = $('.winnerPicked');
+
+    if (winnerPicked != null) {
+        setTimeout(function () {
+            $('#roundWinner').addClass('winner');
+
+            var $winningUser = $('.user.winningUser');
+
+            $winningUser.show();
+
+            setTimeout(function () {
+                TweenMax.to($winningUser, .5, { height: "100px" });
+                $winningUser.addClass('visible');
+
+                setTimeout(function () {
+                    TweenMax.to('.user.losingUser', .1, { opacity: "1" });
+                }, 500);
+            }, 500);
+        }, 500);
+    }
 };
 
 Hand.prototype.DealCard = function () {

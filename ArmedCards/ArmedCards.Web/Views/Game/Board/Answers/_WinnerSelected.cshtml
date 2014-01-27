@@ -30,8 +30,8 @@
 		ArmedCards.Entities.User player = group.First().PlayedBy;
 		if (group.Count(x => x.Winner) > 0)
 		{
-			<div class="winner">
-				<div class="user">
+			<div id="roundWinner" class="">
+				<div class="user winningUser">
 					<h3>Winner</h3>
 					<a href="#" class="loggedIn">
 						<img src="@player.PictureUrl">
@@ -39,18 +39,14 @@
 					</a>
 					<p class="addPoints">+1 points</p>
 				</div>
-				<div class="pickMultiple">
-					@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
-				</div>
+                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
 			</div>
 		}
 		else
 		{
 			<div>
-				<div class="pickMultiple">
-					@Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
-				</div>
-				<div class="user">
+                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+				<div class="user losingUser" style="opacity:0;">
 					<a href="#" class="loggedIn">
 						<img src="@player.PictureUrl">
 						@group.First().PlayedBy.DisplayName
