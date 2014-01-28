@@ -56,11 +56,6 @@
                 	});
                 },
 
-                updateMessageDiv = function (message) {
-
-                	$('#messageDiv').html(message);
-                },
-
                 notify = function (map) {
                 	var
                         options = getOptions(),
@@ -188,8 +183,7 @@
 				options: {},
 				success: success,
 				version: version,
-				warning: warning,
-				updateMessageDiv: updateMessageDiv
+				warning: warning
 			};
 
 			return toastr;

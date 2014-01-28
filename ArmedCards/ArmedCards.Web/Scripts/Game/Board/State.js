@@ -123,8 +123,8 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 };
 
 State.prototype.RoundAlert = function (timeDelay, timeLeft, message) {
-	setTimeout(function () {
-		toastr.updateMessageDiv(message.format(timeLeft))
+    setTimeout(function () {
+        ArmedCards.Game.Common.UpdateMessageDiv(message.format(timeLeft));
 	}, timeDelay);
 };
 

@@ -61,6 +61,10 @@ Common.prototype.GetChildrenIDs = function ($element) {
 	return ids;
 };
 
+Common.prototype.UpdateMessageDiv = function (message) {
+    $('#messageDiv').html(message);
+};
+
 Common.prototype.Init = function () {
 	ArmedCards.Game.Common.SetCurrentInstructions();
 };
