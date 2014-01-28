@@ -97,7 +97,7 @@ namespace ArmedCards.Web.Controllers
 
 					Models.Account.RegisterExternalLogin model = new Models.Account.RegisterExternalLogin
 					{
-						UserName = result.UserName,
+						UserName = "",
 						ExternalLoginData = loginData,
 						ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName,
 						ReturnUrl = returnUrl
