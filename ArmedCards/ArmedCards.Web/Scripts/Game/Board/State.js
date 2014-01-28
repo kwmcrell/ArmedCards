@@ -67,6 +67,7 @@ State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
 		$('#answers').removeClass('hidden');
 
 		if (winnerSelected) {
+		    $('.pickMultiple.noShadow').removeClass('noShadow');
 		    ArmedCards.Game.Hand.DealAnswersComplete();
 		}
 		else {

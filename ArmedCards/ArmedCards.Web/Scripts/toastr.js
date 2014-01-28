@@ -57,6 +57,7 @@
                 },
 
                 updateMessageDiv = function (message) {
+
                 	$('#messageDiv').html(message);
                 },
 
