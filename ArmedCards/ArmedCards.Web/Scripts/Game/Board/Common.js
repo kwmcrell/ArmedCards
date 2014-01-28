@@ -62,7 +62,7 @@ Common.prototype.GetChildrenIDs = function ($element) {
 };
 
 Common.prototype.UpdateMessageDiv = function (message) {
-    $('#messageDiv').html(message);
+    $('.toast-message.messageContainer').html(message);
 };
 
 Common.prototype.Init = function () {

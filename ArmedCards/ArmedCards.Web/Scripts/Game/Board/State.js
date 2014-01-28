@@ -91,7 +91,8 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 		"fadeOut": 1000,
 		"timeOut": 14000,
 		"extendedTimeOut": 0,
-		"newestOnTop": false
+		"newestOnTop": false,
+		"messageClass": "toast-message messageContainer"
 	};
 
 	var message = "Starting in {0} seconds...";
