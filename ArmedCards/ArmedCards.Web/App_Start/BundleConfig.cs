@@ -42,9 +42,6 @@ namespace ArmedCards.Web
                 "~/Content/toastr.css",
 				"~/Content/Alerts.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
-                        "~/Scripts/toastr.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/Core/Login").Include(
                         "~/Scripts/Core/Login/LoginPartial.js",
                         "~/Scripts/Core/Login/LoginModal.js"));
