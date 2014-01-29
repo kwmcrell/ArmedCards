@@ -22,12 +22,14 @@
 *@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
+@using ArmedCards.Library.Extensions;
 @{	
 	Boolean isCommander = Model.IsCommander();
 	GameRound round = Model.Game.CurrentRound();
 	
 	List<GameRoundCard> answers =	round.Answers;
 	Int32 winnerCount = answers.Count(x => x.Winner);
+    answers.Shuffle();
 }
 	
 <div class="played">

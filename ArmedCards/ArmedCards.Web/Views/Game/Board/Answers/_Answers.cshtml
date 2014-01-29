@@ -22,6 +22,8 @@
  *@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
+@using Ent = ArmedCards.Entities;
+@using ArmedCards.Library.Extensions;
 @{	
 	String cssClass = Model.ShowHand() ? "hidden" : "";
 	GameRound round = Model.Game.CurrentRound();
@@ -40,12 +42,13 @@ else if (Model.ShowAnswers())
 	@Html.Partial("~/Views/Game/Board/Answers/_ShowAnswers.cshtml", Model)
 }
 else
-{
+{    
     <div class="names played">
 		<p>Cards played.</p>
-        @for (int i = 0; i < answers.Count(); i++)
+        @foreach(Ent.GameRoundCard card in answers)
         {
-		    <div class="answer card outTop">
+            <div class="answer card outTop">
+                @card.PlayedBy.DisplayName
 		    </div>
         }
 	</div>
