@@ -390,6 +390,10 @@
       <Project>{d8f286cb-de93-4ff8-8499-14e6ff87bc92}</Project>
       <Name>ArmedCards.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ArmedCards.Library\ArmedCards.Library.csproj">
+      <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
+      <Name>ArmedCards.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

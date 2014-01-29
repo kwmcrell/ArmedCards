@@ -130,15 +130,15 @@ namespace ArmedCards.Web.Models.Game.Board
 			return (!ShowAnswers() || Game.CurrentRound() == null) && Game.IsWaiting();
 		}
 
-		private List<IGrouping<Int32, Entities.GameRoundCard>> _groupedAnswers;
-
 		/// <summary>
 		/// Get answers grouped by who played them
 		/// </summary>
+        /// <remarks>Only use when answers are being shown</remarks>
 		/// <returns></returns>
 		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
 		{
-			return _groupedAnswers ?? (_groupedAnswers = Game.CurrentRound().Answers.GroupBy(x => x.PlayedBy_UserId).ToList());
+            return Game.CurrentRound().Answers.OrderBy(x => (x.Card_CardID + x.DatePlayed.Second + x.Card.Content.Length))
+                                              .GroupBy(x => x.PlayedBy_UserId).ToList();
 		}
     }
 }

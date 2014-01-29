@@ -28,8 +28,9 @@
 	GameRound round = Model.Game.CurrentRound();
 	
 	List<GameRoundCard> answers =	round.Answers;
-	Int32 winnerCount = answers.Count(x => x.Winner);
-    answers.Shuffle();
+    Int32 winnerCount = answers.Count(x => x.Winner);
+
+    answers = answers.OrderByDescending(x => (x.Card_CardID + x.DatePlayed.Second + x.Card.Content.Length)).ToList();
 }
 	
 <div class="played">
