@@ -34,7 +34,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_Delete] 
 	@GameID			int,
-	@UserId			int
+	@UserId			int,
+	@Type			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -43,18 +44,23 @@ AS
 
 	IF (SELECT G.[GameOver] 
 		FROM [dbo].[Game] G 
-		WHERE G.[GameID] = @GameID) IS NULL
+		WHERE G.[GameID] = @GameID) IS NULL OR @Type = 2
 		BEGIN
 
 			DELETE
 			FROM [dbo].[GamePlayer] 
-			WHERE [GameID] = @GameID AND [UserId] = @UserId
+			WHERE [GameID] = @GameID 
+			AND   [UserId] = @UserId
+			AND   [Type]   = @Type
 
 		END
 		
-		DELETE
-		FROM [dbo].[GamePlayerCard]
-		WHERE [GameID] = @GameID AND [UserId] = @UserId
+		IF @Type = 1
+			BEGIN
+				DELETE
+				FROM [dbo].[GamePlayerCard]
+				WHERE [GameID] = @GameID AND [UserId] = @UserId
+			END
 
 	COMMIT
 GO

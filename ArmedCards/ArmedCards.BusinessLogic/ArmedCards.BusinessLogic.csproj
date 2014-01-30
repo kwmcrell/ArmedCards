@@ -256,6 +256,9 @@
     <Compile Include="Repositories\User\Update.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ArmedCards.DataAccess\ArmedCards.DataAccess.csproj">
       <Project>{9577e538-bf15-4fb3-a02e-79f9bc4df3d7}</Project>
       <Name>ArmedCards.DataAccess</Name>
@@ -269,10 +272,6 @@
       <Name>ArmedCards.Library</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

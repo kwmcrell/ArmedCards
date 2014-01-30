@@ -45,6 +45,7 @@ AS
 	SET Points = (Points + 1)
 	WHERE	GameID = @GameID
 	AND		UserId = @UserId
+	AND		Type   = 1
 
 	DECLARE @pointScale int
 

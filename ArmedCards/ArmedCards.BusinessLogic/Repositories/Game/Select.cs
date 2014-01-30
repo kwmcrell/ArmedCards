@@ -75,7 +75,10 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
             playerFilter.GameID = filter.GameID;
 			playerFilter.SelectCards = filter.DataToSelect.HasFlag(Entities.Enums.Game.Select.GamePlayerCards);
 
-            game.Players = _selectGamePlayerREPO.Execute(playerFilter);
+            List<Entities.GamePlayer> allPlayers = _selectGamePlayerREPO.Execute(playerFilter);
+
+            game.Players = allPlayers.Where(x => x.PlayerType == Entities.Enums.GamePlayerType.Player).ToList();
+            game.Spectators = allPlayers.Where(x => x.PlayerType == Entities.Enums.GamePlayerType.Spectator).ToList();
 
 			Entities.Filters.Deck.Select deckFilter = new Entities.Filters.Deck.Select();
 			deckFilter.GameIDs.Add(game.GameID);

@@ -33,7 +33,8 @@ GO
 -- Description:	Selects game players
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_Select] 
-	@GameID			int
+	@GameID			int,
+	@Type			int = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -46,14 +47,19 @@ AS
 			GP.[JoinDate],
 			UP.[UserName],
 			UP.[PictureUrl],
-			(SELECT COUNT(CardID)
-			 FROM [dbo].[GamePlayerCard]
-			 WHERE	[UserId] = GP.UserId
-			 AND	[GameID] = @GameID
-			) AS CardCount
+			CASE WHEN @Type = 1
+				THEN
+					(SELECT COUNT(CardID)
+					FROM [dbo].[GamePlayerCard]
+					WHERE	[UserId] = GP.UserId
+					AND	[GameID] = @GameID)
+				ELSE
+					0 
+			END AS CardCount
 	FROM [dbo].[GamePlayer] GP
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
+	AND   GP.[Type]   = @Type   OR @Type IS NULL
 	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT

@@ -48,3 +48,11 @@ IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
 
 		ALTER TABLE [dbo].[GamePlayer] CHECK CONSTRAINT [FK_dbo.GamePlayer_dbo.UserProfile_UserId]
 	END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'Type' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [Type] [int] NOT NULL DEFAULT 1
+END

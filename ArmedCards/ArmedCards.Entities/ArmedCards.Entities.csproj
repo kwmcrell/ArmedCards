@@ -54,6 +54,7 @@
     <Compile Include="Enums\Card\CardType.cs" />
     <Compile Include="Enums\Card\Instructions.cs" />
     <Compile Include="Enums\DeckType.cs" />
+    <Compile Include="Enums\GamePlayerType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />
     <Compile Include="Enums\Game\Select.cs" />
     <Compile Include="Enums\LeaderboardType.cs" />
@@ -100,7 +101,6 @@
       <Name>ArmedCards.Library</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -48,12 +48,15 @@ namespace ArmedCards.Entities
 			{
 				Game = new Game(idr);
 			}
+
+            PlayerType = (Enums.GamePlayerType)idr.GetValueByName<Int32>("Type");
         }
 
         public GamePlayer()
         {
             User = new User();
 			Hand = new List<GamePlayerCard>();
+            PlayerType = Enums.GamePlayerType.Player;
         }
 
         /// <summary>
@@ -109,5 +112,10 @@ namespace ArmedCards.Entities
 
 			return missingIds;
 		}
+
+        /// <summary>
+        /// The type of player
+        /// </summary>
+        public Enums.GamePlayerType PlayerType { get; set; }
     }
 }

@@ -27,16 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.Filters.GamePlayer
+namespace ArmedCards.Entities.Enums
 {
     /// <summary>
-    /// Filter used to select all game players
+    /// Enum used to define the type of player the user is
     /// </summary>
-    public class SelectAll
+    public enum GamePlayerType
     {
         /// <summary>
-        /// The type of players to select
+        /// Player in the game
         /// </summary>
-        public Enums.GamePlayerType PlayerType { get; set; }
+        Player = 1,
+
+        /// <summary>
+        /// Spectating the game
+        /// </summary>
+        Spectator = 2
     }
 }

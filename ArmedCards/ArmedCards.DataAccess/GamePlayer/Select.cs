@@ -56,6 +56,10 @@ namespace ArmedCards.DataAccess.GamePlayer
             using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_Select"))
             {
                 _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+                if (filter.PlayerType.HasValue)
+                {
+                    _db.AddInParameter(cmd, "@Type", DbType.Int32, filter.PlayerType);
+                }
 
                 using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
@@ -104,6 +108,7 @@ namespace ArmedCards.DataAccess.GamePlayer
 			using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_SelectForUser"))
 			{
 				_db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+                _db.AddInParameter(cmd, "@Type", DbType.Int32,   filter.PlayerType);
 
 				using (IDataReader idr = _db.ExecuteReader(cmd))
 				{

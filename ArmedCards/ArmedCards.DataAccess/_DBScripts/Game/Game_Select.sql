@@ -54,10 +54,16 @@ AS
 			G.[QuestionShuffleCount],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
-			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount,
+			 WHERE GP.[GameID] = G.[GameID]
+			 AND   GP.[Type] = 1) AS PlayerCount,
 			(SELECT COUNT([Game_GameID]) 
 			 FROM [dbo].[GameRound] GR
-			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount
+			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
+			G.MaxNumberOfSpectators,
+			(SELECT COUNT(UserID) 
+			 FROM [dbo].[GamePlayer] GP
+			 WHERE GP.[GameID] = G.[GameID]
+			 AND   GP.[Type] = 2) AS SpectatorCount
 	 FROM [dbo].[Game] G
 	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
 
