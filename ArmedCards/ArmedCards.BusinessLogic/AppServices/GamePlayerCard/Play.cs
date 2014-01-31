@@ -75,7 +75,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 
 				game.Rounds.Add(response.CurrentRound);
 
-				_sendMessage.Execute(game, playedAction);
+				_sendMessage.Execute(game, playedAction, true);
 				_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
 			}
 

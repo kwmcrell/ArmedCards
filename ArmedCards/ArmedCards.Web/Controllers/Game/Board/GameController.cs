@@ -69,13 +69,15 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
 																Helpers.HubActions.SendWaitingMessage,
 																Helpers.HubActions.UpdateGameView,
-																Helpers.HubActions.UpdateLobby);
+																Helpers.HubActions.UpdateLobby,
+                                                                Entities.Enums.GamePlayerType.Player);
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
                 Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
                 model.Game = response.Game;
                 model.UserId = currentUserId;
+                model.PlayerType = Entities.Enums.GamePlayerType.Player;
 
 				Entities.Filters.GamePlayerKickVote.SelectForGame kickVoteFilter = new Entities.Filters.GamePlayerKickVote.SelectForGame();
 				kickVoteFilter.GameID = id;
@@ -112,5 +114,41 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 return Redirect(Url.Action("Index", "GameListing", new { id = id }));
             }
 		}
+
+        [HttpGet]
+        public ActionResult Spectate(Int32 id)
+        {
+            String key = String.Format("Game_{0}_Passphrase", id);
+            String passphrase = String.Empty;
+            Int32 currentUserId = WebSecurity.CurrentUserId;
+
+            if (Session[key] != null)
+            {
+                passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
+                Session.Remove(key);
+            }
+
+            Entities.User user = _selectUser.Execute(currentUserId);
+
+            Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
+                                                                Helpers.HubActions.SendWaitingMessage,
+                                                                Helpers.HubActions.UpdateGameView,
+                                                                Helpers.HubActions.UpdateLobby,
+                                                                Entities.Enums.GamePlayerType.Spectator);
+            if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
+                response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)
+            {
+                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+                model.Game = response.Game;
+                model.UserId = currentUserId;
+                model.PlayerType = Entities.Enums.GamePlayerType.Spectator;
+
+                return View("~/Views/Game/Board/Index.cshtml", model);
+            }
+            else
+            {
+                return Redirect(Url.Action("Index", "GameListing", new { id = id }));
+            }
+        }
 	}
 }

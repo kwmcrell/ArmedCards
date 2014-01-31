@@ -273,6 +273,10 @@ namespace ArmedCards.Entities
             return needed > 0 ? needed : 0;
         }
 
+        /// <summary>
+        /// Get the current round
+        /// </summary>
+        /// <returns>The current round of the game</returns>
 		public Entities.GameRound CurrentRound()
 		{
 			if (this.HasRounds())
@@ -402,5 +406,15 @@ namespace ArmedCards.Entities
         /// List of spectators
         /// </summary>
         public List<GamePlayer> Spectators { get; set; }
+
+        /// <summary>
+        /// Determine if user is already a player
+        /// </summary>
+        /// <param name="userID">The userID</param>
+        /// <returns></returns>
+        public Boolean IsCurrentSpectator(Int32 userID)
+        {
+            return Spectators.Find(x => x.User.UserId == userID) != null;
+        }
     }
 }

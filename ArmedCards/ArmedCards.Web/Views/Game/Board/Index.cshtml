@@ -27,6 +27,7 @@
     Layout = "~/Views/Shared/Layout/_ChatRight.cshtml";
 }
 
+@Html.Hidden("ConnectionType", (Int32)Model.PlayerType, new { id = "ConnectionType" })
 @Html.HiddenFor(x => x.Game.GameID)
 
 <div id="gameContainer" class="game gameScreen clearfix">
@@ -49,4 +50,8 @@
 	@Scripts.Render("~/bundles/Core/Hub")
     <script src='/SignalR/hubs'></script>
 	@Scripts.Render("~/bundles/Game/Board")
+    @if(Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Spectator)
+    {
+        
+    }
 }

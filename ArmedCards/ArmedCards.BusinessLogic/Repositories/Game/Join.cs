@@ -46,20 +46,30 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 		/// </summary>
 		/// <param name="gameID">The game to join</param>
 		/// <param name="user">The current user</param>
+        /// <param name="playerType">Type of player joining</param>
 		/// <returns>If the user was able to join the game</returns>
-		public Boolean Execute(Entities.Game game, Entities.User user)
+		public Boolean Execute(Entities.Game game, Entities.User user, Entities.Enums.GamePlayerType playerType)
 		{
 			Entities.GamePlayer player = new Entities.GamePlayer();
 			player.GameID = game.GameID;
 			player.Points = 0;
 			player.User = user;
+            player.PlayerType = playerType;
 
 			Boolean successful = _insertGamePlayer.Execute(player) != -1;
 
 			if(successful)
             {
-                game.Players.Add(player);
-                game.PlayerCount++;
+                if (playerType == Entities.Enums.GamePlayerType.Player)
+                {
+                    game.Players.Add(player);
+                    game.PlayerCount++;
+                }
+                else if(playerType == Entities.Enums.GamePlayerType.Spectator)
+                {
+                    game.Spectators.Add(player);
+                    game.SpectatorCount++;
+                }
             }
 
 			return successful;

@@ -198,7 +198,13 @@ State.prototype.Init = function () {
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
 	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
-	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
+	if ($('#ConnectionType').val() == 1) {
+	    hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
+	}
+	else
+	{
+	    hub.client.UpdateLobbyView = function () { };
+	}
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;

@@ -27,15 +27,18 @@ IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
 			[GameID]		[int] NOT NULL,
 			[UserId]		[int] NOT NULL,
 			[Points]		[int] NOT NULL,
-			[JoinDate]		[datetime] NOT NULL
+			[JoinDate]		[datetime] NOT NULL,
+			[Type]			[int] NOT NULL
 		 CONSTRAINT [PK_dbo.GamePlayer] PRIMARY KEY CLUSTERED 
 		(
 			[GameID] ASC,
-			[UserId] ASC
+			[UserId] ASC,
+			[Type]   ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 		) ON [PRIMARY]
 
 		ALTER TABLE [dbo].[GamePlayer] ADD  DEFAULT ((0)) FOR [Points]
+		ALTER TABLE [dbo].[GamePlayer] ADD  DEFAULT ((1)) FOR [Type]
 
 		ALTER TABLE [dbo].[GamePlayer]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GamePlayer_dbo.Game_GameID] FOREIGN KEY([GameID])
 		REFERENCES [dbo].[Game] ([GameID])

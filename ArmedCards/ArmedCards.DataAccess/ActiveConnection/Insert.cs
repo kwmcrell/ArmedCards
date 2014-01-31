@@ -59,6 +59,7 @@ namespace ArmedCards.DataAccess.ActiveConnection
                 db.AddInParameter(cmd, "@ActiveConnectionID", DbType.String, connection.ActiveConnectionID);
                 db.AddInParameter(cmd, "@GroupName", DbType.String, connection.GroupName);
                 db.AddInParameter(cmd, "@User_UserId", DbType.Int32, connection.User_UserId);
+                db.AddInParameter(cmd, "@ConnectionType", DbType.Int32, connection.ConnectionType);
 
                 db.ExecuteScalar(cmd);
             }

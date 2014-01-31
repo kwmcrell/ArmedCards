@@ -84,8 +84,9 @@ Chat.prototype.Join = function () {
     var hub = $.connection.ArmedCardsHub;
 
     var gameID = $('#Game_GameID').val();
+    var connectionType = $('#ConnectionType').val();
 
-    hub.server.Join(gameID);
+    hub.server.Join(gameID, connectionType);
 };
 
 Chat.prototype.UpdateLobby = function (lobby) {

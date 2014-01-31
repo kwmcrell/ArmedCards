@@ -45,6 +45,7 @@ AS
 			GP.[Points],
 			GP.[UserId],
 			GP.[JoinDate],
+			GP.[Type],
 			UP.[UserName],
 			UP.[PictureUrl],
 			CASE WHEN @Type = 1

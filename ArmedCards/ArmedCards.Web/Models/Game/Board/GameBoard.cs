@@ -140,5 +140,10 @@ namespace ArmedCards.Web.Models.Game.Board
             return Game.CurrentRound().Answers.OrderBy(x => (x.Card_CardID + x.DatePlayed.Second + x.Card.Content.Length))
                                               .GroupBy(x => x.PlayedBy_UserId).ToList();
 		}
+
+        /// <summary>
+        /// The type of the current player
+        /// </summary>
+        public Entities.Enums.GamePlayerType PlayerType { get; set; }
     }
 }

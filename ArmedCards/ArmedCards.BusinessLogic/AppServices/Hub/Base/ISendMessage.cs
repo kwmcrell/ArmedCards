@@ -43,7 +43,8 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
-		void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action);
+        /// <param name="sendToSpectators">Send to spectators</param>
+        void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action, Boolean sendToSpectators);
 
 		/// <summary>
 		/// Send a message to a hub group
@@ -52,8 +53,9 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub.Base
 		/// <param name="game">The current game</param>
 		/// <param name="round">The current round</param>
 		/// <param name="action">The action to fire</param>
+        /// <param name="sendToSpectators">Send message to spectators</param>
 		void Execute(Entities.Game game, Entities.GameRound round,
-		 			 Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action);
+                     Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action, Boolean sendToSpectators);
 
 		/// <summary>
 		/// Send a message to a hub group

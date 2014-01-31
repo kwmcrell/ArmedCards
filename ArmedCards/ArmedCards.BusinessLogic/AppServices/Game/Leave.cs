@@ -101,7 +101,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 			}
 			else if (game.IsWaiting() && wasWaiting)
 			{
-				_sendMessage.Execute(game, leaveGameContainer.WaitingAction);
+				_sendMessage.Execute(game, leaveGameContainer.WaitingAction, true);
 			}
 			else
 			{
@@ -111,7 +111,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 					current.CurrentPlayerCount--;
 				}
 
-				_sendMessage.Execute(game, leaveGameContainer.UpdateGameView);
+				_sendMessage.Execute(game, leaveGameContainer.UpdateGameView, true);
 			}
 
 			_leaveGame.Execute(gameID, user);

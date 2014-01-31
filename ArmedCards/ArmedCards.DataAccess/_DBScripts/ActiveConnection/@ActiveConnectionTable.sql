@@ -38,3 +38,11 @@ IF OBJECT_ID('[dbo].[ActiveConnection]') IS NULL
 
 		ALTER TABLE [dbo].[ActiveConnection] CHECK CONSTRAINT [FK_dbo.ActiveConnection_dbo.UserProfile_User_UserId]
 	END
+
+IF NOT EXISTS(	SELECT * 
+			FROM sys.columns 
+			WHERE Name = N'Type' 
+			AND Object_ID = Object_ID(N'ActiveConnection'))
+BEGIN
+    ALTER TABLE [dbo].[ActiveConnection] ADD [ConnectionType] [int] NOT NULL DEFAULT 0
+END

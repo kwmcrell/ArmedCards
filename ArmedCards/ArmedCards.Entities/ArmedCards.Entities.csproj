@@ -53,6 +53,7 @@
     <Compile Include="Deck.cs" />
     <Compile Include="Enums\Card\CardType.cs" />
     <Compile Include="Enums\Card\Instructions.cs" />
+    <Compile Include="Enums\ConnectionType.cs" />
     <Compile Include="Enums\DeckType.cs" />
     <Compile Include="Enums\GamePlayerType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />

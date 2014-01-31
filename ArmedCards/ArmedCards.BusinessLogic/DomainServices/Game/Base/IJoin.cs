@@ -40,7 +40,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game.Base
         /// <param name="gameID">The game to join</param>
         /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
+        /// <param name="playerType">Type of player joining</param>
         /// <returns>The response to a join request</returns>
-        Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase);
+        Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase, Entities.Enums.GamePlayerType playerType);
     }
 }
