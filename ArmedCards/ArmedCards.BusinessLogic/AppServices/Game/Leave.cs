@@ -63,7 +63,8 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
 		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
-		public void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer)
+        /// <param name="playerType">Type of player leaving</param>
+        public void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer, Entities.Enums.GamePlayerType playerType)
 		{
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;
@@ -73,12 +74,23 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 			Boolean wasWaiting = game.IsWaiting();
 
-			Boolean wasCurrentCommander = game.IsCurrentCommander(user.UserId);
+			Boolean wasCurrentCommander = game.IsCurrentCommander(user.UserId) && playerType == Entities.Enums.GamePlayerType.Player;
 
-			Entities.GamePlayer player = game.Players.Find(x => x.User.UserId == user.UserId);
+            Entities.GamePlayer player = null;
 
-			game.Players.Remove(player);
-			game.PlayerCount--;
+            if (playerType == Entities.Enums.GamePlayerType.Player)
+            {
+                player = game.Players.Find(x => x.User.UserId == user.UserId);
+                game.Players.Remove(player);
+                game.PlayerCount--;
+            }
+            else
+            {
+                player = game.Spectators.Find(x => x.User.UserId == user.UserId);
+
+                game.Spectators.Remove(player);
+                game.SpectatorCount--;
+            }
 
 			if (wasCurrentCommander)
 			{
@@ -114,7 +126,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 				_sendMessage.Execute(game, leaveGameContainer.UpdateGameView, true);
 			}
 
-			_leaveGame.Execute(gameID, user);
+			_leaveGame.Execute(gameID, user, playerType);
 
 			if (game.PlayerCount == 0)
 			{

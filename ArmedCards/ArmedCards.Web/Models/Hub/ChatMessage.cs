@@ -64,5 +64,11 @@ namespace ArmedCards.Web.Models.Hub
 		/// </summary>
 		[JsonProperty("Global")]
 		public Boolean Global { get; set; }
+
+        /// <summary>
+        /// The type of connection
+        /// </summary>
+        [JsonProperty("ConnectionType")]
+        public Entities.Enums.ConnectionType ConnectionType { get; set; }
     }
 }

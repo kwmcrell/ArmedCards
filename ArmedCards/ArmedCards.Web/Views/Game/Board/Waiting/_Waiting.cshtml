@@ -24,7 +24,7 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @{
     ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, WebSecurity.CurrentUserId);
+    header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, WebSecurity.CurrentUserId, Model.PlayerType);
 }
 
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)

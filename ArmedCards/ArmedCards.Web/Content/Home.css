@@ -1618,6 +1618,11 @@ body .chat.right .openClose a span.mobileOpenClose
     opacity: 1;
 }
 
+.played.noPick .answer.card
+{
+    cursor: default;
+}
+
 .card.out:nth-child(1)
 {
 	-webkit-transition-delay: 100ms;

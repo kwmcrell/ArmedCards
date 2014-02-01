@@ -188,7 +188,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		{
 			List<Entities.ActiveConnection> connections = GetConnections(gameID, alreadyVoted);
 
-			foreach (Entities.ActiveConnection connection in connections)
+			foreach (Entities.ActiveConnection connection in connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer))
 			{
 				action(connection, kickedUser, votesToKick, votesNotToKick);
 			}

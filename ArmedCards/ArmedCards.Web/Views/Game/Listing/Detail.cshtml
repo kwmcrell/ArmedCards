@@ -61,8 +61,12 @@
 	    Wrong!
     </div>
 }
-@if(Model.Game.PlayerCount < Model.Game.MaxNumberOfPlayers || Model.Game.IsCurrentPlayer(WebSecurity.CurrentUserId))
+@if(!Model.Game.IsFull() || Model.Game.IsCurrentPlayer(WebSecurity.CurrentUserId))
 {
-	<a id="detailDoIt" href="#" class="button">Do it!</a>
+	<a id="detailDoIt" href="#" class="button" data-playerType="1">Do it!</a>
+}
+@if(!Model.Game.MaxSpectatorsReached() || Model.Game.IsCurrentSpectator(WebSecurity.CurrentUserId))
+{
+    <a id="detailSpectate" href="#" class="button" data-playerType="2">Spectate</a>
 }
 <a id="detailNope" href="#" class="button nope">Nope</a>

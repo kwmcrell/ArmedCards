@@ -49,23 +49,30 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         /// <param name="passphrase">The user supplied passphrase</param>
         /// <returns>If the passphrase was validated</returns>
         [HttpPost]
-        public JsonResult Index(int id, string passphrase)
+        public JsonResult Index(int id, string passphrase, Entities.Enums.GamePlayerType playerType)
         {
-            bool validated = true;
+            bool validated = false;
 
-            if (!string.IsNullOrEmpty(passphrase))
+            if (passphrase == null)
             {
                 validated = _validatePassphrase.Execute(id, passphrase);
 
                 string key = string.Format("Game_{0}_Passphrase", id);
 
-                if (validated)
+                if (validated && !string.IsNullOrWhiteSpace(passphrase))
                 {
                     Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(passphrase), Session.SessionID));
                 }
             }
 
-            return Json(new { Validated = validated, URL = Url.Action("Index", "Game", new { id = id }) });
+            string url = Url.Action("Index", "Game", new { id = id });
+
+            if(playerType == Entities.Enums.GamePlayerType.Spectator)
+            {
+                url = Url.Action("Spectate", "Game", new { id = id });
+            }
+
+            return Json(new { Validated = validated, URL = url });
         }
     }
 }

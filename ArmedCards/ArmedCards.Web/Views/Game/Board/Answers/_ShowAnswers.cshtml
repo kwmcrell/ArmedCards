@@ -35,7 +35,7 @@
 	
 <div class="played">
 	<p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
-    <div class="played @(isCommander ? "pick" : "")">
+    <div class="played @(isCommander ? "pick" : "noPick")">
 		<div>
 			@if(round.Question.Instructions == ArmedCards.Entities.Enums.Card.Instructions.None)
 {

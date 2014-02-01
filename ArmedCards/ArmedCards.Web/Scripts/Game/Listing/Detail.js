@@ -58,7 +58,7 @@ Detail.prototype.validatePassphrase = function (event) {
         $.ajax({
             type: 'POST',
             url: '/ValidatePassphrase',
-            data: { id: $('#Game_GameID').val(), passphrase: $('#userSuppliedPassphrase').val() },
+            data: { id: $('#Game_GameID').val(), passphrase: $('#userSuppliedPassphrase').val(), playerType: $(this).attr('data-playerType') },
             success: ArmedCards.Game.Detail.validatePassphraseResponse,
             error: function (jqXHR, textStatus, errorThrown) {
                 alert(textStatus + '     ' + errorThrown + '     ' + jqXHR);
@@ -95,6 +95,10 @@ Detail.prototype.init = function () {
     $(document).on({
         click: ArmedCards.Game.Detail.validatePassphrase
     }, '#detailDoIt');
+
+    $(document).on({
+        click: ArmedCards.Game.Detail.validatePassphrase
+    }, '#detailSpectate');
 
     $('.game').on({
         click: ArmedCards.Game.Detail.getDetail

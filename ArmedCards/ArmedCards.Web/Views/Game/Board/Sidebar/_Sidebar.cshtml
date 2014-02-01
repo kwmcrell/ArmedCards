@@ -21,7 +21,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Entities.Game
+@model ArmedCards.Web.Models.Game.Board.GameBoard
 
 <div id="sidebar" class="chat right">
 	<div class="openClose">
@@ -40,13 +40,13 @@
         <a id="logOff" class="signOut" href="#">Sign out</a>
 	</div>
 	<div id="gameHeader" class="gameHeader">
-		<h3 title="@Model.Title">@Model.Title</h3>
-		<p>Started by <a href="#" target="_blank">@Model.Players.First().User.DisplayName</a></p>
-		<a href="/Leave/Index/@Model.GameID" class="leaveGame">Quit game</a>
+		<h3 title="@Model.Game.Title">@Model.Game.Title</h3>
+		<p>Started by <a href="#" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
+        <a href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit game</a>
 	</div>
 	<h4 id="playersHeader" class="accessible">Players</h4>
 	<div id="gameLobby" class="lobby">
-		@Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", Model.Players)
+		@Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", Model.Game.Players)
 	</div>
     <fieldset id="tabContainer">
 		<a id="gameChatTab" href="#" class="button active">Game</a>

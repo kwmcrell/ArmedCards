@@ -46,11 +46,13 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
 		/// </summary>
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
-		public void Execute(Int32 gameID, Entities.User user)
+        /// <param name="playerType">Type of player leaving</param>
+		public void Execute(Int32 gameID, Entities.User user, Entities.Enums.GamePlayerType playerType)
 		{
 			Entities.GamePlayer player = new Entities.GamePlayer();
 			player.GameID = gameID;
 			player.User = user;
+            player.PlayerType = playerType;
 
 			_deleteGamePlayer.Execute(player);
 		}

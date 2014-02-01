@@ -41,8 +41,14 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			this._leaveGame = leaveGame;
 		}
 
-
-        public ActionResult Index(Int32 id)
+        /// <summary>
+        /// Action responsible for leaving a game
+        /// </summary>
+        /// <param name="id">The game id to leave</param>
+        /// <param name="playerType">The type of player leaving</param>
+        /// <returns>The view for game listing screen</returns>
+        [HttpGet]
+        public ActionResult Index(Int32 id, Entities.Enums.GamePlayerType playerType)
         {
 			Entities.User user = new Entities.User
 			{
@@ -55,7 +61,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			leaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
 			leaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
 
-			_leaveGame.Execute(id, user, leaveGameContainer);
+			_leaveGame.Execute(id, user, leaveGameContainer, playerType);
 
 			return Redirect("/GameListing");
         }

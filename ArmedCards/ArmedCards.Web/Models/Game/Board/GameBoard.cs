@@ -93,7 +93,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public Boolean ShowHand()
 		{
-			return ActivePlayer && !Answered() && !IsCommander();
+			return ActivePlayer && !Answered() && !IsCommander() && PlayerType == Entities.Enums.GamePlayerType.Player;
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public Boolean IsCommander()
 		{
-			return Game.IsCurrentCommander(UserId);
+			return Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
 		}
 
 		/// <summary>

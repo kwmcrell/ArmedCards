@@ -75,6 +75,20 @@
                     <label for="Game_PointToWin">points needed to win game.</label>
 					@Html.ValidationMessageFor(m => m.Game.PointToWin)
                 </div>
+                <br />
+                <br />
+                <div>
+                    <div class="fakeSelect">
+                        <select id="Game_MaxNumberOfSpectators" name="Game.MaxNumberOfSpectators">
+                            @for (int i = 1; i < 11; i ++)
+                            {
+                                <option @(Model.Game.MaxNumberOfSpectators == i ? "selected='selected'" : "") value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+                    <label for="Game_PointToWin">spectators.</label>
+                    @Html.ValidationMessageFor(m => m.Game.MaxNumberOfSpectators)
+                </div>
             </div>
         </div>
         <a id="createGameSubmit" class="button" style="cursor: pointer;">Create</a>

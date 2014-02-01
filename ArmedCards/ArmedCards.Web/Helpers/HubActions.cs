@@ -60,7 +60,7 @@ namespace ArmedCards.Web.Helpers
 			};
 
 			hub.Clients.Client(connection.ActiveConnectionID)
-					   .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId), lobbyView);
+					   .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), lobbyView);
 		}
 
 		/// <summary>
@@ -76,7 +76,8 @@ namespace ArmedCards.Web.Helpers
 			{
 				Game = game,
 				Hand = game.Players.Find(x => x.User.UserId == connection.User_UserId).Hand,
-				UserId = connection.User_UserId
+				UserId = connection.User_UserId,
+                PlayerType = GetPlayerType(connection)
 			};
 
 			string partialView = GetRazorViewAsString("~/Views/Game/Board/Answers/_Answers.cshtml", model);
@@ -243,10 +244,18 @@ namespace ArmedCards.Web.Helpers
 			model.Game = game;
 			model.UserId = connection.User_UserId;
 			model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
+            model.PlayerType = GetPlayerType(connection);
 
 			String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
 			return gameView;
 		}
+
+        private static Entities.Enums.GamePlayerType GetPlayerType(Entities.ActiveConnection connection)
+        {
+            return connection.ConnectionType == Entities.Enums.ConnectionType.GamePlayer ?
+                                    Entities.Enums.GamePlayerType.Player :
+                                    Entities.Enums.GamePlayerType.Spectator;
+        }
 
 		#endregion "Private Helpers"
 	}
