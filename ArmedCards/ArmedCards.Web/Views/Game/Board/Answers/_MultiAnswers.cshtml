@@ -24,12 +24,9 @@
 @model List<GameRoundCard>
 
 @{
-	IEnumerable<IGrouping<Int32, GameRoundCard>> groupedAnswers = Model.GroupBy(x => x.PlayedBy_UserId);
+    List<GameRoundCard> playOrderSorted = Model.OrderBy(x => x.PlayOrder).ToList();
 }
 
-@foreach (IGrouping<Int32, GameRoundCard> group in groupedAnswers)
-{
-    <div class="pickMultiple noShadow" data-groupCount="@group.Count()">
-        @Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
-    </div>
-}
+<div class="pickMultiple noShadow" data-groupCount="@playOrderSorted.Count">
+    @Html.Partial("~/Views/Game/Board/Answers/_SingleAnswers.cshtml", playOrderSorted)
+</div>

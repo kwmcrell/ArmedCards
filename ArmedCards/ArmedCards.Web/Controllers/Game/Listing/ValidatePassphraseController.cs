@@ -53,7 +53,7 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         {
             bool validated = false;
 
-            if (passphrase == null)
+            if (passphrase != null)
             {
                 validated = _validatePassphrase.Execute(id, passphrase);
 

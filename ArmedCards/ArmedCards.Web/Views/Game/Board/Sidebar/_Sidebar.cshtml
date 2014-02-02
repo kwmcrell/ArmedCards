@@ -1,67 +1,72 @@
 ﻿@*
- * Copyright (c) 2013, Kevin McRell & Paul Miller
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, are permitted
- * provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this list of conditions
- *   and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice, this list of
- *   conditions and the following disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 
 <div id="sidebar" class="chat right">
-	<div class="openClose">
-		<a id="sideBarToggle" href="#">
-			<span class="opener">&lt;</span>
-			<span class="closer">&gt;</span>
-			<span class="mobileOpenClose"><span class="notify alertExclaim">!</span><span class="open">Open</span><span class="close">Close</span> Menu</span>
-			<span class="updates">!</span>
-		</a>
-	</div>
-	<div id="playerHeader" class="playerHeader">
-		<a href="#" target="_blank"><h3 class="loggedIn">@User.Identity.Name</h3></a>
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-           @Html.AntiForgeryToken()
+    <div class="openClose">
+        <a id="sideBarToggle" href="#">
+            <span class="opener">&lt;</span>
+            <span class="closer">&gt;</span>
+            <span class="mobileOpenClose"><span class="notify alertExclaim">!</span><span class="open">Open</span><span class="close">Close</span> Menu</span>
+            <span class="updates">!</span>
+        </a>
+    </div>
+    <div id="playerHeader" class="playerHeader">
+        <a href="#" target="_blank"><h3 class="loggedIn">@User.Identity.Name</h3></a>
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
         }
         <a id="logOff" class="signOut" href="#">Sign out</a>
-	</div>
-	<div id="gameHeader" class="gameHeader">
-		<h3 title="@Model.Game.Title">@Model.Game.Title</h3>
-		<p>Started by <a href="#" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
-        <a href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit game</a>
-	</div>
-	<h4 id="playersHeader" class="accessible">Players</h4>
-	<div id="gameLobby" class="lobby">
-		@Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", Model.Game.Players)
-	</div>
+    </div>
+    <div id="gameHeader" class="gameHeader">
+        <h3 title="@Model.Game.Title">@Model.Game.Title</h3>
+        <p>Started by <a href="#" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
+        <a href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit @(Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player ? "game" : "spectating")</a>
+    </div>
+    <h4 id="playersHeader" class="accessible">Players</h4>
+    <div id="gameLobby" class="lobby">
+        @Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", new ArmedCards.Web.Models.Game.Board.Lobby
+{
+    Players = Model.Game.Players,
+    PlayerType = Model.PlayerType,
+    ShowSpectators = Model.Game.MaxNumberOfSpectators > 0,
+    Spectators = Model.Game.Spectators
+})
+    </div>
     <fieldset id="tabContainer">
-		<a id="gameChatTab" href="#" class="button active">Game</a>
-		<a id="globalChatTab" href="#" class="button">Global</a>
-	</fieldset>
-	<div class="chatContainer" style="width:100%;">
-		<div id="chatClient">
-			<ul id="gameDiscussion" class="discussion"> 
-			</ul>
-            <ul id="discussion" class="discussion hidden"> 
-			</ul>
-		</div>
-		<div id="chatInputDiv" class="chatField fakeInput">
-			<input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>
-		    <input type="hidden" id="displayname" style="width: inherit;" value="test">
-		</div>
-	</div>
+        <a id="gameChatTab" href="#" class="button active">Game</a>
+        <a id="globalChatTab" href="#" class="button">Global</a>
+    </fieldset>
+    <div class="chatContainer" style="width:100%;">
+        <div id="chatClient">
+            <ul id="gameDiscussion" class="discussion"></ul>
+            <ul id="discussion" class="discussion hidden"></ul>
+        </div>
+        <div id="chatInputDiv" class="chatField fakeInput">
+            <input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>
+            <input type="hidden" id="displayname" style="width: inherit;" value="test">
+        </div>
+    </div>
 </div>

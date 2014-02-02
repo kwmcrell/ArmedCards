@@ -39,13 +39,13 @@
 					</a>
 					<p class="addPoints">+1 points</p>
 				</div>
-                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.ToList())
 			</div>
 		}
 		else
 		{
 			<div>
-                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.OrderBy(x => x.PlayOrder).ToList())
+                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.ToList())
 				<div class="user losingUser" style="opacity:0;">
 					<a href="#" class="loggedIn">
 						<img src="@player.PictureUrl">

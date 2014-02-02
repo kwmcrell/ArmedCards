@@ -137,8 +137,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
 		{
-            return Game.CurrentRound().Answers.OrderBy(x => (x.Card_CardID + x.DatePlayed.Second + x.Card.Content.Length))
-                                              .GroupBy(x => x.PlayedBy_UserId).ToList();
+            return Game.CurrentRound().GroupedAnswers();
 		}
 
         /// <summary>

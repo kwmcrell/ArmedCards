@@ -48,7 +48,7 @@ AS
 			GP.[Type],
 			UP.[UserName],
 			UP.[PictureUrl],
-			CASE WHEN @Type = 1
+			CASE WHEN GP.[Type] = 1
 				THEN
 					(SELECT COUNT(CardID)
 					FROM [dbo].[GamePlayerCard]

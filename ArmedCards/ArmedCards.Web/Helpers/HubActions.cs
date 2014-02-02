@@ -34,221 +34,221 @@ using System.Web.Routing;
 
 namespace ArmedCards.Web.Helpers
 {
-	/// <summary>
-	/// Fake Controller used to render partial views in Hub Actions Class
-	/// </summary>
-	public class FakeController : Controller
-	{ }
+    /// <summary>
+    /// Fake Controller used to render partial views in Hub Actions Class
+    /// </summary>
+    public class FakeController : Controller
+    { }
 
-	/// <summary>
-	/// Class that defines Actions to send to the SendMessage App Service
-	/// </summary>
-	public static class HubActions
-	{
-		/// <summary>
-		/// Sends an update for the waiting screen
-		/// </summary>
-		/// <param name="connection">Connection to send to</param>
-		/// <param name="game">The current game</param>
-		public static void SendWaitingMessage(Entities.ActiveConnection connection, Entities.Game game)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+    /// <summary>
+    /// Class that defines Actions to send to the SendMessage App Service
+    /// </summary>
+    public static class HubActions
+    {
+        /// <summary>
+        /// Sends an update for the waiting screen
+        /// </summary>
+        /// <param name="connection">Connection to send to</param>
+        /// <param name="game">The current game</param>
+        public static void SendWaitingMessage(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			var lobbyView = new
-			{
-				LobbyView = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players)
-			};
+            var lobbyView = new
+            {
+                LobbyView = RenderLobbyView(connection, game)
+            };
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-					   .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), lobbyView);
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), lobbyView);
+        }
 
-		/// <summary>
-		/// Sends an update for a card played in the round
-		/// </summary>
-		/// <param name="connection">Connection to send to</param>
-		/// <param name="game">The current game</param>
-		public static void CardPlayed(Entities.ActiveConnection connection, Entities.Game game)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        /// <summary>
+        /// Sends an update for a card played in the round
+        /// </summary>
+        /// <param name="connection">Connection to send to</param>
+        /// <param name="game">The current game</param>
+        public static void CardPlayed(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard
-			{
-				Game = game,
-				Hand = game.Players.Find(x => x.User.UserId == connection.User_UserId).Hand,
-				UserId = connection.User_UserId,
+            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard
+            {
+                Game = game,
+                Hand = game.Players.Find(x => x.User.UserId == connection.User_UserId).Hand,
+                UserId = connection.User_UserId,
                 PlayerType = GetPlayerType(connection)
-			};
+            };
 
-			string partialView = GetRazorViewAsString("~/Views/Game/Board/Answers/_Answers.cshtml", model);
+            string partialView = GetRazorViewAsString("~/Views/Game/Board/Answers/_Answers.cshtml", model);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .UpdateAnswers(partialView, !model.ShowHand());
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .UpdateAnswers(partialView, !model.ShowHand());
+        }
 
-		/// <summary>
-		/// Sends an update that a winnder has been selected
-		/// </summary>
-		/// <param name="connection">Connection to send to</param>
-		/// <param name="game">The current game</param>
-		/// <param name="answers">The grouped answers</param>
-		public static void WinnerSelected(Entities.ActiveConnection connection, Entities.Game game,
-										  List<IGrouping<Int32, Entities.GameRoundCard>> answers)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        /// <summary>
+        /// Sends an update that a winnder has been selected
+        /// </summary>
+        /// <param name="connection">Connection to send to</param>
+        /// <param name="game">The current game</param>
+        /// <param name="answers">The grouped answers</param>
+        public static void WinnerSelected(Entities.ActiveConnection connection, Entities.Game game,
+                                          List<IGrouping<Int32, Entities.GameRoundCard>> answers)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String winnerSelectedPartial = GetRazorViewAsString("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", answers);
+            String winnerSelectedPartial = GetRazorViewAsString("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", answers);
 
-			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+            String playerList = RenderLobbyView(connection, game);
 
-			String gameView = RenderGameView(connection, game);
+            String gameView = RenderGameView(connection, game);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
+        }
 
-		/// <summary>
-		/// Update Game View after a player has joined and restarted the game
-		/// </summary>
-		/// <param name="connection">The connection to send to</param>
-		/// <param name="game">The current game</param>
-		public static void UpdateGameView(Entities.ActiveConnection connection, Entities.Game game)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        /// <summary>
+        /// Update Game View after a player has joined and restarted the game
+        /// </summary>
+        /// <param name="connection">The connection to send to</param>
+        /// <param name="game">The current game</param>
+        public static void UpdateGameView(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+            String playerList = RenderLobbyView(connection, game);
 
-			String gameView = RenderGameView(connection, game);
+            String gameView = RenderGameView(connection, game);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .UpdateGameView(gameView, playerList);
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .UpdateGameView(gameView, playerList);
+        }
 
-		/// <summary>
-		/// Update lobby view after a player has joined/left a game
-		/// </summary>
-		/// <param name="connection">The connection to send to</param>
-		/// <param name="game">The current game</param>
-		public static void UpdateLobby(Entities.ActiveConnection connection, Entities.Game game)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        /// <summary>
+        /// Update lobby view after a player has joined/left a game
+        /// </summary>
+        /// <param name="connection">The connection to send to</param>
+        /// <param name="game">The current game</param>
+        public static void UpdateLobby(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+            String playerList = RenderLobbyView(connection, game);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .UpdateLobbyView(playerList);
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .UpdateLobbyView(playerList);
+        }
 
-		public static void CommanderLeft(Entities.ActiveConnection connection, Entities.Game game, String commanderName)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        public static void CommanderLeft(Entities.ActiveConnection connection, Entities.Game game, String commanderName)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String playerList = GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", game.Players);
+            String playerList = RenderLobbyView(connection, game);
 
-			String gameView = RenderGameView(connection, game);
+            String gameView = RenderGameView(connection, game);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
-		}
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
+        }
 
-		/// <summary>
-		/// Alert users of a vote to kick results
-		/// </summary>
-		/// <param name="connection">The connection to send to</param>
-		/// <param name="kickedUser">The user being voted on</param>
-		/// <param name="votesToKick">The number of votes to kick</param>
-		/// <param name="votesNotToKick">The number of votes not to kick</param>
-		/// <param name="isKicked">Is kicked</param>
-		public static void AlertUserOfResult(Entities.ActiveConnection connection, Entities.User kickedUser, 
-											 Int32 votesToKick, Int32 votesNotToKick, Boolean isKicked)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+        /// <summary>
+        /// Alert users of a vote to kick results
+        /// </summary>
+        /// <param name="connection">The connection to send to</param>
+        /// <param name="kickedUser">The user being voted on</param>
+        /// <param name="votesToKick">The number of votes to kick</param>
+        /// <param name="votesNotToKick">The number of votes not to kick</param>
+        /// <param name="isKicked">Is kicked</param>
+        public static void AlertUserOfResult(Entities.ActiveConnection connection, Entities.User kickedUser,
+                                             Int32 votesToKick, Int32 votesNotToKick, Boolean isKicked)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String message;
-			String title = "Kick Player Results";
-			
-			TagBuilder userSpan = new TagBuilder("span");
-			userSpan.AddCssClass("loggedIn");
-			userSpan.InnerHtml = String.Format("<img src='{0}' /> {1}", kickedUser.PictureUrl, kickedUser.DisplayName);
+            String message;
+            String title = "Kick Player Results";
 
-			if (isKicked)
-			{
-				message = "{0} was kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
-			}
-			else
-			{
-				message = "{0} was not kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
-			}
+            TagBuilder userSpan = new TagBuilder("span");
+            userSpan.AddCssClass("loggedIn");
+            userSpan.InnerHtml = String.Format("<img src='{0}' /> {1}", kickedUser.PictureUrl, kickedUser.DisplayName);
 
-			hub.Clients.Client(connection.ActiveConnectionID)
-							   .VoteToKickResults(String.Format(message, userSpan.ToString(), votesToKick, votesNotToKick),
-													title,
-													(isKicked && kickedUser.UserId == connection.User_UserId),
-													kickedUser.UserId);
-		}
+            if (isKicked)
+            {
+                message = "{0} was kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
+            }
+            else
+            {
+                message = "{0} was not kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
+            }
 
-		/// <summary>
-		/// Action used to alert users someone has called a vote to kick a user
-		/// </summary>
-		/// <param name="connection">The connection to send to</param>
-		/// <param name="kickUser">The potential user to kick</param>
-		/// <param name="votesToKick">Number of users to voted kick</param>
-		/// <param name="votesNotToKick">Number of users voted not to kick</param>
-		public static void AlertUsersVote(Entities.ActiveConnection connection, Entities.User kickUser, 
-											Int32 votesToKick, Int32 votesNotToKick)
-		{
-			IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
+            hub.Clients.Client(connection.ActiveConnectionID)
+                               .VoteToKickResults(String.Format(message, userSpan.ToString(), votesToKick, votesNotToKick),
+                                                    title,
+                                                    (isKicked && kickedUser.UserId == connection.User_UserId),
+                                                    kickedUser.UserId);
+        }
 
-			Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick();
-			model.UserToKick = kickUser;
-			model.VotesToKick = votesToKick;
-			model.VotesNotToKick = votesNotToKick;
+        /// <summary>
+        /// Action used to alert users someone has called a vote to kick a user
+        /// </summary>
+        /// <param name="connection">The connection to send to</param>
+        /// <param name="kickUser">The potential user to kick</param>
+        /// <param name="votesToKick">Number of users to voted kick</param>
+        /// <param name="votesNotToKick">Number of users voted not to kick</param>
+        public static void AlertUsersVote(Entities.ActiveConnection connection, Entities.User kickUser,
+                                            Int32 votesToKick, Int32 votesNotToKick)
+        {
+            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-			String alert = GetRazorViewAsString("~/Views/Game/Board/Partials/_VoteToKick.cshtml", model);
+            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick();
+            model.UserToKick = kickUser;
+            model.VotesToKick = votesToKick;
+            model.VotesNotToKick = votesNotToKick;
 
-			hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(alert, kickUser);
-		}
+            String alert = GetRazorViewAsString("~/Views/Game/Board/Partials/_VoteToKick.cshtml", model);
 
-		#region "Private Helpers"
+            hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(alert, kickUser);
+        }
 
-		/// <summary>
-		/// Renders a razor view as a string
-		/// </summary>
-		/// <param name="viewPath">The view path</param>
-		/// <param name="model">The model to use for rendering</param>
-		/// <returns>A partial view in a string</returns>
-		private static string GetRazorViewAsString(string viewPath, object model)
-		{
-			using (var sw = new StringWriter())
-			{
-				var context = new HttpContextWrapper(HttpContext.Current);
-				var routeData = new RouteData();
-				routeData.Values.Add("controller", "Fake");
-				var controllerContext = new ControllerContext(new RequestContext(context, routeData), new FakeController());
-				var razor = new RazorView(controllerContext, viewPath, null, false, null);
-				razor.Render(new ViewContext(controllerContext, razor, new ViewDataDictionary(model), new TempDataDictionary(), sw), sw);
-				return sw.ToString();
-			}
-		}
+        #region "Private Helpers"
 
-		/// <summary>
-		/// Get the game view
-		/// </summary>
-		/// <param name="connection">The connection the message is being sent to</param>
-		/// <param name="game">The game to render the view for</param>
-		/// <param name="commanderLeft">Commander left game</param>
-		/// <returns></returns>
-		private static string RenderGameView(Entities.ActiveConnection connection, Entities.Game game)
-		{
-			Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-			model.Game = game;
-			model.UserId = connection.User_UserId;
-			model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
+        /// <summary>
+        /// Renders a razor view as a string
+        /// </summary>
+        /// <param name="viewPath">The view path</param>
+        /// <param name="model">The model to use for rendering</param>
+        /// <returns>A partial view in a string</returns>
+        private static string GetRazorViewAsString(string viewPath, object model)
+        {
+            using (var sw = new StringWriter())
+            {
+                var context = new HttpContextWrapper(HttpContext.Current);
+                var routeData = new RouteData();
+                routeData.Values.Add("controller", "Fake");
+                var controllerContext = new ControllerContext(new RequestContext(context, routeData), new FakeController());
+                var razor = new RazorView(controllerContext, viewPath, null, false, null);
+                razor.Render(new ViewContext(controllerContext, razor, new ViewDataDictionary(model), new TempDataDictionary(), sw), sw);
+                return sw.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Get the game view
+        /// </summary>
+        /// <param name="connection">The connection the message is being sent to</param>
+        /// <param name="game">The game to render the view for</param>
+        /// <param name="commanderLeft">Commander left game</param>
+        /// <returns></returns>
+        private static string RenderGameView(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
+            model.Game = game;
+            model.UserId = connection.User_UserId;
+            model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
             model.PlayerType = GetPlayerType(connection);
 
-			String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
-			return gameView;
-		}
+            String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
+            return gameView;
+        }
 
         private static Entities.Enums.GamePlayerType GetPlayerType(Entities.ActiveConnection connection)
         {
@@ -257,6 +257,17 @@ namespace ArmedCards.Web.Helpers
                                     Entities.Enums.GamePlayerType.Spectator;
         }
 
-		#endregion "Private Helpers"
-	}
+        private static string RenderLobbyView(Entities.ActiveConnection connection, Entities.Game game)
+        {
+            return GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", new Web.Models.Game.Board.Lobby
+            {
+                Players = game.Players,
+                PlayerType = GetPlayerType(connection),
+                ShowSpectators = game.MaxNumberOfSpectators > 0,
+                Spectators = game.Spectators
+            });
+        }
+
+        #endregion "Private Helpers"
+    }
 }

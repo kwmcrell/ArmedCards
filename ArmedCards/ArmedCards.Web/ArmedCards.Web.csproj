@@ -253,6 +253,7 @@
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
     <Compile Include="Models\Game\Board\GameBoard.cs" />
+    <Compile Include="Models\Game\Board\Lobby.cs" />
     <Compile Include="Models\Game\Board\VoteToKick.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />

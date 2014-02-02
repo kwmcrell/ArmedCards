@@ -43,5 +43,10 @@ namespace ArmedCards.Entities.Filters.GamePlayerKickVote
 		/// The ID of the user being voted to kick
 		/// </summary>
 		public Int32 KickUserId { get; set; }
+
+        /// <summary>
+        /// The type of player to look at
+        /// </summary>
+        public Entities.Enums.GamePlayerType PlayerType { get; set; }
 	}
 }

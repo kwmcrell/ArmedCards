@@ -83,11 +83,17 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 			if (needMoreQuestions || needMoreAnswers)
 			{
-				//Update reshuffle counts
-				filteredQuestions = _excludeByCount.Execute(questions, ++game.QuestionShuffleCount);
+                if (needMoreQuestions)
+                {
+                    //Update reshuffle counts
+                    filteredQuestions = _excludeByCount.Execute(questions, ++game.QuestionShuffleCount);
 
-				//Reselect question card
-				dealtQuestion = CreateQuestion(filteredQuestions, game);
+                    //Reselect question card
+                    dealtQuestion = CreateQuestion(filteredQuestions, game);
+                }
+
+                filteredAnswers = _excludeCurrentHands.Execute(answers);
+                filteredAnswers = _excludeByCount.Execute(filteredAnswers, ++game.AnswerShuffleCount);
 
 				drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
 			}

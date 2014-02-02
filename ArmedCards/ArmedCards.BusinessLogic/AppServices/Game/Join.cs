@@ -73,7 +73,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 			Entities.JoinResponse response = _joinGame.Execute(game, user, passphrase,playerType);
 
-            if (playerType == Entities.Enums.GamePlayerType.Player && response.Game != null)
+            if (response.Game != null)
             {
                 if (response.Game.IsWaiting() &&
                         response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)

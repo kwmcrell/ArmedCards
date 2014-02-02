@@ -21,46 +21,37 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote_Select]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[GamePlayerKickVote_Select] 
-END 
-GO
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 10/16/2013
--- Description:	Select all votes to kick a user
--- ===============================================
-CREATE PROC [dbo].[GamePlayerKickVote_Select] 
-	@GameID			int,
-	@KickUserId		int,
-	@PlayerType		int,
-	@TotalPlayers	int output
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN 
-	
-	SELECT @TotalPlayers = COUNT(GP.[UserId])
-	FROM [GamePlayer] GP
-	WHERE GP.[GameID] = @GameID
-	AND	  GP.[Type]   = @PlayerType
+namespace ArmedCards.Web.Models.Game.Board
+{
+    /// <summary>
+    /// View model for the player lobby
+    /// </summary>
+    public class Lobby
+    {
+        /// <summary>
+        /// The player type for the current player
+        /// </summary>
+        public Entities.Enums.GamePlayerType PlayerType { get; set; }
 
-	SELECT	GPKV.[GameID],
-			GPKV.[KickUserId],
-			GPKV.[Vote],
-			GPKV.[VotedUserId]
-	FROM [GamePlayerKickVote] GPKV
-	WHERE GPKV.[GameID] = @GameID 
-	AND GPKV.[KickUserId] = @KickUserId
+        /// <summary>
+        /// List of players in the game
+        /// </summary>
+        public List<Entities.GamePlayer> Players { get; set; }
 
-	DELETE
-	FROM [GamePlayerKickVote]
-	WHERE [GameID] = @GameID 
-	AND [KickUserId] = @KickUserId
+        /// <summary>
+        /// Determine is the spectators element should show
+        /// </summary>
+        public bool ShowSpectators { get; set; }
 
-	COMMIT TRAN
-		
-GO
+        /// <summary>
+        /// List of spectators in the game
+        /// </summary>
+        public List<Entities.GamePlayer> Spectators { get; set; }
+    }
+}
