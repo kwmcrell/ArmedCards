@@ -93,7 +93,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public Boolean ShowHand()
 		{
-			return ActivePlayer && !Answered() && !IsCommander();
+			return ActivePlayer && !Answered() && !IsCommander() && PlayerType == Entities.Enums.GamePlayerType.Player;
 		}
 
 		/// <summary>
@@ -102,7 +102,7 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public Boolean IsCommander()
 		{
-			return Game.IsCurrentCommander(UserId);
+			return Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
 		}
 
 		/// <summary>
@@ -137,8 +137,12 @@ namespace ArmedCards.Web.Models.Game.Board
 		/// <returns></returns>
 		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
 		{
-            return Game.CurrentRound().Answers.OrderBy(x => (x.Card_CardID + x.DatePlayed.Second + x.Card.Content.Length))
-                                              .GroupBy(x => x.PlayedBy_UserId).ToList();
+            return Game.CurrentRound().GroupedAnswers();
 		}
+
+        /// <summary>
+        /// The type of the current player
+        /// </summary>
+        public Entities.Enums.GamePlayerType PlayerType { get; set; }
     }
 }

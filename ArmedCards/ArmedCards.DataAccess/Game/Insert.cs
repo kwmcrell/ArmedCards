@@ -59,15 +59,16 @@ namespace ArmedCards.DataAccess.Game
             {
                 db.AddInParameter(cmd, "@Title",                DbType.String,      game.Title.HTMLEncode());
                 db.AddInParameter(cmd, "@IsPrivate",            DbType.Boolean,     game.IsPrivate);
-                db.AddInParameter(cmd, "@Passphrase",             DbType.String,      game.Passphrase.HTMLEncode());
+                db.AddInParameter(cmd, "@Passphrase",           DbType.String,      game.Passphrase.HTMLEncode());
                 db.AddInParameter(cmd, "@PointsToWin",          DbType.Int32,       game.PointToWin);
                 db.AddInParameter(cmd, "@MaxNumberOfPlayers",   DbType.Int32,       game.MaxNumberOfPlayers);
                 db.AddInParameter(cmd, "@GameCreator_UserId",   DbType.Int32,       game.GameCreator_UserId);
                 db.AddInParameter(cmd, "@DateCreated",          DbType.DateTime,    DateTime.UtcNow);
                 db.AddInParameter(cmd, "@PlayedLast",           DbType.DateTime,    game.PlayedLast);
                 db.AddInParameter(cmd, "@GameOver",             DbType.DateTime,    game.GameOver);
-                db.AddInParameter(cmd, "@GameDeckIDs",         DbType.Xml,         game.GameDeckIDs.ConvertCollectionToXML());
-                
+                db.AddInParameter(cmd, "@GameDeckIDs",          DbType.Xml,         game.GameDeckIDs.ConvertCollectionToXML());
+                db.AddInParameter(cmd, "@MaxNumberOfSpectators",DbType.Int32,       game.MaxNumberOfSpectators);
+
                 db.AddOutParameter(cmd, "NewID",                DbType.Int32,       sizeof(Int32));
 
                 db.ExecuteScalar(cmd);

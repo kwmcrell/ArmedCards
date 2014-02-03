@@ -54,6 +54,7 @@ namespace ArmedCards.Entities
             Rounds = new List<GameRound>();
 			QuestionShuffleCount = 1;
 			AnswerShuffleCount = 1;
+            Spectators = new List<GamePlayer>();
         }
 
         /// <summary>
@@ -77,6 +78,8 @@ namespace ArmedCards.Entities
 			RoundCount			=	idr.GetValueByName<Int32>("RoundCount");
 			QuestionShuffleCount = idr.GetValueByName<Int32>("QuestionShuffleCount");
 			AnswerShuffleCount	= idr.GetValueByName<Int32>("AnswerShuffleCount");
+            MaxNumberOfSpectators = idr.GetValueByName<Int32>("MaxNumberOfSpectators");
+            SpectatorCount = idr.GetValueByName<Int32>("SpectatorCount");
         }
 
         /// <summary>
@@ -270,6 +273,10 @@ namespace ArmedCards.Entities
             return needed > 0 ? needed : 0;
         }
 
+        /// <summary>
+        /// Get the current round
+        /// </summary>
+        /// <returns>The current round of the game</returns>
 		public Entities.GameRound CurrentRound()
 		{
 			if (this.HasRounds())
@@ -375,5 +382,39 @@ namespace ArmedCards.Entities
 
 			return newCommander;
 		}
+
+        /// <summary>
+        /// The current number of spectators
+        /// </summary>
+        public Int32 SpectatorCount { get; set; }
+
+        /// <summary>
+        /// Max number of spectators allowed in a game
+        /// </summary>
+        public Int32 MaxNumberOfSpectators { get; set; }
+
+        /// <summary>
+        /// Determine if the max number of spectators has been reached
+        /// </summary>
+        /// <returns>If the max number of spectators has been reached</returns>
+        public Boolean MaxSpectatorsReached()
+        {
+            return SpectatorCount >= MaxNumberOfSpectators;
+        }
+
+        /// <summary>
+        /// List of spectators
+        /// </summary>
+        public List<GamePlayer> Spectators { get; set; }
+
+        /// <summary>
+        /// Determine if user is already a player
+        /// </summary>
+        /// <param name="userID">The userID</param>
+        /// <returns></returns>
+        public Boolean IsCurrentSpectator(Int32 userID)
+        {
+            return Spectators.Find(x => x.User.UserId == userID) != null;
+        }
     }
 }

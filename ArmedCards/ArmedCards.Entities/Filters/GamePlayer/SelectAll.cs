@@ -34,5 +34,9 @@ namespace ArmedCards.Entities.Filters.GamePlayer
     /// </summary>
     public class SelectAll
     {
+        /// <summary>
+        /// The type of players to select
+        /// </summary>
+        public Enums.GamePlayerType PlayerType { get; set; }
     }
 }

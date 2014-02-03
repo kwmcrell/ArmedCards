@@ -1,50 +1,82 @@
 ﻿@*
- * Copyright (c) 2013, Kevin McRell & Paul Miller
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, are permitted
- * provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this list of conditions
- *   and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice, this list of
- *   conditions and the following disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@using ArmedCards.Entities;
-@model List<GamePlayer>
+@model ArmedCards.Web.Models.Game.Board.Lobby
+
 <div class="lobbyPlayers">
-	<ul class="playerList">
-        @foreach (GamePlayer player in Model)
+    <ul class="playerList">
+        @foreach (GamePlayer player in Model.Players)
         {
-			<li>
-				<span class="loggedIn">
-					<span class="playerMenu">
-						<img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
-						<span class="menu">
-							<ul>
-								@*<li><a href="#">Add as friend</a></li>*@
-								<li><a name="kickPlayer" data-userId="@player.User.UserId" href="#">Kick Player</a></li>
-							</ul>
-						</span>
-					</span>
-					<img src="@player.User.PictureUrl">
-					<a id="@player.User.UserId" href="#">@player.User.DisplayName</a>
-				</span>
-				<span class="gamePoints">
-					@player.Points points
-				</span>
-			</li>
+            <li>
+                <span class="loggedIn">
+                    <span class="playerMenu">
+                        @if (Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
+                        {
+                            <img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
+                            <span class="menu">
+                                <ul>
+                                    @*<li><a href="#">Add as friend</a></li>*@
+                                    <li><a name="kickPlayer" data-userid="@player.User.UserId" href="#">Kick @player.PlayerType</a></li>
+                                </ul>
+                            </span>
+                        }
+                        else
+                        {
+                            <img src="@player.User.PictureUrl">
+                        }
+                    </span>
+
+                    <img src="@player.User.PictureUrl">
+                    <a id="@player.PlayerType@player.User.UserId" href="/Profile/@player.User.UserId">@player.User.DisplayName</a>
+                </span>
+                @if (player.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
+                {
+                    <span class="gamePoints">
+                        @player.Points points
+                    </span>
+                }
+            </li>
         }
-	</ul>
+    </ul>
 </div>
+@if (Model.ShowSpectators)
+{
+    Int32 spectatorCount = Model.Spectators.Count;
+    string spectator = "Spectator";
+
+    if (spectatorCount > 1)
+    {
+        spectator = spectator + "s";
+    }
+
+    <p id="spectatorCount" class="viewSpectators"><a href="#">@spectatorCount @spectator</a></p>
+
+    <div class="hidden" id="hiddenSpectatorList">
+        <ol>
+            @foreach (GamePlayer player in Model.Spectators)
+            {
+                <li><a href="/Profile/@player.User.UserId" class="loggedIn" target="_blank"><img src="@player.User.PictureUrl">@player.User.DisplayName</a></li>
+            }
+        </ol>
+    </div>
+}

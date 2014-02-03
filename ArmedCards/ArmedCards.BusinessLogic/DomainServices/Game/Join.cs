@@ -54,64 +54,111 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
         /// <param name="gameID">The game to join</param>
         /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
+        /// <param name="playerType">Type of player joining</param>
         /// <returns>The response to a join request</returns>
-        public Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase)
+        public Entities.JoinResponse Execute(Entities.Game game, Entities.User user, String passphrase, Entities.Enums.GamePlayerType playerType)
         {
             Entities.JoinResponse response = new Entities.JoinResponse();
 
 			Boolean wasWaiting = game.IsWaiting();
 
-			if (game.IsCurrentPlayer(user.UserId) == false)
-			{
-				if (_validatePassphrase.Execute(game, passphrase) == false)
-				{
-					response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
-				}
-				else if (game.IsFull())
-				{
-					response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
-				}
-				else
-				{
-					Boolean successful = _joinGame.Execute(game, user);
-
-					if (successful == false)
-					{
-						response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
-					}
-					else
-					{
-						if (wasWaiting && !game.IsWaiting())
-						{
-							Entities.User newCommander = game.NextCommander(null);
-
-							if (newCommander != null)
-							{
-								if (_startRound.Execute(game, game.NextCommander(null)) == true)
-								{
-									response.Result |= Entities.Enums.Game.JoinResponseCode.NewRoundStart;
-								}
-							}
-							else
-							{
-								response.Result |= Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection;
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				response.Result |= Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer;
-			}
-
-			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
-				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
-			{
-				response.Game = game;
-			}
+            if(playerType == Entities.Enums.GamePlayerType.Spectator)
+            {
+                AsSpectator(game, user, passphrase, response);
+            }
+            else
+            {
+                AsPlayer(game, user, passphrase, response, wasWaiting);
+            }
 
             return response;
+        }
+
+        private void AsPlayer(Entities.Game game, Entities.User user, String passphrase, Entities.JoinResponse response, Boolean wasWaiting)
+        {
+            if (game.IsCurrentPlayer(user.UserId) == false)
+            {
+                if (_validatePassphrase.Execute(game, passphrase) == false)
+                {
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
+                }
+                else if (game.IsFull())
+                {
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
+                }
+                else
+                {
+                    Boolean successful = _joinGame.Execute(game, user, Entities.Enums.GamePlayerType.Player);
+
+                    if (successful == false)
+                    {
+                        response.Result |= Entities.Enums.Game.JoinResponseCode.FullGame;
+                    }
+                    else
+                    {
+                        if (wasWaiting && !game.IsWaiting())
+                        {
+                            Entities.User newCommander = game.NextCommander(null);
+
+                            if (newCommander != null)
+                            {
+                                if (_startRound.Execute(game, game.NextCommander(null)) == true)
+                                {
+                                    response.Result |= Entities.Enums.Game.JoinResponseCode.NewRoundStart;
+                                }
+                            }
+                            else
+                            {
+                                response.Result |= Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                response.Result |= Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer;
+            }
+
+            if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
+                response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
+            {
+                response.Game = game;
+            }
+        }
+
+        private void AsSpectator(Entities.Game game, Entities.User user, String passphrase, Entities.JoinResponse response)
+        {
+            if (game.IsCurrentSpectator(user.UserId) == false)
+            {
+                if (_validatePassphrase.Execute(game, passphrase) == false)
+                {
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.BadPassphrase;
+                }
+                else if (game.MaxSpectatorsReached())
+                {
+                    response.Result |= Entities.Enums.Game.JoinResponseCode.SpectatorsFull;
+                }
+                else
+                {
+                    Boolean successful = _joinGame.Execute(game, user, Entities.Enums.GamePlayerType.Spectator);
+
+                    if (successful == false)
+                    {
+                        response.Result |= Entities.Enums.Game.JoinResponseCode.SpectatorsFull;
+                    }
+                }
+            }
+            else
+            {
+                response.Result |= Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer;
+            }
+
+            if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
+                response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
+            {
+                response.Game = game;
+            }
         }
     }
 }

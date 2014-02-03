@@ -69,7 +69,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 				if (successful)
 				{
-					_sendMessage.Execute(game, startedAction);
+					_sendMessage.Execute(game, startedAction, true);
 				}
 			}
 

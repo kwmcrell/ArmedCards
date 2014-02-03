@@ -43,5 +43,10 @@ namespace ArmedCards.Entities.Filters.ActiveConnection
 		/// Exclude these users on select
 		/// </summary>
 		public List<Int32> ExcludeUsers { get; set; }
+
+        /// <summary>
+        /// What player type to select
+        /// </summary>
+        public Entities.Enums.ConnectionType ConnectionType { get; set; }
     }
 }

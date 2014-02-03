@@ -39,7 +39,8 @@ namespace ArmedCards.BusinessLogic.Repositories.Game.Base
 		/// </summary>
 		/// <param name="gameID">The game to join</param>
 		/// <param name="user">The current user</param>
+        /// <param name="playerType">Type of player joining</param>
 		/// <returns>If the user was able to join the game</returns>
-		Boolean Execute(Entities.Game game, Entities.User user);
+		Boolean Execute(Entities.Game game, Entities.User user, Entities.Enums.GamePlayerType playerType);
 	}
 }

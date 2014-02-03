@@ -40,7 +40,7 @@ namespace ArmedCards.Web.Hubs
         /// Join the global chat
         /// </summary>
         [HubMethodName("Join")]
-        public void Join(Int32? gameID)
+        public void Join(Int32? gameID, Entities.Enums.ConnectionType connectionType)
         {
 			String groupName = GLOBAL;
 
@@ -49,11 +49,11 @@ namespace ArmedCards.Web.Hubs
 				groupName = String.Format("Game_{0}", gameID.Value);
 			}
 
-			InsertConnection(groupName);
+            InsertConnection(groupName, connectionType);
 
             Models.Hub.Lobby lobby = new Models.Hub.Lobby
             {
-				ActiveConnections = GetConnections(groupName)
+                ActiveConnections = GetConnections(groupName, connectionType)
             };
 
 			if (gameID.HasValue)
@@ -98,7 +98,7 @@ namespace ArmedCards.Web.Hubs
 
 		#region "Private Methods"
 
-        private List<Entities.ActiveConnection> GetConnections(String groupName)
+        private List<Entities.ActiveConnection> GetConnections(String groupName, Entities.Enums.ConnectionType connectionType)
         {
             AS.ActiveConnection.Base.ISelect _selectConnections = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.ISelect>();
 
@@ -109,12 +109,16 @@ namespace ArmedCards.Web.Hubs
 				filter.GroupName = groupName;
 			}
 
-            List<Entities.ActiveConnection> connections = _selectConnections.Execute(filter);
+            filter.ConnectionType = connectionType;
+
+            List<Entities.ActiveConnection> connections = _selectConnections.Execute(filter).GroupBy(con => con.User_UserId)
+                                                                                            .Select(con2 => con2.First())
+                                                                                            .ToList();
 
             return connections;
         }
 
-        private void InsertConnection(String groupName)
+        private void InsertConnection(String groupName, Entities.Enums.ConnectionType connectionType)
         {
             Int32 userId = WebSecurity.CurrentUserId;
 
@@ -126,7 +130,8 @@ namespace ArmedCards.Web.Hubs
                 {
                     ActiveConnectionID = Context.ConnectionId,
                     GroupName = groupName,
-                    User_UserId = userId
+                    User_UserId = userId,
+                    ConnectionType = connectionType
                 };
 
                 _insertConnection.Execute(connection);

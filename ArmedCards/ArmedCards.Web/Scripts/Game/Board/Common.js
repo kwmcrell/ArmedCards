@@ -61,6 +61,16 @@ Common.prototype.GetChildrenIDs = function ($element) {
 	return ids;
 };
 
+Common.prototype.HideModal = function (jQuerySelector) {
+    $('#overlay').removeClass('on');
+    $(jQuerySelector).removeClass('on');
+};
+
+Common.prototype.ShowModal = function (jQuerySelector) {
+    $('#overlay').addClass('on');
+    $(jQuerySelector).addClass('on');
+};
+
 Common.prototype.UpdateMessageDiv = function (message) {
     $('.toast-message.messageContainer').html(message);
 };

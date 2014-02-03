@@ -73,7 +73,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 			
 			if (kickUser)
 			{
-				_leaveGame.Execute(gameID, kickedUser, kickPlayerContainer.LeaveGameContainer);
+                //TODO: When spectator's can be kicked this will need to change
+				_leaveGame.Execute(gameID, kickedUser, kickPlayerContainer.LeaveGameContainer, Entities.Enums.GamePlayerType.Player);
 			}
 		}
 	}

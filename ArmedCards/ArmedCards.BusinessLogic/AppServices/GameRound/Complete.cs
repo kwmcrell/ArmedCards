@@ -62,7 +62,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 
 			if (response.CompletedRound != null && response.Game != null)
 			{
-				_sendMessage.Execute(response.Game, response.CompletedRound, winnerSelected);
+				_sendMessage.Execute(response.Game, response.CompletedRound, winnerSelected, true);
 				
 				DateTime playedLast = DateTime.UtcNow;
 				DateTime? gameOver = null;

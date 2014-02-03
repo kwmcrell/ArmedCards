@@ -43,10 +43,12 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// <param name="sendWaitingMessage">Action used to send a update to the waiting message</param>
 		/// <param name="updateGameView">Action used to send a update that a new player has joined and started a new round</param>
 		/// <param name="updateLobbyView">Action used to send a update that a new player has joined</param>
+        /// <param name="playerType">Type of player joining</param>
         /// <returns>The response to a join request</returns>
 		Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase,
 									  Action<Entities.ActiveConnection, Entities.Game> sendWaitingMessage,
 									  Action<Entities.ActiveConnection, Entities.Game> updateGameView,
-									  Action<Entities.ActiveConnection, Entities.Game> updateLobbyView);
+									  Action<Entities.ActiveConnection, Entities.Game> updateLobbyView,
+                                      Entities.Enums.GamePlayerType playerType);
     }
 }

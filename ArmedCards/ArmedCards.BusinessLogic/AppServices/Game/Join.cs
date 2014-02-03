@@ -56,11 +56,13 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// <param name="sendWaitingMessage">Action used to send a update to the waiting message</param>
 		/// <param name="updateGameView">Action used to send a update that a new player has joined and started a new round</param>
 		/// <param name="updateLobbyView">Action used to send a update that a new player has joined</param>
+        /// <param name="playerType">Type of player joining</param>
         /// <returns>The response to a join request</returns>
 		public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase,
 											Action<Entities.ActiveConnection, Entities.Game> sendWaitingMessage,
 											Action<Entities.ActiveConnection, Entities.Game> updateGameView,
-											Action<Entities.ActiveConnection, Entities.Game> updateLobbyView)
+											Action<Entities.ActiveConnection, Entities.Game> updateLobbyView,
+                                            Entities.Enums.GamePlayerType playerType)
         {
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = gameID;
@@ -69,21 +71,24 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
             Entities.Game game = _selectGame.Execute(filter);
 
-			Entities.JoinResponse response = _joinGame.Execute(game, user, passphrase);
+			Entities.JoinResponse response = _joinGame.Execute(game, user, passphrase,playerType);
 
-			if (response.Game.IsWaiting() &&
-					response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
-			{
-				_sendMessage.Execute(response.Game, sendWaitingMessage);
-			}
-			else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.NewRoundStart) == true)
-			{
-				_sendMessage.Execute(response.Game, updateGameView);
-			}
-			else if(response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection) == false)
-			{
-				_sendMessage.Execute(response.Game, updateLobbyView);
-			}
+            if (response.Game != null)
+            {
+                if (response.Game.IsWaiting() &&
+                        response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
+                {
+                    _sendMessage.Execute(response.Game, sendWaitingMessage, true);
+                }
+                else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.NewRoundStart) == true)
+                {
+                    _sendMessage.Execute(response.Game, updateGameView, true);
+                }
+                else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection) == false)
+                {
+                    _sendMessage.Execute(response.Game, updateLobbyView, true);
+                }
+            }
 
 			return response;
         }

@@ -54,6 +54,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote
 			Entities.Filters.GamePlayerKickVote.Select filter = new Entities.Filters.GamePlayerKickVote.Select();
 			filter.GameID = gameID;
 			filter.KickUserId = kickUserId;
+            //TODO: When spectator's can be kicked this will need to change
+            filter.PlayerType = Entities.Enums.GamePlayerType.Player;
 
 			Int32 totalPlayers = 0;
 

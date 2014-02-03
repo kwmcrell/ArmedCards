@@ -35,6 +35,7 @@ GO
 CREATE PROC [dbo].[GamePlayerKickVote_Select] 
 	@GameID			int,
 	@KickUserId		int,
+	@PlayerType		int,
 	@TotalPlayers	int output
 AS 
 	SET NOCOUNT ON 
@@ -45,6 +46,7 @@ AS
 	SELECT @TotalPlayers = COUNT(GP.[UserId])
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
+	AND	  GP.[Type]   = @PlayerType
 
 	SELECT	GPKV.[GameID],
 			GPKV.[KickUserId],

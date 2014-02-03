@@ -66,6 +66,11 @@ namespace ArmedCards.DataAccess.ActiveConnection
 					_db.AddInParameter(cmd, "@ExcludeUserIds", DbType.Xml, filter.ExcludeUsers.ConvertCollectionToXML());
 				}
 
+                if(filter.ConnectionType > 0)
+                {
+                    _db.AddInParameter(cmd, "@ConnectionType", DbType.Int32, filter.ConnectionType);
+                }
+
                 using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
                     Entities.ActiveConnection connection = null;
@@ -74,10 +79,7 @@ namespace ArmedCards.DataAccess.ActiveConnection
                     {
                         connection = new Entities.ActiveConnection(idr);
 
-                        if(activeConnections.Find(x => x.User_UserId == connection.User_UserId) == null)
-                        {
-                            activeConnections.Add(connection);
-                        }
+                        activeConnections.Add(connection);
                     }
                 }
             }

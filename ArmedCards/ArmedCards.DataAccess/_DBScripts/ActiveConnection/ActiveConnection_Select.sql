@@ -34,7 +34,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[ActiveConnection_Select]
 	@GroupName				varchar(255)			  =	NULL,
-	@ExcludeUserIds			XML						  = NULL
+	@ExcludeUserIds			XML						  = NULL,
+	@ConnectionType			INT						  = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -44,11 +45,13 @@ AS
      SELECT AC.[ActiveConnectionID],
 			AC.[GroupName],
 			AC.[User_UserId],
+			AC.[ConnectionType],
 			UP.[UserName]
 	 FROM [dbo].[ActiveConnection] AC
 	 INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	 WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
 	 AND   (@ExcludeUserIds IS NULL OR UP.UserId NOT IN (SELECT ids.id.value('@value', 'int')
 														 FROM	@ExcludeUserIds.nodes('ids/id') AS ids ( id )))
+	AND (AC.[ConnectionType] = @ConnectionType OR @ConnectionType IS NULL)
 
 	COMMIT

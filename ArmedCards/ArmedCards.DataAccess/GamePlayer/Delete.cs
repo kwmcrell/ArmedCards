@@ -54,6 +54,7 @@ namespace ArmedCards.DataAccess.GamePlayer
 			{
 				_db.AddInParameter(cmd, "@GameID", DbType.String, player.GameID);
 				_db.AddInParameter(cmd, "@UserId", DbType.Int32, player.User.UserId);
+                _db.AddInParameter(cmd, "@Type", DbType.Int32, player.PlayerType);
 
 				_db.ExecuteScalar(cmd);
 			}

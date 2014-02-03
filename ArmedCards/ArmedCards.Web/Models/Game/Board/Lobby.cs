@@ -21,54 +21,37 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Hub
+namespace ArmedCards.Web.Models.Game.Board
 {
     /// <summary>
-    /// Model that describes a global chat message
+    /// View model for the player lobby
     /// </summary>
-    public class ChatMessage
+    public class Lobby
     {
         /// <summary>
-        /// The name of the user that sent the message
+        /// The player type for the current player
         /// </summary>
-        [JsonProperty("SentBy")]
-        public String SentBy { get; set; }
+        public Entities.Enums.GamePlayerType PlayerType { get; set; }
 
         /// <summary>
-        /// The message that was sent
+        /// List of players in the game
         /// </summary>
-        [JsonProperty("Message")]
-        public String Message { get; set; }
+        public List<Entities.GamePlayer> Players { get; set; }
 
         /// <summary>
-        /// Date the was sent
+        /// Determine is the spectators element should show
         /// </summary>
-        [JsonProperty("DateSent")]
-        public String DateSent { get; set; }
-
-		/// <summary>
-		/// The game ID for the game specific message
-		/// </summary>
-		[JsonProperty("GameID")]
-		public Int32? GameID { get; set; }
-
-		/// <summary>
-		/// Is message meant for global
-		/// </summary>
-		[JsonProperty("Global")]
-		public Boolean Global { get; set; }
+        public bool ShowSpectators { get; set; }
 
         /// <summary>
-        /// The type of connection
+        /// List of spectators in the game
         /// </summary>
-        [JsonProperty("ConnectionType")]
-        public Entities.Enums.ConnectionType ConnectionType { get; set; }
+        public List<Entities.GamePlayer> Spectators { get; set; }
     }
 }

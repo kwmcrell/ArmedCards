@@ -144,16 +144,6 @@
     <Compile Include="User\Insert.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArmedCards.Entities\ArmedCards.Entities.csproj">
-      <Project>{d8f286cb-de93-4ff8-8499-14e6ff87bc92}</Project>
-      <Name>ArmedCards.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ArmedCards.Library\ArmedCards.Library.csproj">
-      <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
-      <Name>ArmedCards.Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="_DBScripts\GameDeck\%40GameDeckTable.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_SelectForUser.sql" />
     <Content Include="_DBScripts\Game\Game_Update.sql" />
@@ -173,6 +163,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="_DBScripts\ProviderInfo\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArmedCards.Entities\ArmedCards.Entities.csproj">
+      <Project>{d8f286cb-de93-4ff8-8499-14e6ff87bc92}</Project>
+      <Name>ArmedCards.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ArmedCards.Library\ArmedCards.Library.csproj">
+      <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
+      <Name>ArmedCards.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

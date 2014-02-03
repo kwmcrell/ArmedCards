@@ -47,6 +47,7 @@ namespace ArmedCards.Entities
             GroupName           =   idr.GetValueByName<String>("GroupName");
             User_UserId         =   idr.GetValueByName<Int32>("User_UserId");
             UserName            =   idr.GetValueByName<String>("UserName");
+            ConnectionType      =   (Entities.Enums.ConnectionType)idr.GetValueByName<Int32>("ConnectionType");
         }
 
         /// <summary>
@@ -68,5 +69,10 @@ namespace ArmedCards.Entities
         /// The name of the user
         /// </summary>
         public String UserName { get; set; }
+
+        /// <summary>
+        /// The type of connection this is
+        /// </summary>
+        public Entities.Enums.ConnectionType ConnectionType { get; set; }
     }
 }

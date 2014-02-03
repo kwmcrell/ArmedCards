@@ -179,7 +179,9 @@ namespace ArmedCards.Entities
 		/// <returns></returns>
 		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
 		{
-			return Answers.GroupBy(x => x.PlayedBy_UserId).ToList();
+            return Answers.GroupBy(x => x.PlayedBy_UserId)
+                          .OrderByDescending(x => (x.Sum(card => card.Card_CardID) + x.Sum(card => card.DatePlayed.Second) + x.Sum(card => card.Card.Content.Length)))
+                          .ToList();
 		}
 
 		/// <summary>

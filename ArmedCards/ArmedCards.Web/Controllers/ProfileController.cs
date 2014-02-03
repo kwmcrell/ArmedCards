@@ -63,6 +63,7 @@ namespace ArmedCards.Web.Controllers
 
 				Entities.Filters.GamePlayer.SelectForUser filter = new Entities.Filters.GamePlayer.SelectForUser();
 				filter.UserId = id;
+                filter.PlayerType = Entities.Enums.GamePlayerType.Player;
 
 				model.GameProfiles = _selectGamePlayer.Execute(filter);
 

@@ -60,6 +60,7 @@ namespace ArmedCards.DataAccess.GamePlayerKickVote
 			{
 				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
 				_db.AddInParameter(cmd, "@KickUserId", DbType.Int32, filter.KickUserId);
+                _db.AddInParameter(cmd, "@PlayerType", DbType.Int32, filter.PlayerType);
 				_db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
 
 				using (IDataReader idr = _db.ExecuteReader(cmd))

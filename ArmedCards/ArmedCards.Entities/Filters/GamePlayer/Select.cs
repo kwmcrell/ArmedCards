@@ -48,5 +48,10 @@ namespace ArmedCards.Entities.Filters.GamePlayer
 		/// Select the players cards as well
 		/// </summary>
 		public Boolean SelectCards { get; set; }
+
+        /// <summary>
+        /// The type of players to select
+        /// </summary>
+        public Enums.GamePlayerType? PlayerType { get; set; }
     }
 }

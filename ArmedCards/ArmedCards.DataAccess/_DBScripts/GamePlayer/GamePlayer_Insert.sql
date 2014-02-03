@@ -37,6 +37,7 @@ CREATE PROC [dbo].[GamePlayer_Insert]
 	@UserId			int,
 	@Points			int,
 	@JoinDate		datetime,
+	@Type			int,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -51,18 +52,27 @@ AS
 		GameID,
 		UserId,
 		Points,
-		JoinDate
+		JoinDate,
+		Type
 	)
 	SELECT	@GameID,
 			@UserId,
 			@Points,
-			@JoinDate
+			@JoinDate,
+			@Type
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
+	AND	  GP.[Type]	  = @Type
 
-	SELECT @maxPlayers = G.[MaxNumberOfPlayers]
+	SELECT @maxPlayers = 
+			CASE WHEN @Type = 1
+				THEN
+					G.[MaxNumberOfPlayers]
+				ELSE 
+					G.[MaxNumberOfSpectators]
+				END
 	FROM [dbo].[Game] G
 	WHERE G.[GameID] = @GameID
 

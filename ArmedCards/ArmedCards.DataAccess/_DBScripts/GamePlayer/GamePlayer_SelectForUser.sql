@@ -33,7 +33,8 @@ GO
 -- Description:	Select all for a user
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_SelectForUser]
-	@UserId			int
+	@UserId			int,
+	@Type			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -47,10 +48,12 @@ AS
 			GP.[Points],
 			GP.[GameID],
 			GP.[UserId],
-			GP.[JoinDate]
+			GP.[JoinDate],
+			GP.[Type]
 	 FROM [dbo].[GamePlayer] GP
 	 INNER JOIN [dbo].[Game] G ON G.[GameID] = GP.[GameID]
 	 WHERE GP.[UserId] = @UserId
+	 AND   GP.[Type]   = @Type
 
 	COMMIT
 GO

@@ -35,7 +35,7 @@ namespace ArmedCards.Web.Helpers
     /// </summary>
     public static class WaitingHeader
     {
-        public static String Build(Entities.Game game, Int32 currentUserId)
+        public static String Build(Entities.Game game, Int32 currentUserId, Entities.Enums.GamePlayerType playerType)
         {
             String waitingOnPlayers = "{0} is waiting for {1} more {2}...";
             String commanderStartGame = "{0} can be started. {1}";
@@ -54,7 +54,7 @@ namespace ArmedCards.Web.Helpers
             }
             else
             {
-                if(game.IsCurrentCommander(currentUserId))
+                if(game.IsCurrentCommander(currentUserId) && playerType == Entities.Enums.GamePlayerType.Player)
                 {
                     TagBuilder startGame = new TagBuilder("a");
                     startGame.AddCssClass("button");

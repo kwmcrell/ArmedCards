@@ -26,7 +26,7 @@
     ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
 	if(Model.Game.IsWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
 	{
-		header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId);	
+		header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId, Model.PlayerType);	
 	}
 	else
 	{

@@ -35,7 +35,13 @@ if (!ArmedCards.Core.Chat) {
 }
 
 Chat.prototype.BroadcastMessage = function (message, $discussion) {
-	// Html encode display name and message.  
+    // Html encode display name and message.
+
+    if (message.ConnectionType == 2 && !message.Global)
+    {
+        message.SentBy = "[Spectator] " + message.SentBy;
+    }
+
 	var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.DateSent).toLocaleTimeString() + ")").html();
 	var encodedMsg = $('<div />').text(message.Message).html();
 
@@ -70,7 +76,8 @@ Chat.prototype.SendMessage = function (event) {
 		var message = {
 			Message: messageText,
 			GameID: $('#Game_GameID').val(),
-			Global: !$('#discussion').hasClass('hidden')
+			Global: !$('#discussion').hasClass('hidden'),
+			ConnectionType: $('#ConnectionType').val()
 		};
 
 		hub.server.SendMessage(message);
@@ -84,8 +91,9 @@ Chat.prototype.Join = function () {
     var hub = $.connection.ArmedCardsHub;
 
     var gameID = $('#Game_GameID').val();
+    var connectionType = $('#ConnectionType').val();
 
-    hub.server.Join(gameID);
+    hub.server.Join(gameID, connectionType);
 };
 
 Chat.prototype.UpdateLobby = function (lobby) {

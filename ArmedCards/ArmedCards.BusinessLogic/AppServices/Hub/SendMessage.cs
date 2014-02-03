@@ -46,25 +46,37 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		/// </summary>
 		/// <param name="game">The current game</param>
 		/// <param name="action">The action to fire</param>
-		public void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action)
+        /// <param name="sendToSpectators">Send message to spectators</param>
+		public void Execute(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action, Boolean sendToSpectators)
 		{
 			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
 			filter.GroupName = String.Format("Game_{0}", game.GameID);
 
 			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
 
-			Entities.GamePlayer sendToPlayer = null;
+            ExecuteAction(game, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer), game.Players);
 
-			foreach (Entities.ActiveConnection connection in connections)
-			{
-				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
-
-				if (sendToPlayer != null)
-				{
-					action(connection, game);
-				}
-			}
+            if(sendToSpectators)
+            {
+                ExecuteAction(game, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GameSpectator), game.Spectators);
+            }
 		}
+
+        private void ExecuteAction(Entities.Game game, Action<Entities.ActiveConnection, Entities.Game> action, IEnumerable<Entities.ActiveConnection> connections,
+                                   List<Entities.GamePlayer> users)
+        {
+            Entities.GamePlayer sendToPlayer = null;
+
+            foreach (Entities.ActiveConnection connection in connections)
+            {
+                sendToPlayer = users.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
+
+                if (sendToPlayer != null)
+                {
+                    action(connection, game);
+                }
+            }
+        }
 
 		/// <summary>
 		/// Send a message to a hub group
@@ -72,26 +84,40 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		/// <param name="game">The current game</param>
 		/// <param name="round">The current round</param>
 		/// <param name="action">The action to fire</param>
+        /// <param name="sendToSpectators">Send message to spectators</param>
 		public void Execute(Entities.Game game, Entities.GameRound round,
-							Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action)
+							Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action, Boolean sendToSpectators)
 		{
 			Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
 			filter.GroupName = String.Format("Game_{0}", game.GameID);
 
 			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
 
-			Entities.GamePlayer sendToPlayer = null;
+            ExecuteAction(game, round, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer), game.Players);
 
-			foreach (Entities.ActiveConnection connection in connections)
-			{
-				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
-
-				if (sendToPlayer != null)
-				{
-					action(connection, game, round.GroupedAnswers());
-				}
-			}
+            if(sendToSpectators)
+            {
+                ExecuteAction(game, round, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GameSpectator), game.Spectators);
+            }
 		}
+
+        private void ExecuteAction(Entities.Game game, Entities.GameRound round, 
+                                            Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> action,
+                                            IEnumerable<Entities.ActiveConnection> connections,
+                                            List<Entities.GamePlayer> users)
+        {
+            Entities.GamePlayer sendToPlayer = null;
+
+            foreach (Entities.ActiveConnection connection in connections)
+            {
+                sendToPlayer = users.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
+
+                if (sendToPlayer != null)
+                {
+                    action(connection, game, round.GroupedAnswers());
+                }
+            }
+        }
 
 		/// <summary>
 		/// Send a message to a hub group
@@ -162,7 +188,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hub
 		{
 			List<Entities.ActiveConnection> connections = GetConnections(gameID, alreadyVoted);
 
-			foreach (Entities.ActiveConnection connection in connections)
+			foreach (Entities.ActiveConnection connection in connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer))
 			{
 				action(connection, kickedUser, votesToKick, votesNotToKick);
 			}

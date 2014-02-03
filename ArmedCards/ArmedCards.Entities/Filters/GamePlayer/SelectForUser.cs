@@ -38,5 +38,10 @@ namespace ArmedCards.Entities.Filters.GamePlayer
 		/// The ID of the user
 		/// </summary>
 		public Int32 UserId { get; set; }
+
+        /// <summary>
+        /// The type of players to select
+        /// </summary>
+        public Enums.GamePlayerType PlayerType { get; set; }
 	}
 }

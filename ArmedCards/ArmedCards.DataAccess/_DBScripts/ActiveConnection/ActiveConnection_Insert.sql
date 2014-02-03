@@ -35,32 +35,37 @@ GO
 CREATE PROC [dbo].[ActiveConnection_Insert] 
 	@ActiveConnectionID		varchar(255),
 	@GroupName				varchar(255),
-	@User_UserId			int
+	@User_UserId			int,
+	@ConnectionType			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
 	BEGIN TRAN
 
-	IF NOT EXISTS (SELECT [User_UserId] FROM [dbo].[ActiveConnection] AC WHERE AC.[GroupName] = @GroupName AND AC.[User_UserId] = @User_UserId)
+	IF NOT EXISTS (SELECT [User_UserId] FROM [dbo].[ActiveConnection] AC WHERE AC.[GroupName] = @GroupName AND AC.[User_UserId] = @User_UserId AND AC.[ConnectionType] = @ConnectionType)
 		BEGIN
 			INSERT INTO [dbo].[ActiveConnection]
            (
 			[ActiveConnectionID],
 			[GroupName],
-			[User_UserId]
+			[User_UserId],
+			[ConnectionType]
 		   )
 			SELECT
 				@ActiveConnectionID,
 				@GroupName,
-				@User_UserId
+				@User_UserId,
+				@ConnectionType
 
 		END
 	ELSE
 		BEGIN
 			UPDATE [dbo].[ActiveConnection]
 			SET [ActiveConnectionID] = @ActiveConnectionID
-			WHERE [GroupName] = @GroupName AND [User_UserId] = @User_UserId
+			WHERE [GroupName] = @GroupName 
+			AND	  [User_UserId] = @User_UserId
+			AND   [ConnectionType] = @ConnectionType
 		END
 
 	COMMIT

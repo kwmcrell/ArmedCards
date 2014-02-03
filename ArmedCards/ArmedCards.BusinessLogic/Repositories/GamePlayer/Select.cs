@@ -73,7 +73,10 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 
 			foreach (Entities.GamePlayer player in players)
 			{
-				player.Hand = playerCards.Where(x => x.UserId == player.User.UserId).ToList();
+                if (player.PlayerType == Entities.Enums.GamePlayerType.Player)
+                {
+                    player.Hand = playerCards.Where(x => x.UserId == player.User.UserId).ToList();
+                }
 			}
 		}
 

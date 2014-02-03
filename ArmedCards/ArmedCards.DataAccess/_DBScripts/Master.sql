@@ -40,6 +40,16 @@ IF OBJECT_ID('[dbo].[ActiveConnection]') IS NULL
 
 		ALTER TABLE [dbo].[ActiveConnection] CHECK CONSTRAINT [FK_dbo.ActiveConnection_dbo.UserProfile_User_UserId]
 	END
+
+GO
+
+IF NOT EXISTS(	SELECT * 
+			FROM sys.columns 
+			WHERE Name = N'ConnectionType' 
+			AND Object_ID = Object_ID(N'ActiveConnection'))
+BEGIN
+    ALTER TABLE [dbo].[ActiveConnection] ADD [ConnectionType] [int] NOT NULL DEFAULT 0
+END
 GO 
 
 /*
@@ -189,32 +199,37 @@ GO
 CREATE PROC [dbo].[ActiveConnection_Insert] 
 	@ActiveConnectionID		varchar(255),
 	@GroupName				varchar(255),
-	@User_UserId			int
+	@User_UserId			int,
+	@ConnectionType			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
 	BEGIN TRAN
 
-	IF NOT EXISTS (SELECT [User_UserId] FROM [dbo].[ActiveConnection] AC WHERE AC.[GroupName] = @GroupName AND AC.[User_UserId] = @User_UserId)
+	IF NOT EXISTS (SELECT [User_UserId] FROM [dbo].[ActiveConnection] AC WHERE AC.[GroupName] = @GroupName AND AC.[User_UserId] = @User_UserId AND AC.[ConnectionType] = @ConnectionType)
 		BEGIN
 			INSERT INTO [dbo].[ActiveConnection]
            (
 			[ActiveConnectionID],
 			[GroupName],
-			[User_UserId]
+			[User_UserId],
+			[ConnectionType]
 		   )
 			SELECT
 				@ActiveConnectionID,
 				@GroupName,
-				@User_UserId
+				@User_UserId,
+				@ConnectionType
 
 		END
 	ELSE
 		BEGIN
 			UPDATE [dbo].[ActiveConnection]
 			SET [ActiveConnectionID] = @ActiveConnectionID
-			WHERE [GroupName] = @GroupName AND [User_UserId] = @User_UserId
+			WHERE [GroupName] = @GroupName 
+			AND	  [User_UserId] = @User_UserId
+			AND   [ConnectionType] = @ConnectionType
 		END
 
 	COMMIT
@@ -257,7 +272,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[ActiveConnection_Select]
 	@GroupName				varchar(255)			  =	NULL,
-	@ExcludeUserIds			XML						  = NULL
+	@ExcludeUserIds			XML						  = NULL,
+	@ConnectionType			INT						  = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -267,12 +283,14 @@ AS
      SELECT AC.[ActiveConnectionID],
 			AC.[GroupName],
 			AC.[User_UserId],
+			AC.[ConnectionType],
 			UP.[UserName]
 	 FROM [dbo].[ActiveConnection] AC
 	 INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	 WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
 	 AND   (@ExcludeUserIds IS NULL OR UP.UserId NOT IN (SELECT ids.id.value('@value', 'int')
 														 FROM	@ExcludeUserIds.nodes('ids/id') AS ids ( id )))
+	AND (AC.[ConnectionType] = @ConnectionType OR @ConnectionType IS NULL)
 
 	COMMIT
 GO 
@@ -2211,6 +2229,15 @@ BEGIN
     ALTER TABLE [dbo].[Game] ADD [QuestionShuffleCount] [int] NOT NULL DEFAULT 1
 END
 
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'MaxNumberOfSpectators' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [MaxNumberOfSpectators] [int] NOT NULL DEFAULT 0
+END
+
+
 GO 
 
 /*
@@ -2258,6 +2285,7 @@ CREATE PROC [dbo].[Game_Insert]
 	@PlayedLast				datetime	  =	NULL,
 	@GameOver				datetime	  =	NULL,
 	@GameDeckIDs			xml,
+	@MaxNumberOfSpectators	int			  = 0,
 	@NewID					int				OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2274,7 +2302,8 @@ AS
            ,[GameCreator_UserId]
            ,[DateCreated]
            ,[PlayedLast]
-           ,[GameOver])
+           ,[GameOver]
+		   ,[MaxNumberOfSpectators])
      SELECT
            @Title,
 		   @IsPrivate,
@@ -2284,7 +2313,8 @@ AS
 		   @GameCreator_UserId,
 		   @DateCreated,
 		   @PlayedLast,
-		   @GameOver
+		   @GameOver,
+		   @MaxNumberOfSpectators
 	
 	SET @NewID = @@IDENTITY
 
@@ -2355,10 +2385,16 @@ AS
 			G.[QuestionShuffleCount],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
-			 WHERE GP.[GameID] = G.[GameID]) AS PlayerCount,
+			 WHERE GP.[GameID] = G.[GameID]
+			 AND   GP.[Type] = 1) AS PlayerCount,
 			(SELECT COUNT([Game_GameID]) 
 			 FROM [dbo].[GameRound] GR
-			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount
+			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
+			G.MaxNumberOfSpectators,
+			(SELECT COUNT(UserID) 
+			 FROM [dbo].[GamePlayer] GP
+			 WHERE GP.[GameID] = G.[GameID]
+			 AND   GP.[Type] = 2) AS SpectatorCount
 	 FROM [dbo].[Game] G
 	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
 
@@ -2498,15 +2534,18 @@ IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
 			[GameID]		[int] NOT NULL,
 			[UserId]		[int] NOT NULL,
 			[Points]		[int] NOT NULL,
-			[JoinDate]		[datetime] NOT NULL
+			[JoinDate]		[datetime] NOT NULL,
+			[Type]			[int] NOT NULL
 		 CONSTRAINT [PK_dbo.GamePlayer] PRIMARY KEY CLUSTERED 
 		(
 			[GameID] ASC,
-			[UserId] ASC
+			[UserId] ASC,
+			[Type]   ASC
 		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 		) ON [PRIMARY]
 
 		ALTER TABLE [dbo].[GamePlayer] ADD  DEFAULT ((0)) FOR [Points]
+		ALTER TABLE [dbo].[GamePlayer] ADD  DEFAULT ((1)) FOR [Type]
 
 		ALTER TABLE [dbo].[GamePlayer]  WITH CHECK ADD  CONSTRAINT [FK_dbo.GamePlayer_dbo.Game_GameID] FOREIGN KEY([GameID])
 		REFERENCES [dbo].[Game] ([GameID])
@@ -2519,6 +2558,14 @@ IF OBJECT_ID('[dbo].[GamePlayer]') IS NULL
 
 		ALTER TABLE [dbo].[GamePlayer] CHECK CONSTRAINT [FK_dbo.GamePlayer_dbo.UserProfile_UserId]
 	END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'Type' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [Type] [int] NOT NULL DEFAULT 1
+END
 GO 
 
 /*
@@ -2557,7 +2604,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_Delete] 
 	@GameID			int,
-	@UserId			int
+	@UserId			int,
+	@Type			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -2566,18 +2614,23 @@ AS
 
 	IF (SELECT G.[GameOver] 
 		FROM [dbo].[Game] G 
-		WHERE G.[GameID] = @GameID) IS NULL
+		WHERE G.[GameID] = @GameID) IS NULL OR @Type = 2
 		BEGIN
 
 			DELETE
 			FROM [dbo].[GamePlayer] 
-			WHERE [GameID] = @GameID AND [UserId] = @UserId
+			WHERE [GameID] = @GameID 
+			AND   [UserId] = @UserId
+			AND   [Type]   = @Type
 
 		END
 		
-		DELETE
-		FROM [dbo].[GamePlayerCard]
-		WHERE [GameID] = @GameID AND [UserId] = @UserId
+		IF @Type = 1
+			BEGIN
+				DELETE
+				FROM [dbo].[GamePlayerCard]
+				WHERE [GameID] = @GameID AND [UserId] = @UserId
+			END
 
 	COMMIT
 GO
@@ -2622,6 +2675,7 @@ CREATE PROC [dbo].[GamePlayer_Insert]
 	@UserId			int,
 	@Points			int,
 	@JoinDate		datetime,
+	@Type			int,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2636,18 +2690,27 @@ AS
 		GameID,
 		UserId,
 		Points,
-		JoinDate
+		JoinDate,
+		Type
 	)
 	SELECT	@GameID,
 			@UserId,
 			@Points,
-			@JoinDate
+			@JoinDate,
+			@Type
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
+	AND	  GP.[Type]	  = @Type
 
-	SELECT @maxPlayers = G.[MaxNumberOfPlayers]
+	SELECT @maxPlayers = 
+			CASE WHEN @Type = 1
+				THEN
+					G.[MaxNumberOfPlayers]
+				ELSE 
+					G.[MaxNumberOfSpectators]
+				END
 	FROM [dbo].[Game] G
 	WHERE G.[GameID] = @GameID
 
@@ -2699,7 +2762,8 @@ GO
 -- Description:	Selects game players
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_Select] 
-	@GameID			int
+	@GameID			int,
+	@Type			int = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -2710,16 +2774,22 @@ AS
 			GP.[Points],
 			GP.[UserId],
 			GP.[JoinDate],
+			GP.[Type],
 			UP.[UserName],
 			UP.[PictureUrl],
-			(SELECT COUNT(CardID)
-			 FROM [dbo].[GamePlayerCard]
-			 WHERE	[UserId] = GP.UserId
-			 AND	[GameID] = @GameID
-			) AS CardCount
+			CASE WHEN GP.[Type] = 1
+				THEN
+					(SELECT COUNT(CardID)
+					FROM [dbo].[GamePlayerCard]
+					WHERE	[UserId] = GP.UserId
+					AND	[GameID] = @GameID)
+				ELSE
+					0 
+			END AS CardCount
 	FROM [dbo].[GamePlayer] GP
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
-	WHERE GP.[GameID] = @GameID OR @GameID IS NULL
+	WHERE (GP.[GameID] = @GameID OR @GameID IS NULL)
+	AND   (GP.[Type]   = @Type   OR @Type IS NULL)
 	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT
@@ -2761,7 +2831,8 @@ GO
 -- Description:	Select all for a user
 -- ===============================================
 CREATE PROC [dbo].[GamePlayer_SelectForUser]
-	@UserId			int
+	@UserId			int,
+	@Type			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -2775,10 +2846,12 @@ AS
 			GP.[Points],
 			GP.[GameID],
 			GP.[UserId],
-			GP.[JoinDate]
+			GP.[JoinDate],
+			GP.[Type]
 	 FROM [dbo].[GamePlayer] GP
 	 INNER JOIN [dbo].[Game] G ON G.[GameID] = GP.[GameID]
 	 WHERE GP.[UserId] = @UserId
+	 AND   GP.[Type]   = @Type
 
 	COMMIT
 GO
@@ -2831,6 +2904,7 @@ AS
 	SET Points = (Points + 1)
 	WHERE	GameID = @GameID
 	AND		UserId = @UserId
+	AND		Type   = 1
 
 	DECLARE @pointScale int
 
@@ -3693,6 +3767,7 @@ GO
 CREATE PROC [dbo].[GamePlayerKickVote_Select] 
 	@GameID			int,
 	@KickUserId		int,
+	@PlayerType		int,
 	@TotalPlayers	int output
 AS 
 	SET NOCOUNT ON 
@@ -3703,6 +3778,7 @@ AS
 	SELECT @TotalPlayers = COUNT(GP.[UserId])
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
+	AND	  GP.[Type]   = @PlayerType
 
 	SELECT	GPKV.[GameID],
 			GPKV.[KickUserId],

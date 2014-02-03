@@ -21,54 +21,27 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Models.Hub
+namespace ArmedCards.Entities.Enums
 {
     /// <summary>
-    /// Model that describes a global chat message
+    /// Enum used to define the type of player the user is
     /// </summary>
-    public class ChatMessage
+    public enum GamePlayerType
     {
         /// <summary>
-        /// The name of the user that sent the message
+        /// Player in the game
         /// </summary>
-        [JsonProperty("SentBy")]
-        public String SentBy { get; set; }
+        Player = 1,
 
         /// <summary>
-        /// The message that was sent
+        /// Spectating the game
         /// </summary>
-        [JsonProperty("Message")]
-        public String Message { get; set; }
-
-        /// <summary>
-        /// Date the was sent
-        /// </summary>
-        [JsonProperty("DateSent")]
-        public String DateSent { get; set; }
-
-		/// <summary>
-		/// The game ID for the game specific message
-		/// </summary>
-		[JsonProperty("GameID")]
-		public Int32? GameID { get; set; }
-
-		/// <summary>
-		/// Is message meant for global
-		/// </summary>
-		[JsonProperty("Global")]
-		public Boolean Global { get; set; }
-
-        /// <summary>
-        /// The type of connection
-        /// </summary>
-        [JsonProperty("ConnectionType")]
-        public Entities.Enums.ConnectionType ConnectionType { get; set; }
+        Spectator = 2
     }
 }
