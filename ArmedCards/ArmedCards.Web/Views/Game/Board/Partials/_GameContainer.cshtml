@@ -24,6 +24,7 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 
 @Html.Hidden("Game_Waiting", Model.Game.IsWaiting())
+@Html.Partial("~/Views/Game/Board/Partials/_Spectators.cshtml")
 
 @if (Model.Game.HasWinner())
 {

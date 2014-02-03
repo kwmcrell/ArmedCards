@@ -590,6 +590,35 @@ fieldset > .button.active
 	opacity: 1;
 }
 
+
+.confirmMessage.spectatorsList
+{
+	margin-top: -11.2em;
+}
+
+.confirmMessage.spectatorsList ol
+{
+	max-height: 12em;
+	overflow: auto;
+	padding-left: 30px;
+}
+
+.confirmMessage.spectatorsList ol > li
+{
+	margin-bottom: 1em;
+}
+
+.confirmMessage.spectatorsList ol > li:last-child
+{
+	margin-bottom: 0;
+}
+
+.confirmMessage.spectatorsList ol > li a
+{
+	display: inline-block;
+	padding: 2px 0 0;
+}
+
 .hidePickOrder {
 	opacity: 0 !important;
 }
@@ -1137,6 +1166,15 @@ fieldset > .button.active
 .chat .lobbyPlayers ul li a:focus
 {
 	text-decoration: none;
+}
+
+.chat .lobby .viewSpectators
+{
+	margin: 0;
+	padding: 1em 0;
+	position: absolute;
+	text-align: right;
+	width: calc(100% - 2.4em);
 }
 
 .chat.bottom

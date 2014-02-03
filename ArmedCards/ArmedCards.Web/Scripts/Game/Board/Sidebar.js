@@ -1,4 +1,5 @@
 ﻿/// <reference path="../jQuery/jquery-1.9.1.js" />
+/// <reference path="Common.js" />
 /// <reference path="../../toastr.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -122,6 +123,20 @@ Sidebar.prototype.LobbyUpdate = function (result) {
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
 
+Sidebar.prototype.ViewSpectators = function(event)
+{
+    event.preventDefault();
+
+    $('#spectatorList').html($('#hiddenSpectatorList').html());
+
+    ArmedCards.Game.Common.ShowModal('#spectatorModal');
+};
+
+Sidebar.prototype.HideSpectators = function (event) {
+    event.preventDefault();
+    ArmedCards.Game.Common.HideModal('#spectatorModal');
+};
+
 Sidebar.prototype.Init = function () {
 	$('#sideBarToggle').unbind().bind({
 		click: ArmedCards.Game.Sidebar.SideBarToggle
@@ -134,6 +149,22 @@ Sidebar.prototype.Init = function () {
 	$('#gameChatTab').unbind().bind({
 		click: ArmedCards.Game.Sidebar.GameChatTab
 	});
+
+	$('#gameLobby')
+	.off({
+	    click: ArmedCards.Game.Sidebar.ViewSpectators
+	}, '#spectatorCount')
+	.on({
+	    click: ArmedCards.Game.Sidebar.ViewSpectators
+	}, '#spectatorCount');
+
+    $('#gameContainer')
+	.off({
+	    click: ArmedCards.Game.Sidebar.HideSpectators
+	}, '#hideSpectatorsModal')
+	.on({
+	    click: ArmedCards.Game.Sidebar.HideSpectators
+	}, '#hideSpectatorsModal');
 
 	$(document).undelegate().delegate('.playerMenu', 'click', ArmedCards.Game.Sidebar.PlayerMenuOpen);
 

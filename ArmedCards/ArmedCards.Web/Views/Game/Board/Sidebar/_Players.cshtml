@@ -49,8 +49,8 @@
                     <img src="@player.User.PictureUrl">
                     <a id="@player.PlayerType@player.User.UserId" href="/Profile/@player.User.UserId">@player.User.DisplayName</a>
                 </span>
-                @if(player.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
-                { 
+                @if (player.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
+                {
                     <span class="gamePoints">
                         @player.Points points
                     </span>
@@ -69,5 +69,14 @@
         spectator = spectator + "s";
     }
 
-    <p id="spectatorCount" style="margin: 15px 0 0;"><a href="#">@spectatorCount</a> @spectator</p>
+    <p id="spectatorCount" class="viewSpectators"><a href="#">@spectatorCount @spectator</a></p>
+
+    <div class="hidden" id="hiddenSpectatorList">
+        <ol>
+            @foreach (GamePlayer player in Model.Spectators)
+            {
+                <li><a href="/Profile/@player.User.UserId" class="loggedIn" target="_blank"><img src="@player.User.PictureUrl">@player.User.DisplayName</a></li>
+            }
+        </ol>
+    </div>
 }

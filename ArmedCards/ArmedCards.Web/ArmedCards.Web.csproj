@@ -371,6 +371,7 @@
     <Content Include="Views\Game\Board\Partials\_VoteToKick.cshtml" />
     <Content Include="Views\Leaderboard\Index.cshtml" />
     <Content Include="Views\Shared\Layout\_Plain.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
