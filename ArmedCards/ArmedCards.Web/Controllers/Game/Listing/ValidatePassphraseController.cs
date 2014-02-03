@@ -53,21 +53,18 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         {
             bool validated = false;
 
-            if (passphrase != null)
+            validated = _validatePassphrase.Execute(id, passphrase);
+
+            string key = string.Format("Game_{0}_Passphrase", id);
+
+            if (validated && !string.IsNullOrWhiteSpace(passphrase))
             {
-                validated = _validatePassphrase.Execute(id, passphrase);
-
-                string key = string.Format("Game_{0}_Passphrase", id);
-
-                if (validated && !string.IsNullOrWhiteSpace(passphrase))
-                {
-                    Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(passphrase), Session.SessionID));
-                }
+                Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(passphrase), Session.SessionID));
             }
 
             string url = Url.Action("Index", "Game", new { id = id });
 
-            if(playerType == Entities.Enums.GamePlayerType.Spectator)
+            if (playerType == Entities.Enums.GamePlayerType.Spectator)
             {
                 url = Url.Action("Spectate", "Game", new { id = id });
             }
