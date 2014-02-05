@@ -52,7 +52,7 @@ if (!ArmedCards.Game.Waiting) {
 Waiting.prototype.TransitionQuestion = function () {
 	answerCount = 0;
 
-	TweenMax.to(".question.card", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionQuestionComplete });
+	TweenMax.to(".question.card.waiting", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionQuestionComplete });
 };
 
 Waiting.prototype.TransitionQuestionComplete = function (e) {
@@ -70,7 +70,7 @@ Waiting.prototype.TransitionQuestionComplete = function (e) {
 
 	$waitingDiv.append(question);
 
-	TweenMax.to(".question.card", 2, { alpha: 1 });
+	TweenMax.to(".question.card.waiting", 2, { alpha: 1 });
 };
 
 Waiting.prototype.HandleTransition = function () {
@@ -83,7 +83,7 @@ Waiting.prototype.HandleTransition = function () {
 Waiting.prototype.TransitionAnswer = function () {
 	answerCount = answerCount + 1;
 
-	TweenMax.to(".answer.card", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionAnswerComplete });
+	TweenMax.to(".answer.card.waiting", 1, { alpha: 0, onComplete: ArmedCards.Game.Waiting.TransitionAnswerComplete });
 };
 
 Waiting.prototype.TransitionAnswerComplete = function (e) {
@@ -133,14 +133,14 @@ Waiting.prototype.GenerateCard = function (words, type) {
 
 	//Question
 	if (type == 0) {
-		div = '<div class="question card" style="opacity: 0">';
+		div = '<div class="question card waiting" style="opacity: 0">';
 		div = div + ' <div id="question">' + words + '</div>';
 		div = div + ' <div class="branding">Armed Cards!#&amp;?</div>';
 		div = div + ' </div>';
 	}
 		//Answer
 	else {
-		div = '<div class="answer card" style="opacity: 0">';
+		div = '<div class="answer card waiting" style="opacity: 0">';
 		div = div + ' <div id="answer">' + words + '</div>';
 		div = div + ' <div class="branding">Armed Cards!#&amp;?</div>';
 		div = div + ' </div>';
@@ -155,13 +155,7 @@ Waiting.prototype.StartGame = function (event) {
 
 	var url = "/Start/Index/" + $('#Game_GameID').val();
 
-	$.ajax({
-		url: url,
-		type: "POST",
-		success: function () {
-		    ArmedCards.Game.Waiting.ClearTimeout();
-		}
-	});
+	$.connection.ArmedCardsHub.server.StartGame($('#Game_GameID').val());
 };
 
 Waiting.prototype.ClearTimeout = function () {

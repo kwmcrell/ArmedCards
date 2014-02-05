@@ -27,29 +27,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Entities.ActionContainers
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	/// <summary>
-	/// Class containing all actions possible to fire after casting a vote
-	/// </summary>
-	public class VoteToKick
-	{
-		/// <summary>
-		/// Action to call to check votes
-		/// Arguments
-		/// 1. GameId
-		/// 2. KickUserId
-		/// 3. Sitehost
-		/// </summary>
-		public Action<Int32, Int32, String> CheckVotes { get; set; }
+    /// <summary>
+    /// Message sent when a card has been played
+    /// </summary>
+    public class PlayCard
+    {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public PlayCard()
+        {
+            CardIDs = new List<int>();
+        }
 
-		/// <summary>
-		/// Action to call to alert users ha vote has been casted
-		/// 1. Connection to send the message to
-		/// 2. User to Kick
-		/// 3. Votes To Kick
-		/// 4. Votes Not To Kick
-		/// </summary>
-		public Action<Entities.ActiveConnection, Entities.User, Int32, Int32> AlertUserOfVote { get; set; }
-	}
+        /// <summary>
+        /// The card ids that have been played
+        /// </summary>
+        public List<Int32> CardIDs { get; set; }
+
+        /// <summary>
+        /// The game id that the cards are played in
+        /// </summary>
+        public Int32 GameID { get; set; }
+    }
 }

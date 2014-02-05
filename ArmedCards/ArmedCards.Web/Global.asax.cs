@@ -37,6 +37,8 @@ using System.Data.Entity.Infrastructure;
 using WebMatrix.WebData;
 using System.Configuration;
 using System.Web.Configuration;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace ArmedCards.Web
 {
@@ -59,6 +61,10 @@ namespace ArmedCards.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
             UnityConfig.InitContainer();
+            
+            //Uncomment the line if we ever want to use unity IoC in Hub
+            //GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new Hubs.UnityHubActivator(UnityConfig.Container));
+            
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
 
 			// Ensure ASP.NET Simple Membership is initialized only once per app start

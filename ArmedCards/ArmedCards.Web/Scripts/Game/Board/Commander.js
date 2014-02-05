@@ -77,23 +77,12 @@ Commander.prototype.PickWinner = function (event) {
 	$('#winnerConfirm').removeClass('on');
 	var $winnerCard = $('#winnerCard');
 
-
 	var data = {
-		gameID: $('#Game_GameID').val(),
-		cardIDs: ArmedCards.Game.Common.GetChildrenIDs($winnerCard)
+	    GameID: $('#Game_GameID').val(),
+	    CardIDs: ArmedCards.Game.Common.GetChildrenIDs($winnerCard)
 	};
 
-	var url = "/PickWinner/Index";
-
-	$.ajax({
-		url: url,
-		type: "POST",
-		data: JSON.stringify(data),
-		dataType: "json",
-		contentType: "application/json",
-		success: function () {
-		}
-	});
+	$.connection.ArmedCardsHub.server.PickWinner(data);
 
 	$winnerCard.empty();
 };

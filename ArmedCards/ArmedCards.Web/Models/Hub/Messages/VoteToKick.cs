@@ -27,20 +27,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	/// <summary>
-	/// Defines inserting a vote to kick a user from a game
-	/// </summary>
-	public interface IInsert
-	{
-		/// <summary>
-		/// Insert a vote to kick a user
-		/// </summary>
-		/// <param name="userVote">The user's vote</param>
-		/// <param name="actionContainer">Contains any actions that need to be fired</param>
-		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
-													Entities.ActionContainers.KickPlayer actionContainer);
-	}
+    /// <summary>
+    /// Message containing information on a user's vote to kick a player
+    /// </summary>
+    public class VoteToKick
+    {
+        /// <summary>
+        /// The user id of the user being voted on to kick
+        /// </summary>
+        public Int32 KickUserId { get; set; }
+
+        /// <summary>
+        /// The game id they are being voted on in
+        /// </summary>
+        public Int32 GameID { get; set; }
+
+        /// <summary>
+        /// If the casting user'S vote
+        /// </summary>
+        public Boolean Kick { get; set; }
+    }
 }

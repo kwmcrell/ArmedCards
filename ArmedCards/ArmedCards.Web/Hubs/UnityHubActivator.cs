@@ -21,39 +21,28 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.Practices.Unity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebMatrix.WebData;
-using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Controllers.Game.Board
+namespace ArmedCards.Web.Hubs
 {
-	[Extensions.ArmedCardsAuthorize]
-    public class PlayCardController : Extensions.ArmedCardsController
+    public class UnityHubActivator : IHubActivator
     {
-		private AS.GamePlayerCard.Base.IPlay _playCard;
+        private readonly IUnityContainer container;
 
-		public PlayCardController(AS.GamePlayerCard.Base.IPlay playCard)
-		{
-			this._playCard = playCard;
-		}
-
-		/// <summary>
-		/// Action responsible for playing a card in a game
-		/// </summary>
-		/// <param name="cardIDs">The cards to play</param>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>The response code</returns>
-        public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
+        public UnityHubActivator(IUnityContainer container)
         {
-			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, WebSecurity.CurrentUserId,
-																			Helpers.HubActions.CardPlayed);
-
-			return Json(new { response.ResponseCode });
+            this.container = container;
         }
 
+        public IHub Create(HubDescriptor descriptor)
+        {
+            return (IHub)container.Resolve(descriptor.HubType);
+        }
     }
 }

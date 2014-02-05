@@ -21,38 +21,30 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebMatrix.WebData;
-using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Controllers.Game.Board
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	[Extensions.ArmedCardsAuthorize]
-    public class PickWinnerController : Extensions.ArmedCardsController
+    /// <summary>
+    /// The result message to be sent back after voting to kick
+    /// </summary>
+    public class VoteToKickResult
     {
-		private AS.GameRound.Base.IComplete _completeRound;
+        /// <summary>
+        /// The message content
+        /// </summary>
+        [JsonProperty("Content")]
+        public String Content { get; set; }
 
-		public PickWinnerController(AS.GameRound.Base.IComplete completeRound)
-		{
-			this._completeRound = completeRound;
-		}
-
-		/// <summary>
-		/// Action responsible for picking the winner of the round
-		/// </summary>
-		/// <param name="cardIDs">The cards to mark as winners</param>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>The response code</returns>
-		public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
-        {
-			_completeRound.Execute(gameID, cardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
-
-            return Json(new { });
-        }
-
+        /// <summary>
+        /// The message title
+        /// </summary>
+        [JsonProperty("Title")]
+        public String Title { get; set; }
     }
 }

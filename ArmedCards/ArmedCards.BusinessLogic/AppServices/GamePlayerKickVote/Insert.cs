@@ -42,24 +42,26 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		private DS.Base.IInsert _insert;
 		private User.Base.ISelect _selectUser;
 		private Hub.Base.ISendMessage _sendMessage;
+        private AS.GamePlayerKickVote.Base.ICheckVotes _checkVotes;
 
 		public Insert(DS.Base.IInsert insert, User.Base.ISelect selectUser,
-						Hub.Base.ISendMessage sendMessage)
+						Hub.Base.ISendMessage sendMessage,
+                      AS.GamePlayerKickVote.Base.ICheckVotes checkVotes)
 		{
 			this._insert = insert;
 			this._selectUser = selectUser;
 			this._sendMessage = sendMessage;
+            this._checkVotes = checkVotes;
 		}
 
 		/// <summary>
 		/// Insert a vote to kick a user
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
-		/// <param name="siteHost">The website host name</param>
 		/// <param name="actionContainer">Contains any actions that need to be fired</param>
 		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost,
-															Entities.ActionContainers.VoteToKick actionContainer)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
+														   Entities.ActionContainers.KickPlayer actionContainer)
 		{
 			Entities.User kickUser = _selectUser.Execute(userVote.KickUserId);
 
@@ -69,12 +71,16 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
 				userVote.Vote)
 			{
-				Task.Factory.StartNew(() => actionContainer.CheckVotes(userVote.GameID, userVote.KickUserId, siteHost));
+                Task.Delay(30000).ContinueWith((delayedTask) =>
+                    {
+                        _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                    });
 			}
 
 			_sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick, 
 															response.VotesToStay, 
-															response.AlreadyVoted, actionContainer.AlertUserOfVote);
+															response.AlreadyVoted, 
+                                                            actionContainer.AlertUserOfVote);
 
 			response.KickUser = kickUser;
 			return response;

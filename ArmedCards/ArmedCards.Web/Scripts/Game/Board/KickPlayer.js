@@ -57,30 +57,25 @@ KickPlayer.prototype.RemoveAlert = function (userId) {
 
 KickPlayer.prototype.Vote = function (vote, userId) {
 	var data = {
-		gameID: $('#Game_GameID').val(),
-		kickUserId: userId,
-		voteToKick: vote
+		GameID: $('#Game_GameID').val(),
+		KickUserId: userId,
+		Kick: vote
 	};
 
-	var url = "/KickPlayer/Vote";
+	$.connection.ArmedCardsHub.server.VoteToKick(data).done(ArmedCards.Game.KickPlayer.VoteCasted);
+};
 
-	$.ajax({
-		url: url,
-		type: "POST",
-		data: data,
-		success: function (response) {
-			var options = {
-				"positionClass": "toast-bottom-full-width",
-				"fadeIn": 300,
-				"fadeOut": 500,
-				"timeOut": 5000,
-				"extendedTimeOut": 0,
-				"newestOnTop": false
-			};
+KickPlayer.prototype.VoteCasted = function (response) {
+    var options = {
+        "positionClass": "toast-bottom-full-width",
+        "fadeIn": 300,
+        "fadeOut": 500,
+        "timeOut": 5000,
+        "extendedTimeOut": 0,
+        "newestOnTop": false
+    };
 
-			toastr.info(response.message, response.title, options);
-		}
-	});
+    toastr.info(response.Content, response.Title, options);
 };
 
 KickPlayer.prototype.Init = function () {
