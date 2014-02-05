@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace ArmedCards.Web.Hubs
 {
     [HubName("ArmedCardsHub")]
+    [Extensions.ArmedCardsAuthorize]
     public class ArmedCards : Hub
     {
         private const string GLOBAL = "Global";
@@ -95,6 +96,68 @@ namespace ArmedCards.Web.Hubs
 
 			Clients.All.RemoveConnection(connection);
 		}
+
+        [HubMethodName("PlayCard")]
+        public void PlayCard(Models.Hub.Messages.PlayCard message)
+        {
+            AS.GamePlayerCard.Base.IPlay _playCard = UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
+
+            Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, WebSecurity.CurrentUserId,
+                                                                            Helpers.HubActions.CardPlayed);
+        }
+
+        [HubMethodName("StartGame")]
+        public void StartGame(Int32 gameID)
+        {
+            AS.Game.Base.IStart _startGame = UnityConfig.Container.Resolve<AS.Game.Base.IStart>();
+
+            Entities.User user = new Entities.User
+            {
+                UserId = WebSecurity.CurrentUserId,
+                DisplayName = WebSecurity.CurrentUserName
+            };
+
+            _startGame.Execute(gameID, user, Helpers.HubActions.UpdateGameView);
+        }
+
+        [HubMethodName("PickWinner")]
+        public void PickWinner(Models.Hub.Messages.PlayCard message)
+        {
+            AS.GameRound.Base.IComplete _completeRound = UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
+
+            _completeRound.Execute(message.GameID, message.CardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
+        }
+
+        [HubMethodName("VoteToKick")]
+        public Models.Hub.Messages.VoteToKickResult VoteToKick(Models.Hub.Messages.VoteToKick message)
+        {
+            Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
+            vote.GameID = message.GameID;
+            vote.KickUserId = message.KickUserId;
+            vote.VotedUserId = WebSecurity.CurrentUserId;
+            vote.Vote = message.Kick;
+
+            Entities.ActionContainers.KickPlayer container = new Entities.ActionContainers.KickPlayer();
+            container.AlertUserOfVote = Helpers.HubActions.AlertUsersVote;
+            container.AlertUsersOfResult = Helpers.HubActions.AlertUserOfResult;
+
+            container.LeaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
+            container.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
+            container.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
+
+            AS.GamePlayerKickVote.Base.IInsert _insert = UnityConfig.Container.Resolve<AS.GamePlayerKickVote.Base.IInsert>();
+
+            Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, container);
+
+            return new Models.Hub.Messages.VoteToKickResult
+            {
+                Content = String.Format("Votes To Kick: {0} <br/> Votes To Stay: {1}",
+                                            response.VotesToKick,
+                                            response.VotesToStay),
+                Title = String.Format("Voted to {0} {1}.", (message.Kick ? "kick" : "keep"), response.KickUser.DisplayName),
+                AllVotesCasted = response.AllVotesCasted
+            };
+        }
 
 		#region "Private Methods"
 

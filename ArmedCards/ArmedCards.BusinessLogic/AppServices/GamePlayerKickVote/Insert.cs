@@ -31,6 +31,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
 using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Runtime.Caching;
+using System.Threading;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
@@ -42,25 +44,29 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		private DS.Base.IInsert _insert;
 		private User.Base.ISelect _selectUser;
 		private Hub.Base.ISendMessage _sendMessage;
+        private AS.GamePlayerKickVote.Base.ICheckVotes _checkVotes;
 
 		public Insert(DS.Base.IInsert insert, User.Base.ISelect selectUser,
-						Hub.Base.ISendMessage sendMessage)
+						Hub.Base.ISendMessage sendMessage,
+                      AS.GamePlayerKickVote.Base.ICheckVotes checkVotes)
 		{
 			this._insert = insert;
 			this._selectUser = selectUser;
 			this._sendMessage = sendMessage;
+            this._checkVotes = checkVotes;
 		}
 
 		/// <summary>
 		/// Insert a vote to kick a user
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
-		/// <param name="siteHost">The website host name</param>
 		/// <param name="actionContainer">Contains any actions that need to be fired</param>
 		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote, String siteHost,
-															Entities.ActionContainers.VoteToKick actionContainer)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
+														   Entities.ActionContainers.KickPlayer actionContainer)
 		{
+            string cacheKey = string.Format("KickUser_{0}_FromGame_{1}", userVote.KickUserId, userVote.GameID);
+
 			Entities.User kickUser = _selectUser.Execute(userVote.KickUserId);
 
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
@@ -69,12 +75,37 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
 				userVote.Vote)
 			{
-				Task.Factory.StartNew(() => actionContainer.CheckVotes(userVote.GameID, userVote.KickUserId, siteHost));
+                CancellationTokenSource token = new CancellationTokenSource();
+
+                MemoryCache.Default.Add(cacheKey, token, DateTimeOffset.Now.AddSeconds(32));
+
+                Task.Delay(30000, token.Token).ContinueWith((delayedTask) =>
+                    {
+                        _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                    });
 			}
 
-			_sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick, 
-															response.VotesToStay, 
-															response.AlreadyVoted, actionContainer.AlertUserOfVote);
+            if (response.AllVotesCasted)
+            {
+
+                var cachedToken = MemoryCache.Default.Get(cacheKey);
+
+                if(cachedToken != null)
+                {
+                    ((CancellationTokenSource)cachedToken).Cancel();
+                }
+                else
+                {
+                    _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                }
+            }
+            else
+            {
+                _sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick,
+                                                                response.VotesToStay,
+                                                                response.AlreadyVoted,
+                                                                actionContainer.AlertUserOfVote);
+            }
 
 			response.KickUser = kickUser;
 			return response;

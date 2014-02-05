@@ -38,7 +38,8 @@ CREATE PROC [dbo].[GamePlayerKickVote_Insert]
 	@VotedUserId	int,
 	@Vote			bit,
 	@VotesToStay	int OUTPUT,
-	@VotesToKick	int OUTPUT
+	@VotesToKick	int OUTPUT,
+	@TotalPlayers   int OUTPUT
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -56,6 +57,11 @@ AS
 	WHERE GPKV.[GameID] = @GameID 
 	AND GPKV.[KickUserId] = @KickUserId
 	AND GPKV.[Vote] = 0
+
+	SELECT @TotalPlayers = COUNT(GP.[UserId])
+	FROM [GamePlayer] GP
+	WHERE GP.[GameID] = @GameID
+	AND	  GP.[Type]   = 1
 	
 	IF NOT EXISTS	(	
 						SELECT TOP 1 GPKV.[VotedUserId]

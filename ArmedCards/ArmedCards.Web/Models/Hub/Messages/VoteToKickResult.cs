@@ -21,26 +21,36 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	/// <summary>
-	/// Defines inserting a vote to kick a user from a game
-	/// </summary>
-	public interface IInsert
-	{
-		/// <summary>
-		/// Insert a vote to kick a user
-		/// </summary>
-		/// <param name="userVote">The user's vote</param>
-		/// <param name="actionContainer">Contains any actions that need to be fired</param>
-		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
-													Entities.ActionContainers.KickPlayer actionContainer);
-	}
+    /// <summary>
+    /// The result message to be sent back after voting to kick
+    /// </summary>
+    public class VoteToKickResult
+    {
+        /// <summary>
+        /// The message content
+        /// </summary>
+        [JsonProperty("Content")]
+        public String Content { get; set; }
+
+        /// <summary>
+        /// The message title
+        /// </summary>
+        [JsonProperty("Title")]
+        public String Title { get; set; }
+
+        /// <summary>
+        /// All votes have been casted now
+        /// </summary>
+        [JsonProperty("AllVotesCasted")]
+        public Boolean AllVotesCasted { get; set; }
+    }
 }

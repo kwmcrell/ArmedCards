@@ -222,12 +222,8 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Game\Board\KickPlayerController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
-    <Compile Include="Controllers\Game\Board\PickWinnerController.cs" />
-    <Compile Include="Controllers\Game\Board\PlayCardController.cs" />
     <Compile Include="Controllers\Game\Board\SelectCardsController.cs" />
-    <Compile Include="Controllers\Game\Board\StartController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />
     <Compile Include="Controllers\Game\Board\GameController.cs" />
     <Compile Include="Controllers\Game\Listing\DetailController.cs" />
@@ -248,6 +244,7 @@
     <Compile Include="Helpers\HubActions.cs" />
     <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
+    <Compile Include="Hubs\UnityHubActivator.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
@@ -261,6 +258,9 @@
     <Compile Include="Models\Home\Index.cs" />
     <Compile Include="Models\Hub\ChatMessage.cs" />
     <Compile Include="Models\Hub\Lobby.cs" />
+    <Compile Include="Models\Hub\Messages\PlayCard.cs" />
+    <Compile Include="Models\Hub\Messages\VoteToKick.cs" />
+    <Compile Include="Models\Hub\Messages\VoteToKickResult.cs" />
     <Compile Include="Models\Leaderboard\Index.cs" />
     <Compile Include="Models\Profile\ChangeDisplayName.cs" />
     <Compile Include="Models\Profile\Profile.cs" />
@@ -413,7 +413,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>58550</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://ArmedCards.local</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

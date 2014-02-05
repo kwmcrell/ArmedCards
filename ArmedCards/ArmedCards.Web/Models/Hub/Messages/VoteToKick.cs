@@ -24,36 +24,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebMatrix.WebData;
-using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Controllers.Game.Board
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	[Extensions.ArmedCardsAuthorize]
-    public class PlayCardController : Extensions.ArmedCardsController
+    /// <summary>
+    /// Message containing information on a user's vote to kick a player
+    /// </summary>
+    public class VoteToKick
     {
-		private AS.GamePlayerCard.Base.IPlay _playCard;
+        /// <summary>
+        /// The user id of the user being voted on to kick
+        /// </summary>
+        public Int32 KickUserId { get; set; }
 
-		public PlayCardController(AS.GamePlayerCard.Base.IPlay playCard)
-		{
-			this._playCard = playCard;
-		}
+        /// <summary>
+        /// The game id they are being voted on in
+        /// </summary>
+        public Int32 GameID { get; set; }
 
-		/// <summary>
-		/// Action responsible for playing a card in a game
-		/// </summary>
-		/// <param name="cardIDs">The cards to play</param>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>The response code</returns>
-        public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
-        {
-			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, WebSecurity.CurrentUserId,
-																			Helpers.HubActions.CardPlayed);
-
-			return Json(new { response.ResponseCode });
-        }
-
+        /// <summary>
+        /// If the casting user'S vote
+        /// </summary>
+        public Boolean Kick { get; set; }
     }
 }

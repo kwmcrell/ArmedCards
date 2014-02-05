@@ -24,35 +24,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using WebMatrix.WebData;
-using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Controllers.Game.Board
+namespace ArmedCards.Web.Models.Hub.Messages
 {
-	[Extensions.ArmedCardsAuthorize]
-    public class PickWinnerController : Extensions.ArmedCardsController
+    /// <summary>
+    /// Message sent when a card has been played
+    /// </summary>
+    public class PlayCard
     {
-		private AS.GameRound.Base.IComplete _completeRound;
-
-		public PickWinnerController(AS.GameRound.Base.IComplete completeRound)
-		{
-			this._completeRound = completeRound;
-		}
-
-		/// <summary>
-		/// Action responsible for picking the winner of the round
-		/// </summary>
-		/// <param name="cardIDs">The cards to mark as winners</param>
-		/// <param name="gameID">The game ID</param>
-		/// <returns>The response code</returns>
-		public JsonResult Index(List<Int32> cardIDs, Int32 gameID)
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public PlayCard()
         {
-			_completeRound.Execute(gameID, cardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
-
-            return Json(new { });
+            CardIDs = new List<int>();
         }
 
+        /// <summary>
+        /// The card ids that have been played
+        /// </summary>
+        public List<Int32> CardIDs { get; set; }
+
+        /// <summary>
+        /// The game id that the cards are played in
+        /// </summary>
+        public Int32 GameID { get; set; }
     }
 }

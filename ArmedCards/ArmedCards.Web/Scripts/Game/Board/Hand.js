@@ -195,21 +195,11 @@ Hand.prototype.PlayCard = function (event) {
 	$('#cardToPlayConfirm').removeClass('on');
 
 	var data = {
-		gameID: $('#Game_GameID').val(),
-		cardIDs: ArmedCards.Game.Common.GetChildrenIDs($('#cardToPlay'))
+		GameID: $('#Game_GameID').val(),
+		CardIDs: ArmedCards.Game.Common.GetChildrenIDs($('#cardToPlay'))
 	};
 
-	var url = "/PlayCard/Index";
-
-	$.ajax({
-		url: url,
-		type: "POST",
-		data: JSON.stringify(data),
-		dataType: "json",
-		contentType: "application/json",
-		success: function () {
-		}
-	});
+	$.connection.ArmedCardsHub.server.PlayCard(data);
 
 	$('#cardToPlay').empty();
 };

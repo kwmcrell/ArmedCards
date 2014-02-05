@@ -46,7 +46,21 @@ namespace ArmedCards.Entities.ActionContainers
 
 		/// <summary>
 		/// Alert users of the vote results
+        /// 1. The connection to send to
+        /// 2. The user being voted on
+        /// 3. The number of votes to kick
+        /// 4. The number of votes not to kick
+        /// 5. Is kicked
 		/// </summary>
 		public Action<Entities.ActiveConnection, Entities.User, Int32, Int32, Boolean> AlertUsersOfResult { get; set; }
+
+        /// <summary>
+        /// Action to call to alert users ha vote has been casted
+        /// 1. Connection to send the message to
+        /// 2. User to Kick
+        /// 3. Votes To Kick
+        /// 4. Votes Not To Kick
+        /// </summary>
+        public Action<Entities.ActiveConnection, Entities.User, Int32, Int32> AlertUserOfVote { get; set; }
 	}
 }
