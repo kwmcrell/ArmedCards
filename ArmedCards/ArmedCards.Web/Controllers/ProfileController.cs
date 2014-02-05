@@ -69,6 +69,8 @@ namespace ArmedCards.Web.Controllers
 
 				model.TotalPoints = model.GameProfiles.Sum(x => x.Points);
 
+                TempData["showSignOut"] = model.MyProfile;
+
 				return View(model);
 			}
 			else

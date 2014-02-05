@@ -28,6 +28,13 @@
     {
         returnUrl = "/GameListing";
     }
+    
+    object showSignOut = TempData["showSignOut"];
+    
+    if(showSignOut == null)
+    {
+        showSignOut = false;
+    }
 }
 
 @if (Request.IsAuthenticated) {
@@ -35,10 +42,19 @@
     {
        @Html.AntiForgeryToken()
     }
-    
-    <div class="loggin">
-        <a id="logOff" class="loggedIn" href="#">@User.Identity.Name</a>
-    </div>
+
+    if ((Boolean)showSignOut)
+    {
+        <div class="loggin">
+            <a id="logOff" class="loggedIn" href="#">Sign Out</a>
+        </div>
+    }
+    else
+    { 
+        <div class="loggin">
+            <a id="goToProfile" class="loggedIn" href="/Profile/@WebSecurity.CurrentUserId">@User.Identity.Name</a>
+        </div>
+    }
 } else {
     <div class="loggin">
         <a id="signIn" href="#">Sign in</a>
