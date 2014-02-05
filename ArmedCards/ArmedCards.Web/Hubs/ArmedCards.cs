@@ -154,7 +154,8 @@ namespace ArmedCards.Web.Hubs
                 Content = String.Format("Votes To Kick: {0} <br/> Votes To Stay: {1}",
                                             response.VotesToKick,
                                             response.VotesToStay),
-                Title = String.Format("Voted to {0} {1}.", (message.Kick ? "kick" : "keep"), response.KickUser.DisplayName)
+                Title = String.Format("Voted to {0} {1}.", (message.Kick ? "kick" : "keep"), response.KickUser.DisplayName),
+                AllVotesCasted = response.AllVotesCasted
             };
         }
 

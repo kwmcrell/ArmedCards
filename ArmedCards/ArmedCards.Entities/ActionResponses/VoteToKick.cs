@@ -79,5 +79,21 @@ namespace ArmedCards.Entities.ActionResponses
 		/// The user to kick
 		/// </summary>
 		public Entities.User KickUser { get; set; }
+
+        /// <summary>
+        /// All users have voted
+        /// </summary>
+        public Boolean AllVotesCasted 
+        { 
+            get
+            {
+                return TotalVotes >= TotalPlayers;
+            }
+        }
+
+        /// <summary>
+        /// Number of players in the game
+        /// </summary>
+        public Int32 TotalPlayers { get; set; }
 	}
 }

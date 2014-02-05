@@ -31,6 +31,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
 using AS = ArmedCards.BusinessLogic.AppServices;
+using System.Runtime.Caching;
+using System.Threading;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
@@ -63,6 +65,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
 														   Entities.ActionContainers.KickPlayer actionContainer)
 		{
+            string cacheKey = string.Format("KickUser_{0}_FromGame_{1}", userVote.KickUserId, userVote.GameID);
+
 			Entities.User kickUser = _selectUser.Execute(userVote.KickUserId);
 
 			Entities.ActionResponses.VoteToKick response = _insert.Execute(userVote);
@@ -71,16 +75,37 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
 				userVote.Vote)
 			{
-                Task.Delay(30000).ContinueWith((delayedTask) =>
+                CancellationTokenSource token = new CancellationTokenSource();
+
+                MemoryCache.Default.Add(cacheKey, token, DateTimeOffset.Now.AddSeconds(32));
+
+                Task.Delay(30000, token.Token).ContinueWith((delayedTask) =>
                     {
                         _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
                     });
 			}
 
-			_sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick, 
-															response.VotesToStay, 
-															response.AlreadyVoted, 
-                                                            actionContainer.AlertUserOfVote);
+            if (response.AllVotesCasted)
+            {
+
+                var cachedToken = MemoryCache.Default.Get(cacheKey);
+
+                if(cachedToken != null)
+                {
+                    ((CancellationTokenSource)cachedToken).Cancel();
+                }
+                else
+                {
+                    _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                }
+            }
+            else
+            {
+                _sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick,
+                                                                response.VotesToStay,
+                                                                response.AlreadyVoted,
+                                                                actionContainer.AlertUserOfVote);
+            }
 
 			response.KickUser = kickUser;
 			return response;

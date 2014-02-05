@@ -66,16 +66,18 @@ KickPlayer.prototype.Vote = function (vote, userId) {
 };
 
 KickPlayer.prototype.VoteCasted = function (response) {
-    var options = {
-        "positionClass": "toast-bottom-full-width",
-        "fadeIn": 300,
-        "fadeOut": 500,
-        "timeOut": 5000,
-        "extendedTimeOut": 0,
-        "newestOnTop": false
-    };
+    if (!response.AllVotesCasted) {
+        var options = {
+            "positionClass": "toast-bottom-full-width",
+            "fadeIn": 300,
+            "fadeOut": 500,
+            "timeOut": 5000,
+            "extendedTimeOut": 0,
+            "newestOnTop": false
+        };
 
-    toastr.info(response.Content, response.Title, options);
+        toastr.info(response.Content, response.Title, options);
+    }
 };
 
 KickPlayer.prototype.Init = function () {

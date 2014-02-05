@@ -222,7 +222,6 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Game\Board\KickPlayerController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
     <Compile Include="Controllers\Game\Board\SelectCardsController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />

@@ -46,5 +46,11 @@ namespace ArmedCards.Web.Models.Hub.Messages
         /// </summary>
         [JsonProperty("Title")]
         public String Title { get; set; }
+
+        /// <summary>
+        /// All votes have been casted now
+        /// </summary>
+        [JsonProperty("AllVotesCasted")]
+        public Boolean AllVotesCasted { get; set; }
     }
 }

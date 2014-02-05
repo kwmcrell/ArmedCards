@@ -63,6 +63,7 @@ namespace ArmedCards.DataAccess.GamePlayerKickVote
 
 				_db.AddOutParameter(cmd, "@VotesToStay", DbType.Int32, sizeof(Int32));
 				_db.AddOutParameter(cmd, "@VotesToKick", DbType.Int32, sizeof(Int32));
+                _db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
 
 				using (IDataReader idr = _db.ExecuteReader(cmd))
 				{
@@ -74,6 +75,7 @@ namespace ArmedCards.DataAccess.GamePlayerKickVote
 
 				response.VotesToKick = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToKick").ToString());
 				response.VotesToStay = Int32.Parse(_db.GetParameterValue(cmd, "@VotesToStay").ToString());
+                response.TotalPlayers = Int32.Parse(_db.GetParameterValue(cmd, "@TotalPlayers").ToString());
 
 				return response;
 			}
