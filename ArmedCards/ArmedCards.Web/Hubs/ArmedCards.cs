@@ -85,7 +85,7 @@ namespace ArmedCards.Web.Hubs
 		[HubMethodName("Disconnect")]
 		public void Disconnect()
 		{
-			AS.ActiveConnection.Base.IDelete _deleteConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
+            AS.ActiveConnection.Base.IDelete _deleteConnection = BusinessLogic.UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
 
 			Entities.Filters.ActiveConnection.Delete filter = new Entities.Filters.ActiveConnection.Delete
 			{
@@ -100,7 +100,7 @@ namespace ArmedCards.Web.Hubs
         [HubMethodName("PlayCard")]
         public void PlayCard(Models.Hub.Messages.PlayCard message)
         {
-            AS.GamePlayerCard.Base.IPlay _playCard = UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
+            AS.GamePlayerCard.Base.IPlay _playCard = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
 
             Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, WebSecurity.CurrentUserId,
                                                                             Helpers.HubActions.CardPlayed);
@@ -109,7 +109,7 @@ namespace ArmedCards.Web.Hubs
         [HubMethodName("StartGame")]
         public void StartGame(Int32 gameID)
         {
-            AS.Game.Base.IStart _startGame = UnityConfig.Container.Resolve<AS.Game.Base.IStart>();
+            AS.Game.Base.IStart _startGame = BusinessLogic.UnityConfig.Container.Resolve<AS.Game.Base.IStart>();
 
             Entities.User user = new Entities.User
             {
@@ -123,7 +123,7 @@ namespace ArmedCards.Web.Hubs
         [HubMethodName("PickWinner")]
         public void PickWinner(Models.Hub.Messages.PlayCard message)
         {
-            AS.GameRound.Base.IComplete _completeRound = UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
+            AS.GameRound.Base.IComplete _completeRound = BusinessLogic.UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
 
             _completeRound.Execute(message.GameID, message.CardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
         }
@@ -145,7 +145,7 @@ namespace ArmedCards.Web.Hubs
             container.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
             container.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
 
-            AS.GamePlayerKickVote.Base.IInsert _insert = UnityConfig.Container.Resolve<AS.GamePlayerKickVote.Base.IInsert>();
+            AS.GamePlayerKickVote.Base.IInsert _insert = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerKickVote.Base.IInsert>();
 
             Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, container);
 
@@ -163,7 +163,7 @@ namespace ArmedCards.Web.Hubs
 
         private List<Entities.ActiveConnection> GetConnections(String groupName, Entities.Enums.ConnectionType connectionType)
         {
-            AS.ActiveConnection.Base.ISelect _selectConnections = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.ISelect>();
+            AS.ActiveConnection.Base.ISelect _selectConnections = BusinessLogic.UnityConfig.Container.Resolve<AS.ActiveConnection.Base.ISelect>();
 
             Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
 
@@ -187,7 +187,7 @@ namespace ArmedCards.Web.Hubs
 
             if (userId > 0)
             {
-                AS.ActiveConnection.Base.IInsert _insertConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IInsert>();
+                AS.ActiveConnection.Base.IInsert _insertConnection = BusinessLogic.UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IInsert>();
 
                 Entities.ActiveConnection connection = new Entities.ActiveConnection
                 {

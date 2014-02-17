@@ -255,6 +255,7 @@
     <Compile Include="Repositories\User\Insert.cs" />
     <Compile Include="Repositories\User\Select.cs" />
     <Compile Include="Repositories\User\Update.cs" />
+    <Compile Include="UnityConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
