@@ -60,7 +60,7 @@ namespace ArmedCards.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
-            UnityConfig.InitContainer();
+            BusinessLogic.UnityConfig.InitContainer();
             
             //Uncomment the line if we ever want to use unity IoC in Hub
             //GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new Hubs.UnityHubActivator(UnityConfig.Container));
@@ -72,7 +72,7 @@ namespace ArmedCards.Web
 
             AuthConfig.RegisterAuth();
 
-            AS.ActiveConnection.Base.IDelete _deleteActiveConnection = UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
+            AS.ActiveConnection.Base.IDelete _deleteActiveConnection = BusinessLogic.UnityConfig.Container.Resolve<AS.ActiveConnection.Base.IDelete>();
 
             Entities.Filters.ActiveConnection.DeleteAll filter = new Entities.Filters.ActiveConnection.DeleteAll();
             _deleteActiveConnection.Execute(filter);

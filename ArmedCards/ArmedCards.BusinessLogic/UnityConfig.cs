@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ArmedCards.Web
+namespace ArmedCards.BusinessLogic
 {
     /// <summary>
     /// Class responsible for handling Unity Type Registration

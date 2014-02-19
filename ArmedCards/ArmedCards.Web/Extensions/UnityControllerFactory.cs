@@ -51,7 +51,7 @@ namespace ArmedCards.Web
                             "controllerType");
             try
             {
-                controller = UnityConfig.Container.Resolve(controllerType)
+                controller = BusinessLogic.UnityConfig.Container.Resolve(controllerType)
                                 as IController;
             }
             catch (Exception ex)
