@@ -1,6 +1,8 @@
 ﻿/// <reference path="../jQuery/jquery-1.9.1.js" />
 /// <reference path="Common.js" />
 /// <reference path="../../toastr.js" />
+/// <reference path="../../Core/ViewModels.js" />
+
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.

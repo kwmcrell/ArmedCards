@@ -35,6 +35,9 @@ namespace ArmedCards.Web
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/Core/jQueryTopic.js",
                         "~/Scripts/Core/Utilities.js",
+                        "~/Scripts/knockout-3.0.0.js",
+                        "~/Scripts/knockout.mapping-latest.js",
+                        "~/Scripts/Core/ViewModels.js",
                         "~/Scripts/jquery.signalR-1.1.3.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Styles").Include(

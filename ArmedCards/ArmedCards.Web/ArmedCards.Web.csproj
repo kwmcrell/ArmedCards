@@ -265,6 +265,7 @@
     <Compile Include="Models\Profile\Profile.cs" />
     <Compile Include="Models\Shared\AnswerCard.cs" />
     <Compile Include="Models\Shared\Header.cs" />
+    <Compile Include="Models\Shared\ModelExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +286,7 @@
     <Content Include="Scripts\Core\Login\LoginPartial.js" />
     <Content Include="Scripts\Core\Profile\Profile.js" />
     <Content Include="Scripts\Core\Utilities.js" />
+    <Content Include="Scripts\Core\ViewModels.js" />
     <Content Include="Scripts\Game\Board\Commander.js" />
     <Content Include="Scripts\Game\Board\Common.js" />
     <Content Include="Scripts\Game\Board\KickPlayer.js" />
@@ -320,6 +322,10 @@
     <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Scripts\jquery.signalR-1.1.3.js" />
     <Content Include="Scripts\jquery.signalR-1.1.3.min.js" />
+    <Content Include="Scripts\knockout-3.0.0.debug.js" />
+    <Content Include="Scripts\knockout-3.0.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />

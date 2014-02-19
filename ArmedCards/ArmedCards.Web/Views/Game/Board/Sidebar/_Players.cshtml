@@ -30,31 +30,21 @@
             <li>
                 <span class="loggedIn">
                     <span class="playerMenu">
-                        @if (Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
-                        {
-                            <img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
-                            <span class="menu">
-                                <ul>
-                                    @*<li><a href="#">Add as friend</a></li>*@
-                                    <li><a name="kickPlayer" data-userid="@player.User.UserId" href="#">Kick @player.PlayerType</a></li>
-                                </ul>
-                            </span>
-                        }
-                        else
-                        {
-                            <img src="@player.User.PictureUrl">
-                        }
+                        <img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
+                        <span class="menu">
+                            <ul>
+                                @*<li><a href="#">Add as friend</a></li>*@
+                                <li><a name="kickPlayer" data-userid="@player.User.UserId" href="#">Kick @player.PlayerType</a></li>
+                            </ul>
+                        </span>
                     </span>
 
                     <img src="@player.User.PictureUrl">
                     <a id="@player.PlayerType@player.User.UserId" href="/Profile/@player.User.UserId">@player.User.DisplayName</a>
                 </span>
-                @if (player.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player)
-                {
-                    <span class="gamePoints">
-                        @player.Points points
-                    </span>
-                }
+                <span class="gamePoints">
+                    @player.Points points
+                </span>
             </li>
         }
     </ul>
@@ -80,3 +70,7 @@
         </ol>
     </div>
 }
+
+<script type="text/javascript">
+
+</script>
