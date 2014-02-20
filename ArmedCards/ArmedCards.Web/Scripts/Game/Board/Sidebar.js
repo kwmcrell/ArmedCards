@@ -2,6 +2,8 @@
 /// <reference path="Common.js" />
 /// <reference path="../../toastr.js" />
 /// <reference path="../../Core/ViewModels.js" />
+/// <reference path="../../knockout-3.0.0.js" />
+/// <reference path="ViewModels.js" />
 
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -117,10 +119,9 @@ Sidebar.prototype.PlayerMenuOpen = function (event) {
 	}
 };
 
-Sidebar.prototype.LobbyUpdate = function (result) {
-	if (result != null && result.LobbyView != null) {
-		$('#gameLobby').html(result.LobbyView);
-	}
+Sidebar.prototype.LobbyUpdate = function (lobbyJson) {
+    ArmedCards.Core.ViewModels.GameLobbyViewModel.replacePlayers(lobbyJson.Players);
+    ArmedCards.Core.ViewModels.GameLobbyViewModel.replaceSpectators(lobbyJson.Spectators);
 
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };

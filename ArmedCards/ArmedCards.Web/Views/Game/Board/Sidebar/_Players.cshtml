@@ -24,29 +24,22 @@
 @model ArmedCards.Web.Models.Game.Board.Lobby
 
 <div class="lobbyPlayers">
-    <ul class="playerList">
-        @foreach (GamePlayer player in Model.Players)
-        {
-            <li>
-                <span class="loggedIn">
-                    <span class="playerMenu">
-                        <img src="/Images/PlayerMenu.gif" title="Open options for @player.User.DisplayName">
-                        <span class="menu">
-                            <ul>
-                                @*<li><a href="#">Add as friend</a></li>*@
-                                <li><a name="kickPlayer" data-userid="@player.User.UserId" href="#">Kick @player.PlayerType</a></li>
-                            </ul>
-                        </span>
+    <ul class="playerList" data-bind="foreach: Players">
+        <li>
+            <span class="loggedIn">
+                <span class="playerMenu">
+                    <img src="/Images/PlayerMenu.gif" data-bind="attr:{ title: 'Open options for ' + User.DisplayName }">
+                    <span class="menu">
+                        <ul>
+                            <li><a name="kickPlayer" href="#" data-bind="attr: { 'data-userid': User.UserId }, text: 'Kick player'"></a></li>
+                        </ul>
                     </span>
-
-                    <img src="@player.User.PictureUrl">
-                    <a id="@player.PlayerType@player.User.UserId" href="/Profile/@player.User.UserId">@player.User.DisplayName</a>
                 </span>
-                <span class="gamePoints">
-                    @player.Points points
-                </span>
-            </li>
-        }
+                <img data-bind="attr:{ src: User.PictureUrl }">
+                <a data-bind="attr: { id: User.UserId, href: '/Profile/' + User.UserId }, text: User.DisplayName"></a>
+            </span>
+            <span class="gamePoints" data-bind="text: Points + ' points'"></span>
+        </li>
     </ul>
 </div>
 @if (Model.ShowSpectators)
@@ -62,15 +55,23 @@
     <p id="spectatorCount" class="viewSpectators"><a href="#">@spectatorCount @spectator</a></p>
 
     <div class="hidden" id="hiddenSpectatorList">
-        <ol>
-            @foreach (GamePlayer player in Model.Spectators)
-            {
-                <li><a href="/Profile/@player.User.UserId" class="loggedIn" target="_blank"><img src="@player.User.PictureUrl">@player.User.DisplayName</a></li>
-            }
+        <ol data-bind="foreach: Spectators">
+            <li><a data-bind="attr: { href: '/Profile/' + User.UserId }" class="loggedIn" target="_blank">
+                    <img data-bind="attr:{ src: User.PictureUrl }"><span data-bind="text: User.DisplayName"></span>
+                </a>
+            </li>
         </ol>
     </div>
 }
+@Html.Hidden("lobbyJson", Html.Raw(Model.ToJson()))
 
 <script type="text/javascript">
+    var $lobbyJson = $('#lobbyJson');
+    
+    var parsed = JSON.parse($lobbyJson.val());
+    $lobbyJson.remove();
 
+    ArmedCards.Core.ViewModels.GameLobbyViewModel = new GameLobby(parsed.Players, parsed.Spectators);
+
+    ko.applyBindings(ArmedCards.Core.ViewModels.GameLobbyViewModel, document.getElementById('gameLobby'));
 </script>

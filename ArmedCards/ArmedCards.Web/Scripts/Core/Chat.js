@@ -130,7 +130,12 @@ Chat.prototype.Init = function () {
 
     ArmedCards.Core.ViewModels.LobbyViewModel = new Lobby([]);
 
-    ko.applyBindings(ArmedCards.Core.ViewModels.LobbyViewModel);
+    var mainLobby = document.getElementById('mainLobby');
+
+    if (mainLobby != null)
+    {
+        ko.applyBindings(ArmedCards.Core.ViewModels.LobbyViewModel, mainLobby);
+    }
 };
 
 $.Topic("beforeHubStart").subscribe(ArmedCards.Core.Chat.Init);

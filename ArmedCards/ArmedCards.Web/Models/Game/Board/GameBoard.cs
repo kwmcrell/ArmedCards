@@ -34,11 +34,11 @@ namespace ArmedCards.Web.Models.Game.Board
     /// </summary>
     public class GameBoard
     {
-		public GameBoard()
-		{
-			Hand = new List<Entities.GamePlayerCard>();
-			VoteToKickList = new List<VoteToKick>();
-		}
+        public GameBoard()
+        {
+            Hand = new List<Entities.GamePlayerCard>();
+            VoteToKickList = new List<VoteToKick>();
+        }
 
         /// <summary>
         /// The current game
@@ -50,95 +50,111 @@ namespace ArmedCards.Web.Models.Game.Board
         /// </summary>
         public Int32 UserId { get; set; }
 
-		/// <summary>
-		/// The current user's hand
-		/// </summary>
-		public List<Entities.GamePlayerCard> Hand { get; set; }
+        /// <summary>
+        /// The current user's hand
+        /// </summary>
+        public List<Entities.GamePlayerCard> Hand { get; set; }
 
-		/// <summary>
-		/// A list of votes to kick users
-		/// </summary>
-		public List<Models.Game.Board.VoteToKick> VoteToKickList { get; set; }
+        /// <summary>
+        /// A list of votes to kick users
+        /// </summary>
+        public List<Models.Game.Board.VoteToKick> VoteToKickList { get; set; }
 
-		/// <summary>
-		/// Determine if current user has answered
-		/// </summary>
-		/// <returns>True if the user has answered and false otherwise</returns>
-		public Boolean Answered()
-		{
-			if (Game.HasRounds())
-			{
-				return Game.CurrentRound().HasAnswer(UserId);
-			}
-			else
-			{
-				return false;
-			}
-		}
+        /// <summary>
+        /// Determine if current user has answered
+        /// </summary>
+        /// <returns>True if the user has answered and false otherwise</returns>
+        public Boolean Answered()
+        {
+            if (Game.HasRounds())
+            {
+                return Game.CurrentRound().HasAnswer(UserId);
+            }
+            else
+            {
+                return false;
+            }
+        }
 
-		/// <summary>
-		/// Is current user a active player
-		/// </summary>
-		public Boolean ActivePlayer
-		{
-			get
-			{
-				return Hand.Count > 0;
-			}
-		}
+        /// <summary>
+        /// Is current user a active player
+        /// </summary>
+        public Boolean ActivePlayer
+        {
+            get
+            {
+                return Hand.Count > 0;
+            }
+        }
 
-		/// <summary>
-		/// Determine if hand div should be shown
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowHand()
-		{
-			return ActivePlayer && !Answered() && !IsCommander() && PlayerType == Entities.Enums.GamePlayerType.Player;
-		}
+        /// <summary>
+        /// Determine if hand div should be shown
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowHand()
+        {
+            return ActivePlayer && !Answered() && !IsCommander() && PlayerType == Entities.Enums.GamePlayerType.Player;
+        }
 
-		/// <summary>
-		/// Determine if the current user is the commander
-		/// </summary>
-		/// <returns></returns>
-		public Boolean IsCommander()
-		{
-			return Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
-		}
+        /// <summary>
+        /// Determine if the current user is the commander
+        /// </summary>
+        /// <returns></returns>
+        public Boolean IsCommander()
+        {
+            return Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
+        }
 
-		/// <summary>
-		/// Show answers if all players have played
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowAnswers()
-		{
-			Entities.GameRound round = Game.CurrentRound();
+        /// <summary>
+        /// Show answers if all players have played
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowAnswers()
+        {
+            Entities.GameRound round = Game.CurrentRound();
 
-			if (round == null)
-			{
-				return false;
-			}
+            if (round == null)
+            {
+                return false;
+            }
 
-			return round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
-		}
+            return round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
+        }
 
-		/// <summary>
-		/// Determine if waiting screen should be shown
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowWaiting()
-		{
-			return (!ShowAnswers() || Game.CurrentRound() == null) && Game.IsWaiting();
-		}
+        /// <summary>
+        /// The current round has a winner
+        /// </summary>
+        /// <returns></returns>
+        public Boolean RoundHasWinner()
+        {
+            Entities.GameRound round = Game.CurrentRound();
 
-		/// <summary>
-		/// Get answers grouped by who played them
-		/// </summary>
+            if (round == null)
+            {
+                return false;
+            }
+
+            return round.Winner() != null;
+        }
+
+        /// <summary>
+        /// Determine if waiting screen should be shown
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowWaiting()
+        {
+            return (!ShowAnswers() || Game.CurrentRound() == null || RoundHasWinner()) && Game.IsWaiting();
+        }
+
+        /// <summary>
+        /// Get answers grouped by who played them
+        /// </summary>
         /// <remarks>Only use when answers are being shown</remarks>
-		/// <returns></returns>
-		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
-		{
+        /// <returns></returns>
+        public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
+        {
             return Game.CurrentRound().GroupedAnswers();
-		}
+        }
 
         /// <summary>
         /// The type of the current player

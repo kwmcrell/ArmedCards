@@ -293,6 +293,7 @@
     <Content Include="Scripts\Game\Board\State.js" />
     <Content Include="Scripts\Game\Board\Hand.js" />
     <Content Include="Scripts\Game\Board\Sidebar.js" />
+    <Content Include="Scripts\Game\Board\ViewModels.js" />
     <Content Include="Scripts\Game\Board\Waiting.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
     <Content Include="Scripts\Game\Listing\Detail.js" />

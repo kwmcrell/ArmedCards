@@ -134,8 +134,8 @@ State.prototype.UpdateGameView = function (gameView, playerList) {
 	ArmedCards.Game.State.UpdateLobby(playerList);
 };
 
-State.prototype.UpdateLobby = function (playerList) {
-	$('#gameLobby').html(playerList)
+State.prototype.UpdateLobby = function (json) {
+    $.Topic("lobbyUpdated").publish(json);
 };
 
 State.prototype.CommanderLeft = function (gameView, playerList, commanderName, isWaiting) {
@@ -198,13 +198,7 @@ State.prototype.Init = function () {
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
 	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
-	if ($('#ConnectionType').val() == 1) {
-	    hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
-	}
-	else
-	{
-	    hub.client.UpdateLobbyView = function () { };
-	}
+	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;

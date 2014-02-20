@@ -54,13 +54,8 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            var lobbyView = new
-            {
-                LobbyView = RenderLobbyView(connection, game)
-            };
-
             hub.Clients.Client(connection.ActiveConnectionID)
-                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), lobbyView);
+                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -99,12 +94,10 @@ namespace ArmedCards.Web.Helpers
 
             String winnerSelectedPartial = GetRazorViewAsString("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", answers);
 
-            String playerList = RenderLobbyView(connection, game);
-
             String gameView = RenderGameView(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
+                               .WinnerSelected(winnerSelectedPartial, GetGameLobbyViewModel(connection, game), gameView, game.IsWaiting(), game.HasWinner());
         }
 
         /// <summary>
@@ -116,12 +109,10 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
             String gameView = RenderGameView(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateGameView(gameView, playerList);
+                               .UpdateGameView(gameView, GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -133,22 +124,24 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateLobbyView(playerList);
+                               .UpdateLobbyView(new Web.Models.Game.Board.Lobby
+                                                {
+                                                    Players = game.Players,
+                                                    PlayerType = GetPlayerType(connection),
+                                                    ShowSpectators = game.MaxNumberOfSpectators > 0,
+                                                    Spectators = game.Spectators
+                                                });
         }
 
         public static void CommanderLeft(Entities.ActiveConnection connection, Entities.Game game, String commanderName)
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
             String gameView = RenderGameView(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
+                               .CommanderLeft(gameView, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
         }
 
         /// <summary>
@@ -257,15 +250,15 @@ namespace ArmedCards.Web.Helpers
                                     Entities.Enums.GamePlayerType.Spectator;
         }
 
-        private static string RenderLobbyView(Entities.ActiveConnection connection, Entities.Game game)
+        private static Web.Models.Game.Board.Lobby GetGameLobbyViewModel(Entities.ActiveConnection connection, Entities.Game game)
         {
-            return GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", new Web.Models.Game.Board.Lobby
+            return new Web.Models.Game.Board.Lobby
             {
                 Players = game.Players,
                 PlayerType = GetPlayerType(connection),
                 ShowSpectators = game.MaxNumberOfSpectators > 0,
                 Spectators = game.Spectators
-            });
+            };
         }
 
         #endregion "Private Helpers"

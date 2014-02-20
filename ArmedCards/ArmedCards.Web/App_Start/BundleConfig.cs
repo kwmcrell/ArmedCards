@@ -68,6 +68,9 @@ namespace ArmedCards.Web
 						"~/Scripts/Game/Board/Commander.js",
 						"~/Scripts/Game/Board/KickPlayer.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Game/PreBoard").Include(
+                        "~/Scripts/Game/Board/ViewModels.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/Core/Hub").Include(
                         "~/Scripts/jquery.signalR-1.1.3.js",
                         "~/Scripts/Core/Hub.js",
