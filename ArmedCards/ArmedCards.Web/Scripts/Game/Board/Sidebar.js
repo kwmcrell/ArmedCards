@@ -56,7 +56,7 @@ Sidebar.prototype.SideBarToggle = function (event) {
 };
 
 Sidebar.prototype.CalculateChatHeight = function () {
-	var sidebarHeight = $('#sidebar').height() - 30;
+	var sidebarHeight = $('#sidebar').height();
 
 	var gameHeaderHeight = $('#gameHeader').height();
 	var gameLobbyHeight = $('#gameLobby').height();

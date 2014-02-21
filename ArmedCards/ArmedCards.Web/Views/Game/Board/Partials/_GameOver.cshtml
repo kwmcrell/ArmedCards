@@ -29,7 +29,7 @@
 	List<GamePlayer> rankedPlayers = Model.Players.OrderByDescending(x => x.Points).ToList();
 }
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+@Html.Partial("~/Views/Game/Board/Partials/_Header.cshtml", header)
 
 <div class="gameOver">
 	<h3>You're all terrible people, but <a href="#">@rankedPlayers.First().User.DisplayName</a> takes the cake!</h3>

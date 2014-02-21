@@ -19,22 +19,24 @@
  * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *@
+*@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-    header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, WebSecurity.CurrentUserId, Model.PlayerType);
-}
+@model ArmedCards.Web.Models.Shared.Header
 
-@Html.Partial("~/Views/Game/Board/Partials/_Header.cshtml", header)
+<div id="gameHeader" class="radHeader">
+	<h1><a data-bind="attr: { href: HeaderLink }, html:HeaderText" title="Home"></a></h1>
+    <h2 data-bind="html:SubHeaderText"></h2>
+</div>
 
-<div id="waitingGame" class="waitingGame">
-	<h2 id="resizingMessage" style="display: none;">Window Resizing</h2>
-	<div id="questionDiv" style="display: inline-block;">
+@Html.Hidden("gameHeaderJson", Html.Raw(Model.ToJson()))
 
-    </div>
-    <div id="answerDiv" style="display: inline-block;">
+<script type="text/javascript">
+    var $gameHeaderJson = $('#gameHeaderJson');
 
-    </div>
-</div>	
+    var parsed = JSON.parse($gameHeaderJson.val());
+    $gameHeaderJson.remove();
+
+    ArmedCards.Core.ViewModels.GameHeaderViewModel = new GameHeader(parsed.HeaderLink, parsed.HeaderText, parsed.SubHeaderText);
+    
+    ko.applyBindings(ArmedCards.Core.ViewModels.GameHeaderViewModel, document.getElementById('gameHeader'));
+</script>

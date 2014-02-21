@@ -1,4 +1,6 @@
-﻿/*
+﻿/// <reference path="../../knockout-3.0.0.js" />
+
+/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -55,4 +57,10 @@ var GameLobby = function (currentPlayers, currentSpectators) {
 
         self.Spectators(newSpectators);
     }.bind(this);
+};
+
+var GameHeader = function (headerLink, headerText, subHeaderText) {
+    this.HeaderLink = ko.observable(headerLink);
+    this.HeaderText = ko.observable(headerText);
+    this.SubHeaderText = ko.observable(subHeaderText);
 };

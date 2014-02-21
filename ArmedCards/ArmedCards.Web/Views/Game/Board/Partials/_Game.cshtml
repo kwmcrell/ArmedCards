@@ -24,7 +24,7 @@
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @{
     ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-	if(Model.Game.IsWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
+	if(Model.ShowWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
 	{
 		header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId, Model.PlayerType);	
 	}
@@ -34,7 +34,7 @@
 	}
 }
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+@Html.Partial("~/Views/Game/Board/Partials/_Header.cshtml", header)
 @Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
 @Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
 <div class="asked">

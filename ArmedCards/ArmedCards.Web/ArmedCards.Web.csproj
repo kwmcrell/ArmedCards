@@ -378,6 +378,7 @@
     <Content Include="Views\Leaderboard\Index.cshtml" />
     <Content Include="Views\Shared\Layout\_Plain.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
