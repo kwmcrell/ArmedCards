@@ -24,14 +24,14 @@
 */
 
 var ArmedCards = ArmedCards || {};
-ArmedCards.Core = ArmedCards.Core || {};
+ArmedCards.Game = ArmedCards.Game || {};
 
 function ViewModels() {
 
 }
 
-if (!ArmedCards.Core.ViewModels) {
-    ArmedCards.Core.ViewModels = new ViewModels();
+if (!ArmedCards.Game.ViewModels) {
+    ArmedCards.Game.ViewModels = new ViewModels();
 }
 
 /***************************************************************/
@@ -63,4 +63,37 @@ var GameHeader = function (headerLink, headerText, subHeaderText) {
     this.HeaderLink = ko.observable(headerLink);
     this.HeaderText = ko.observable(headerText);
     this.SubHeaderText = ko.observable(subHeaderText);
+};
+
+var GameOver = function (hasWinner, winner, rankedPlayers, gameID) {
+    this.HasWinner = ko.observable(hasWinner);
+    this.Winner = ko.observable(winner);
+    this.RankedPlayers = ko.observableArray(rankedPlayers);
+    this.GameID = ko.observable(gameID);
+};
+
+var GameWaiting = function (showWaiting) {
+    this.ShowWaiting = ko.observable(showWaiting);
+};
+
+var GameRoundQuestion = function (question, instructions, showQuestion) {
+    this.Question = ko.observable(question);
+    this.Instructions = ko.observable(instructions);
+    this.ShowQuestion = ko.observable(showQuestion);
+};
+
+var GameAnswers = function (roundHasWinner, groupedAnswers, isCommander, waitingOnAllAnswers, showAnswers, handShowing, showBoard) {
+    this.RoundHasWinner = ko.observable(roundHasWinner);
+    this.GroupedAnswers = ko.observableArray(groupedAnswers);
+    this.IsCommander = ko.observable(isCommander);
+    this.WaitingOnAllAnswers = ko.observable(waitingOnAllAnswers);
+    this.ShowAnswers = ko.observable(showAnswers);
+    this.HandShowing = ko.observable(handShowing);
+    this.ShowBoard = ko.observable(showBoard);
+};
+
+var GameHand = function (show, cards, showBoard) {
+    this.Show = ko.observable(show);
+    this.Cards = ko.observableArray(cards);
+    this.ShowBoard = ko.observable(showBoard);
 };

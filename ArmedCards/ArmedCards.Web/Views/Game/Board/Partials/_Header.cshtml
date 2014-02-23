@@ -29,14 +29,3 @@
 </div>
 
 @Html.Hidden("gameHeaderJson", Html.Raw(Model.ToJson()))
-
-<script type="text/javascript">
-    var $gameHeaderJson = $('#gameHeaderJson');
-
-    var parsed = JSON.parse($gameHeaderJson.val());
-    $gameHeaderJson.remove();
-
-    ArmedCards.Core.ViewModels.GameHeaderViewModel = new GameHeader(parsed.HeaderLink, parsed.HeaderText, parsed.SubHeaderText);
-    
-    ko.applyBindings(ArmedCards.Core.ViewModels.GameHeaderViewModel, document.getElementById('gameHeader'));
-</script>

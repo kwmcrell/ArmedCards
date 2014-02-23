@@ -160,5 +160,39 @@ namespace ArmedCards.Web.Models.Game.Board
         /// The type of the current player
         /// </summary>
         public Entities.Enums.GamePlayerType PlayerType { get; set; }
+
+        /// <summary>
+        /// Waiting on all answers
+        /// </summary>
+        /// <returns></returns>
+        public Boolean WaitingOnAllAnswersOrWinner()
+        {
+            return (!RoundHasWinner() && !ShowAnswers());
+        }
+
+        /// <summary>
+        /// Show actual game board (Questions & Answers)
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowBoard()
+        {
+            return !ShowWaiting() && !Game.HasWinner();
+        }
+
+        /// <summary>
+        /// Current Round question
+        /// </summary>
+        public ArmedCards.Entities.Card Question
+        {
+            get
+            {
+                if(ShowBoard())
+                {
+                    return Game.CurrentRound().Question;
+                }
+
+                return null;
+            }
+        }
     }
 }

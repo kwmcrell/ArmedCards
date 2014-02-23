@@ -1,56 +1,80 @@
 ﻿@*
- * Copyright (c) 2013, Kevin McRell & Paul Miller
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, are permitted
- * provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this list of conditions
- *   and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice, this list of
- *   conditions and the following disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *@
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@using Ent = ArmedCards.Entities;
-@using ArmedCards.Library.Extensions;
-@{	
-	String cssClass = Model.ShowHand() ? "hidden" : "";
-	GameRound round = Model.Game.CurrentRound();
-	
-	List<GameRoundCard> answers =	round.Answers;
-	Int32 winnerCount = answers.Count(x => x.Winner);
-}
+@model ArmedCards.Web.Models.Game.Board.Answers
 
-<div id="answers" class="@cssClass">
-@if(winnerCount > 0)
-{
-	@Html.Partial("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", Model.GroupedAnswers())
-}
-else if (Model.ShowAnswers())
-{
-	@Html.Partial("~/Views/Game/Board/Answers/_ShowAnswers.cshtml", Model)
-}
-else
-{    
-    <div class="names played">
-		<p>Cards played.</p>
-        @foreach(Ent.GameRoundCard card in answers)
-        {
-            <div class="answer card outTop">
-                @card.PlayedBy.DisplayName
-		    </div>
-        }
-	</div>
-}   
+<div id="answers" data-bind="css: { hidden: (HandShowing() || !ShowBoard()) }">
+    <div class="played winnerPicked" data-bind="if: RoundHasWinner()">
+        <p>Winner selected.</p>
+        <div data-bind="foreach: GroupedAnswers">
+            <div id="roundWinner" data-bind="if: Winner">
+                <div class="user winningUser">
+                    <h3>Winner</h3>
+                    <a href="#" class="loggedIn">
+                        <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                        <span data-bind="html: PlayedBy.DisplayName"></span>
+                    </a>
+                    <p class="addPoints">+1 points</p>
+                </div>
+                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                    <a href="#" class="answer card outTop"
+                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                    </a>
+                </div>
+            </div>
+            <div data-bind="if: !Winner">
+                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                    <a href="#" class="answer card outTop"
+                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                    </a>
+                </div>
+                <div class="user losingUser" style="opacity:0;">
+                    <a href="#" class="loggedIn">
+                        <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                        <span data-bind="html: PlayedBy.DisplayName"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="played" data-bind="if: ShowAnswers">
+        <p>Cards played. <span class="pickinTime" data-bind="css:{ hidden: !IsCommander() }">Pick a winner.</span></p>
+        <div class="played" data- data-bind="attr: { css:{ hidden: IsCommander() ? 'pick' : 'noPick' } }">
+            <div data-bind="foreach: GroupedAnswers">
+                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                    <a href="#" class="answer card outTop"
+                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="names played" data-bind="if: WaitingOnAllAnswers">
+        <p>Cards played.</p>
+        <div data-bind="foreach: GroupedAnswers">
+            <div class="answer card outTop" data-bind="html: PlayedBy.DisplayName + ' x' + AnswerCount">
+            </div>
+        </div>
+    </div>
 </div>
+@Html.Hidden("gameAnswersJson", Html.Raw(Model.ToJson()))

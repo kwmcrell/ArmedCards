@@ -23,14 +23,10 @@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
 @using ArmedCards.Library.Extensions;
-@{
-	Boolean isCommander = Model.IsCommander();
-	GameRound round = Model.Game.CurrentRound();
-}
 
-<div class="played">
-    <p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
-    <div class="played @(isCommander ? "pick" : "noPick")">
+<div class="played @(Model.ShowAnswers() ? "" : "hidden")">
+    <p>Cards played. <span class="pickinTime @(Model.IsCommander() ? "" : "hidden")">Pick a winner.</span></p>
+    <div class="played @(Model.IsCommander() ? "pick" : "noPick")">
         <div>
             @foreach (IGrouping<Int32, GameRoundCard> group in Model.GroupedAnswers())
 	        {

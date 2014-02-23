@@ -21,23 +21,16 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model Game
+@model ArmedCards.Web.Models.Game.Board.GameOver
 
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-	header.SubHeaderText = "Game Over, man!";
-	List<GamePlayer> rankedPlayers = Model.Players.OrderByDescending(x => x.Points).ToList();
-}
-
-@Html.Partial("~/Views/Game/Board/Partials/_Header.cshtml", header)
-
-<div class="gameOver">
-	<h3>You're all terrible people, but <a href="#">@rankedPlayers.First().User.DisplayName</a> takes the cake!</h3>
-	<ul class="playerScores">
-		@foreach (GamePlayer player in rankedPlayers)
-  {
-	  <li><span class="loggedIn"><a href="#"><img src="@player.User.PictureUrl">@player.User.DisplayName</a></span><span class="points">+@player.Points points</span></li>
-  }
-	</ul>
-	<div><a href="/Leave/Index/@Model.GameID" class="button nope">Leave Game</a></div>
+<div id="gameOverDiv" class="@(Model.HasWinner ? "" : "hidden")" data-bind="if: HasWinner">
+    <div class="gameOver">
+        <h3>You're all terrible people, but <a href="#" data-bind="html: Winner.User.DisplayName"></a> takes the cake!</h3>
+        <ul class="playerScores" data-bind="foreach: RankedPlayers">
+            <li><span class="loggedIn"><a href="#"><img data-bind="attr: { src: User.PictureUrl }, html: User.DisplayName"></a></span><span class="points" data-bind="html: '+' + Points + ' points'"></span></li>
+        </ul>
+        <div><a data-bind="attr: { href: '/Leave/Index/' + GameID }" class="button nope">Leave Game</a></div>
+    </div>
 </div>
+
+@Html.Hidden("gameOverJson", Html.Raw(Model.ToJson()))

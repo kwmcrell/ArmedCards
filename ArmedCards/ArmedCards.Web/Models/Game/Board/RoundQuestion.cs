@@ -1,6 +1,4 @@
-﻿/// <reference path="jQueryTopic.js" />
-
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -23,27 +21,52 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-var ArmedCards = ArmedCards || {};
-ArmedCards.Core = ArmedCards.Core || {};
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-function Hub() {
+namespace ArmedCards.Web.Models.Game.Board
+{
+    /// <summary>
+    /// Model rendering a round question
+    /// </summary>
+    public class RoundQuestion
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="round"></param>
+        /// <param name="showQuestion"></param>
+        public RoundQuestion(Entities.GameRound round, Boolean showQuestion)
+        {
+            if(round == null)
+            {
+                Question = new ArmedCards.Entities.Card { Type = ArmedCards.Entities.Enums.Card.CardType.Question };
+            }
+            else
+            {
+                Question = round.Question;
+            }
 
+            this.ShowQuestion = showQuestion;
+            this.Instructions = (Int32)Question.Instructions;
+        }
+
+        /// <summary>
+        /// The question for the round
+        /// </summary>
+        public Entities.Card Question { get; private set; }
+
+        /// <summary>
+        /// Question instructions
+        /// </summary>
+        public Int32 Instructions { get; private set; }
+
+        /// <summary>
+        /// Show the question card
+        /// </summary>
+        public Boolean ShowQuestion { get; private set; }
+    }
 }
-
-if (!ArmedCards.Core.Hub) {
-    ArmedCards.Core.Hub = new Hub();
-}
-
-Hub.prototype.startHub = function () {
-    $.Topic("renderViews").publish();
-
-    //Setup hub events
-    $.Topic("beforeHubStart").publish();
-
-    // Start the hub. 
-    $.connection.hub.start().done(function () {
-        $.Topic("hubStartComplete").publish();
-    });
-};
-
-$(document).ready(ArmedCards.Core.Hub.startHub);

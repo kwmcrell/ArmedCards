@@ -25,16 +25,33 @@
 
 @Html.Hidden("Game_Waiting", Model.ShowWaiting())
 @Html.Partial("~/Views/Game/Board/Partials/_Spectators.cshtml")
+@{
+    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
+}
 
 @if (Model.Game.HasWinner())
 {
-	@Html.Partial("~/Views/Game/Board/Partials/_GameOver.cshtml", Model.Game)
+	header.SubHeaderText = "Game Over, man!";
 }
 else if (Model.ShowWaiting())
 {
-    @Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", Model)
+    header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, WebSecurity.CurrentUserId, Model.PlayerType);
 }
 else
 {
-	@Html.Partial("~/Views/Game/Board/Partials/_Game.cshtml", Model)
+    if (Model.ShowWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
+    {
+        header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId, Model.PlayerType);
+    }
+    else
+    {
+        header.SubHeaderText = String.Format("{0} is the Card Commander", Model.Game.DetermineCommander().DisplayName);
+    }
 }
+
+@Html.Partial("~/Views/Game/Board/Partials/_Header.cshtml", header)
+@Html.Partial("~/Views/Game/Board/Partials/_GameOver.cshtml", new ArmedCards.Web.Models.Game.Board.GameOver(Model.Game.HasWinner(), 
+                                                                                                            Model.Game.GameID, 
+                                                                                                            Model.Game.Players))
+@Html.Partial("~/Views/Game/Board/Waiting/_Waiting.cshtml", new ArmedCards.Web.Models.Game.Board.Waiting(Model.ShowWaiting()))
+@Html.Partial("~/Views/Game/Board/Partials/_Game.cshtml", Model)

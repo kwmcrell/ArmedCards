@@ -64,14 +64,3 @@
     </div>
 }
 @Html.Hidden("lobbyJson", Html.Raw(Model.ToJson()))
-
-<script type="text/javascript">
-    var $lobbyJson = $('#lobbyJson');
-    
-    var parsed = JSON.parse($lobbyJson.val());
-    $lobbyJson.remove();
-
-    ArmedCards.Core.ViewModels.GameLobbyViewModel = new GameLobby(parsed.Players, parsed.Spectators);
-
-    ko.applyBindings(ArmedCards.Core.ViewModels.GameLobbyViewModel, document.getElementById('gameLobby'));
-</script>

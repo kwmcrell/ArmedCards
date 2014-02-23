@@ -1,6 +1,4 @@
-﻿/// <reference path="jQueryTopic.js" />
-
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -23,27 +21,45 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-var ArmedCards = ArmedCards || {};
-ArmedCards.Core = ArmedCards.Core || {};
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-function Hub() {
+namespace ArmedCards.Web.Models.Game.Board
+{
+    /// <summary>
+    /// View Model used to render the player's hand
+    /// </summary>
+    public class Hand
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="show"></param>
+        /// <param name="cards"></param>
+        /// <param name="showBoard"></param>
+        public Hand(Boolean show, List<Entities.GamePlayerCard> cards, Boolean showBoard)
+        {
+            this.Show = show;
+            this.Cards = cards;
+            this.ShowBoard = showBoard;
+        }
 
+        /// <summary>
+        /// Show hand
+        /// </summary>
+        public Boolean Show { get; private set; }
+
+        /// <summary>
+        /// The player's cards
+        /// </summary>
+        public List<Entities.GamePlayerCard> Cards { get; private set; }
+
+        /// <summary>
+        /// Should the board be showing
+        /// </summary>
+        public Boolean ShowBoard { get; private set; }
+    }
 }
-
-if (!ArmedCards.Core.Hub) {
-    ArmedCards.Core.Hub = new Hub();
-}
-
-Hub.prototype.startHub = function () {
-    $.Topic("renderViews").publish();
-
-    //Setup hub events
-    $.Topic("beforeHubStart").publish();
-
-    // Start the hub. 
-    $.connection.hub.start().done(function () {
-        $.Topic("hubStartComplete").publish();
-    });
-};
-
-$(document).ready(ArmedCards.Core.Hub.startHub);

@@ -243,11 +243,11 @@ Hand.prototype.Init = function () {
 };
 
 Hand.prototype.DealHand = function () {
-    TweenMax.staggerTo($('.hand .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3);
+    TweenMax.staggerTo($('.hand .answer.card.outTop'), .4, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .4);
 };
 
 Hand.prototype.DealAnswers = function () {
-    TweenMax.staggerTo($('#answers .answer.card.outTop'), .3, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .3,
+    TweenMax.staggerTo($('#answers .answer.card.outTop'), .4, { left: "0%", top: "0em", onComplete: ArmedCards.Game.Hand.DealCard }, .4,
                         ArmedCards.Game.Hand.DealAnswersComplete);
 };
 

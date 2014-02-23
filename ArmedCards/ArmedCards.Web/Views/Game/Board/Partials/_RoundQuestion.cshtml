@@ -21,15 +21,12 @@
     * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Board.Waiting
+@model ArmedCards.Web.Models.Game.Board.RoundQuestion
 
-<div id="waitingGame" class="waitingGame" data-bind="css : { hidden: !ShowWaiting }, if: ShowWaiting">
-    <div id="questionDiv" style="display: inline-block;">
-
-    </div>
-    <div id="answerDiv" style="display: inline-block;">
-
+<div id="gameRoundQuestionDiv" class="asked" data-bind="css: { hidden: !ShowQuestion }, if: ShowQuestion">
+    <div class="question card outTop" data-bind="html: Question().HtmlContent + Question().Branding + Question().InstructionDiv">
     </div>
 </div>
+<input type="hidden" id="CurrentRound_Question_Instructions" name="CurrentRound.Question.Instructions" data-bind="attr: { value: Instructions }" />
 
-@Html.Hidden("gameWaitingJson", Html.Raw(Model.ToJson()))
+@Html.Hidden("gameRoundQuestionJson", Html.Raw(Model.ToJson()))

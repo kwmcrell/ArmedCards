@@ -26,27 +26,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
-namespace ArmedCards.Web.Helpers
+namespace ArmedCards.Web.Models.Game.Board
 {
-	public static class CardFormatter
-	{
-		public static string ReplaceBlankWithHtml(string cardContext)
-		{
-			TagBuilder blankSpan = new TagBuilder("span");
-			blankSpan.AddCssClass("blank");
+    /// <summary>
+    /// The model used to render the game over screen
+    /// </summary>
+    public class GameOver
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="hasWinner"></param>
+        /// <param name="gameID"></param>
+        /// <param name="rankedPlayers"></param>
+        public GameOver(Boolean hasWinner, Int32 gameID, List<Entities.GamePlayer> rankedPlayers)
+        {
+            this.HasWinner = hasWinner;
+            this.GameID = gameID;
 
-			return cardContext.Replace("_____", blankSpan.ToString());
-		}
+            this.RankedPlayers = rankedPlayers.OrderByDescending(x => x.Points).ToList();
+            this.Winner = RankedPlayers.First();
+        }
 
-		public static string GetBrandingHtml()
-		{
-			TagBuilder brandDiv = new TagBuilder("div");
-			brandDiv.AddCssClass("branding");
-			brandDiv.InnerHtml = "Armed Cards!#&amp;?";
+        /// <summary>
+        /// The game has a winner
+        /// </summary>
+        public Boolean HasWinner { get; private set; }
 
-			return brandDiv.ToString();
-		}
-	}
+        /// <summary>
+        /// The winner of the game
+        /// </summary>
+        public Entities.GamePlayer Winner { get; private set; }
+
+        /// <summary>
+        /// The game players ranked by points
+        /// </summary>
+        public List<Entities.GamePlayer> RankedPlayers { get; private set; }
+
+        /// <summary>
+        /// The game ID
+        /// </summary>
+        public Int32 GameID { get; private set; }
+    }
 }

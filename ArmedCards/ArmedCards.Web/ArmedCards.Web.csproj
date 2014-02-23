@@ -239,7 +239,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\CardFormatter.cs" />
     <Compile Include="Helpers\HubActions.cs" />
     <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
@@ -248,9 +247,14 @@
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
+    <Compile Include="Models\Game\Board\Answers.cs" />
     <Compile Include="Models\Game\Board\GameBoard.cs" />
+    <Compile Include="Models\Game\Board\GameOver.cs" />
+    <Compile Include="Models\Game\Board\Hand.cs" />
     <Compile Include="Models\Game\Board\Lobby.cs" />
+    <Compile Include="Models\Game\Board\RoundQuestion.cs" />
     <Compile Include="Models\Game\Board\VoteToKick.cs" />
+    <Compile Include="Models\Game\Board\Waiting.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
@@ -293,6 +297,7 @@
     <Content Include="Scripts\Game\Board\State.js" />
     <Content Include="Scripts\Game\Board\Hand.js" />
     <Content Include="Scripts\Game\Board\Sidebar.js" />
+    <Content Include="Scripts\Game\Board\ViewModelInit.js" />
     <Content Include="Scripts\Game\Board\ViewModels.js" />
     <Content Include="Scripts\Game\Board\Waiting.js" />
     <Content Include="Scripts\Game\CreateGame.js" />
@@ -379,6 +384,7 @@
     <Content Include="Views\Shared\Layout\_Plain.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Header.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_RoundQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

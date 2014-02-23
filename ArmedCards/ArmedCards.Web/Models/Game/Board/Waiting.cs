@@ -1,6 +1,4 @@
-﻿/// <reference path="jQueryTopic.js" />
-
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -23,27 +21,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-var ArmedCards = ArmedCards || {};
-ArmedCards.Core = ArmedCards.Core || {};
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-function Hub() {
+namespace ArmedCards.Web.Models.Game.Board
+{
+    /// <summary>
+    /// View model for rendering the waiting screen
+    /// </summary>
+    public class Waiting
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="showWaiting"></param>
+        public Waiting(Boolean showWaiting)
+        {
+            this.ShowWaiting = showWaiting;
+        }
 
+        /// <summary>
+        /// Show waiting screen
+        /// </summary>
+        public Boolean ShowWaiting { get; private set; }
+    }
 }
-
-if (!ArmedCards.Core.Hub) {
-    ArmedCards.Core.Hub = new Hub();
-}
-
-Hub.prototype.startHub = function () {
-    $.Topic("renderViews").publish();
-
-    //Setup hub events
-    $.Topic("beforeHubStart").publish();
-
-    // Start the hub. 
-    $.connection.hub.start().done(function () {
-        $.Topic("hubStartComplete").publish();
-    });
-};
-
-$(document).ready(ArmedCards.Core.Hub.startHub);
