@@ -26,40 +26,33 @@
 <div id="answers" data-bind="css: { hidden: (HandShowing() || !ShowBoard()) }">
     <div class="played winnerPicked" data-bind="if: RoundHasWinner()">
         <p>Winner selected.</p>
-        <div data-bind="foreach: GroupedAnswers">
-            <div id="roundWinner" data-bind="if: Winner">
-                <div class="user winningUser">
-                    <h3>Winner</h3>
-                    <a href="#" class="loggedIn">
-                        <img data-bind="attr: { src: PlayedBy.PictureUrl }">
-                        <span data-bind="html: PlayedBy.DisplayName"></span>
-                    </a>
-                    <p class="addPoints">+1 points</p>
-                </div>
-                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
-                    <a href="#" class="answer card outTop"
-                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
-                    </a>
-                </div>
+        <!-- ko foreach: GroupedAnswers -->
+        <div data-bind="attr: { id: Winner ? 'roundWinner' : '' }">
+            <div class="user" data-bind="css : { hidden: !Winner, winningUser: Winner }, if: Winner">
+                <h3>Winner</h3>
+                <a href="#" class="loggedIn">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <span data-bind="html: PlayedBy.DisplayName"></span>
+                </a>
+                <p class="addPoints">+1 points</p>
             </div>
-            <div data-bind="if: !Winner">
-                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
-                    <a href="#" class="answer card outTop"
-                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
-                    </a>
-                </div>
-                <div class="user losingUser" style="opacity:0;">
-                    <a href="#" class="loggedIn">
-                        <img data-bind="attr: { src: PlayedBy.PictureUrl }">
-                        <span data-bind="html: PlayedBy.DisplayName"></span>
-                    </a>
-                </div>
+            <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                <a href="#" class="answer card outTop"
+                   data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                </a>
+            </div>
+            <div class="user" style="opacity:0;" data-bind="css : { hidden: Winner, losingUser: !Winner }, if: !Winner">
+                <a href="#" class="loggedIn">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <span data-bind="html: PlayedBy.DisplayName"></span>
+                </a>
             </div>
         </div>
+        <!-- /ko -->
     </div>
     <div class="played" data-bind="if: ShowAnswers">
         <p>Cards played. <span class="pickinTime" data-bind="css:{ hidden: !IsCommander() }">Pick a winner.</span></p>
-        <div class="played" data- data-bind="attr: { css:{ hidden: IsCommander() ? 'pick' : 'noPick' } }">
+        <div class="played" data-bind="css:{ pick : IsCommander(), noPick : !IsCommander() }">
             <div data-bind="foreach: GroupedAnswers">
                 <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
                     <a href="#" class="answer card outTop"

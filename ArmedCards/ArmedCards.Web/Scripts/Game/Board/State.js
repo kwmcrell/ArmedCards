@@ -1,6 +1,7 @@
 ﻿/// <reference path="Hand.js" />
 /// <reference path="Common.js" />
 /// <reference path="Waiting.js" />
+/// <reference path="ViewModels.js" />
 /// <reference path="../../Core/Utilities.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -36,25 +37,33 @@ if (!ArmedCards.Game.State) {
 	ArmedCards.Game.State = new State();
 }
 
-State.prototype.UpdateGame = function (html) {
+State.prototype.UpdateGame = function (gameBoardViewModel) {
     ArmedCards.Game.Waiting.ClearTimeout();
 
-	$('#gameContainer').html(html);
+    ArmedCards.Game.ViewModels.GameHeaderViewModel.UpdateModel(gameBoardViewModel.HeaderViewModel);
+
+    ArmedCards.Game.ViewModels.GameOverViewModel.UpdateModel(gameBoardViewModel.GameOverViewModel);
+
+    ArmedCards.Game.ViewModels.GameWaitingViewModel.UpdateModel(gameBoardViewModel.WaitingViewModel);
+
+    ArmedCards.Game.ViewModels.GameRoundQuestionViewModel.UpdateModel(gameBoardViewModel.RoundQuestionViewModel);
+
+    ArmedCards.Game.ViewModels.GameAnswers.UpdateModel(gameBoardViewModel.AnswersViewModel);
+
+    ArmedCards.Game.ViewModels.GameHand.UpdateModel(gameBoardViewModel.HandViewModel);
 
 	ArmedCards.Game.Common.Init();
 	ArmedCards.Game.Hand.Init();
 };
 
-State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
+State.prototype.UpdateAnswers = function (answersViewModel, answered, winnerSelected) {
     var currentCardCount = $('#answers').find('.card:not(.outTop)').length;
-    var $tempDiv = $('<div />').html(answers); //
-    var showingAnswers = $tempDiv.find('.pickinTime').length > 0;
-    var newCardsCount = $tempDiv.find('.card').length - currentCardCount;
+    var newCardsCount = answersViewModel.GroupedAnswers.length - currentCardCount;
 
-    $('#answers').html(answers);
+    ArmedCards.Game.ViewModels.GameAnswers.UpdateModel(answersViewModel);
 
     if (answered) {
-        if (!showingAnswers)
+        if (!answersViewModel.ShowAnswers)
         {
             var completeCardArray = $('#answers').find('.card');
 
@@ -63,8 +72,8 @@ State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
             }
         }
 
-		$('#hand').addClass('hidden');
-		$('#answers').removeClass('hidden');
+        ArmedCards.Game.ViewModels.GameHand.Show(false);
+        ArmedCards.Game.ViewModels.GameAnswers.HandShowing(false);
 
 		if (winnerSelected) {
 		    $('.pickMultiple.noShadow').removeClass('noShadow');
@@ -76,15 +85,15 @@ State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
 	}
 };
 
-State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {
-	ArmedCards.Game.State.UpdateAnswers(answers, true, true);
+State.prototype.WinnerSelected = function (answersViewModel, gameBoardViewModel, isWaiting, gameOver) {
+    ArmedCards.Game.State.UpdateAnswers(answersViewModel, true, true);
 
-	ArmedCards.Game.State.UpdateLobby(playerList);
+    ArmedCards.Game.State.UpdateLobby(gameBoardViewModel.LobbyViewModel);
 
-	ArmedCards.Game.State.NewRoundStarting(gameView, isWaiting, gameOver);
+    ArmedCards.Game.State.NewRoundStarting(gameBoardViewModel, isWaiting, gameOver);
 };
 
-State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
+State.prototype.NewRoundStarting = function (gameBoardViewModel, isWaiting, gameOver) {
 	var options = {
 		"positionClass": "toast-bottom-full-width",
 		"fadeIn": 300,
@@ -111,14 +120,13 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 	}
 
 	setTimeout(function () {
-		ArmedCards.Game.State.UpdateGame(gameView);
+	    //ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
 
 		if (isWaiting) {
+		    ArmedCards.Game.ViewModels.GameWaitingViewModel.UpdateModel(gameBoardViewModel.WaitingViewModel);
+
 			ArmedCards.Game.Waiting.currentQuestion = null;
 			ArmedCards.Game.Waiting.StartWaiting();
-		}
-		else {
-
 		}
 	}, 15000);
 };

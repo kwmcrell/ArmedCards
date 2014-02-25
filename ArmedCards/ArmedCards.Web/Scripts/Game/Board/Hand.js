@@ -230,9 +230,11 @@ Hand.prototype.Init = function () {
 	}, '#cardToPlaySubmit');
 
 	if ($('#answers').is(':visible')) {
+	    ArmedCards.Game.Hand.DealQuestion();
 	    ArmedCards.Game.Hand.DealAnswers();
 	}
 	else {
+	    ArmedCards.Game.Hand.DealQuestion();
 	    ArmedCards.Game.Hand.DealHand();
 	}
 
@@ -240,6 +242,10 @@ Hand.prototype.Init = function () {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
 	}
 	ArmedCards.Game.Hand.CurrentPickCount = 1;
+};
+
+Hand.prototype.DealQuestion = function () {
+    TweenMax.to($('#gameRoundQuestionDiv .question.card.outTopTop'), .8, { top: "0em", onComplete: ArmedCards.Game.Hand.DeltQuestion });
 };
 
 Hand.prototype.DealHand = function () {
@@ -289,6 +295,10 @@ Hand.prototype.DealCard = function () {
             setTimeout(function () { $parent.removeClass('noShadow'); }, 300);
         }
     }
+};
+
+Hand.prototype.DeltQuestion = function () {
+    ArmedCards.Game.ViewModels.GameRoundQuestionViewModel.ApplyOutTopTop(false);
 };
 
 Hand.prototype.ConnectionSuccess = function () {

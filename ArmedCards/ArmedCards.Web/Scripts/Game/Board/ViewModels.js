@@ -42,20 +42,16 @@ var GameLobby = function (currentPlayers, currentSpectators) {
     this.Players = ko.observableArray(currentPlayers);
     this.Spectators = ko.observableArray(currentSpectators);
 
-    this.replacePlayers = function (newPlayers) {
+    this.UpdateModel = function (newModel) {
         var self = this;
 
         self.Players.removeAll();
 
-        self.Players(newPlayers);
-    }.bind(this);
-
-    this.replaceSpectators = function (newSpectators) {
-        var self = this;
+        self.Players(newModel.Players);
 
         self.Spectators.removeAll();
 
-        self.Spectators(newSpectators);
+        self.Spectators(newModel.Spectators);
     }.bind(this);
 };
 
@@ -63,6 +59,14 @@ var GameHeader = function (headerLink, headerText, subHeaderText) {
     this.HeaderLink = ko.observable(headerLink);
     this.HeaderText = ko.observable(headerText);
     this.SubHeaderText = ko.observable(subHeaderText);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        self.HeaderLink(newModel.HeaderLink);
+        self.HeaderText(newModel.HeaderText);
+        self.SubHeaderText(newModel.SubHeaderText);
+    }.bind(this);
 };
 
 var GameOver = function (hasWinner, winner, rankedPlayers, gameID) {
@@ -70,16 +74,44 @@ var GameOver = function (hasWinner, winner, rankedPlayers, gameID) {
     this.Winner = ko.observable(winner);
     this.RankedPlayers = ko.observableArray(rankedPlayers);
     this.GameID = ko.observable(gameID);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        self.HasWinner(newModel.HasWinner);
+        self.Winner(newModel.Winner);
+        self.RankedPlayers.removeAll();
+        self.RankedPlayers(newModel.RankedPlayers);
+        self.GameID(newModel.GameID);
+    }.bind(this);
 };
 
 var GameWaiting = function (showWaiting) {
     this.ShowWaiting = ko.observable(showWaiting);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        self.ShowWaiting(newModel.ShowWaiting);
+    }.bind(this);
 };
 
 var GameRoundQuestion = function (question, instructions, showQuestion) {
     this.Question = ko.observable(question);
     this.Instructions = ko.observable(instructions);
     this.ShowQuestion = ko.observable(showQuestion);
+    this.ApplyOutTopTop = ko.observable(true);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        $('.question.card').removeAttr('style');
+        self.ApplyOutTopTop(true);
+
+        self.Question(newModel.Question);
+        self.Instructions(newModel.Instructions);
+        self.ShowQuestion(newModel.ShowQuestion);
+    }.bind(this);
 };
 
 var GameAnswers = function (roundHasWinner, groupedAnswers, isCommander, waitingOnAllAnswers, showAnswers, handShowing, showBoard) {
@@ -90,10 +122,32 @@ var GameAnswers = function (roundHasWinner, groupedAnswers, isCommander, waiting
     this.ShowAnswers = ko.observable(showAnswers);
     this.HandShowing = ko.observable(handShowing);
     this.ShowBoard = ko.observable(showBoard);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        self.RoundHasWinner(newModel.RoundHasWinner);
+        self.IsCommander(newModel.IsCommander);
+        self.GroupedAnswers.removeAll();
+        self.GroupedAnswers(newModel.GroupedAnswers);
+        self.WaitingOnAllAnswers(newModel.WaitingOnAllAnswers);
+        self.ShowAnswers(newModel.ShowAnswers);
+        self.HandShowing(newModel.HandShowing);
+        self.ShowBoard(newModel.ShowBoard);
+    }.bind(this);
 };
 
 var GameHand = function (show, cards, showBoard) {
     this.Show = ko.observable(show);
     this.Cards = ko.observableArray(cards);
     this.ShowBoard = ko.observable(showBoard);
+
+    this.UpdateModel = function (newModel) {
+        var self = this;
+
+        self.Show(newModel.Show);
+        self.Cards.removeAll();
+        self.Cards(newModel.Cards);
+        self.ShowBoard(newModel.ShowBoard);
+    }.bind(this);
 };

@@ -24,9 +24,9 @@
 @model ArmedCards.Web.Models.Game.Board.RoundQuestion
 
 <div id="gameRoundQuestionDiv" class="asked" data-bind="css: { hidden: !ShowQuestion }, if: ShowQuestion">
-    <div class="question card outTop" data-bind="html: Question().HtmlContent + Question().Branding + Question().InstructionDiv">
+    <div class="question card" data-bind="html: Question().HtmlContent + Question().Branding + Question().InstructionDiv, css : { outTopTop : ApplyOutTopTop }">
     </div>
+    <input type="hidden" id="CurrentRound_Question_Instructions" name="CurrentRound.Question.Instructions" data-bind="value: Instructions" />
 </div>
-<input type="hidden" id="CurrentRound_Question_Instructions" name="CurrentRound.Question.Instructions" data-bind="attr: { value: Instructions }" />
 
 @Html.Hidden("gameRoundQuestionJson", Html.Raw(Model.ToJson()))

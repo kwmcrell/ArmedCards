@@ -26,16 +26,9 @@
 <div id="actualGame">
     @Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
     @Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
-    @Html.Partial("~/Views/Game/Board/Partials/_RoundQuestion.cshtml", new ArmedCards.Web.Models.Game.Board.RoundQuestion(Model.Game.CurrentRound(), 
-                                                                                                                          Model.ShowBoard()))
+    @Html.Partial("~/Views/Game/Board/Partials/_RoundQuestion.cshtml", Model.RoundQuestionViewModel)
 
-    @Html.Partial("~/Views/Game/Board/Answers/_Answers.cshtml", new ArmedCards.Web.Models.Game.Board.Answers(Model.RoundHasWinner(), 
-                                                                                                             Model.IsCommander(), 
-                                                                                                             Model.WaitingOnAllAnswersOrWinner(), 
-                                                                                                             Model.ShowAnswers(),
-                                                                                                             Model.ShowHand(),
-                                                                                                             Model.ShowBoard(),
-                                                                                                             Model.GroupedAnswers()))
+    @Html.Partial("~/Views/Game/Board/Answers/_Answers.cshtml", Model.AnswersViewModel)
 
-    @Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", new ArmedCards.Web.Models.Game.Board.Hand(Model.ShowHand(), Model.Hand, Model.ShowBoard()))
+    @Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model.HandViewModel)
 </div>

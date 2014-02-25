@@ -120,8 +120,7 @@ Sidebar.prototype.PlayerMenuOpen = function (event) {
 };
 
 Sidebar.prototype.LobbyUpdate = function (lobbyJson) {
-    ArmedCards.Game.ViewModels.GameLobbyViewModel.replacePlayers(lobbyJson.Players);
-    ArmedCards.Game.ViewModels.GameLobbyViewModel.replaceSpectators(lobbyJson.Spectators);
+    ArmedCards.Game.ViewModels.GameLobbyViewModel.UpdateModel(lobbyJson);
 
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
