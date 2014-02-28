@@ -52,7 +52,8 @@ KickPlayer.prototype.Keep = function (e) {
 };
 
 KickPlayer.prototype.RemoveAlert = function (userId) {
-	$('#alert-vote-{0}'.format(userId)).remove();
+    ArmedCards.Game.ViewModels.GameVotesToKick.RemoveVote(userId);
+	//$('#alert-vote-{0}'.format(userId)).remove();
 };
 
 KickPlayer.prototype.Vote = function (vote, userId) {

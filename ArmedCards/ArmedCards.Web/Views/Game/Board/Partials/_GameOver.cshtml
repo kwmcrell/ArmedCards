@@ -23,7 +23,7 @@
 
 @model ArmedCards.Web.Models.Game.Board.GameOver
 
-<div id="gameOverDiv" class="@(Model.HasWinner ? "" : "hidden")" data-bind="if: HasWinner">
+<div id="gameOverDiv" data-bind="css : { hidden: !HasWinner() }, if: HasWinner()">
     <div class="gameOver">
         <h3>You're all terrible people, but <a href="#" data-bind="html: Winner.User.DisplayName"></a> takes the cake!</h3>
         <ul class="playerScores" data-bind="foreach: RankedPlayers">

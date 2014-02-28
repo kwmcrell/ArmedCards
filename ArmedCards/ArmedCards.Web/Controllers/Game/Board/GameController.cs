@@ -88,11 +88,9 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 {
                     if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
                     {
-                        kickModel = new Models.Game.Board.VoteToKick();
-
-                        kickModel.UserToKick = group.First().KickUser;
-                        kickModel.VotesToKick = group.Count(x => x.Vote);
-                        kickModel.VotesNotToKick = group.Count(x => !x.Vote);
+                        kickModel = new Models.Game.Board.VoteToKick(group.First().KickUser,
+                                                                     group.Count(x => x.Vote),
+                                                                     group.Count(x => !x.Vote));
 
                         votesToKick.Add(kickModel);
                     }

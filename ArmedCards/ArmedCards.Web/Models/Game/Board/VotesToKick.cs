@@ -29,38 +29,23 @@ using System.Threading.Tasks;
 
 namespace ArmedCards.Web.Models.Game.Board
 {
-	/// <summary>
-	/// Model used to render a vote to kick
-	/// </summary>
-	public class VoteToKick
-	{
+    /// <summary>
+    /// View model for votes to kick
+    /// </summary>
+    public class VotesToKick
+    {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
-        /// <param name="userToKick"></param>
-        /// <param name="votesToKick"></param>
-        /// <param name="votesNotToKick"></param>
-        /// <param name="hasVoted"></param>
-        public VoteToKick(Entities.User userToKick, Int32 votesToKick, Int32 votesNotToKick)
+        /// <param name="votes"></param>
+        public VotesToKick(List<VoteToKick> votes)
         {
-            this.UserToKick = userToKick;
-            this.VotesToKick = votesToKick;
-            this.VotesNotToKick = votesNotToKick;
+            this.Votes = votes;
         }
 
-		/// <summary>
-		/// User to kick
-		/// </summary>
-		public Entities.User UserToKick { get; private set; }
-
-		/// <summary>
-		/// Number of votes to kick
-		/// </summary>
-		public Int32 VotesToKick { get; private set; }
-
-		/// <summary>
-		/// Number of votes not to kick
-		/// </summary>
-		public Int32 VotesNotToKick { get; private set; }
-	}
+        /// <summary>
+        /// List of called votes in the game
+        /// </summary>
+        public List<VoteToKick> Votes { get; private set; }
+    }
 }

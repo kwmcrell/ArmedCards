@@ -59,8 +59,15 @@ namespace ArmedCards.Web.Models.Game.Board
             this.HandShowing = handShowing;
             this.ShowBoard = showBoard;
 
-            this.GroupedAnswers = groupedAnswers.Select(x => new Entities.GroupedAnswers(x.Key, x.ToList()))
+            if(groupedAnswers != null)
+            {
+                this.GroupedAnswers = groupedAnswers.Select(x => new Entities.GroupedAnswers(x.Key, x.ToList()))
                                                 .ToList();
+            }
+            else
+            {
+                this.GroupedAnswers = new List<Entities.GroupedAnswers>();
+            }
         }
 
         /// <summary>

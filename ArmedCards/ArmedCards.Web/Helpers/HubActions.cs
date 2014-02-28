@@ -96,11 +96,10 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            //TODO: Fix
-            String gameView = "";//RenderGameView(connection, game);
+            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateGameView(gameView, GetGameLobbyViewModel(connection, game));
+                               .UpdateGameView(model, GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -120,11 +119,10 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            //TODO: Fix
-            String gameView = "";//RenderGameView(connection, game);
+            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .CommanderLeft(gameView, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
+                               .CommanderLeft(model, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
         }
 
         /// <summary>
@@ -175,15 +173,9 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick();
-            model.UserToKick = kickUser;
-            model.VotesToKick = votesToKick;
-            model.VotesNotToKick = votesNotToKick;
+            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick(kickUser, votesToKick, votesNotToKick);
 
-            //TODO: Fix
-            String alert = ""; //= GetRazorViewAsString("~/Views/Game/Board/Partials/_VoteToKick.cshtml", model);
-
-            hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(alert, kickUser);
+            hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(model);
         }
 
         #region "Private Helpers"

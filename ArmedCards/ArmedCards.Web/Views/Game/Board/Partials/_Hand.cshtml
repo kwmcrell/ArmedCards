@@ -23,7 +23,7 @@
 
 @model ArmedCards.Web.Models.Game.Board.Hand
 
-<div id="hand" data-bind="css: { hidden: !Show }, if: Show">
+<div id="hand" data-bind="css: { hidden: (!Show() || !ShowBoard()) }, if: (Show() && ShowBoard())">
     <p>Play a card.</p>
     <div id="myHand" class="hand pick" data-bind="foreach: Cards">
         <a href="#" class="answer card outTop" data-bind="attr:{ id: Card.CardID }, html: Card.Content + Card.Branding + Card.PickOrder">

@@ -121,6 +121,17 @@ ViewModelInit.prototype.GameLobby = function () {
     ko.applyBindings(ArmedCards.Game.ViewModels.GameLobbyViewModel, document.getElementById('gameLobby'));
 };
 
+ViewModelInit.prototype.GameVotesToKick = function () {
+    var $gameJson = $('#gameVotesToKickJson');
+
+    var parsed = $.parseJSON($gameJson.val());
+    $gameJson.remove();
+
+    ArmedCards.Game.ViewModels.GameVotesToKick = new GameVotesToKick(parsed.Votes);
+
+    ko.applyBindings(ArmedCards.Game.ViewModels.GameVotesToKick, document.getElementById('alert-container'));
+};
+
 $.Topic("renderViews").subscribe(function () {
     ArmedCards.Game.ViewModelInit.GameHeader();
     ArmedCards.Game.ViewModelInit.GameLobby();
@@ -129,4 +140,5 @@ $.Topic("renderViews").subscribe(function () {
     ArmedCards.Game.ViewModelInit.GameRoundQuestion();
     ArmedCards.Game.ViewModelInit.GameAnswers();
     ArmedCards.Game.ViewModelInit.GameHand();
+    ArmedCards.Game.ViewModelInit.GameVotesToKick();
 });

@@ -45,9 +45,11 @@ namespace ArmedCards.Web.Models.Game.Board
         public GameBoard(Entities.Game game, Int32 userId, Entities.Enums.GamePlayerType playerType,
                          List<Models.Game.Board.VoteToKick> voteToKickList = null)
         {
-            this.Game = game;
-            this.UserId = userId;
-            this.Hand = Game.Players.First(x => x.User.UserId == userId).Hand;
+            Game = game;
+            UserId = userId;
+            Hand = Game.Players.First(x => x.User.UserId == userId).Hand;
+            ActivePlayer = Hand.Count > 0;
+            PlayerType = playerType;
 
             Entities.GameRound round = Game.CurrentRound();
 
@@ -57,21 +59,20 @@ namespace ArmedCards.Web.Models.Game.Board
                 ShowAnswers = round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
                 RoundHasWinner = round.Winner() != null;
                 GroupedAnswers = round.GroupedAnswers();
+                IsCommander = Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
             }
             else
             {
                 Answered = false;
                 ShowAnswers = false;
                 RoundHasWinner = false;
+                IsCommander = false;
             }
 
-            ActivePlayer = Hand.Count > 0;
-            PlayerType = playerType;
-            IsCommander = Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
-
+            
             ShowHand = ActivePlayer && !Answered && !IsCommander && PlayerType == Entities.Enums.GamePlayerType.Player;
 
-            ShowWaiting = (!ShowAnswers || round == null || RoundHasWinner) && Game.IsWaiting();
+            ShowWaiting = (round == null || RoundHasWinner) && Game.IsWaiting();
 
             WaitingOnAllAnswersOrWinner = !RoundHasWinner && !ShowAnswers;
 
@@ -92,7 +93,7 @@ namespace ArmedCards.Web.Models.Game.Board
             LobbyViewModel = new Lobby(PlayerType, Game.Players, Game.MaxNumberOfSpectators > 0, Game.Spectators);
             RoundQuestionViewModel = new RoundQuestion(round, ShowBoard);
             WaitingViewModel = new Waiting(ShowWaiting);
-            VoteToKickList = voteToKickList ?? new List<Models.Game.Board.VoteToKick>();
+            VotesToKickViewModel = new VotesToKick(voteToKickList ?? new List<Models.Game.Board.VoteToKick>());
 
             HeaderViewModel = new Shared.Header();
             
@@ -124,11 +125,6 @@ namespace ArmedCards.Web.Models.Game.Board
         /// The current user's hand
         /// </summary>
         public List<Entities.GamePlayerCard> Hand { get; private set; }
-
-        /// <summary>
-        /// A list of votes to kick users
-        /// </summary>
-        public List<Models.Game.Board.VoteToKick> VoteToKickList { get; private set; }
 
         /// <summary>
         /// Determine if current user has answered
@@ -229,6 +225,11 @@ namespace ArmedCards.Web.Models.Game.Board
         /// View model for waiting screen
         /// </summary>
         public Models.Game.Board.Waiting WaitingViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for votes to kick
+        /// </summary>
+        public Models.Game.Board.VotesToKick VotesToKickViewModel { get; private set; }
 
         /// <summary>
         /// View model for the game header

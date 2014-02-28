@@ -120,7 +120,7 @@ State.prototype.NewRoundStarting = function (gameBoardViewModel, isWaiting, game
 	}
 
 	setTimeout(function () {
-	    //ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
+	    ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
 
 		if (isWaiting) {
 		    ArmedCards.Game.ViewModels.GameWaitingViewModel.UpdateModel(gameBoardViewModel.WaitingViewModel);
@@ -137,17 +137,17 @@ State.prototype.RoundAlert = function (timeDelay, timeLeft, message) {
 	}, timeDelay);
 };
 
-State.prototype.UpdateGameView = function (gameView, playerList) {
-	ArmedCards.Game.State.UpdateGame(gameView);
-	ArmedCards.Game.State.UpdateLobby(playerList);
+State.prototype.UpdateGameView = function (gameBoardViewModel, lobbyViewModel) {
+    ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
+    ArmedCards.Game.State.UpdateLobby(lobbyViewModel);
 };
 
 State.prototype.UpdateLobby = function (json) {
     $.Topic("lobbyUpdated").publish(json);
 };
 
-State.prototype.CommanderLeft = function (gameView, playerList, commanderName, isWaiting) {
-	ArmedCards.Game.State.UpdateGameView(gameView, playerList);
+State.prototype.CommanderLeft = function (gameBoardViewModel, lobbyViewModel, commanderName, isWaiting) {
+    ArmedCards.Game.State.UpdateGameView(gameBoardViewModel, lobbyViewModel);
 
 	var options = {
 		"positionClass": "toast-bottom-full-width",
@@ -181,23 +181,22 @@ State.prototype.VoteToKickResults = function (message, title, kick, kickUserId) 
 
 	toastr.info(message, title, options);
 	
-	$('#alert-vote-{0}'.format(kickUserId)).remove();
+	ArmedCards.Game.ViewModels.GameVotesToKick.RemoveVote(kickUserId);
+	//$('#alert-vote-{0}'.format(kickUserId)).remove();
 
 	if (kick) {
 		window.location = "/GameListing";
 	}
 };
 
-State.prototype.AlertUsersVote = function (partial, kickUser) {
-	var $alertContainer = $('#alert-container');
-
-	var $userAlert = $('#alert-vote-{0}'.format(kickUser.UserId));
+State.prototype.AlertUsersVote = function (vote) {
+	var $userAlert = $('#alert-vote-{0}'.format(vote.UserToKick.UserId));
 
 	if ($userAlert.length == 0) {
-		$alertContainer.append(partial);
+	    ArmedCards.Game.ViewModels.GameVotesToKick.Votes.push(ko.mapping.fromJS(vote));
 	}
 	else {
-		$('#alert-vote-{0}'.format(kickUser.UserId)).html(partial);
+	    ArmedCards.Game.ViewModels.GameVotesToKick.UpdateVote(vote);
 	}
 };
 

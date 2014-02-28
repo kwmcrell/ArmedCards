@@ -250,6 +250,7 @@
     <Compile Include="Models\Game\Board\Hand.cs" />
     <Compile Include="Models\Game\Board\Lobby.cs" />
     <Compile Include="Models\Game\Board\RoundQuestion.cs" />
+    <Compile Include="Models\Game\Board\VotesToKick.cs" />
     <Compile Include="Models\Game\Board\VoteToKick.cs" />
     <Compile Include="Models\Game\Board\Waiting.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
@@ -376,7 +377,7 @@
     <Content Include="Views\Game\Board\Partials\_GameOver.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\ChangeDisplayName.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_VoteToKick.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_VotesToKick.cshtml" />
     <Content Include="Views\Leaderboard\Index.cshtml" />
     <Content Include="Views\Shared\Layout\_Plain.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />

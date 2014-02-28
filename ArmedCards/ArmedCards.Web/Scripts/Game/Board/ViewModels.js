@@ -1,4 +1,5 @@
 ﻿/// <reference path="../../knockout-3.0.0.js" />
+/// <reference path="../../knockout.mapping-latest.js" />
 
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -149,5 +150,36 @@ var GameHand = function (show, cards, showBoard) {
         self.Cards.removeAll();
         self.Cards(newModel.Cards);
         self.ShowBoard(newModel.ShowBoard);
+    }.bind(this);
+};
+
+var GameVotesToKick = function (votes) {
+    if (votes.length > 0)
+    {
+        this.Votes = ko.mapping.fromJSON(votes);
+    }
+    else
+    {
+        this.Votes = ko.observableArray(votes);
+    }
+
+    this.RemoveVote = function (toKickUserId) {
+        var self = this;
+
+        self.Votes.remove(function (vote) {
+            return vote.UserToKick.UserId = toKickUserId;
+        });
+
+    }.bind(this);
+
+    this.UpdateVote = function (newVote) {
+        var self = this;
+
+        var oldVote = ko.utils.arrayFirst(self.Votes(), function (vote) {
+            return vote.UserToKick.UserId = newVote.UserToKick.UserId;
+        });
+
+        oldVote.VotesToKick(newVote.VotesToKick);
+        oldVote.VotesNotToKick(newVote.VotesNotToKick);
     }.bind(this);
 };

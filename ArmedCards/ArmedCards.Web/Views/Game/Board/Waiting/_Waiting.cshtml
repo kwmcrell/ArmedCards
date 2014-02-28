@@ -23,13 +23,14 @@
 
 @model ArmedCards.Web.Models.Game.Board.Waiting
 
-<div id="waitingGame" class="waitingGame" data-bind="css : { hidden: !ShowWaiting }, if: ShowWaiting">
+<div id="waitingGame" class="waitingGame" data-bind="css : { hidden: !ShowWaiting() }">
     <div id="questionDiv" style="display: inline-block;">
 
     </div>
     <div id="answerDiv" style="display: inline-block;">
 
     </div>
+    <input id="Game_Waiting" type="hidden" data-bind="attr: { value: ShowWaiting() }" />
 </div>
 
 @Html.Hidden("gameWaitingJson", Html.Raw(Model.ToJson()))

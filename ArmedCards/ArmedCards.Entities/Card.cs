@@ -96,7 +96,7 @@ namespace ArmedCards.Entities
         {
             get
             {
-                return Library.Helpers.CardFormatter.ReplaceBlankWithHtml(Content);
+                return Library.Helpers.CardFormatter.ReplaceBlankWithHtml(Content ?? "");
             }
         }
 
