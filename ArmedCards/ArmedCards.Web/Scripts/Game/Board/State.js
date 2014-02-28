@@ -1,6 +1,7 @@
 ﻿/// <reference path="Hand.js" />
 /// <reference path="Common.js" />
 /// <reference path="Waiting.js" />
+/// <reference path="ViewModels.js" />
 /// <reference path="../../Core/Utilities.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -36,25 +37,33 @@ if (!ArmedCards.Game.State) {
 	ArmedCards.Game.State = new State();
 }
 
-State.prototype.UpdateGame = function (html) {
+State.prototype.UpdateGame = function (gameBoardViewModel) {
     ArmedCards.Game.Waiting.ClearTimeout();
 
-	$('#gameContainer').html(html);
+    ArmedCards.Game.ViewModels.GameHeaderViewModel.UpdateModel(gameBoardViewModel.HeaderViewModel);
+
+    ArmedCards.Game.ViewModels.GameOverViewModel.UpdateModel(gameBoardViewModel.GameOverViewModel);
+
+    ArmedCards.Game.ViewModels.GameWaitingViewModel.UpdateModel(gameBoardViewModel.WaitingViewModel);
+
+    ArmedCards.Game.ViewModels.GameRoundQuestionViewModel.UpdateModel(gameBoardViewModel.RoundQuestionViewModel);
+
+    ArmedCards.Game.ViewModels.GameAnswers.UpdateModel(gameBoardViewModel.AnswersViewModel);
+
+    ArmedCards.Game.ViewModels.GameHand.UpdateModel(gameBoardViewModel.HandViewModel);
 
 	ArmedCards.Game.Common.Init();
 	ArmedCards.Game.Hand.Init();
 };
 
-State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
+State.prototype.UpdateAnswers = function (answersViewModel, answered, winnerSelected) {
     var currentCardCount = $('#answers').find('.card:not(.outTop)').length;
-    var $tempDiv = $('<div />').html(answers); //
-    var showingAnswers = $tempDiv.find('.pickinTime').length > 0;
-    var newCardsCount = $tempDiv.find('.card').length - currentCardCount;
+    var newCardsCount = answersViewModel.GroupedAnswers.length - currentCardCount;
 
-    $('#answers').html(answers);
+    ArmedCards.Game.ViewModels.GameAnswers.UpdateModel(answersViewModel);
 
     if (answered) {
-        if (!showingAnswers)
+        if (!answersViewModel.ShowAnswers)
         {
             var completeCardArray = $('#answers').find('.card');
 
@@ -63,8 +72,8 @@ State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
             }
         }
 
-		$('#hand').addClass('hidden');
-		$('#answers').removeClass('hidden');
+        ArmedCards.Game.ViewModels.GameHand.Show(false);
+        ArmedCards.Game.ViewModels.GameAnswers.HandShowing(false);
 
 		if (winnerSelected) {
 		    $('.pickMultiple.noShadow').removeClass('noShadow');
@@ -76,15 +85,15 @@ State.prototype.UpdateAnswers = function (answers, answered, winnerSelected) {
 	}
 };
 
-State.prototype.WinnerSelected = function (answers, playerList, gameView, isWaiting, gameOver) {
-	ArmedCards.Game.State.UpdateAnswers(answers, true, true);
+State.prototype.WinnerSelected = function (answersViewModel, gameBoardViewModel, isWaiting, gameOver) {
+    ArmedCards.Game.State.UpdateAnswers(answersViewModel, true, true);
 
-	ArmedCards.Game.State.UpdateLobby(playerList);
+    ArmedCards.Game.State.UpdateLobby(gameBoardViewModel.LobbyViewModel);
 
-	ArmedCards.Game.State.NewRoundStarting(gameView, isWaiting, gameOver);
+    ArmedCards.Game.State.NewRoundStarting(gameBoardViewModel, isWaiting, gameOver);
 };
 
-State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
+State.prototype.NewRoundStarting = function (gameBoardViewModel, isWaiting, gameOver) {
 	var options = {
 		"positionClass": "toast-bottom-full-width",
 		"fadeIn": 300,
@@ -111,14 +120,13 @@ State.prototype.NewRoundStarting = function (gameView, isWaiting, gameOver) {
 	}
 
 	setTimeout(function () {
-		ArmedCards.Game.State.UpdateGame(gameView);
+	    ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
 
 		if (isWaiting) {
+		    ArmedCards.Game.ViewModels.GameWaitingViewModel.UpdateModel(gameBoardViewModel.WaitingViewModel);
+
 			ArmedCards.Game.Waiting.currentQuestion = null;
 			ArmedCards.Game.Waiting.StartWaiting();
-		}
-		else {
-
 		}
 	}, 15000);
 };
@@ -129,17 +137,17 @@ State.prototype.RoundAlert = function (timeDelay, timeLeft, message) {
 	}, timeDelay);
 };
 
-State.prototype.UpdateGameView = function (gameView, playerList) {
-	ArmedCards.Game.State.UpdateGame(gameView);
-	ArmedCards.Game.State.UpdateLobby(playerList);
+State.prototype.UpdateGameView = function (gameBoardViewModel, lobbyViewModel) {
+    ArmedCards.Game.State.UpdateGame(gameBoardViewModel);
+    ArmedCards.Game.State.UpdateLobby(lobbyViewModel);
 };
 
-State.prototype.UpdateLobby = function (playerList) {
-	$('#gameLobby').html(playerList)
+State.prototype.UpdateLobby = function (json) {
+    $.Topic("lobbyUpdated").publish(json);
 };
 
-State.prototype.CommanderLeft = function (gameView, playerList, commanderName, isWaiting) {
-	ArmedCards.Game.State.UpdateGameView(gameView, playerList);
+State.prototype.CommanderLeft = function (gameBoardViewModel, lobbyViewModel, commanderName, isWaiting) {
+    ArmedCards.Game.State.UpdateGameView(gameBoardViewModel, lobbyViewModel);
 
 	var options = {
 		"positionClass": "toast-bottom-full-width",
@@ -173,23 +181,22 @@ State.prototype.VoteToKickResults = function (message, title, kick, kickUserId) 
 
 	toastr.info(message, title, options);
 	
-	$('#alert-vote-{0}'.format(kickUserId)).remove();
+	ArmedCards.Game.ViewModels.GameVotesToKick.RemoveVote(kickUserId);
+	//$('#alert-vote-{0}'.format(kickUserId)).remove();
 
 	if (kick) {
 		window.location = "/GameListing";
 	}
 };
 
-State.prototype.AlertUsersVote = function (partial, kickUser) {
-	var $alertContainer = $('#alert-container');
-
-	var $userAlert = $('#alert-vote-{0}'.format(kickUser.UserId));
+State.prototype.AlertUsersVote = function (vote) {
+	var $userAlert = $('#alert-vote-{0}'.format(vote.UserToKick.UserId));
 
 	if ($userAlert.length == 0) {
-		$alertContainer.append(partial);
+	    ArmedCards.Game.ViewModels.GameVotesToKick.Votes.push(ko.mapping.fromJS(vote));
 	}
 	else {
-		$('#alert-vote-{0}'.format(kickUser.UserId)).html(partial);
+	    ArmedCards.Game.ViewModels.GameVotesToKick.UpdateVote(vote);
 	}
 };
 
@@ -198,13 +205,7 @@ State.prototype.Init = function () {
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
 	hub.client.WinnerSelected = ArmedCards.Game.State.WinnerSelected;
 	hub.client.UpdateGameView = ArmedCards.Game.State.UpdateGameView;
-	if ($('#ConnectionType').val() == 1) {
-	    hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
-	}
-	else
-	{
-	    hub.client.UpdateLobbyView = function () { };
-	}
+	hub.client.UpdateLobbyView = ArmedCards.Game.State.UpdateLobby;
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;

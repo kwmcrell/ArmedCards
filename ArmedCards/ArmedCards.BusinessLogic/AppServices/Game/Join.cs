@@ -84,7 +84,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
                 {
                     _sendMessage.Execute(response.Game, updateGameView, true);
                 }
-                else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.WaitingOnWinnerSelection) == false)
+                else
                 {
                     _sendMessage.Execute(response.Game, updateLobbyView, true);
                 }

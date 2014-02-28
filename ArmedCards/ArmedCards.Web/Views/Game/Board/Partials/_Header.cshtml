@@ -19,16 +19,13 @@
  * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *@
-@model ArmedCards.Web.Models.Game.Board.VoteToKick
+*@
 
-<div id="alert-vote-@Model.UserToKick.UserId" class="alert alert-warning">
-	<div class="alert-title">Kick Player</div>
-	<span class="loggedIn">
-		<img src="@Model.UserToKick.PictureUrl"> @Model.UserToKick.DisplayName
-	</span>
-	<div class="alert-message">
-		<a name="kickPlayer" data-userId="@Model.UserToKick.UserId" href="#" style="font-size: medium;" class="button">(@Model.VotesToKick) Kick!</a>
-		<a name="keepPlayer" data-userId="@Model.UserToKick.UserId" href="#" style="font-size: medium;" class="button">(@Model.VotesNotToKick) Nope!</a>
-	</div>
+@model ArmedCards.Web.Models.Shared.Header
+
+<div id="gameHeader" class="radHeader">
+	<h1><a data-bind="attr: { href: HeaderLink }, html:HeaderText" title="Home"></a></h1>
+    <h2 data-bind="html:SubHeaderText"></h2>
 </div>
+
+@Html.Hidden("gameHeaderJson", Html.Raw(Model.ToJson()))

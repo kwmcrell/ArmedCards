@@ -1,0 +1,73 @@
+﻿@*
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
+
+@model ArmedCards.Web.Models.Game.Board.Answers
+
+<div id="answers" data-bind="css: { hidden: (HandShowing() || !ShowBoard()) }">
+    <div class="played winnerPicked" data-bind="if: RoundHasWinner()">
+        <p>Winner selected.</p>
+        <!-- ko foreach: GroupedAnswers -->
+        <div data-bind="attr: { id: Winner ? 'roundWinner' : '' }">
+            <div class="user" data-bind="css : { hidden: !Winner, winningUser: Winner }, if: Winner">
+                <h3>Winner</h3>
+                <a href="#" class="loggedIn">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <span data-bind="html: PlayedBy.DisplayName"></span>
+                </a>
+                <p class="addPoints">+1 points</p>
+            </div>
+            <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                <a href="#" class="answer card outTop"
+                   data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                </a>
+            </div>
+            <div class="user" style="opacity:0;" data-bind="css : { hidden: Winner, losingUser: !Winner }, if: !Winner">
+                <a href="#" class="loggedIn">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <span data-bind="html: PlayedBy.DisplayName"></span>
+                </a>
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+    <div class="played" data-bind="if: ShowAnswers">
+        <p>Cards played. <span class="pickinTime" data-bind="css:{ hidden: !IsCommander() }">Pick a winner.</span></p>
+        <div class="played" data-bind="css:{ pick : IsCommander(), noPick : !IsCommander() }">
+            <div data-bind="foreach: GroupedAnswers">
+                <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
+                    <a href="#" class="answer card outTop"
+                       data-bind="attr: { id: Card_CardID, 'data-playorder':PlayOrder, 'data-playedby':PlayedBy_UserId }, html: Card.Content + Card.Branding">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="names played" data-bind="if: WaitingOnAllAnswers">
+        <p>Cards played.</p>
+        <div data-bind="foreach: GroupedAnswers">
+            <div class="answer card outTop" data-bind="html: PlayedBy.DisplayName + ' x' + AnswerCount">
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Hidden("gameAnswersJson", Html.Raw(Model.ToJson()))

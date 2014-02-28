@@ -25,6 +25,6 @@
 
 <a id="@Model.Card.CardID" href="#" class="answer card @Model.CssClasses">
 	@Html.Raw(Model.Card.Content)
-    @Html.Raw(CardFormatter.GetBrandingHtml())
+    @Html.Raw(ArmedCards.Library.Helpers.CardFormatter.GetBrandingHtml())
     <div name="pickOrder"></div>
 </a>

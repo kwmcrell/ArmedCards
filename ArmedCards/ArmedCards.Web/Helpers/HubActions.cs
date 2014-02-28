@@ -35,12 +35,6 @@ using System.Web.Routing;
 namespace ArmedCards.Web.Helpers
 {
     /// <summary>
-    /// Fake Controller used to render partial views in Hub Actions Class
-    /// </summary>
-    public class FakeController : Controller
-    { }
-
-    /// <summary>
     /// Class that defines Actions to send to the SendMessage App Service
     /// </summary>
     public static class HubActions
@@ -54,13 +48,8 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            var lobbyView = new
-            {
-                LobbyView = RenderLobbyView(connection, game)
-            };
-
             hub.Clients.Client(connection.ActiveConnectionID)
-                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), lobbyView);
+                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -72,18 +61,10 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard
-            {
-                Game = game,
-                Hand = game.Players.Find(x => x.User.UserId == connection.User_UserId).Hand,
-                UserId = connection.User_UserId,
-                PlayerType = GetPlayerType(connection)
-            };
-
-            string partialView = GetRazorViewAsString("~/Views/Game/Board/Answers/_Answers.cshtml", model);
+            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateAnswers(partialView, !model.ShowHand());
+                               .UpdateAnswers(model.AnswersViewModel, !model.ShowHand);
         }
 
         /// <summary>
@@ -97,14 +78,13 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String winnerSelectedPartial = GetRazorViewAsString("~/Views/Game/Board/Answers/_WinnerSelected.cshtml", answers);
+            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
-            String playerList = RenderLobbyView(connection, game);
-
-            String gameView = RenderGameView(connection, game);
+            Web.Models.Game.Board.Answers answersModel = new Models.Game.Board.Answers(true, model.IsCommander, false,
+                                                                                       false, false, true, answers);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .WinnerSelected(winnerSelectedPartial, playerList, gameView, game.IsWaiting(), game.HasWinner());
+                               .WinnerSelected(answersModel, model, game.IsWaiting(), game.HasWinner());
         }
 
         /// <summary>
@@ -116,12 +96,10 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
-            String gameView = RenderGameView(connection, game);
+            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateGameView(gameView, playerList);
+                               .UpdateGameView(model, GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -133,22 +111,18 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .UpdateLobbyView(playerList);
+                               .UpdateLobbyView(GetGameLobbyViewModel(connection, game));
         }
 
         public static void CommanderLeft(Entities.ActiveConnection connection, Entities.Game game, String commanderName)
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            String playerList = RenderLobbyView(connection, game);
-
-            String gameView = RenderGameView(connection, game);
+            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                               .CommanderLeft(gameView, playerList, commanderName, game.IsWaiting());
+                               .CommanderLeft(model, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
         }
 
         /// <summary>
@@ -199,55 +173,23 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick();
-            model.UserToKick = kickUser;
-            model.VotesToKick = votesToKick;
-            model.VotesNotToKick = votesNotToKick;
+            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick(kickUser, votesToKick, votesNotToKick);
 
-            String alert = GetRazorViewAsString("~/Views/Game/Board/Partials/_VoteToKick.cshtml", model);
-
-            hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(alert, kickUser);
+            hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(model);
         }
 
         #region "Private Helpers"
 
         /// <summary>
-        /// Renders a razor view as a string
-        /// </summary>
-        /// <param name="viewPath">The view path</param>
-        /// <param name="model">The model to use for rendering</param>
-        /// <returns>A partial view in a string</returns>
-        private static string GetRazorViewAsString(string viewPath, object model)
-        {
-            using (var sw = new StringWriter())
-            {
-                var context = new HttpContextWrapper(HttpContext.Current);
-                var routeData = new RouteData();
-                routeData.Values.Add("controller", "Fake");
-                var controllerContext = new ControllerContext(new RequestContext(context, routeData), new FakeController());
-                var razor = new RazorView(controllerContext, viewPath, null, false, null);
-                razor.Render(new ViewContext(controllerContext, razor, new ViewDataDictionary(model), new TempDataDictionary(), sw), sw);
-                return sw.ToString();
-            }
-        }
-
-        /// <summary>
-        /// Get the game view
+        /// Get a gameboard model
         /// </summary>
         /// <param name="connection">The connection the message is being sent to</param>
         /// <param name="game">The game to render the view for</param>
         /// <param name="commanderLeft">Commander left game</param>
         /// <returns></returns>
-        private static string RenderGameView(Entities.ActiveConnection connection, Entities.Game game)
+        private static Models.Game.Board.GameBoard GetGameBoardModal(Entities.ActiveConnection connection, Entities.Game game)
         {
-            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-            model.Game = game;
-            model.UserId = connection.User_UserId;
-            model.Hand = model.Game.Players.First(x => x.User.UserId == connection.User_UserId).Hand;
-            model.PlayerType = GetPlayerType(connection);
-
-            String gameView = GetRazorViewAsString("~/Views/Game/Board/Partials/_GameContainer.cshtml", model);
-            return gameView;
+            return new Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
         }
 
         private static Entities.Enums.GamePlayerType GetPlayerType(Entities.ActiveConnection connection)
@@ -257,15 +199,9 @@ namespace ArmedCards.Web.Helpers
                                     Entities.Enums.GamePlayerType.Spectator;
         }
 
-        private static string RenderLobbyView(Entities.ActiveConnection connection, Entities.Game game)
+        private static Web.Models.Game.Board.Lobby GetGameLobbyViewModel(Entities.ActiveConnection connection, Entities.Game game)
         {
-            return GetRazorViewAsString("~/Views/Game/Board/Sidebar/_Players.cshtml", new Web.Models.Game.Board.Lobby
-            {
-                Players = game.Players,
-                PlayerType = GetPlayerType(connection),
-                ShowSpectators = game.MaxNumberOfSpectators > 0,
-                Spectators = game.Spectators
-            });
+            return new Web.Models.Game.Board.Lobby(GetPlayerType(connection), game.Players, game.MaxNumberOfSpectators > 0, game.Spectators);
         }
 
         #endregion "Private Helpers"

@@ -34,19 +34,33 @@ namespace ArmedCards.Web.Models.Game.Board
 	/// </summary>
 	public class VoteToKick
 	{
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userToKick"></param>
+        /// <param name="votesToKick"></param>
+        /// <param name="votesNotToKick"></param>
+        /// <param name="hasVoted"></param>
+        public VoteToKick(Entities.User userToKick, Int32 votesToKick, Int32 votesNotToKick)
+        {
+            this.UserToKick = userToKick;
+            this.VotesToKick = votesToKick;
+            this.VotesNotToKick = votesNotToKick;
+        }
+
 		/// <summary>
 		/// User to kick
 		/// </summary>
-		public Entities.User UserToKick { get; set; }
+		public Entities.User UserToKick { get; private set; }
 
 		/// <summary>
 		/// Number of votes to kick
 		/// </summary>
-		public Int32 VotesToKick { get; set; }
+		public Int32 VotesToKick { get; private set; }
 
 		/// <summary>
 		/// Number of votes not to kick
 		/// </summary>
-		public Int32 VotesNotToKick { get; set; }
+		public Int32 VotesNotToKick { get; private set; }
 	}
 }

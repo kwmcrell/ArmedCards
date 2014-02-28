@@ -21,23 +21,13 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-	AnswerCard cardModel = null;
-	
-	String cssClass = Model.ShowHand() ? "" : "hidden";
-}
+@model ArmedCards.Web.Models.Game.Board.Hand
 
-<div id="hand" class="@cssClass">
-	<p>Play a card.</p>
-    <div id="myHand" class="hand pick">
-        @foreach (GamePlayerCard playerCard in Model.Hand)
-        {
-			cardModel = new AnswerCard();
-            cardModel.Card = playerCard.Card;
-            cardModel.CssClasses = "outTop";
-			
-            @Html.Partial("~/Views/Shared/Partials/_Answer.cshtml", cardModel)
-        }
+<div id="hand" data-bind="css: { hidden: (!Show() || !ShowBoard()) }, if: (Show() && ShowBoard())">
+    <p>Play a card.</p>
+    <div id="myHand" class="hand pick" data-bind="foreach: Cards">
+        <a href="#" class="answer card outTop" data-bind="attr:{ id: Card.CardID }, html: Card.Content + Card.Branding + Card.PickOrder">
+        </a>
     </div>
 </div>
+@Html.Hidden("gameHandJson", Html.Raw(Model.ToJson()))

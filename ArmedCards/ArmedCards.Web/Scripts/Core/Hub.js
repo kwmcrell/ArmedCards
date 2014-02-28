@@ -35,6 +35,8 @@ if (!ArmedCards.Core.Hub) {
 }
 
 Hub.prototype.startHub = function () {
+    $.Topic("renderViews").publish();
+
     //Setup hub events
     $.Topic("beforeHubStart").publish();
 

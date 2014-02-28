@@ -88,5 +88,58 @@ namespace ArmedCards.Entities
 		/// </summary>
 		/// <remarks>Currently only being used for dealing cards in a game</remarks>
 		public Int32 NumberOfTimesPlayed { get; set; }
+
+        /// <summary>
+        /// Content blanks have been replaced for a span
+        /// </summary>
+        public String HtmlContent
+        {
+            get
+            {
+                return Library.Helpers.CardFormatter.ReplaceBlankWithHtml(Content ?? "");
+            }
+        }
+
+        /// <summary>
+        /// Card branding
+        /// </summary>
+        public String Branding
+        {
+            get
+            {
+                return Library.Helpers.CardFormatter.GetBrandingHtml();
+            }
+        }
+
+        /// <summary>
+        /// Pick order div
+        /// </summary>
+        public String PickOrder
+        {
+            get
+            {
+                return Library.Helpers.CardFormatter.PickOrder();
+            }
+        }
+
+        /// <summary>
+        /// Instructions div
+        /// </summary>
+        public String InstructionDiv
+        {
+            get
+            {
+                if (Instructions == ArmedCards.Entities.Enums.Card.Instructions.Pick2)
+                {
+                    return Library.Helpers.CardFormatter.Pick2Instructions("Pick 2");
+                }
+                else if (Instructions == ArmedCards.Entities.Enums.Card.Instructions.Draw2Pick3)
+                {
+                    return Library.Helpers.CardFormatter.Pick2Instructions("Pick 3");
+                }
+
+                return "";
+            }
+        }
     }
 }

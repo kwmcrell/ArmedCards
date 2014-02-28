@@ -21,21 +21,16 @@
     * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Board.GameBoard
-@using ArmedCards.Library.Extensions;
-@{
-	Boolean isCommander = Model.IsCommander();
-	GameRound round = Model.Game.CurrentRound();
-}
+@model ArmedCards.Web.Models.Game.Board.Waiting
 
-<div class="played">
-    <p>Cards played. <span class="pickinTime @(isCommander ? "" : "hidden")">Pick a winner.</span></p>
-    <div class="played @(isCommander ? "pick" : "noPick")">
-        <div>
-            @foreach (IGrouping<Int32, GameRoundCard> group in Model.GroupedAnswers())
-	        {
-                @Html.Partial("~/Views/Game/Board/Answers/_MultiAnswers.cshtml", group.ToList())
-            }
-        </div>
+<div id="waitingGame" class="waitingGame" data-bind="css : { hidden: !ShowWaiting() }">
+    <div id="questionDiv" style="display: inline-block;">
+
     </div>
+    <div id="answerDiv" style="display: inline-block;">
+
+    </div>
+    <input id="Game_Waiting" type="hidden" data-bind="attr: { value: ShowWaiting() }" />
 </div>
+
+@Html.Hidden("gameWaitingJson", Html.Raw(Model.ToJson()))

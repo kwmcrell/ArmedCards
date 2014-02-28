@@ -34,115 +34,206 @@ namespace ArmedCards.Web.Models.Game.Board
     /// </summary>
     public class GameBoard
     {
-		public GameBoard()
-		{
-			Hand = new List<Entities.GamePlayerCard>();
-			VoteToKickList = new List<VoteToKick>();
-		}
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="game"></param>
+        /// <param name="userId"></param>
+        /// <param name="hand"></param>
+        /// <param name="playerType"></param>
+        /// <param name="voteToKickList"></param>
+        public GameBoard(Entities.Game game, Int32 userId, Entities.Enums.GamePlayerType playerType,
+                         List<Models.Game.Board.VoteToKick> voteToKickList = null)
+        {
+            Game = game;
+            UserId = userId;
+            Hand = Game.Players.First(x => x.User.UserId == userId).Hand;
+            ActivePlayer = Hand.Count > 0;
+            PlayerType = playerType;
+
+            Entities.GameRound round = Game.CurrentRound();
+
+            if (Game.HasRounds() && round != null)
+            {
+                Answered = round.HasAnswer(UserId);
+                ShowAnswers = round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
+                RoundHasWinner = round.Winner() != null;
+                GroupedAnswers = round.GroupedAnswers();
+                IsCommander = Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
+            }
+            else
+            {
+                Answered = false;
+                ShowAnswers = false;
+                RoundHasWinner = false;
+                IsCommander = false;
+            }
+
+            
+            ShowHand = ActivePlayer && !Answered && !IsCommander && PlayerType == Entities.Enums.GamePlayerType.Player;
+
+            ShowWaiting = (round == null || RoundHasWinner) && Game.IsWaiting();
+
+            WaitingOnAllAnswersOrWinner = !RoundHasWinner && !ShowAnswers;
+
+            ShowBoard = !ShowWaiting && !Game.HasWinner();
+
+            if (ShowBoard && round != null)
+            {
+                Question = round.Question;
+            }
+            else
+            {
+                Question = null;
+            }
+
+            AnswersViewModel = new Answers(RoundHasWinner, IsCommander, WaitingOnAllAnswersOrWinner, ShowAnswers, ShowHand, ShowBoard, GroupedAnswers);
+            GameOverViewModel = new GameOver(Game.HasWinner(), Game.GameID, Game.Players);
+            HandViewModel = new Board.Hand(ShowHand, Hand, ShowBoard);
+            LobbyViewModel = new Lobby(PlayerType, Game.Players, Game.MaxNumberOfSpectators > 0, Game.Spectators);
+            RoundQuestionViewModel = new RoundQuestion(round, ShowBoard);
+            WaitingViewModel = new Waiting(ShowWaiting);
+            VotesToKickViewModel = new VotesToKick(voteToKickList ?? new List<Models.Game.Board.VoteToKick>());
+
+            HeaderViewModel = new Shared.Header();
+            
+            if (Game.HasWinner())
+            {
+                HeaderViewModel.SubHeaderText = "Game Over, man!";
+            }
+            else if (ShowWaiting)
+            {
+                HeaderViewModel.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Game, UserId, PlayerType);
+            }
+            else
+            {
+                HeaderViewModel.SubHeaderText = String.Format("{0} is the Card Commander", Game.DetermineCommander().DisplayName);
+            }
+        }
 
         /// <summary>
         /// The current game
         /// </summary>
-        public Entities.Game Game { get; set; }
+        public Entities.Game Game { get; private set; }
 
         /// <summary>
         /// The current User Id
         /// </summary>
-        public Int32 UserId { get; set; }
+        public Int32 UserId { get; private set; }
 
-		/// <summary>
-		/// The current user's hand
-		/// </summary>
-		public List<Entities.GamePlayerCard> Hand { get; set; }
+        /// <summary>
+        /// The current user's hand
+        /// </summary>
+        public List<Entities.GamePlayerCard> Hand { get; private set; }
 
-		/// <summary>
-		/// A list of votes to kick users
-		/// </summary>
-		public List<Models.Game.Board.VoteToKick> VoteToKickList { get; set; }
+        /// <summary>
+        /// Determine if current user has answered
+        /// </summary>
+        /// <returns>True if the user has answered and false otherwise</returns>
+        public Boolean Answered { get; private set; }
 
-		/// <summary>
-		/// Determine if current user has answered
-		/// </summary>
-		/// <returns>True if the user has answered and false otherwise</returns>
-		public Boolean Answered()
-		{
-			if (Game.HasRounds())
-			{
-				return Game.CurrentRound().HasAnswer(UserId);
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		/// <summary>
-		/// Is current user a active player
-		/// </summary>
-		public Boolean ActivePlayer
-		{
-			get
-			{
-				return Hand.Count > 0;
-			}
-		}
-
-		/// <summary>
-		/// Determine if hand div should be shown
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowHand()
-		{
-			return ActivePlayer && !Answered() && !IsCommander() && PlayerType == Entities.Enums.GamePlayerType.Player;
-		}
-
-		/// <summary>
-		/// Determine if the current user is the commander
-		/// </summary>
-		/// <returns></returns>
-		public Boolean IsCommander()
-		{
-			return Game.IsCurrentCommander(UserId) && PlayerType == Entities.Enums.GamePlayerType.Player;
-		}
-
-		/// <summary>
-		/// Show answers if all players have played
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowAnswers()
-		{
-			Entities.GameRound round = Game.CurrentRound();
-
-			if (round == null)
-			{
-				return false;
-			}
-
-			return round.PlayedCount >= round.CurrentPlayerCount && round.Answers.Count > 0;
-		}
-
-		/// <summary>
-		/// Determine if waiting screen should be shown
-		/// </summary>
-		/// <returns></returns>
-		public Boolean ShowWaiting()
-		{
-			return (!ShowAnswers() || Game.CurrentRound() == null) && Game.IsWaiting();
-		}
-
-		/// <summary>
-		/// Get answers grouped by who played them
-		/// </summary>
-        /// <remarks>Only use when answers are being shown</remarks>
-		/// <returns></returns>
-		public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers()
-		{
-            return Game.CurrentRound().GroupedAnswers();
-		}
+        /// <summary>
+        /// Is current user a active player
+        /// </summary>
+        public Boolean ActivePlayer { get; private set; }
 
         /// <summary>
         /// The type of the current player
         /// </summary>
-        public Entities.Enums.GamePlayerType PlayerType { get; set; }
+        public Entities.Enums.GamePlayerType PlayerType { get; private set; }
+
+        /// <summary>
+        /// Determine if hand div should be shown
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowHand { get; private set; }
+
+        /// <summary>
+        /// Determine if the current user is the commander
+        /// </summary>
+        /// <returns></returns>
+        public Boolean IsCommander { get; private set; }
+
+        /// <summary>
+        /// Show answers if all players have played
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowAnswers { get; private set; }
+
+        /// <summary>
+        /// The current round has a winner
+        /// </summary>
+        /// <returns></returns>
+        public Boolean RoundHasWinner { get; private set; }
+
+        /// <summary>
+        /// Determine if waiting screen should be shown
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowWaiting { get; private set; }
+
+        /// <summary>
+        /// Get answers grouped by who played them
+        /// </summary>
+        /// <remarks>Only use when answers are being shown</remarks>
+        /// <returns></returns>
+        public List<IGrouping<Int32, Entities.GameRoundCard>> GroupedAnswers { get; private set; }
+
+        /// <summary>
+        /// Waiting on all answers
+        /// </summary>
+        /// <returns></returns>
+        public Boolean WaitingOnAllAnswersOrWinner { get; private set; }
+
+        /// <summary>
+        /// Show actual game board (Questions & Answers)
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ShowBoard { get; private set; }
+
+        /// <summary>
+        /// Current Round question
+        /// </summary>
+        public ArmedCards.Entities.Card Question { get; private set; }
+
+        /// <summary>
+        /// View model used for answers
+        /// </summary>
+        public Models.Game.Board.Answers AnswersViewModel { get; private set; }
+
+        /// <summary>
+        /// View model used for game over
+        /// </summary>
+        public Models.Game.Board.GameOver GameOverViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for player's hand
+        /// </summary>
+        public Models.Game.Board.Hand HandViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for the lobby
+        /// </summary>
+        public Models.Game.Board.Lobby LobbyViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for the round question
+        /// </summary>
+        public Models.Game.Board.RoundQuestion RoundQuestionViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for waiting screen
+        /// </summary>
+        public Models.Game.Board.Waiting WaitingViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for votes to kick
+        /// </summary>
+        public Models.Game.Board.VotesToKick VotesToKickViewModel { get; private set; }
+
+        /// <summary>
+        /// View model for the game header
+        /// </summary>
+        public ArmedCards.Web.Models.Shared.Header HeaderViewModel { get; private set; }
     }
 }

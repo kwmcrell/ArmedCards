@@ -47,13 +47,7 @@
     </div>
     <h4 id="playersHeader" class="accessible">Players</h4>
     <div id="gameLobby" class="lobby">
-        @Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", new ArmedCards.Web.Models.Game.Board.Lobby
-{
-    Players = Model.Game.Players,
-    PlayerType = Model.PlayerType,
-    ShowSpectators = Model.Game.MaxNumberOfSpectators > 0,
-    Spectators = Model.Game.Spectators
-})
+        @Html.Partial("~/Views/Game/Board/Sidebar/_Players.cshtml", Model.LobbyViewModel)
     </div>
     <fieldset id="tabContainer">
         <a id="gameChatTab" href="#" class="button active">Game</a>

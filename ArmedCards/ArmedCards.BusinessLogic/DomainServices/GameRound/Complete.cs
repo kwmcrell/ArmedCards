@@ -102,6 +102,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 
 					response.CompletedRound = currentRound;
 					response.Game = game;
+
+                    if(!response.NewRoundCreated)
+                    {
+                        response.Game.Rounds.Add(currentRound);
+                    }
 				}
 			}
 			

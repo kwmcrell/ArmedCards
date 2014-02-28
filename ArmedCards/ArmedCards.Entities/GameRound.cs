@@ -199,5 +199,14 @@ namespace ArmedCards.Entities
 
 			return null;
 		}
+
+        /// <summary>
+        /// The round has a winner
+        /// </summary>
+        /// <returns></returns>
+        public Boolean HasWinner()
+        {
+            return Winner() != null;
+        }
     }
 }

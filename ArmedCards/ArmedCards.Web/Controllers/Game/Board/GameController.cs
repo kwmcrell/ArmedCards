@@ -74,38 +74,31 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-                model.Game = response.Game;
-                model.UserId = currentUserId;
-                model.PlayerType = Entities.Enums.GamePlayerType.Player;
+                Entities.Filters.GamePlayerKickVote.SelectForGame kickVoteFilter = new Entities.Filters.GamePlayerKickVote.SelectForGame();
+                kickVoteFilter.GameID = id;
 
-				Entities.Filters.GamePlayerKickVote.SelectForGame kickVoteFilter = new Entities.Filters.GamePlayerKickVote.SelectForGame();
-				kickVoteFilter.GameID = id;
+                List<Entities.GamePlayerKickVote> votes = _selectKickVotes.Execute(kickVoteFilter);
+                IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
 
-				List<Entities.GamePlayerKickVote> votes = _selectKickVotes.Execute(kickVoteFilter);
-				IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
+                Models.Game.Board.VoteToKick kickModel = null;
 
-				Models.Game.Board.VoteToKick kickModel = null;
+                List<Models.Game.Board.VoteToKick> votesToKick = new List<Models.Game.Board.VoteToKick>();
 
-				foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
-				{
-					if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
-					{
-						kickModel = new Models.Game.Board.VoteToKick();
+                foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
+                {
+                    if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
+                    {
+                        kickModel = new Models.Game.Board.VoteToKick(group.First().KickUser,
+                                                                     group.Count(x => x.Vote),
+                                                                     group.Count(x => !x.Vote));
 
-						kickModel.UserToKick = group.First().KickUser;
-						kickModel.VotesToKick = group.Count(x => x.Vote);
-						kickModel.VotesNotToKick = group.Count(x => !x.Vote);
+                        votesToKick.Add(kickModel);
+                    }
+                }
 
-						model.VoteToKickList.Add(kickModel);
-					}
-				}
-				
-
-				if (!model.Game.IsWaiting())
-				{
-					model.Hand = model.Game.Players.First(x => x.User.UserId == currentUserId).Hand;
-				}
+                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, 
+                                                                                    Entities.Enums.GamePlayerType.Player,
+                                                                                    votesToKick);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }
@@ -138,10 +131,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
             if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
                 response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)
             {
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard();
-                model.Game = response.Game;
-                model.UserId = currentUserId;
-                model.PlayerType = Entities.Enums.GamePlayerType.Spectator;
+                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, Entities.Enums.GamePlayerType.Spectator);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }

@@ -1,5 +1,7 @@
 ﻿/// <reference path="Utilities.js" />
 /// <reference path="jQueryTopic.js" />
+/// <reference path="ViewModels.js" />
+/// <reference path="../knockout-3.0.0.js" />
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -97,11 +99,7 @@ Chat.prototype.Join = function () {
 };
 
 Chat.prototype.UpdateLobby = function (lobby) {
-    var html = $.map(lobby.ActiveConnections, function (value, key) {
-                    return '<li name="{0}">{1}</li>'.format(value.ActiveConnectionID, value.UserName);
-    });
-
-    $('#playerList').html(html.join(''));
+    ArmedCards.Core.ViewModels.LobbyViewModel.replacePlayers(lobby.ActiveConnections);
 };
 
 Chat.prototype.RemoveConnection = function (connection) {
@@ -129,7 +127,32 @@ Chat.prototype.Init = function () {
             }
         }
     });
+
+    ArmedCards.Core.ViewModels.LobbyViewModel = new Lobby([]);
+
+    var mainLobby = document.getElementById('mainLobby');
+
+    if (mainLobby != null)
+    {
+        ko.applyBindings(ArmedCards.Core.ViewModels.LobbyViewModel, mainLobby);
+    }
 };
 
 $.Topic("beforeHubStart").subscribe(ArmedCards.Core.Chat.Init);
 $.Topic("hubStartComplete").subscribe(ArmedCards.Core.Chat.Join);
+
+/***************************************************************/
+// Knockout specific functions
+/***************************************************************/
+
+var Lobby = function (activeConnections) {
+    this.ActiveConnections = ko.observableArray(activeConnections);
+
+    this.replacePlayers = function (newActiveConnections) {
+        var self = this;
+
+        self.ActiveConnections.removeAll();
+
+        self.ActiveConnections(newActiveConnections);
+    }.bind(this);
+};

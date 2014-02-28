@@ -34,8 +34,9 @@
     </div>
     <div id="mainLobby" class="lobby">
 		<div class="lobbyPlayers">
-			<ul id="playerList" class="playerList">
-			</ul>
+            <ul id="playerList" class="playerList" data-bind="foreach: ActiveConnections">
+                <li data-bind="attr: { name: ActiveConnectionID }, text: UserName"></li>
+            </ul>
 		</div>
 	</div>
 </div>

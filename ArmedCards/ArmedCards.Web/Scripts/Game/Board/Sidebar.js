@@ -1,6 +1,10 @@
 ﻿/// <reference path="../jQuery/jquery-1.9.1.js" />
 /// <reference path="Common.js" />
 /// <reference path="../../toastr.js" />
+/// <reference path="../../Core/ViewModels.js" />
+/// <reference path="../../knockout-3.0.0.js" />
+/// <reference path="ViewModels.js" />
+
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -52,7 +56,7 @@ Sidebar.prototype.SideBarToggle = function (event) {
 };
 
 Sidebar.prototype.CalculateChatHeight = function () {
-	var sidebarHeight = $('#sidebar').height() - 30;
+	var sidebarHeight = $('#sidebar').height();
 
 	var gameHeaderHeight = $('#gameHeader').height();
 	var gameLobbyHeight = $('#gameLobby').height();
@@ -115,10 +119,8 @@ Sidebar.prototype.PlayerMenuOpen = function (event) {
 	}
 };
 
-Sidebar.prototype.LobbyUpdate = function (result) {
-	if (result != null && result.LobbyView != null) {
-		$('#gameLobby').html(result.LobbyView);
-	}
+Sidebar.prototype.LobbyUpdate = function (lobbyJson) {
+    ArmedCards.Game.ViewModels.GameLobbyViewModel.UpdateModel(lobbyJson);
 
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };

@@ -1631,6 +1631,11 @@ body .chat.right .openClose a span.mobileOpenClose
     top: -100em;
 }
 
+.card.outTopTop
+{
+    top: -100em;
+}
+
 .pickMultiple.noShadow
 {
     box-shadow: none;

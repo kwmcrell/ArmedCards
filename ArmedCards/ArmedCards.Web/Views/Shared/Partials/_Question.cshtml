@@ -24,8 +24,8 @@
 @model ArmedCards.Entities.Card
 
 <div class="question card">
-	@Html.Raw(CardFormatter.ReplaceBlankWithHtml(Model.Content))
-	@Html.Raw(CardFormatter.GetBrandingHtml())
+	@Html.Raw(ArmedCards.Library.Helpers.CardFormatter.ReplaceBlankWithHtml(Model.Content))
+	@Html.Raw(ArmedCards.Library.Helpers.CardFormatter.GetBrandingHtml())
     @if(Model.Instructions == ArmedCards.Entities.Enums.Card.Instructions.Pick2)
     {
         <div class="pickTwo">Pick 2</div>

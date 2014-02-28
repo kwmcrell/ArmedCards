@@ -34,24 +34,35 @@ namespace ArmedCards.Web.Models.Game.Board
     /// </summary>
     public class Lobby
     {
+        public Lobby(Entities.Enums.GamePlayerType playerType,
+                     List<Entities.GamePlayer> players,
+                     Boolean showSpectators,
+                     List<Entities.GamePlayer> spectators)
+        {
+            this.PlayerType = playerType;
+            this.Players = players;
+            this.ShowSpectators = showSpectators;
+            this.Spectators = spectators;
+        }
+
         /// <summary>
         /// The player type for the current player
         /// </summary>
-        public Entities.Enums.GamePlayerType PlayerType { get; set; }
+        public Entities.Enums.GamePlayerType PlayerType { get; private set; }
 
         /// <summary>
         /// List of players in the game
         /// </summary>
-        public List<Entities.GamePlayer> Players { get; set; }
+        public List<Entities.GamePlayer> Players { get; private set; }
 
         /// <summary>
         /// Determine is the spectators element should show
         /// </summary>
-        public bool ShowSpectators { get; set; }
+        public Boolean ShowSpectators { get; private set; }
 
         /// <summary>
         /// List of spectators in the game
         /// </summary>
-        public List<Entities.GamePlayer> Spectators { get; set; }
+        public List<Entities.GamePlayer> Spectators { get; private set; }
     }
 }

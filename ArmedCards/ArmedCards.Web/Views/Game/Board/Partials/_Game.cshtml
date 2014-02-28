@@ -22,27 +22,13 @@
  *@
 
 @model ArmedCards.Web.Models.Game.Board.GameBoard
-@{
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
-	if(Model.Game.IsWaiting() && Model.Game.CurrentRound().CardsPlayed.Any(x => x.Winner))
-	{
-		header.SubHeaderText = ArmedCards.Web.Helpers.WaitingHeader.Build(Model.Game, Model.UserId, Model.PlayerType);	
-	}
-	else
-	{
-		header.SubHeaderText = String.Format("{0} is the Card Commander", Model.Game.DetermineCommander().DisplayName);
-	}
-}
 
-@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
-@Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
-@Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
-<div class="asked">
-	@Html.Partial("~/Views/Shared/Partials/_Question.cshtml", Model.Game.CurrentRound().Question)
+<div id="actualGame">
+    @Html.Partial("~/Views/Game/Board/Partials/_PlayCard.cshtml")
+    @Html.Partial("~/Views/Game/Board/Partials/_PickWinner.cshtml")
+    @Html.Partial("~/Views/Game/Board/Partials/_RoundQuestion.cshtml", Model.RoundQuestionViewModel)
+
+    @Html.Partial("~/Views/Game/Board/Partials/_Answers.cshtml", Model.AnswersViewModel)
+
+    @Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model.HandViewModel)
 </div>
-@Html.Partial("~/Views/Game/Board/Answers/_Answers.cshtml", Model)
-@Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model)
-
-@Html.Hidden("CurrentRound.Question.Instructions", 
-			 (Int32)Model.Game.CurrentRound().Question.Instructions, 
-			 new { id = "CurrentRound_Question_Instructions" })

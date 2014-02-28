@@ -21,32 +21,14 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+var ArmedCards = ArmedCards || {};
+ArmedCards.Core = ArmedCards.Core || {};
 
-namespace ArmedCards.Web.Helpers
-{
-	public static class CardFormatter
-	{
-		public static string ReplaceBlankWithHtml(string cardContext)
-		{
-			TagBuilder blankSpan = new TagBuilder("span");
-			blankSpan.AddCssClass("blank");
+function ViewModels() {
 
-			return cardContext.Replace("_____", blankSpan.ToString());
-		}
-
-		public static string GetBrandingHtml()
-		{
-			TagBuilder brandDiv = new TagBuilder("div");
-			brandDiv.AddCssClass("branding");
-			brandDiv.InnerHtml = "Armed Cards!#&amp;?";
-
-			return brandDiv.ToString();
-		}
-	}
 }
+
+if (!ArmedCards.Core.ViewModels) {
+    ArmedCards.Core.ViewModels = new ViewModels();
+}
+
