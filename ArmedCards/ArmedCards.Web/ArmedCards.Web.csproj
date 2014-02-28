@@ -357,7 +357,7 @@
     <Content Include="Views\Shared\Layout\_Chat.cshtml" />
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
     <Content Include="Views\Game\Board\Index.cshtml" />
-    <Content Include="Views\Game\Board\Waiting\_Waiting.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Waiting.cshtml" />
     <Content Include="Views\Shared\Layout\_ChatRight.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Sidebar.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_Players.cshtml" />
@@ -367,17 +367,11 @@
     <Content Include="Views\Game\Board\Partials\_PickWinner.cshtml" />
     <Content Include="Views\Game\Board\Partials\_PlayCard.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Hand.cshtml" />
-    <Content Include="Views\Game\Board\Answers\_Answers.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_GameRoundCard.cshtml" />
-    <Content Include="Views\Game\Board\Answers\_SingleAnswers.cshtml" />
-    <Content Include="Views\Game\Board\Answers\_MultiAnswers.cshtml" />
-    <Content Include="Views\Game\Board\Answers\_WinnerSelected.cshtml" />
-    <Content Include="Views\Game\Board\Answers\_ShowAnswers.cshtml" />
+    <Content Include="Views\Game\Board\Partials\_Answers.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameContainer.cshtml" />
     <Content Include="Views\Game\Board\Partials\_GameOver.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\ChangeDisplayName.cshtml" />
-    <Content Include="Views\Game\Board\Partials\_VotesToKick.cshtml" />
     <Content Include="Views\Leaderboard\Index.cshtml" />
     <Content Include="Views\Shared\Layout\_Plain.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />
