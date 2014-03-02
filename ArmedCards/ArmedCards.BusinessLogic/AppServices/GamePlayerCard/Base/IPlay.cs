@@ -40,9 +40,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard.Base
 		/// <param name="cardIDs">The card IDs the user has selected </param>
 		/// <param name="gameID">The game ID in which the user wants to play the card</param>
 		/// <param name="userId">The user Id</param>
-		/// <param name="playedAction">Action to send to all active players</param>
 		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
-		Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId,
-												  Action<Entities.ActiveConnection, Entities.Game> playedAction);
+		Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId);
 	}
 }

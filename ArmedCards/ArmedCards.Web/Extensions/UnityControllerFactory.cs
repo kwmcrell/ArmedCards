@@ -31,8 +31,36 @@ using System.Web.Routing;
 
 namespace ArmedCards.Web
 {
+    /// <summary>
+    /// Class factory class for unity dependency injection
+    /// </summary>
     public class UnityControllerFactory : DefaultControllerFactory
     {
+        //
+        // Summary:
+        //     Retrieves the controller instance for the specified request context and controller
+        //     type.
+        //
+        // Parameters:
+        //   requestContext:
+        //     The context of the HTTP request, which includes the HTTP context and route
+        //     data.
+        //
+        //   controllerType:
+        //     The type of the controller.
+        //
+        // Returns:
+        //     The controller instance.
+        //
+        // Exceptions:
+        //   System.Web.HttpException:
+        //     controllerType is null.
+        //
+        //   System.ArgumentException:
+        //     controllerType cannot be assigned.
+        //
+        //   System.InvalidOperationException:
+        //     An instance of controllerType cannot be created.
         protected override IController GetControllerInstance(RequestContext reqContext, Type controllerType)
         {
             IController controller;

@@ -37,14 +37,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 	{
 		private DS.Game.Base.ILeave _leaveGame;
 		private Game.Base.ISelect _selectGame;
-		private Hub.Base.ISendMessage _sendMessage;
+        private Hubs.Base.ISendMessage _sendMessage;
 		private GameRound.Base.IStart _startRound;
 		private GameRound.Base.IDelete _deleteRound;
 		private Base.IUpdate _updateGame;
 
 		public Leave(DS.Game.Base.ILeave leaveGame, 
 					 Game.Base.ISelect selectGame,
-					 Hub.Base.ISendMessage sendMessage,
+                     Hubs.Base.ISendMessage sendMessage,
 					 GameRound.Base.IStart startRound,
 					 GameRound.Base.IDelete deleteRound,
 					 Base.IUpdate updateGame)
@@ -62,9 +62,8 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// </summary>
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
-		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
         /// <param name="playerType">Type of player leaving</param>
-        public void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer, Entities.Enums.GamePlayerType playerType)
+        public void Execute(Int32 gameID, Entities.User user, Entities.Enums.GamePlayerType playerType)
 		{
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;
@@ -109,11 +108,11 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 			
 				Boolean started = _startRound.Execute(game, game.NextCommander(null));
 
-				_sendMessage.Execute(game, user.DisplayName, leaveGameContainer.CommanderLeft);
+                _sendMessage.CommanderLeft(game, user.DisplayName);
 			}
 			else if (game.IsWaiting() && wasWaiting)
 			{
-				_sendMessage.Execute(game, leaveGameContainer.WaitingAction, true);
+                _sendMessage.UpdateWaiting(game, true);
 			}
 			else
 			{
@@ -123,7 +122,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 					current.CurrentPlayerCount--;
 				}
 
-				_sendMessage.Execute(game, leaveGameContainer.UpdateGameView, true);
+                _sendMessage.UpdateGame(game, true);
 			}
 
 			_leaveGame.Execute(gameID, user, playerType);

@@ -38,9 +38,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote.Base
 		/// Insert a vote to kick a user
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
-		/// <param name="actionContainer">Contains any actions that need to be fired</param>
 		/// <returns></returns>
-		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
-													Entities.ActionContainers.KickPlayer actionContainer);
+		Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote);
 	}
 }

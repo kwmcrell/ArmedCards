@@ -30,10 +30,17 @@ using AS = ArmedCards.BusinessLogic.AppServices.Game;
 
 namespace ArmedCards.Web.Controllers.Game.Listing
 {
+    /// <summary>
+    /// Controller responsible for displaying the listing screen
+    /// </summary>
     public class GameListingController : Extensions.ArmedCardsController
     {
         AS.Base.ISelect _selectGame;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="selectGame"></param>
         public GameListingController(AS.Base.ISelect selectGame)
         {
             this._selectGame = selectGame;
@@ -47,7 +54,7 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         [HttpGet]
         public ActionResult Index(int? id, bool? showLogIn)
         {
-            Models.Game.Listing.Listing model = new Models.Game.Listing.Listing();
+            Entities.Models.Game.Listing.Listing model = new Entities.Models.Game.Listing.Listing();
 
             if (showLogIn.HasValue)
             {

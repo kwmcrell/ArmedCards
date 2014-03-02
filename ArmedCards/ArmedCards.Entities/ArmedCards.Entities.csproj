@@ -30,9 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionContainers\KickPlayer.cs" />
-    <Compile Include="ActionContainers\LeaveGame.cs" />
     <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
     <Compile Include="ActionResponses\Enums\VoteToKick.cs" />
     <Compile Include="ActionResponses\PlayCard.cs" />
@@ -57,6 +61,7 @@
     <Compile Include="Enums\GamePlayerType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />
     <Compile Include="Enums\Game\Select.cs" />
+    <Compile Include="Enums\Hubs\Actions.cs" />
     <Compile Include="Enums\LeaderboardType.cs" />
     <Compile Include="Filters\ActiveConnection\Delete.cs" />
     <Compile Include="Filters\ActiveConnection\DeleteAll.cs" />
@@ -91,6 +96,31 @@
     <Compile Include="GroupedAnswers.cs" />
     <Compile Include="JoinResponse.cs" />
     <Compile Include="LeaderboardRecord.cs" />
+    <Compile Include="Models\Game\Board\Answers.cs" />
+    <Compile Include="Models\Game\Board\GameBoard.cs" />
+    <Compile Include="Models\Game\Board\GameOver.cs" />
+    <Compile Include="Models\Game\Board\Hand.cs" />
+    <Compile Include="Models\Game\Board\Lobby.cs" />
+    <Compile Include="Models\Game\Board\RoundQuestion.cs" />
+    <Compile Include="Models\Game\Board\VotesToKick.cs" />
+    <Compile Include="Models\Game\Board\VoteToKick.cs" />
+    <Compile Include="Models\Game\Board\Waiting.cs" />
+    <Compile Include="Models\Game\CreateGame.cs" />
+    <Compile Include="Models\Game\Listing\Detail.cs" />
+    <Compile Include="Models\Game\Listing\Listing.cs" />
+    <Compile Include="Models\Helpers\WaitingHeader.cs" />
+    <Compile Include="Models\Home\Index.cs" />
+    <Compile Include="Models\Hub\ChatMessage.cs" />
+    <Compile Include="Models\Hub\Lobby.cs" />
+    <Compile Include="Models\Hub\Messages\PlayCard.cs" />
+    <Compile Include="Models\Hub\Messages\VoteToKick.cs" />
+    <Compile Include="Models\Hub\Messages\VoteToKickResult.cs" />
+    <Compile Include="Models\Leaderboard\Index.cs" />
+    <Compile Include="Models\Profile\ChangeDisplayName.cs" />
+    <Compile Include="Models\Profile\Profile.cs" />
+    <Compile Include="Models\Shared\AnswerCard.cs" />
+    <Compile Include="Models\Shared\Header.cs" />
+    <Compile Include="Models\Shared\ModelExtensions.cs" />
     <Compile Include="OAMembership.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderInfo.cs" />
@@ -101,6 +131,9 @@
       <Project>{95eebcdd-c835-4fa0-9857-be8a20eb92d9}</Project>
       <Name>ArmedCards.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

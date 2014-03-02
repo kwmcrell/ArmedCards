@@ -29,20 +29,29 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
-    [Extensions.ArmedCardsAuthorize]
+    /// <summary>
+    /// Controller responsible for joining a game either playing or spectating
+    /// </summary>
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class GameController : Extensions.ArmedCardsController
     {
         private AS.Game.Base.IJoin _joinGame;
-		private AS.Hub.Base.ISendMessage _sendMessage;
+		private AS.Hubs.Base.ISendMessage _sendMessage;
 		private AS.User.Base.ISelect _selectUser;
 		private AS.GamePlayerKickVote.Base.ISelect _selectKickVotes;
 
-		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage,
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="joinGame"></param>
+        /// <param name="sendMessage"></param>
+        /// <param name="selectUser"></param>
+        /// <param name="selectKickVotes"></param>
+        public GameController(AS.Game.Base.IJoin joinGame, AS.Hubs.Base.ISendMessage sendMessage,
 								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes)
         {
             this._joinGame = joinGame;
@@ -51,12 +60,17 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			this._selectKickVotes = selectKickVotes;
         }
 
+        /// <summary>
+        /// Play the game
+        /// </summary>
+        /// <param name="id">The id of the game the player wants to join</param>
+        /// <returns>The game view if the player was able to join</returns>
         [HttpGet]
         public ActionResult Index(Int32 id)
         {
 			String key = String.Format("Game_{0}_Passphrase", id);
 			String passphrase = String.Empty;
-			Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
             if (Session[key] != null)
             {
@@ -66,11 +80,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.User user = _selectUser.Execute(currentUserId);
 
-			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
-																Helpers.HubActions.SendWaitingMessage,
-																Helpers.HubActions.UpdateGameView,
-																Helpers.HubActions.UpdateLobby,
-                                                                Entities.Enums.GamePlayerType.Player);
+			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Player);
+
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
@@ -80,15 +91,15 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 List<Entities.GamePlayerKickVote> votes = _selectKickVotes.Execute(kickVoteFilter);
                 IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
 
-                Models.Game.Board.VoteToKick kickModel = null;
+                Entities.Models.Game.Board.VoteToKick kickModel = null;
 
-                List<Models.Game.Board.VoteToKick> votesToKick = new List<Models.Game.Board.VoteToKick>();
+                List<Entities.Models.Game.Board.VoteToKick> votesToKick = new List<Entities.Models.Game.Board.VoteToKick>();
 
                 foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
                 {
                     if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
                     {
-                        kickModel = new Models.Game.Board.VoteToKick(group.First().KickUser,
+                        kickModel = new Entities.Models.Game.Board.VoteToKick(group.First().KickUser,
                                                                      group.Count(x => x.Vote),
                                                                      group.Count(x => !x.Vote));
 
@@ -96,9 +107,9 @@ namespace ArmedCards.Web.Controllers.Game.Board
                     }
                 }
 
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, 
-                                                                                    Entities.Enums.GamePlayerType.Player,
-                                                                                    votesToKick);
+                Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(response.Game, currentUserId, 
+                                                                                                        Entities.Enums.GamePlayerType.Player,
+                                                                                                        votesToKick);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }
@@ -108,12 +119,17 @@ namespace ArmedCards.Web.Controllers.Game.Board
             }
 		}
 
+        /// <summary>
+        /// Spectate the game
+        /// </summary>
+        /// <param name="id">The id of the game the player wants to spectate</param>
+        /// <returns>The spectator view if the spectator was able to join</returns>
         [HttpGet]
         public ActionResult Spectate(Int32 id)
         {
             String key = String.Format("Game_{0}_Passphrase", id);
             String passphrase = String.Empty;
-            Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
             if (Session[key] != null)
             {
@@ -123,15 +139,12 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
             Entities.User user = _selectUser.Execute(currentUserId);
 
-            Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
-                                                                Helpers.HubActions.SendWaitingMessage,
-                                                                Helpers.HubActions.UpdateGameView,
-                                                                Helpers.HubActions.UpdateLobby,
-                                                                Entities.Enums.GamePlayerType.Spectator);
+            Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Spectator);
+
             if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
                 response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)
             {
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, Entities.Enums.GamePlayerType.Spectator);
+                Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(response.Game, currentUserId, Entities.Enums.GamePlayerType.Spectator);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }

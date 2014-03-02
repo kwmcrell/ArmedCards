@@ -26,16 +26,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using ACAS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game
 {
-    [Extensions.ArmedCardsAuthorize]
+    /// <summary>
+    /// Controller responsible for handling creating a game
+    /// </summary>
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class CreateGameController : Extensions.ArmedCardsController
     {
         private readonly ACAS.Game.Base.IInsert _insertGame;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="insertGame"></param>
         public CreateGameController(ACAS.Game.Base.IInsert insertGame)
         {
             this._insertGame = insertGame;
@@ -47,11 +53,11 @@ namespace ArmedCards.Web.Controllers.Game
         /// <param name="model">The model that contains the game to create</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(Models.Game.CreateGame model)
+        public ActionResult Index(Entities.Models.Game.CreateGame model)
         {
             if (ModelState.IsValid)
             {
-                model.Game.GameCreator_UserId = WebSecurity.CurrentUserId;
+                model.Game.GameCreator_UserId = Authentication.Security.CurrentUserId;
                 model.Game.GameDeckIDs.Add(1);
 
                 _insertGame.Execute(model.Game);
@@ -71,7 +77,7 @@ namespace ArmedCards.Web.Controllers.Game
         [HttpGet]
         public ActionResult Index()
         {
-            Models.Game.CreateGame model = new Models.Game.CreateGame();
+            Entities.Models.Game.CreateGame model = new Entities.Models.Game.CreateGame();
 
             return View("~/Views/CreateGame/CreateGame.cshtml", model);
         }

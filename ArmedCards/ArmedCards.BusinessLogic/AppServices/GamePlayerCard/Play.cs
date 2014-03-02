@@ -38,12 +38,12 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 	{
 		private DS.GamePlayerCard.Base.IPlay _playCard;
 		private AS.Game.Base.ISelect _selectGame;
-		private AS.Hub.Base.ISendMessage _sendMessage;
+        private AS.Hubs.Base.ISendMessage _sendMessage;
 		private AS.Game.Base.IUpdate _updateGame;
 
 		public Play(DS.GamePlayerCard.Base.IPlay playCard,
 					AS.Game.Base.ISelect selectGame,
-					AS.Hub.Base.ISendMessage sendMessage,
+                    AS.Hubs.Base.ISendMessage sendMessage,
 					AS.Game.Base.IUpdate updateGame)
 		{
 			this._playCard = playCard;
@@ -58,10 +58,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 		/// <param name="cardIDs">The card IDs the user has selected </param>
 		/// <param name="gameID">The game ID in which the user wants to play the card</param>
 		/// <param name="userId">The user Id</param>
-		/// <param name="playedAction">Action to send to all active players</param>
 		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
-		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId,
-														 Action<Entities.ActiveConnection, Entities.Game> playedAction)
+		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
 		{
 			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, userId);
 
@@ -75,7 +73,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 
 				game.Rounds.Add(response.CurrentRound);
 
-				_sendMessage.Execute(game, playedAction, true);
+                _sendMessage.CardPlayed(game, true);
 				_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
 			}
 

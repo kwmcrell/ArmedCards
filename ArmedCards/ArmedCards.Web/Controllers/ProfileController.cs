@@ -21,24 +21,31 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Microsoft.Web.WebPages.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers
 {
-	[Extensions.ArmedCardsAuthorize]
+    /// <summary>
+    /// Controller responsible for handling profile actions
+    /// </summary>
+    [Authentication.Extensions.ArmedCardsAuthorize]
 	public class ProfileController : Extensions.ArmedCardsController
     {
 		private AS.User.Base.ISelect _selectUser;
 		private AS.User.Base.IUpdate _updateUser;
 		private AS.GamePlayer.Base.ISelect _selectGamePlayer;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="selectUser"></param>
+        /// <param name="updateUser"></param>
+        /// <param name="selectGamePlayer"></param>
 		public ProfileController(AS.User.Base.ISelect selectUser,
 								 AS.User.Base.IUpdate updateUser,
 								 AS.GamePlayer.Base.ISelect selectGamePlayer)
@@ -48,16 +55,21 @@ namespace ArmedCards.Web.Controllers
 			this._selectGamePlayer = selectGamePlayer;
 		}
 		
+        /// <summary>
+        /// Render the profile for user id equal to <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">The user id</param>
+        /// <returns></returns>
 		[HttpGet]
         public ActionResult Index(int id)
         {
 			Entities.User viewedProfile = _selectUser.Execute(id);
 
-			Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
 			if (viewedProfile != null)
 			{
-				Models.Profile.Profile model = new Models.Profile.Profile();
+                Entities.Models.Profile.Profile model = new Entities.Models.Profile.Profile();
 				model.ViewedProfile = viewedProfile;
 				model.MyProfile = viewedProfile.UserId == currentUserId;
 
@@ -79,34 +91,43 @@ namespace ArmedCards.Web.Controllers
 			}
         }
 
+        /// <summary>
+        /// Render the change display name view
+        /// </summary>
+        /// <returns></returns>
 		[HttpGet]
 		public ActionResult ChangeDisplayName()
 		{
-			Models.Profile.ChangeDisplayName model = new Models.Profile.ChangeDisplayName();
-			model.DisplayName = WebSecurity.CurrentUserName;
+            Entities.Models.Profile.ChangeDisplayName model = new Entities.Models.Profile.ChangeDisplayName();
+            model.DisplayName = Authentication.Security.CurrentUserName;
 
 			return View(model);
 		}
 
+        /// <summary>
+        /// Process the request to change display name
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
 		[HttpPost]
-		public ActionResult ChangeDisplayName(Models.Profile.ChangeDisplayName model)
+        public ActionResult ChangeDisplayName(Entities.Models.Profile.ChangeDisplayName model)
 		{
 			if (ModelState.IsValid)
 			{
-				int currentUserId = WebSecurity.CurrentUserId;
-				String currentDisplayName = WebSecurity.CurrentUserName;
+                int currentUserId = Authentication.Security.CurrentUserId;
+                String currentDisplayName = Authentication.Security.CurrentUserName;
 
 				Entities.OAMembership memberShipData = null;
 
-				if (!WebSecurity.UserExists(model.DisplayName))
+                if (!Authentication.Security.UserExists(model.DisplayName))
 				{
 					memberShipData = _updateUser.Execute(currentUserId, model.DisplayName, currentDisplayName);
 				}
 
 				if (memberShipData != null)
 				{
-					WebSecurity.Logout();
-					OAuthWebSecurity.Login(memberShipData.Provider, memberShipData.ProviderUserId, false);
+                    Authentication.Security.Logout();
+					Authentication.OAuthSecurity.Login(memberShipData.Provider, memberShipData.ProviderUserId, false);
 					return Redirect(string.Format("/Profile/{0}", currentUserId));
 				}
 				else if (model.DisplayName == currentDisplayName)

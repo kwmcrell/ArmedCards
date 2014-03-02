@@ -21,24 +21,24 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Account.ExternalLoginList
+@model ArmedCards.Authentication.Models.Account.ExternalLoginList
 @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { id = "externalLoginForm" }))
 {
      @Html.AntiForgeryToken()
     <div id="confirmMessage" class="confirmMessage logIn">
 	    <h3>Sign in with</h3>
 	    <div class="socialLogin">
-            @foreach (AuthenticationClientData p in Model.Logins)
+            @foreach (String login in Model.Logins)
             {
-                if (p.AuthenticationClient.ProviderName.ToLower() == "google")
+                if (login.ToLower() == "google")
                 {
 		            <a href="#" class="button google" id="googleLoginIn">Google+</a><br>
                 }
-				else if (p.AuthenticationClient.ProviderName.ToLower() == "facebook")
+				else if (login.ToLower() == "facebook")
 				{
 					<a href="#" class="button facebook" id="facebookLoginIn">Facebook</a><br>
-				}
-				else if (p.AuthenticationClient.ProviderName.ToLower() == "twitter")
+                }
+                else if (login.ToLower() == "twitter")
 				{
 					<a href="#" class="button twitter" id="twitterLoginIn">Twitter</a><br>
 				}

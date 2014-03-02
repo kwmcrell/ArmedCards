@@ -172,15 +172,15 @@ namespace ArmedCards.BusinessLogic
 
 			#endregion "Card"
 
-			#region "Hub"
+            #region "Hubs"
 
-			Container.RegisterType<BusinessLogic.AppServices.Hub.Base.ISendMessage,				BusinessLogic.AppServices.Hub.SendMessage>();
-				
-			#endregion "Hub"
+            Container.RegisterType<BusinessLogic.AppServices.Hubs.Base.ISendMessage, BusinessLogic.AppServices.Hubs.SendMessage>();
 
-			#region "Game Round"
+            #endregion "Hubs"
 
-			Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IInsert,			BusinessLogic.AppServices.GameRound.Insert>();
+            #region "Game Round"
+
+            Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.IInsert,			BusinessLogic.AppServices.GameRound.Insert>();
 			Container.RegisterType<BusinessLogic.DomainServices.GameRound.Base.IInsert,			BusinessLogic.DomainServices.GameRound.Insert>();
 			Container.RegisterType<BusinessLogic.Repositories.GameRound.Base.IInsert,			BusinessLogic.Repositories.GameRound.Insert>();
 

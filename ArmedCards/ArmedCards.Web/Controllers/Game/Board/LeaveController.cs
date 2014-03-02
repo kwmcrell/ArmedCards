@@ -26,12 +26,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
-	[Extensions.ArmedCardsAuthorize]
+    /// <summary>
+    /// Controller responsible for handling leaving a game, both spectator and player
+    /// </summary>
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class LeaveController : Extensions.ArmedCardsController
     {
 		private AS.Game.Base.ILeave _leaveGame;
@@ -52,16 +54,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
 			Entities.User user = new Entities.User
 			{
-				UserId = WebSecurity.CurrentUserId,
-				DisplayName = WebSecurity.CurrentUserName
+				UserId = Authentication.Security.CurrentUserId,
+				DisplayName = Authentication.Security.CurrentUserName
 			};
 
-			Entities.ActionContainers.LeaveGame leaveGameContainer = new Entities.ActionContainers.LeaveGame();
-			leaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
-			leaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
-			leaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
-
-			_leaveGame.Execute(id, user, leaveGameContainer, playerType);
+			_leaveGame.Execute(id, user, playerType);
 
 			return Redirect("/GameListing");
         }

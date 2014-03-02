@@ -21,12 +21,12 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Web.Models.Game.Listing.Listing
+@model ArmedCards.Entities.Models.Game.Listing.Listing
 @{
     ViewBag.Title = "Game Listing";
     Layout = "~/Views/Shared/Layout/_Chat.cshtml";
 
-    ArmedCards.Web.Models.Shared.Header header = new ArmedCards.Web.Models.Shared.Header();
+    ArmedCards.Entities.Models.Shared.Header header = new ArmedCards.Entities.Models.Shared.Header();
     header.SubHeaderText = "Join a game.";
     header.ExtraHtml = new TagBuilder("div");
     header.ExtraHtml.AddCssClass("actions");
