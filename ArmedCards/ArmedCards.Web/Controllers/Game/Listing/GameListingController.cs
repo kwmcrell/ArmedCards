@@ -47,7 +47,7 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         [HttpGet]
         public ActionResult Index(int? id, bool? showLogIn)
         {
-            Models.Game.Listing.Listing model = new Models.Game.Listing.Listing();
+            Entities.Models.Game.Listing.Listing model = new Entities.Models.Game.Listing.Listing();
 
             if (showLogIn.HasValue)
             {

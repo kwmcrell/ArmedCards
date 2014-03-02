@@ -33,7 +33,7 @@ namespace ArmedCards.Web.Controllers
     {
         public ActionResult Index(bool? showLogIn)
         {
-            Models.Home.Index model = new Models.Home.Index();
+            Entities.Models.Home.Index model = new Entities.Models.Home.Index();
             if (showLogIn.HasValue)
             {
                 TempData["showLogin"] = showLogIn.Value;

@@ -47,7 +47,7 @@ namespace ArmedCards.Web.Controllers.Game
         /// <param name="model">The model that contains the game to create</param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Index(Models.Game.CreateGame model)
+        public ActionResult Index(Entities.Models.Game.CreateGame model)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace ArmedCards.Web.Controllers.Game
         [HttpGet]
         public ActionResult Index()
         {
-            Models.Game.CreateGame model = new Models.Game.CreateGame();
+            Entities.Models.Game.CreateGame model = new Entities.Models.Game.CreateGame();
 
             return View("~/Views/CreateGame/CreateGame.cshtml", model);
         }

@@ -80,15 +80,15 @@ namespace ArmedCards.Web.Controllers.Game.Board
                 List<Entities.GamePlayerKickVote> votes = _selectKickVotes.Execute(kickVoteFilter);
                 IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
 
-                Models.Game.Board.VoteToKick kickModel = null;
+                Entities.Models.Game.Board.VoteToKick kickModel = null;
 
-                List<Models.Game.Board.VoteToKick> votesToKick = new List<Models.Game.Board.VoteToKick>();
+                List<Entities.Models.Game.Board.VoteToKick> votesToKick = new List<Entities.Models.Game.Board.VoteToKick>();
 
                 foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
                 {
                     if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
                     {
-                        kickModel = new Models.Game.Board.VoteToKick(group.First().KickUser,
+                        kickModel = new Entities.Models.Game.Board.VoteToKick(group.First().KickUser,
                                                                      group.Count(x => x.Vote),
                                                                      group.Count(x => !x.Vote));
 
@@ -96,9 +96,9 @@ namespace ArmedCards.Web.Controllers.Game.Board
                     }
                 }
 
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, 
-                                                                                    Entities.Enums.GamePlayerType.Player,
-                                                                                    votesToKick);
+                Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(response.Game, currentUserId, 
+                                                                                                        Entities.Enums.GamePlayerType.Player,
+                                                                                                        votesToKick);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }
@@ -131,7 +131,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
             if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
                 response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)
             {
-                Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(response.Game, currentUserId, Entities.Enums.GamePlayerType.Spectator);
+                Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(response.Game, currentUserId, Entities.Enums.GamePlayerType.Spectator);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }

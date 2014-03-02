@@ -57,7 +57,7 @@ namespace ArmedCards.Web.Controllers
 
 			if (viewedProfile != null)
 			{
-				Models.Profile.Profile model = new Models.Profile.Profile();
+                Entities.Models.Profile.Profile model = new Entities.Models.Profile.Profile();
 				model.ViewedProfile = viewedProfile;
 				model.MyProfile = viewedProfile.UserId == currentUserId;
 
@@ -82,14 +82,14 @@ namespace ArmedCards.Web.Controllers
 		[HttpGet]
 		public ActionResult ChangeDisplayName()
 		{
-			Models.Profile.ChangeDisplayName model = new Models.Profile.ChangeDisplayName();
+            Entities.Models.Profile.ChangeDisplayName model = new Entities.Models.Profile.ChangeDisplayName();
 			model.DisplayName = WebSecurity.CurrentUserName;
 
 			return View(model);
 		}
 
 		[HttpPost]
-		public ActionResult ChangeDisplayName(Models.Profile.ChangeDisplayName model)
+        public ActionResult ChangeDisplayName(Entities.Models.Profile.ChangeDisplayName model)
 		{
 			if (ModelState.IsValid)
 			{

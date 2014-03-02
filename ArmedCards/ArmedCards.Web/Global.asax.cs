@@ -80,11 +80,11 @@ namespace ArmedCards.Web
 
 		private void DatabaseInitialize()
 		{
-			System.Data.Entity.Database.SetInitializer<UsersContext>(null);
+			System.Data.Entity.Database.SetInitializer<Models.Account.UsersContext>(null);
 
 			try
 			{
-				using (var context = new UsersContext())
+                using (var context = new Models.Account.UsersContext())
 				{
 					if (!context.Database.Exists())
 					{

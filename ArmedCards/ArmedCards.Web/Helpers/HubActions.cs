@@ -49,7 +49,7 @@ namespace ArmedCards.Web.Helpers
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
             hub.Clients.Client(connection.ActiveConnectionID)
-                       .UpdateWaiting(Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), GetGameLobbyViewModel(connection, game));
+                       .UpdateWaiting(Entities.Models.Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)), GetGameLobbyViewModel(connection, game));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Models.Game.Board.GameBoard model = new Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
+            Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
 
             hub.Clients.Client(connection.ActiveConnectionID)
                                .UpdateAnswers(model.AnswersViewModel, !model.ShowHand);
@@ -78,9 +78,9 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
+            Entities.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
-            Web.Models.Game.Board.Answers answersModel = new Models.Game.Board.Answers(true, model.IsCommander, false,
+            Entities.Models.Game.Board.Answers answersModel = new Entities.Models.Game.Board.Answers(true, model.IsCommander, false,
                                                                                        false, false, true, answers);
 
             hub.Clients.Client(connection.ActiveConnectionID)
@@ -96,7 +96,7 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
+            Entities.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
                                .UpdateGameView(model, GetGameLobbyViewModel(connection, game));
@@ -119,7 +119,7 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Web.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
+            Entities.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
             hub.Clients.Client(connection.ActiveConnectionID)
                                .CommanderLeft(model, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
@@ -173,7 +173,7 @@ namespace ArmedCards.Web.Helpers
         {
             IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
-            Models.Game.Board.VoteToKick model = new Models.Game.Board.VoteToKick(kickUser, votesToKick, votesNotToKick);
+            Entities.Models.Game.Board.VoteToKick model = new Entities.Models.Game.Board.VoteToKick(kickUser, votesToKick, votesNotToKick);
 
             hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(model);
         }
@@ -187,9 +187,9 @@ namespace ArmedCards.Web.Helpers
         /// <param name="game">The game to render the view for</param>
         /// <param name="commanderLeft">Commander left game</param>
         /// <returns></returns>
-        private static Models.Game.Board.GameBoard GetGameBoardModal(Entities.ActiveConnection connection, Entities.Game game)
+        private static Entities.Models.Game.Board.GameBoard GetGameBoardModal(Entities.ActiveConnection connection, Entities.Game game)
         {
-            return new Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
+            return new Entities.Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
         }
 
         private static Entities.Enums.GamePlayerType GetPlayerType(Entities.ActiveConnection connection)
@@ -199,9 +199,9 @@ namespace ArmedCards.Web.Helpers
                                     Entities.Enums.GamePlayerType.Spectator;
         }
 
-        private static Web.Models.Game.Board.Lobby GetGameLobbyViewModel(Entities.ActiveConnection connection, Entities.Game game)
+        private static Entities.Models.Game.Board.Lobby GetGameLobbyViewModel(Entities.ActiveConnection connection, Entities.Game game)
         {
-            return new Web.Models.Game.Board.Lobby(GetPlayerType(connection), game.Players, game.MaxNumberOfSpectators > 0, game.Spectators);
+            return new Entities.Models.Game.Board.Lobby(GetPlayerType(connection), game.Players, game.MaxNumberOfSpectators > 0, game.Spectators);
         }
 
         #endregion "Private Helpers"

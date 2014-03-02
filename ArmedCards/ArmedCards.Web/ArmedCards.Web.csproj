@@ -237,37 +237,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HubActions.cs" />
-    <Compile Include="Helpers\WaitingHeader.cs" />
     <Compile Include="Hubs\ArmedCards.cs" />
     <Compile Include="Hubs\UnityHubActivator.cs" />
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\Account\ExternalLogin.cs" />
     <Compile Include="Models\Account\ExternalLoginListModel.cs" />
     <Compile Include="Models\Account\RegisterExternalLogin.cs" />
-    <Compile Include="Models\Game\Board\Answers.cs" />
-    <Compile Include="Models\Game\Board\GameBoard.cs" />
-    <Compile Include="Models\Game\Board\GameOver.cs" />
-    <Compile Include="Models\Game\Board\Hand.cs" />
-    <Compile Include="Models\Game\Board\Lobby.cs" />
-    <Compile Include="Models\Game\Board\RoundQuestion.cs" />
-    <Compile Include="Models\Game\Board\VotesToKick.cs" />
-    <Compile Include="Models\Game\Board\VoteToKick.cs" />
-    <Compile Include="Models\Game\Board\Waiting.cs" />
-    <Compile Include="Models\Game\CreateGame.cs" />
-    <Compile Include="Models\Game\Listing\Detail.cs" />
-    <Compile Include="Models\Game\Listing\Listing.cs" />
-    <Compile Include="Models\Home\Index.cs" />
-    <Compile Include="Models\Hub\ChatMessage.cs" />
-    <Compile Include="Models\Hub\Lobby.cs" />
-    <Compile Include="Models\Hub\Messages\PlayCard.cs" />
-    <Compile Include="Models\Hub\Messages\VoteToKick.cs" />
-    <Compile Include="Models\Hub\Messages\VoteToKickResult.cs" />
-    <Compile Include="Models\Leaderboard\Index.cs" />
-    <Compile Include="Models\Profile\ChangeDisplayName.cs" />
-    <Compile Include="Models\Profile\Profile.cs" />
-    <Compile Include="Models\Shared\AnswerCard.cs" />
-    <Compile Include="Models\Shared\Header.cs" />
-    <Compile Include="Models\Shared\ModelExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

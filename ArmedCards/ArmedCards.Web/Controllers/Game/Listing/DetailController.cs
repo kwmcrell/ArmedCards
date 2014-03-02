@@ -47,7 +47,7 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         [HttpGet]
         public ActionResult Index(int id)
         {
-            Models.Game.Listing.Detail model = new Models.Game.Listing.Detail();
+            Entities.Models.Game.Listing.Detail model = new Entities.Models.Game.Listing.Detail();
 
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = id;

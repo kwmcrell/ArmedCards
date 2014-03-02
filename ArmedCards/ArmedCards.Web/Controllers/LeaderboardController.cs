@@ -19,7 +19,7 @@ namespace ArmedCards.Web.Controllers
 
         public ActionResult Index()
         {
-            Models.Leaderboard.Index viewModel = new Models.Leaderboard.Index();
+            Entities.Models.Leaderboard.Index viewModel = new Entities.Models.Leaderboard.Index();
             viewModel.CurrentUserId = WebSecurity.CurrentUserId;
             viewModel.Leaderboards =  _selectLeaderboard.Execute(viewModel.CurrentUserId);
 

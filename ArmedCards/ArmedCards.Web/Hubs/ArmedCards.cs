@@ -22,7 +22,7 @@ namespace ArmedCards.Web.Hubs
         /// </summary>
         /// <param name="message">Message to send</param>
         [HubMethodName("SendMessage")]
-        public void SendMessage(Models.Hub.ChatMessage message)
+        public void SendMessage(Entities.Models.Hub.ChatMessage message)
         {
             message.SentBy = Context.User.Identity.Name;
             message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
@@ -52,7 +52,7 @@ namespace ArmedCards.Web.Hubs
 
             InsertConnection(groupName, connectionType);
 
-            Models.Hub.Lobby lobby = new Models.Hub.Lobby
+            Entities.Models.Hub.Lobby lobby = new Entities.Models.Hub.Lobby
             {
                 ActiveConnections = GetConnections(groupName, connectionType)
             };
@@ -98,7 +98,7 @@ namespace ArmedCards.Web.Hubs
 		}
 
         [HubMethodName("PlayCard")]
-        public void PlayCard(Models.Hub.Messages.PlayCard message)
+        public void PlayCard(Entities.Models.Hub.Messages.PlayCard message)
         {
             AS.GamePlayerCard.Base.IPlay _playCard = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
 
@@ -121,7 +121,7 @@ namespace ArmedCards.Web.Hubs
         }
 
         [HubMethodName("PickWinner")]
-        public void PickWinner(Models.Hub.Messages.PlayCard message)
+        public void PickWinner(Entities.Models.Hub.Messages.PlayCard message)
         {
             AS.GameRound.Base.IComplete _completeRound = BusinessLogic.UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
 
@@ -129,7 +129,7 @@ namespace ArmedCards.Web.Hubs
         }
 
         [HubMethodName("VoteToKick")]
-        public Models.Hub.Messages.VoteToKickResult VoteToKick(Models.Hub.Messages.VoteToKick message)
+        public Entities.Models.Hub.Messages.VoteToKickResult VoteToKick(Entities.Models.Hub.Messages.VoteToKick message)
         {
             Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
             vote.GameID = message.GameID;
@@ -149,7 +149,7 @@ namespace ArmedCards.Web.Hubs
 
             Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, container);
 
-            return new Models.Hub.Messages.VoteToKickResult
+            return new Entities.Models.Hub.Messages.VoteToKickResult
             {
                 Content = String.Format("Votes To Kick: {0} <br/> Votes To Stay: {1}",
                                             response.VotesToKick,
