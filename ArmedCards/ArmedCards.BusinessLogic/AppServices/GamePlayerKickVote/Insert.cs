@@ -43,11 +43,11 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 	{
 		private DS.Base.IInsert _insert;
 		private User.Base.ISelect _selectUser;
-		private Hub.Base.ISendMessage _sendMessage;
+        private Hubs.Base.ISendMessage _sendMessage;
         private AS.GamePlayerKickVote.Base.ICheckVotes _checkVotes;
 
 		public Insert(DS.Base.IInsert insert, User.Base.ISelect selectUser,
-						Hub.Base.ISendMessage sendMessage,
+                        Hubs.Base.ISendMessage sendMessage,
                       AS.GamePlayerKickVote.Base.ICheckVotes checkVotes)
 		{
 			this._insert = insert;
@@ -60,10 +60,8 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// Insert a vote to kick a user
 		/// </summary>
 		/// <param name="userVote">The user's vote</param>
-		/// <param name="actionContainer">Contains any actions that need to be fired</param>
 		/// <returns></returns>
-		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote,
-														   Entities.ActionContainers.KickPlayer actionContainer)
+		public Entities.ActionResponses.VoteToKick Execute(Entities.GamePlayerKickVote userVote)
 		{
             string cacheKey = string.Format("KickUser_{0}_FromGame_{1}", userVote.KickUserId, userVote.GameID);
 
@@ -81,7 +79,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 
                 Task.Delay(30000, token.Token).ContinueWith((delayedTask) =>
                     {
-                        _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                        _checkVotes.Execute(userVote.GameID, userVote.KickUserId);
                     });
 			}
 
@@ -96,15 +94,14 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
                 }
                 else
                 {
-                    _checkVotes.Execute(userVote.GameID, userVote.KickUserId, actionContainer);
+                    _checkVotes.Execute(userVote.GameID, userVote.KickUserId);
                 }
             }
             else
             {
-                _sendMessage.Execute(userVote.GameID, kickUser, response.VotesToKick,
+                _sendMessage.Voted(userVote.GameID, kickUser, response.VotesToKick,
                                                                 response.VotesToStay,
-                                                                response.AlreadyVoted,
-                                                                actionContainer.AlertUserOfVote);
+                                                                response.AlreadyVoted);
             }
 
 			response.KickUser = kickUser;

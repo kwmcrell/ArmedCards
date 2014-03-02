@@ -27,19 +27,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+namespace ArmedCards.Entities.Enums.Hubs
 {
-	/// <summary>
-	/// Interface that defines completing a round and sending message to all players
-	/// </summary>
-	public interface IComplete
-	{
-		/// <summary>
-		/// Complete the current round
-		/// </summary>
-		/// <param name="gameID">The ID of the game that contains the round</param>
-		/// <param name="cardIDs">The IDs of the winning cards</param>
-		/// <param name="userId">The user Id trying to complete the round</param>
-		void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId);
-	}
+    /// <summary>
+    /// Defines what actions can be called on the hub
+    /// </summary>
+    public enum Actions
+    {
+        /// <summary>
+        /// Update waiting screen
+        /// </summary>
+        UpdateWaiting = 1,
+
+        /// <summary>
+        /// Update game view
+        /// </summary>
+        UpdateGameView = 2,
+
+        /// <summary>
+        /// Update the game lobby
+        /// </summary>
+        UpdateLobby = 3,
+
+        /// <summary>
+        /// When a card has been played
+        /// </summary>
+        CardPlayed = 4
+    }
 }

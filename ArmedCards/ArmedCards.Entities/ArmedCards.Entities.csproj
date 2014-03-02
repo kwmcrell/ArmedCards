@@ -63,6 +63,7 @@
     <Compile Include="Enums\GamePlayerType.cs" />
     <Compile Include="Enums\Game\JoinResponseCode.cs" />
     <Compile Include="Enums\Game\Select.cs" />
+    <Compile Include="Enums\Hubs\Actions.cs" />
     <Compile Include="Enums\LeaderboardType.cs" />
     <Compile Include="Filters\ActiveConnection\Delete.cs" />
     <Compile Include="Filters\ActiveConnection\DeleteAll.cs" />

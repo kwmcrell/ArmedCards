@@ -36,11 +36,11 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 	public class Complete : Base.IComplete
 	{
 		private DS.Base.IComplete _completeGameRound;
-		private Hub.Base.ISendMessage _sendMessage;
+		private Hubs.Base.ISendMessage _sendMessage;
 		private Game.Base.IUpdate _updateGame;
 
 		public Complete(DS.Base.IComplete completeGameRound,
-						Hub.Base.ISendMessage sendMessage,
+                        Hubs.Base.ISendMessage sendMessage,
 						Game.Base.IUpdate updateGame)
 		{
 			this._completeGameRound = completeGameRound;
@@ -54,15 +54,13 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 		/// <param name="gameID">The ID of the game that contains the round</param>
 		/// <param name="cardIDs">The IDs of the winning cards</param>
 		/// <param name="userId">The user Id trying to complete the round</param>
-		/// <param name="winnerSelected">Action to update game players</param>
-		public void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId,
-			Action<Entities.ActiveConnection, Entities.Game, List<IGrouping<Int32, Entities.GameRoundCard>>> winnerSelected)
+		public void Execute(Int32 gameID, List<Int32> cardIDs, Int32 userId)
 		{
 			Entities.ActionResponses.RoundComplete response = _completeGameRound.Execute(gameID, cardIDs, userId);
 
 			if (response.CompletedRound != null && response.Game != null)
 			{
-				_sendMessage.Execute(response.Game, response.CompletedRound, winnerSelected, true);
+                _sendMessage.SendWinnerSelected(response.Game, response.CompletedRound, true);
 				
 				DateTime playedLast = DateTime.UtcNow;
 				DateTime? gameOver = null;

@@ -38,10 +38,10 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		private Game.Base.ILeave _leaveGame;
 		private User.Base.ISelect _selectUser;
 		private DS.Base.ICheckVotes _checkVotes;
-		private Hub.Base.ISendMessage _sendMessage;
+        private Hubs.Base.ISendMessage _sendMessage;
 
 		public CheckVotes(Game.Base.ILeave leaveGame, User.Base.ISelect selectUser, DS.Base.ICheckVotes checkVotes,
-						  Hub.Base.ISendMessage sendMessage)
+                          Hubs.Base.ISendMessage sendMessage)
 		{
 			this._leaveGame = leaveGame;
 			this._selectUser = selectUser;
@@ -54,8 +54,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 		/// </summary>
 		/// <param name="gameID">The ID of the game the user belongs to</param>
 		/// <param name="kickUserId">The ID of the user to kick</param>
-		/// <param name="kickPlayerContainer">Object containing all the actions for kick vote</param>
-		public void Execute(Int32 gameID, Int32 kickUserId, Entities.ActionContainers.KickPlayer kickPlayerContainer)
+		public void Execute(Int32 gameID, Int32 kickUserId)
 		{
 			Int32 votedToKick = 0;
 			Int32 votedNotToKick = 0;
@@ -68,13 +67,13 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 
 			if (votedToKick > 0)
 			{
-				_sendMessage.Execute(gameID, kickedUser, votedToKick, votedNotToKick, kickUser, kickPlayerContainer.AlertUsersOfResult);
+                _sendMessage.VoteComplete(gameID, kickedUser, votedToKick, votedNotToKick, kickUser);
 			}
 			
 			if (kickUser)
 			{
                 //TODO: When spectator's can be kicked this will need to change
-				_leaveGame.Execute(gameID, kickedUser, kickPlayerContainer.LeaveGameContainer, Entities.Enums.GamePlayerType.Player);
+				_leaveGame.Execute(gameID, kickedUser, Entities.Enums.GamePlayerType.Player);
 			}
 		}
 	}

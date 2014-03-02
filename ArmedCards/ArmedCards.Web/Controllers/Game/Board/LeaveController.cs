@@ -55,12 +55,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 				DisplayName = Authentication.Security.CurrentUserName
 			};
 
-			Entities.ActionContainers.LeaveGame leaveGameContainer = new Entities.ActionContainers.LeaveGame();
-			leaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
-			leaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
-			leaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
-
-			_leaveGame.Execute(id, user, leaveGameContainer, playerType);
+			_leaveGame.Execute(id, user, playerType);
 
 			return Redirect("/GameListing");
         }

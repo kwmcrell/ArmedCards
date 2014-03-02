@@ -36,10 +36,10 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 	{
 		private Base.ISelect _selectGame;
 		private GameRound.Base.IStart _startRound;
-		private Hub.Base.ISendMessage _sendMessage;
+		private Hubs.Base.ISendMessage _sendMessage;
 
 		public Start(Base.ISelect selectGame, GameRound.Base.IStart startRound,
-					 Hub.Base.ISendMessage sendMessage)
+					 Hubs.Base.ISendMessage sendMessage)
 		{
 			this._selectGame = selectGame;
 			this._startRound = startRound;
@@ -51,10 +51,8 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		/// </summary>
 		/// <param name="gameID">The ID for the game to start</param>
 		/// <param name="commander">The commander for the first round</param>
-		/// <param name="startedAction">Action to fire on successful start</param>
 		/// <returns>The started game</returns>
-		public Entities.Game Execute(Int32 gameID, Entities.User commander,
-									 Action<Entities.ActiveConnection, Entities.Game> startedAction)
+		public Entities.Game Execute(Int32 gameID, Entities.User commander)
 		{
 			Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
 			filter.GameID = gameID;
@@ -70,7 +68,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 				if (successful)
 				{
-					_sendMessage.Execute(game, startedAction, true);
+                    _sendMessage.UpdateGame(game, true);
 				}
 			}
 

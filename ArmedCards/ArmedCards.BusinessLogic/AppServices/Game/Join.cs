@@ -37,10 +37,10 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
     {
         private DS.Base.IJoin _joinGame;
         private Base.ISelect _selectGame;
-		private Hub.Base.ISendMessage _sendMessage;
+        private Hubs.Base.ISendMessage _sendMessage;
 
         public Join(DS.Base.IJoin joinGame, Base.ISelect selectGame,
-					Hub.Base.ISendMessage sendMessage)
+                    Hubs.Base.ISendMessage sendMessage)
         {
             this._joinGame = joinGame;
             this._selectGame = selectGame;
@@ -53,15 +53,9 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
         /// <param name="gameID">The id of the game to join</param>
         /// <param name="user">The current user</param>
         /// <param name="passphrase">The passphrase for the game</param>
-		/// <param name="sendWaitingMessage">Action used to send a update to the waiting message</param>
-		/// <param name="updateGameView">Action used to send a update that a new player has joined and started a new round</param>
-		/// <param name="updateLobbyView">Action used to send a update that a new player has joined</param>
         /// <param name="playerType">Type of player joining</param>
         /// <returns>The response to a join request</returns>
 		public Entities.JoinResponse Execute(Int32 gameID, Entities.User user, String passphrase,
-											Action<Entities.ActiveConnection, Entities.Game> sendWaitingMessage,
-											Action<Entities.ActiveConnection, Entities.Game> updateGameView,
-											Action<Entities.ActiveConnection, Entities.Game> updateLobbyView,
                                             Entities.Enums.GamePlayerType playerType)
         {
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
@@ -78,15 +72,15 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
                 if (response.Game.IsWaiting() &&
                         response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SuccessfulAlreadyPlayer) == false)
                 {
-                    _sendMessage.Execute(response.Game, sendWaitingMessage, true);
+                    _sendMessage.UpdateWaiting(response.Game, true);
                 }
                 else if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.NewRoundStart) == true)
                 {
-                    _sendMessage.Execute(response.Game, updateGameView, true);
+                    _sendMessage.UpdateGame(response.Game, true);
                 }
                 else
                 {
-                    _sendMessage.Execute(response.Game, updateLobbyView, true);
+                    _sendMessage.UpdateLobby(response.Game, true);
                 }
             }
 

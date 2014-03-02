@@ -192,8 +192,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HubActions.cs" />
-    <Compile Include="Hubs\ArmedCards.cs" />
     <Compile Include="Hubs\UnityHubActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

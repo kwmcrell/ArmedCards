@@ -39,8 +39,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// </summary>
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
-		/// <param name="leaveGameContainer">Object containing all actions needed for leaving a game</param>
         /// <param name="playerType">Type of player leaving</param>
-        void Execute(Int32 gameID, Entities.User user, Entities.ActionContainers.LeaveGame leaveGameContainer, Entities.Enums.GamePlayerType playerType);
+        void Execute(Int32 gameID, Entities.User user, Entities.Enums.GamePlayerType playerType);
 	}
 }

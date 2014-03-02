@@ -8,7 +8,7 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
 
-namespace ArmedCards.Web.Hubs
+namespace ArmedCards.BusinessLogic.AppServices.Hubs
 {
     [HubName("ArmedCardsHub")]
     [Authentication.Extensions.ArmedCardsAuthorize]
@@ -101,8 +101,7 @@ namespace ArmedCards.Web.Hubs
         {
             AS.GamePlayerCard.Base.IPlay _playCard = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
 
-            Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, Authentication.Security.CurrentUserId,
-                                                                            Helpers.HubActions.CardPlayed);
+            Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, Authentication.Security.CurrentUserId);
         }
 
         [HubMethodName("StartGame")]
@@ -116,7 +115,7 @@ namespace ArmedCards.Web.Hubs
                 DisplayName = Authentication.Security.CurrentUserName
             };
 
-            _startGame.Execute(gameID, user, Helpers.HubActions.UpdateGameView);
+            _startGame.Execute(gameID, user);
         }
 
         [HubMethodName("PickWinner")]
@@ -124,7 +123,7 @@ namespace ArmedCards.Web.Hubs
         {
             AS.GameRound.Base.IComplete _completeRound = BusinessLogic.UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
 
-            _completeRound.Execute(message.GameID, message.CardIDs, Authentication.Security.CurrentUserId, Helpers.HubActions.WinnerSelected);
+            _completeRound.Execute(message.GameID, message.CardIDs, Authentication.Security.CurrentUserId);
         }
 
         [HubMethodName("VoteToKick")]
@@ -136,17 +135,9 @@ namespace ArmedCards.Web.Hubs
             vote.VotedUserId = Authentication.Security.CurrentUserId;
             vote.Vote = message.Kick;
 
-            Entities.ActionContainers.KickPlayer container = new Entities.ActionContainers.KickPlayer();
-            container.AlertUserOfVote = Helpers.HubActions.AlertUsersVote;
-            container.AlertUsersOfResult = Helpers.HubActions.AlertUserOfResult;
-
-            container.LeaveGameContainer.CommanderLeft = Helpers.HubActions.CommanderLeft;
-            container.LeaveGameContainer.UpdateGameView = Helpers.HubActions.UpdateGameView;
-            container.LeaveGameContainer.WaitingAction = Helpers.HubActions.SendWaitingMessage;
-
             AS.GamePlayerKickVote.Base.IInsert _insert = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerKickVote.Base.IInsert>();
 
-            Entities.ActionResponses.VoteToKick response = _insert.Execute(vote, container);
+            Entities.ActionResponses.VoteToKick response = _insert.Execute(vote);
 
             return new Entities.Models.Hub.Messages.VoteToKickResult
             {

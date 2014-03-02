@@ -39,9 +39,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// </summary>
 		/// <param name="gameID">The ID for the game to start</param>
 		/// <param name="commander">The commander for the first round</param>
-		/// <param name="startedAction">Action to fire on successful start</param>
 		/// <returns>The started game</returns>
-		Entities.Game Execute(Int32 gameID, Entities.User commander,
-							  Action<Entities.ActiveConnection, Entities.Game> startedAction);
+		Entities.Game Execute(Int32 gameID, Entities.User commander);
 	}
 }

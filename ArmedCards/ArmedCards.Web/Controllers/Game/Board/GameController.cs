@@ -37,11 +37,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
     public class GameController : Extensions.ArmedCardsController
     {
         private AS.Game.Base.IJoin _joinGame;
-		private AS.Hub.Base.ISendMessage _sendMessage;
+		private AS.Hubs.Base.ISendMessage _sendMessage;
 		private AS.User.Base.ISelect _selectUser;
 		private AS.GamePlayerKickVote.Base.ISelect _selectKickVotes;
 
-		public GameController(AS.Game.Base.IJoin joinGame, AS.Hub.Base.ISendMessage sendMessage,
+        public GameController(AS.Game.Base.IJoin joinGame, AS.Hubs.Base.ISendMessage sendMessage,
 								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes)
         {
             this._joinGame = joinGame;
@@ -65,11 +65,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.User user = _selectUser.Execute(currentUserId);
 
-			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
-																Helpers.HubActions.SendWaitingMessage,
-																Helpers.HubActions.UpdateGameView,
-																Helpers.HubActions.UpdateLobby,
-                                                                Entities.Enums.GamePlayerType.Player);
+			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Player);
+
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
@@ -122,11 +119,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
             Entities.User user = _selectUser.Execute(currentUserId);
 
-            Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase,
-                                                                Helpers.HubActions.SendWaitingMessage,
-                                                                Helpers.HubActions.UpdateGameView,
-                                                                Helpers.HubActions.UpdateLobby,
-                                                                Entities.Enums.GamePlayerType.Spectator);
+            Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Spectator);
+
             if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
                 response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)
             {
