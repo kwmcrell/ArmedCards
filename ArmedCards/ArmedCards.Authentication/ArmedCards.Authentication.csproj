@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseInitialize.cs" />
+    <Compile Include="Extensions\ArmedCardsAuthorize.cs" />
     <Compile Include="Extensions\ExternalLoginResult.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\Account\ExternalLogin.cs" />

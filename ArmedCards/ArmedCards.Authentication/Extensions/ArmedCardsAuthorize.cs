@@ -28,7 +28,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace ArmedCards.Web.Extensions
+namespace ArmedCards.Authentication.Extensions
 {
     /// <summary>
     /// Class to handle redirecting/showing Login Modal for unauthorized users

@@ -30,7 +30,7 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers
 {
-	[Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
 	public class ProfileController : Extensions.ArmedCardsController
     {
 		private AS.User.Base.ISelect _selectUser;

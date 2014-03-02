@@ -33,7 +33,7 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
-    [Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class GameController : Extensions.ArmedCardsController
     {
         private AS.Game.Base.IJoin _joinGame;

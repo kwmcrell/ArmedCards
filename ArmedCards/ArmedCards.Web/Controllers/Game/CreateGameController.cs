@@ -30,7 +30,7 @@ using ACAS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game
 {
-    [Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class CreateGameController : Extensions.ArmedCardsController
     {
         private readonly ACAS.Game.Base.IInsert _insertGame;

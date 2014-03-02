@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ArmedCards.Web.Hubs
 {
     [HubName("ArmedCardsHub")]
-    [Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class ArmedCards : Hub
     {
         private const string GLOBAL = "Global";

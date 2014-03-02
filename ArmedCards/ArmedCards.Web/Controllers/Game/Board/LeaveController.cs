@@ -30,7 +30,7 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
-	[Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class LeaveController : Extensions.ArmedCardsController
     {
 		private AS.Game.Base.ILeave _leaveGame;

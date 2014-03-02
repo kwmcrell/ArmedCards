@@ -187,7 +187,6 @@
     <Compile Include="Controllers\LeaderboardController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
-    <Compile Include="Extensions\ArmedCardsAuthorize.cs" />
     <Compile Include="Extensions\Html\Checkbox.cs" />
     <Compile Include="Extensions\UnityControllerFactory.cs" />
     <Compile Include="Global.asax.cs">

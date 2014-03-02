@@ -31,7 +31,7 @@ using System.Web.Security;
 
 namespace ArmedCards.Web.Controllers
 {
-    [ArmedCards.Web.Extensions.ArmedCardsAuthorize]
+    [Authentication.Extensions.ArmedCardsAuthorize]
     public class AccountController : Extensions.ArmedCardsController
     {
         private readonly BusinessLogic.AppServices.User.Base.IInsert _insertUser;

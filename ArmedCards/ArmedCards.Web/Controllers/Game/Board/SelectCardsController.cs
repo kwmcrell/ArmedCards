@@ -7,7 +7,7 @@ using AS = ArmedCards.BusinessLogic.AppServices.Card;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
-	[Extensions.ArmedCardsAuthorize]
+	[Authentication.Extensions.ArmedCardsAuthorize]
     public class SelectCardsController : Extensions.ArmedCardsController
     {
 		private AS.Base.ISelect _selectCards;
