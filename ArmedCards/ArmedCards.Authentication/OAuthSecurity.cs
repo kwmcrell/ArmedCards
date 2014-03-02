@@ -31,6 +31,9 @@ using System.Threading.Tasks;
 
 namespace ArmedCards.Authentication
 {
+    /// <summary>
+    /// Wrapper class for OAuthWebSecurity
+    /// </summary>
     public static class OAuthSecurity
     {
         //
@@ -226,6 +229,10 @@ namespace ArmedCards.Authentication
             return Authentication.OAuthSecurity.GetOAuthClientData(providerName).DisplayName;
         }
 
+        /// <summary>
+        /// Get the list of available logins
+        /// </summary>
+        /// <returns>List of available logins</returns>
         public static ICollection<String> GetLogins()
         {
             return Authentication.OAuthSecurity.RegisteredClientData.Select(x => x.DisplayName).ToList();

@@ -31,8 +31,14 @@ using WebMatrix.WebData;
 
 namespace ArmedCards.Authentication
 {
+    /// <summary>
+    /// Used for data initialization for user context
+    /// </summary>
     public class DatabaseInitialize
     {
+        /// <summary>
+        /// Initialize the database
+        /// </summary>
         public void Excute()
         {
             System.Data.Entity.Database.SetInitializer<Models.Account.UsersContext>(null);

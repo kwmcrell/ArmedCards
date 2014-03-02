@@ -30,6 +30,9 @@ using WebMatrix.WebData;
 
 namespace ArmedCards.Authentication
 {
+    /// <summary>
+    /// Wrapper class for WebSecurity
+    /// </summary>
     public static class Security
     {
         // Summary:
