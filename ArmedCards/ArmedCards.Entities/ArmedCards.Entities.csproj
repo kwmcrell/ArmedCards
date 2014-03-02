@@ -46,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionContainers\KickPlayer.cs" />
-    <Compile Include="ActionContainers\LeaveGame.cs" />
     <Compile Include="ActionResponses\Enums\PlayCardResponseCode.cs" />
     <Compile Include="ActionResponses\Enums\VoteToKick.cs" />
     <Compile Include="ActionResponses\PlayCard.cs" />

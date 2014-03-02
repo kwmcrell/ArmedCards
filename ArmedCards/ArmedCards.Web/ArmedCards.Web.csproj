@@ -177,7 +177,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
-    <Compile Include="Controllers\Game\Board\SelectCardsController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />
     <Compile Include="Controllers\Game\Board\GameController.cs" />
     <Compile Include="Controllers\Game\Listing\DetailController.cs" />
@@ -192,7 +191,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\UnityHubActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
