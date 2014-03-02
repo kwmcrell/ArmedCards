@@ -33,6 +33,9 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
 {
+    /// <summary>
+    /// Controller responsible for joining a game either playing or spectating
+    /// </summary>
     [Authentication.Extensions.ArmedCardsAuthorize]
     public class GameController : Extensions.ArmedCardsController
     {
@@ -41,6 +44,13 @@ namespace ArmedCards.Web.Controllers.Game.Board
 		private AS.User.Base.ISelect _selectUser;
 		private AS.GamePlayerKickVote.Base.ISelect _selectKickVotes;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="joinGame"></param>
+        /// <param name="sendMessage"></param>
+        /// <param name="selectUser"></param>
+        /// <param name="selectKickVotes"></param>
         public GameController(AS.Game.Base.IJoin joinGame, AS.Hubs.Base.ISendMessage sendMessage,
 								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes)
         {
@@ -50,6 +60,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
 			this._selectKickVotes = selectKickVotes;
         }
 
+        /// <summary>
+        /// Play the game
+        /// </summary>
+        /// <param name="id">The id of the game the player wants to join</param>
+        /// <returns>The game view if the player was able to join</returns>
         [HttpGet]
         public ActionResult Index(Int32 id)
         {
@@ -104,6 +119,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
             }
 		}
 
+        /// <summary>
+        /// Spectate the game
+        /// </summary>
+        /// <param name="id">The id of the game the player wants to spectate</param>
+        /// <returns>The spectator view if the spectator was able to join</returns>
         [HttpGet]
         public ActionResult Spectate(Int32 id)
         {

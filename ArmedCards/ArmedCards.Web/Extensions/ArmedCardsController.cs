@@ -35,6 +35,12 @@ namespace ArmedCards.Web.Extensions
     /// </summary>
     public class ArmedCardsController : Controller
     {
+        /// <summary>
+        /// Render a partial view to a string
+        /// </summary>
+        /// <param name="viewName">The view name</param>
+        /// <param name="model">The view model</param>
+        /// <returns></returns>
         public string RenderPartialToString(string viewName, object model)
         {
             ViewData.Model = model;

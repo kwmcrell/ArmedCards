@@ -30,10 +30,17 @@ using AS = ArmedCards.BusinessLogic.AppServices.Game;
 
 namespace ArmedCards.Web.Controllers.Game.Listing
 {
+    /// <summary>
+    /// Controller responsible for displaying game details when a user selects a game from the listing screen
+    /// </summary>
     public class DetailController : Extensions.ArmedCardsController
     {
         private AS.Base.ISelect _selectGame;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="selectGame"></param>
         public DetailController(AS.Base.ISelect selectGame)
         {
             this._selectGame = selectGame;

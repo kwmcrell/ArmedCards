@@ -30,15 +30,26 @@ using ACAS = ArmedCards.BusinessLogic.AppServices.Leaderboard;
 
 namespace ArmedCards.Web.Controllers
 {
+    /// <summary>
+    /// Controller responsible for rendering the leaderboard
+    /// </summary>
     public class LeaderboardController : Extensions.ArmedCardsController
     {
         private ACAS.Base.ISelect _selectLeaderboard;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="selectLeaderboard"></param>
         public LeaderboardController(ACAS.Base.ISelect selectLeaderboard)
         {
             this._selectLeaderboard = selectLeaderboard;
         }
 
+        /// <summary>
+        /// Render the leaderboard view
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             Entities.Models.Leaderboard.Index viewModel = new Entities.Models.Leaderboard.Index();

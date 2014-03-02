@@ -30,6 +30,9 @@ using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling profile actions
+    /// </summary>
     [Authentication.Extensions.ArmedCardsAuthorize]
 	public class ProfileController : Extensions.ArmedCardsController
     {
@@ -37,6 +40,12 @@ namespace ArmedCards.Web.Controllers
 		private AS.User.Base.IUpdate _updateUser;
 		private AS.GamePlayer.Base.ISelect _selectGamePlayer;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="selectUser"></param>
+        /// <param name="updateUser"></param>
+        /// <param name="selectGamePlayer"></param>
 		public ProfileController(AS.User.Base.ISelect selectUser,
 								 AS.User.Base.IUpdate updateUser,
 								 AS.GamePlayer.Base.ISelect selectGamePlayer)
@@ -46,6 +55,11 @@ namespace ArmedCards.Web.Controllers
 			this._selectGamePlayer = selectGamePlayer;
 		}
 		
+        /// <summary>
+        /// Render the profile for user id equal to <paramref name="id"/>
+        /// </summary>
+        /// <param name="id">The user id</param>
+        /// <returns></returns>
 		[HttpGet]
         public ActionResult Index(int id)
         {
@@ -77,6 +91,10 @@ namespace ArmedCards.Web.Controllers
 			}
         }
 
+        /// <summary>
+        /// Render the change display name view
+        /// </summary>
+        /// <returns></returns>
 		[HttpGet]
 		public ActionResult ChangeDisplayName()
 		{
@@ -86,6 +104,11 @@ namespace ArmedCards.Web.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+        /// Process the request to change display name
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
 		[HttpPost]
         public ActionResult ChangeDisplayName(Entities.Models.Profile.ChangeDisplayName model)
 		{

@@ -31,11 +31,18 @@ using System.Web.Security;
 
 namespace ArmedCards.Web.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling creation of a player and login/logoff
+    /// </summary>
     [Authentication.Extensions.ArmedCardsAuthorize]
     public class AccountController : Extensions.ArmedCardsController
     {
         private readonly BusinessLogic.AppServices.User.Base.IInsert _insertUser;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="insertUser"></param>
         public AccountController(BusinessLogic.AppServices.User.Base.IInsert insertUser)
         {
             this._insertUser = insertUser;
@@ -43,8 +50,11 @@ namespace ArmedCards.Web.Controllers
 
         #region "Log Off"
 
-        //
-        // POST: /Account/LogOff
+        /// <summary>
+        /// Log off the user
+        /// </summary>
+        /// <param name="returnUrl">Url to return the user to</param>
+        /// <returns>A redirect</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff(string returnUrl)
@@ -62,8 +72,13 @@ namespace ArmedCards.Web.Controllers
         #endregion "Log Off"
 
         #region "External Logins"
-        //
-        // POST: /Account/ExternalLogin
+        
+        /// <summary>
+        /// Call the external log in provider
+        /// </summary>
+        /// <param name="provider">The provider to call</param>
+        /// <param name="returnUrl">The url to redirect after log in action complete</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -72,8 +87,11 @@ namespace ArmedCards.Web.Controllers
             return new Authentication.Extensions.ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
+        /// <summary>
+        /// Method called once the external provider once their side of things are complete.  Reguardless of success.
+        /// </summary>
+        /// <param name="returnUrl">The url to redirect the user to if log in successful</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
@@ -106,8 +124,11 @@ namespace ArmedCards.Web.Controllers
             return RedirectToAction("ExternalLoginFailure");
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
+        /// <summary>
+        /// Action to call after the user has selected their username the first time the have logged in
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -147,14 +168,21 @@ namespace ArmedCards.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
+        /// <summary>
+        /// Render the external login failed screen
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
+        /// <summary>
+        /// Get the list of external logins available
+        /// </summary>
+        /// <param name="returnUrl">Url to redirect the user to as soon as log in has occured</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [ChildActionOnly]
         public ActionResult ExternalLoginsList(string returnUrl)

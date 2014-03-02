@@ -29,8 +29,16 @@ using System.Web.Mvc;
 
 namespace ArmedCards.Web.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling the home screen
+    /// </summary>
     public class HomeController : Extensions.ArmedCardsController
     {
+        /// <summary>
+        /// Render the home screen
+        /// </summary>
+        /// <param name="showLogIn">Should the log in modal be shown</param>
+        /// <returns></returns>
         public ActionResult Index(bool? showLogIn)
         {
             Entities.Models.Home.Index model = new Entities.Models.Home.Index();

@@ -59,9 +59,6 @@ namespace ArmedCards.Web
             
             BusinessLogic.UnityConfig.InitContainer();
             
-            //Uncomment the line if we ever want to use unity IoC in Hub
-            //GlobalHost.DependencyResolver.Register(typeof(IHubActivator), () => new Hubs.UnityHubActivator(UnityConfig.Container));
-            
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
 
 			// Ensure ASP.NET Simple Membership is initialized only once per app start
