@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
@@ -52,8 +51,8 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
 			Entities.User user = new Entities.User
 			{
-				UserId = WebSecurity.CurrentUserId,
-				DisplayName = WebSecurity.CurrentUserName
+				UserId = Authentication.Security.CurrentUserId,
+				DisplayName = Authentication.Security.CurrentUserName
 			};
 
 			Entities.ActionContainers.LeaveGame leaveGameContainer = new Entities.ActionContainers.LeaveGame();

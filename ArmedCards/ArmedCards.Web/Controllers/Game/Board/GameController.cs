@@ -29,7 +29,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
@@ -56,7 +55,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
 			String key = String.Format("Game_{0}_Passphrase", id);
 			String passphrase = String.Empty;
-			Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
             if (Session[key] != null)
             {
@@ -113,7 +112,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
         {
             String key = String.Format("Game_{0}_Passphrase", id);
             String passphrase = String.Empty;
-            Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
             if (Session[key] != null)
             {

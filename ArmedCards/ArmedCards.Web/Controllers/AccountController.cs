@@ -28,10 +28,6 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
-using WebMatrix.WebData;
-using ArmedCards.Web.Models;
 
 namespace ArmedCards.Web.Controllers
 {
@@ -58,7 +54,7 @@ namespace ArmedCards.Web.Controllers
                 returnUrl = "/";
             }
 
-            WebSecurity.Logout();
+            Authentication.Security.Logout();
 
             return Redirect(returnUrl);
         }
@@ -73,7 +69,7 @@ namespace ArmedCards.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            return new Extensions.ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            return new Authentication.Extensions.ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
         //
@@ -81,11 +77,11 @@ namespace ArmedCards.Web.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            Authentication.Results.AuthResult result = Authentication.OAuthSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
 			
 			if (result.IsSuccessful)
 			{
-				if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
+                if (Authentication.OAuthSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
 				{
 					return RedirectToLocal(returnUrl);
 				}
@@ -93,13 +89,13 @@ namespace ArmedCards.Web.Controllers
 				if (!User.Identity.IsAuthenticated)
 				{
 					// User is new, ask for their desired membership name
-					string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
+                    string loginData = Authentication.OAuthSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
 
-					Models.Account.RegisterExternalLogin model = new Models.Account.RegisterExternalLogin
+					Authentication.Models.Account.RegisterExternalLogin model = new Authentication.Models.Account.RegisterExternalLogin
 					{
 						UserName = "",
 						ExternalLoginData = loginData,
-						ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName,
+                        ProviderDisplayName = Authentication.OAuthSecurity.GetOAuthClientDataDisplayName(result.Provider),
 						ReturnUrl = returnUrl
 					};
 
@@ -115,12 +111,12 @@ namespace ArmedCards.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(Models.Account.RegisterExternalLogin model)
+        public ActionResult ExternalLoginConfirmation(Authentication.Models.Account.RegisterExternalLogin model)
         {
             string provider = null;
             string providerUserId = null;
 
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+            if (User.Identity.IsAuthenticated || !Authentication.OAuthSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
             {
                 return RedirectToAction("Manage");
             }
@@ -137,8 +133,8 @@ namespace ArmedCards.Web.Controllers
                 // Check if user already exists
                 if (user.UserId > 0)
                 {
-                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                    OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+                    Authentication.OAuthSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                    Authentication.OAuthSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
                     return RedirectToLocal(model.ReturnUrl);
                 }
@@ -163,10 +159,10 @@ namespace ArmedCards.Web.Controllers
         [ChildActionOnly]
         public ActionResult ExternalLoginsList(string returnUrl)
         {
-            Models.Account.ExternalLoginList model = new Models.Account.ExternalLoginList
+            Authentication.Models.Account.ExternalLoginList model = new Authentication.Models.Account.ExternalLoginList
             {
                 ReturnUrl = returnUrl,
-                Logins = OAuthWebSecurity.RegisteredClientData
+                Logins = Authentication.OAuthSecurity.GetLogins()
             };
 
             return PartialView("~/Views/Account/_LoginModal.cshtml", model);

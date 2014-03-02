@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 using Microsoft.Practices.Unity;
 using System.Threading.Tasks;
@@ -102,7 +101,7 @@ namespace ArmedCards.Web.Hubs
         {
             AS.GamePlayerCard.Base.IPlay _playCard = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerCard.Base.IPlay>();
 
-            Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, WebSecurity.CurrentUserId,
+            Entities.ActionResponses.PlayCard response = _playCard.Execute(message.CardIDs, message.GameID, Authentication.Security.CurrentUserId,
                                                                             Helpers.HubActions.CardPlayed);
         }
 
@@ -113,8 +112,8 @@ namespace ArmedCards.Web.Hubs
 
             Entities.User user = new Entities.User
             {
-                UserId = WebSecurity.CurrentUserId,
-                DisplayName = WebSecurity.CurrentUserName
+                UserId = Authentication.Security.CurrentUserId,
+                DisplayName = Authentication.Security.CurrentUserName
             };
 
             _startGame.Execute(gameID, user, Helpers.HubActions.UpdateGameView);
@@ -125,7 +124,7 @@ namespace ArmedCards.Web.Hubs
         {
             AS.GameRound.Base.IComplete _completeRound = BusinessLogic.UnityConfig.Container.Resolve<AS.GameRound.Base.IComplete>();
 
-            _completeRound.Execute(message.GameID, message.CardIDs, WebSecurity.CurrentUserId, Helpers.HubActions.WinnerSelected);
+            _completeRound.Execute(message.GameID, message.CardIDs, Authentication.Security.CurrentUserId, Helpers.HubActions.WinnerSelected);
         }
 
         [HubMethodName("VoteToKick")]
@@ -134,7 +133,7 @@ namespace ArmedCards.Web.Hubs
             Entities.GamePlayerKickVote vote = new Entities.GamePlayerKickVote();
             vote.GameID = message.GameID;
             vote.KickUserId = message.KickUserId;
-            vote.VotedUserId = WebSecurity.CurrentUserId;
+            vote.VotedUserId = Authentication.Security.CurrentUserId;
             vote.Vote = message.Kick;
 
             Entities.ActionContainers.KickPlayer container = new Entities.ActionContainers.KickPlayer();
@@ -183,7 +182,7 @@ namespace ArmedCards.Web.Hubs
 
         private void InsertConnection(String groupName, Entities.Enums.ConnectionType connectionType)
         {
-            Int32 userId = WebSecurity.CurrentUserId;
+            Int32 userId = Authentication.Security.CurrentUserId;
 
             if (userId > 0)
             {

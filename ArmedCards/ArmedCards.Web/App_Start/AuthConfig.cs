@@ -25,8 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Web.WebPages.OAuth;
-using ArmedCards.Web.Models;
 using System.Web.Security;
 
 namespace ArmedCards.Web
@@ -49,19 +47,19 @@ namespace ArmedCards.Web
 
 			Entities.ProviderInfo twitter = providers.Find(x => x.Name.ToLower() == "twitter");
 
-            OAuthWebSecurity.RegisterTwitterClient(
+            Authentication.OAuthSecurity.RegisterTwitterClient(
                 consumerKey: twitter.Key,
 				consumerSecret: Encoding.ASCII.GetString(Convert.FromBase64String(twitter.Secret))
 			);
 
 			Entities.ProviderInfo facebook = providers.Find(x => x.Name.ToLower() == "facebook");
 
-            OAuthWebSecurity.RegisterFacebookClient(
+            Authentication.OAuthSecurity.RegisterFacebookClient(
                 appId: facebook.Key,
 				appSecret: Encoding.ASCII.GetString(Convert.FromBase64String(facebook.Secret))
 			);
 
-            OAuthWebSecurity.RegisterGoogleClient();
+            Authentication.OAuthSecurity.RegisterGoogleClient();
         }
     }
 }

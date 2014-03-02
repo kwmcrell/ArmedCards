@@ -32,9 +32,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using AS = ArmedCards.BusinessLogic.AppServices;
-using ArmedCards.Web.Models;
-using System.Data.Entity.Infrastructure;
-using WebMatrix.WebData;
 using System.Configuration;
 using System.Web.Configuration;
 using Microsoft.AspNet.SignalR;
@@ -68,7 +65,7 @@ namespace ArmedCards.Web
             ControllerBuilder.Current.SetControllerFactory(typeof(ArmedCards.Web.UnityControllerFactory));
 
 			// Ensure ASP.NET Simple Membership is initialized only once per app start
-			DatabaseInitialize();
+            new ArmedCards.Authentication.DatabaseInitialize().Excute();
 
             AuthConfig.RegisterAuth();
 
@@ -77,28 +74,5 @@ namespace ArmedCards.Web
             Entities.Filters.ActiveConnection.DeleteAll filter = new Entities.Filters.ActiveConnection.DeleteAll();
             _deleteActiveConnection.Execute(filter);
         }
-
-		private void DatabaseInitialize()
-		{
-			System.Data.Entity.Database.SetInitializer<Models.Account.UsersContext>(null);
-
-			try
-			{
-                using (var context = new Models.Account.UsersContext())
-				{
-					if (!context.Database.Exists())
-					{
-						// Create the SimpleMembership database without Entity Framework migration schema
-						((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
-					}
-				}
-
-				WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
-			}
-			catch (Exception ex)
-			{
-				throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
-			}
-		}
     }
 }

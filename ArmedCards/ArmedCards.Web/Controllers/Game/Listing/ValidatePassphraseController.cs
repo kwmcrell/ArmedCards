@@ -28,7 +28,6 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices.Game;
 
 namespace ArmedCards.Web.Controllers.Game.Listing

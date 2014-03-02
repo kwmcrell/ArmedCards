@@ -21,13 +21,11 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Microsoft.Web.WebPages.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers
@@ -53,7 +51,7 @@ namespace ArmedCards.Web.Controllers
         {
 			Entities.User viewedProfile = _selectUser.Execute(id);
 
-			Int32 currentUserId = WebSecurity.CurrentUserId;
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
 
 			if (viewedProfile != null)
 			{
@@ -83,7 +81,7 @@ namespace ArmedCards.Web.Controllers
 		public ActionResult ChangeDisplayName()
 		{
             Entities.Models.Profile.ChangeDisplayName model = new Entities.Models.Profile.ChangeDisplayName();
-			model.DisplayName = WebSecurity.CurrentUserName;
+            model.DisplayName = Authentication.Security.CurrentUserName;
 
 			return View(model);
 		}
@@ -93,20 +91,20 @@ namespace ArmedCards.Web.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				int currentUserId = WebSecurity.CurrentUserId;
-				String currentDisplayName = WebSecurity.CurrentUserName;
+                int currentUserId = Authentication.Security.CurrentUserId;
+                String currentDisplayName = Authentication.Security.CurrentUserName;
 
 				Entities.OAMembership memberShipData = null;
 
-				if (!WebSecurity.UserExists(model.DisplayName))
+                if (!Authentication.Security.UserExists(model.DisplayName))
 				{
 					memberShipData = _updateUser.Execute(currentUserId, model.DisplayName, currentDisplayName);
 				}
 
 				if (memberShipData != null)
 				{
-					WebSecurity.Logout();
-					OAuthWebSecurity.Login(memberShipData.Provider, memberShipData.ProviderUserId, false);
+                    Authentication.Security.Logout();
+					Authentication.OAuthSecurity.Login(memberShipData.Provider, memberShipData.ProviderUserId, false);
 					return Redirect(string.Format("/Profile/{0}", currentUserId));
 				}
 				else if (model.DisplayName == currentDisplayName)

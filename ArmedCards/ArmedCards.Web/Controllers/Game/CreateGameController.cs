@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebMatrix.WebData;
 using ACAS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game
@@ -51,7 +50,7 @@ namespace ArmedCards.Web.Controllers.Game
         {
             if (ModelState.IsValid)
             {
-                model.Game.GameCreator_UserId = WebSecurity.CurrentUserId;
+                model.Game.GameCreator_UserId = Authentication.Security.CurrentUserId;
                 model.Game.GameDeckIDs.Add(1);
 
                 _insertGame.Execute(model.Game);
