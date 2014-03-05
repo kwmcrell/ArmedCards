@@ -43,6 +43,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 		private AS.Hubs.Base.ISendMessage _sendMessage;
 		private AS.User.Base.ISelect _selectUser;
 		private AS.GamePlayerKickVote.Base.ISelect _selectKickVotes;
+        private AS.GameRound.Base.ISelect _selectGameRounds;
 
         /// <summary>
         /// Constructor
@@ -52,12 +53,14 @@ namespace ArmedCards.Web.Controllers.Game.Board
         /// <param name="selectUser"></param>
         /// <param name="selectKickVotes"></param>
         public GameController(AS.Game.Base.IJoin joinGame, AS.Hubs.Base.ISendMessage sendMessage,
-								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes)
+								AS.User.Base.ISelect selectUser, AS.GamePlayerKickVote.Base.ISelect selectKickVotes,
+                                AS.GameRound.Base.ISelect selectGameRounds)
         {
             this._joinGame = joinGame;
 			this._sendMessage = sendMessage;
 			this._selectUser = selectUser;
 			this._selectKickVotes = selectKickVotes;
+            this._selectGameRounds = selectGameRounds;
         }
 
         /// <summary>
@@ -107,9 +110,12 @@ namespace ArmedCards.Web.Controllers.Game.Board
                     }
                 }
 
+                List<Entities.GameRound> completedRounds = _selectGameRounds.Execute(new Entities.Filters.GameRound.SelectCompleted(id));
+
                 Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(response.Game, currentUserId, 
                                                                                                         Entities.Enums.GamePlayerType.Player,
-                                                                                                        votesToKick);
+                                                                                                        votesToKick,
+                                                                                                        completedRounds);
 
                 return View("~/Views/Game/Board/Index.cshtml", model);
             }

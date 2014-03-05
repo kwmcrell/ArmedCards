@@ -132,6 +132,17 @@ ViewModelInit.prototype.GameVotesToKick = function () {
     ko.applyBindings(ArmedCards.Game.ViewModels.GameVotesToKick, document.getElementById('alert-container'));
 };
 
+ViewModelInit.prototype.GameCompletedRounds = function () {
+    var $gameJson = $('#gameCompletedRounds');
+
+    var parsed = $.parseJSON($gameJson.val());
+    $gameJson.remove();
+
+    ArmedCards.Game.ViewModels.GameCompletedRounds = new GameCompletedRounds(parsed.Rounds);
+
+    ko.applyBindings(ArmedCards.Game.ViewModels.GameCompletedRounds, document.getElementById('roundHistory'));
+};
+
 $.Topic("renderViews").subscribe(function () {
     ArmedCards.Game.ViewModelInit.GameHeader();
     ArmedCards.Game.ViewModelInit.GameLobby();
@@ -141,4 +152,5 @@ $.Topic("renderViews").subscribe(function () {
     ArmedCards.Game.ViewModelInit.GameAnswers();
     ArmedCards.Game.ViewModelInit.GameHand();
     ArmedCards.Game.ViewModelInit.GameVotesToKick();
+    ArmedCards.Game.ViewModelInit.GameCompletedRounds();
 });

@@ -53,11 +53,13 @@
     <fieldset id="tabContainer">
         <a id="gameChatTab" href="#" class="button active">Game</a>
         <a id="globalChatTab" href="#" class="button">Global</a>
+        <a id="roundHistoryTab" href="#" class="button">History</a>
     </fieldset>
     <div class="chatContainer" style="width:100%;">
         <div id="chatClient">
             <ul id="gameDiscussion" class="discussion"></ul>
             <ul id="discussion" class="discussion hidden"></ul>
+            @Html.Partial("~/Views/Game/Board/Sidebar/_RoundHistory.cshtml", Model.AllRoundsViewModel)
         </div>
         <div id="chatInputDiv" class="chatField fakeInput">
             <input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>

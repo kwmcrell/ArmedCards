@@ -27,33 +27,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.DomainServices.GameRound.Base
+namespace ArmedCards.Entities.Models.Game.Board
 {
-	/// <summary>
-	/// Interface defining Select for GameRound
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Selects game rounds base on gameID
-		/// </summary>
-		/// <param name="gameID">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Int32 gameID);
-
-		/// <summary>
-		/// Selects the current round for a game
-		/// </summary>
-		/// <param name="gameID">Filter used to select game rounds</param>
-		/// <param name="selectCards">Select cards for the round</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Int32 gameID, Boolean selectCards);
+    /// <summary>
+    /// View model for displaying all rounds in the history tab
+    /// </summary>
+    public class AllRounds
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="rounds"></param>
+        public AllRounds(List<Entities.GameRound> rounds)
+        {
+            this.Rounds = rounds;
+        }
 
         /// <summary>
-        /// Selects game rounds base on supplied filter
+        /// List of the game's completed rounds
         /// </summary>
-        /// <param name="filter">Filter used to select game rounds</param>
-        /// <returns>A list of game rounds that satisfy the supplied filter</returns>
-        List<Entities.GameRound> Execute(Entities.Filters.GameRound.SelectCompleted filter);
-	}
+        public List<Entities.GameRound> Rounds { get; private set; }
+    }
 }

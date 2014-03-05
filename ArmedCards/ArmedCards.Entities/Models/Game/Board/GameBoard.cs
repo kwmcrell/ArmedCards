@@ -42,8 +42,10 @@ namespace ArmedCards.Entities.Models.Game.Board
         /// <param name="hand"></param>
         /// <param name="playerType"></param>
         /// <param name="voteToKickList"></param>
+        /// <param name="completedRounds"></param>
         public GameBoard(Entities.Game game, Int32 userId, Entities.Enums.GamePlayerType playerType,
-                         List<Models.Game.Board.VoteToKick> voteToKickList = null)
+                         List<Models.Game.Board.VoteToKick> voteToKickList = null,
+                         List<Entities.GameRound> completedRounds = null)
         {
             Game = game;
             UserId = userId;
@@ -68,7 +70,6 @@ namespace ArmedCards.Entities.Models.Game.Board
                 RoundHasWinner = false;
                 IsCommander = false;
             }
-
             
             ShowHand = ActivePlayer && !Answered && !IsCommander && PlayerType == Entities.Enums.GamePlayerType.Player;
 
@@ -94,6 +95,7 @@ namespace ArmedCards.Entities.Models.Game.Board
             RoundQuestionViewModel = new RoundQuestion(round, ShowBoard);
             WaitingViewModel = new Waiting(ShowWaiting);
             VotesToKickViewModel = new VotesToKick(voteToKickList ?? new List<Models.Game.Board.VoteToKick>());
+            AllRoundsViewModel = new AllRounds(completedRounds ?? new List<GameRound>());
 
             HeaderViewModel = new Shared.Header();
             
@@ -232,8 +234,13 @@ namespace ArmedCards.Entities.Models.Game.Board
         public Models.Game.Board.VotesToKick VotesToKickViewModel { get; private set; }
 
         /// <summary>
+        /// View model for all completed rounds
+        /// </summary>
+        public Models.Game.Board.AllRounds AllRoundsViewModel { get; private set; }
+
+        /// <summary>
         /// View model for the game header
         /// </summary>
-        public ArmedCards.Entities.Models.Shared.Header HeaderViewModel { get; private set; }
+        public Models.Shared.Header HeaderViewModel { get; private set; }
     }
 }
