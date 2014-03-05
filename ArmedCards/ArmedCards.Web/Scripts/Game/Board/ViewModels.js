@@ -183,3 +183,8 @@ var GameVotesToKick = function (votes) {
         oldVote.VotesNotToKick(newVote.VotesNotToKick);
     }.bind(this);
 };
+
+var GameCompletedRounds = function (rounds) {
+    this.Rounds = new ko.observableArray(rounds);
+    this.Hidden = new ko.observable(true);
+};

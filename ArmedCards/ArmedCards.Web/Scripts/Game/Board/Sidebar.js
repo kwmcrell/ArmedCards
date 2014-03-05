@@ -64,6 +64,11 @@ Sidebar.prototype.CalculateChatHeight = function () {
 	var chatInputDivHeight = $('#chatInputDiv').height();
 	var tabContainer = $('#tabContainer').height();
 	var playersHeaderHeight = $('#playersHeader').height();
+    
+	if ($('#chatInputDiv:visible').length == 0)
+	{
+	    chatInputDivHeight = 0;
+	}
 
 	var chatClientNewHeight = sidebarHeight - gameHeaderHeight
                                                 - gameLobbyHeight
@@ -91,20 +96,45 @@ Sidebar.prototype.GlobalChatTab = function (event) {
 	event.preventDefault();
 
 	$('#gameChatTab').removeClass('active');
+	$('#roundHistoryTab').removeClass('active');
 	$('#discussion').removeClass('hidden');
 
 	$('#globalChatTab').addClass('active');
 	$('#gameDiscussion').addClass('hidden');
+	ArmedCards.Game.ViewModels.GameCompletedRounds.Hidden(true);
+	$('#chatInputDiv').removeClass('hidden');
+	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
 
 Sidebar.prototype.GameChatTab = function (event) {
 	event.preventDefault();
 
 	$('#globalChatTab').removeClass('active');
+	$('#roundHistoryTab').removeClass('active');
 	$('#gameDiscussion').removeClass('hidden');
 
 	$('#gameChatTab').addClass('active');
 	$('#discussion').addClass('hidden');
+	ArmedCards.Game.ViewModels.GameCompletedRounds.Hidden(true);
+	$('#chatInputDiv').removeClass('hidden');
+	ArmedCards.Game.Sidebar.CalculateChatHeight();
+};
+
+Sidebar.prototype.RoundHistoryTab = function (event) {
+    event.preventDefault();
+
+    $('#roundHistoryTab').addClass('active');
+    ArmedCards.Game.ViewModels.GameCompletedRounds.Hidden(false);
+
+    $('#chatInputDiv').addClass('hidden');
+
+    $('#gameChatTab').removeClass('active');
+    $('#globalChatTab').removeClass('active');
+
+    $('#discussion').addClass('hidden');
+    $('#gameDiscussion').addClass('hidden');
+
+    ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
 
 Sidebar.prototype.PlayerMenuOpen = function (event) {
@@ -151,6 +181,10 @@ Sidebar.prototype.Init = function () {
 	$('#gameChatTab').unbind().bind({
 		click: ArmedCards.Game.Sidebar.GameChatTab
 	});
+
+	$('#roundHistoryTab').unbind().bind({
+        click: ArmedCards.Game.Sidebar.RoundHistoryTab
+	})
 
 	$('#gameLobby')
 	.off({

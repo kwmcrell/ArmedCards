@@ -1175,6 +1175,7 @@ fieldset > .button.active
 	position: absolute;
 	text-align: right;
 	width: calc(100% - 2.4em);
+    height: 0px;
 }
 
 .chat.bottom
@@ -1470,6 +1471,7 @@ body .chat.right .openClose a span.mobileOpenClose
 {
 	font-size: .8em;
 	margin: 0;
+    padding-top: 5px;
 }
 
 .chat fieldset a

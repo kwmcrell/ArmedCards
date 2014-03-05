@@ -21,39 +21,36 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[GameRound_SelectCompleted]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GameRound_SelectCompleted] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.DomainServices.GameRound.Base
-{
-	/// <summary>
-	/// Interface defining Select for GameRound
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Selects game rounds base on gameID
-		/// </summary>
-		/// <param name="gameID">Filter used to select game rounds</param>
-		/// <returns>A list of game rounds that satisfy the supplied filter</returns>
-		List<Entities.GameRound> Execute(Int32 gameID);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 3/2/2014
+-- Description:	Selects completed rounds based on game id
+-- ===============================================
+CREATE PROC [dbo].[GameRound_SelectCompleted] 
+	@GameID			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-		/// <summary>
-		/// Selects the current round for a game
-		/// </summary>
-		/// <param name="gameID">Filter used to select game rounds</param>
-		/// <param name="selectCards">Select cards for the round</param>
-		/// <returns>The current round</returns>
-		Entities.GameRound Execute(Int32 gameID, Boolean selectCards);
+	SELECT DISTINCT	GR.[GameRoundID],
+					GR.[Started],
+					GR.[Game_GameID],
+					UP.[UserId],
+					UP.[UserName]
+	FROM [dbo].[GameRound] GR
+	INNER JOIN [dbo].[GameRoundCard] GRC ON GRC.[GameRound_GameRoundID] = GR.[GameRoundID] 
+										AND GRC.[Winner] = 1
+	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GRC.[PlayedBy_UserId]
+	WHERE GR.[Game_GameID] = @GameID
+	ORDER BY GR.[GameRoundID] DESC
 
-        /// <summary>
-        /// Selects game rounds base on supplied filter
-        /// </summary>
-        /// <param name="filter">Filter used to select game rounds</param>
-        /// <returns>A list of game rounds that satisfy the supplied filter</returns>
-        List<Entities.GameRound> Execute(Entities.Filters.GameRound.SelectCompleted filter);
-	}
-}
+	COMMIT
+GO

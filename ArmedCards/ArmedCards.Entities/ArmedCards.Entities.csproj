@@ -80,6 +80,7 @@
     <Compile Include="Filters\GameRoundCard\UpdateWinner.cs" />
     <Compile Include="Filters\GameRound\Delete.cs" />
     <Compile Include="Filters\GameRound\Select.cs" />
+    <Compile Include="Filters\GameRound\SelectCompleted.cs" />
     <Compile Include="Filters\GameRound\SelectCurrent.cs" />
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="GroupedAnswers.cs" />
     <Compile Include="JoinResponse.cs" />
     <Compile Include="LeaderboardRecord.cs" />
+    <Compile Include="Models\Game\Board\AllRounds.cs" />
     <Compile Include="Models\Game\Board\Answers.cs" />
     <Compile Include="Models\Game\Board\GameBoard.cs" />
     <Compile Include="Models\Game\Board\GameOver.cs" />

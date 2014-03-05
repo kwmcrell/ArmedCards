@@ -135,6 +135,7 @@
     <Content Include="_DBScripts\GameRound\GameRound_Insert.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_Select.sql" />
     <Content Include="_DBScripts\GameRound\%40GameRoundTable.sql" />
+    <Content Include="_DBScripts\GameRound\GameRound_SelectCompleted.sql" />
     <Content Include="_DBScripts\GameRound\GameRound_SelectCurrent.sql" />
     <Content Include="_DBScripts\Game\%40GameTable.sql" />
     <Content Include="_DBScripts\Game\Game_Select.sql" />

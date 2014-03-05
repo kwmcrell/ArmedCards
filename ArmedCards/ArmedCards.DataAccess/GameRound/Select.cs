@@ -93,5 +93,30 @@ namespace ArmedCards.DataAccess.GameRound
 
 			return gameRounds.FirstOrDefault();
 		}
+
+        /// <summary>
+        /// Selects game rounds base on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game rounds</param>
+        /// <returns>A list of game rounds that satisfy the supplied filter</returns>
+        public List<Entities.GameRound> Execute(Entities.Filters.GameRound.SelectCompleted filter)
+        {
+            List<Entities.GameRound> gameRounds = new List<Entities.GameRound>();
+
+            using (DbCommand cmd = _db.GetStoredProcCommand("GameRound_SelectCompleted"))
+			{
+				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+
+				using (IDataReader idr = _db.ExecuteReader(cmd))
+				{
+					while (idr.Read())
+					{
+						gameRounds.Add(new Entities.GameRound(idr));
+					}
+				}
+			}
+
+			return gameRounds;
+        }
 	}
 }

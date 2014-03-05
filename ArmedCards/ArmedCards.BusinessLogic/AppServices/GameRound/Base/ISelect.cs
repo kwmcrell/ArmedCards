@@ -48,5 +48,12 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
 		/// <param name="selectCards">Select cards for the round</param>
 		/// <returns>The current round</returns>
 		Entities.GameRound Execute(Int32 gameID, Boolean selectCards);
+
+        /// <summary>
+        /// Selects game rounds base on supplied filter
+        /// </summary>
+        /// <param name="filter">Filter used to select game rounds</param>
+        /// <returns>A list of game rounds that satisfy the supplied filter</returns>
+        List<Entities.GameRound> Execute(Entities.Filters.GameRound.SelectCompleted filter);
 	}
 }
