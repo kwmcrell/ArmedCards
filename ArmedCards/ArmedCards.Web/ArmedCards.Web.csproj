@@ -300,8 +300,6 @@
     <Content Include="Views\Game\Board\Partials\_Spectators.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Header.cshtml" />
     <Content Include="Views\Game\Board\Partials\_RoundQuestion.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_RoundHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
