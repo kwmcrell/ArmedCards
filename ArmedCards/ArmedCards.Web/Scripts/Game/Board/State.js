@@ -85,7 +85,9 @@ State.prototype.UpdateAnswers = function (answersViewModel, answered, winnerSele
 	}
 };
 
-State.prototype.WinnerSelected = function (answersViewModel, gameBoardViewModel, isWaiting, gameOver) {
+State.prototype.WinnerSelected = function (answersViewModel, gameBoardViewModel, isWaiting, gameOver, completedRound) {
+    ArmedCards.Game.ViewModels.GameCompletedRounds.Rounds.unshift(completedRound);
+
     ArmedCards.Game.State.UpdateAnswers(answersViewModel, true, true);
 
     ArmedCards.Game.State.UpdateLobby(gameBoardViewModel.LobbyViewModel);

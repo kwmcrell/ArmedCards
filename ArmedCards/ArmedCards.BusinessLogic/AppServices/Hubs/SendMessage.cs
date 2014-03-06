@@ -278,8 +278,12 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                     Entities.Models.Game.Board.Answers answersModel = new Entities.Models.Game.Board.Answers(true, model.IsCommander, false,
                                                                                                false, false, true, round.GroupedAnswers());
 
+                    //The round history tab repurposed this to be the winner of the round when the page is loaded
+                    //so setting this here so that when pushed into the observable array it will look correct
+                    round.CardCommander = round.Winner();
+
                     hub.Clients.Client(connection.ActiveConnectionID)
-                                       .WinnerSelected(answersModel, model, game.IsWaiting(), game.HasWinner());
+                                       .WinnerSelected(answersModel, model, game.IsWaiting(), game.HasWinner(), round);
                 }
             }
         }
