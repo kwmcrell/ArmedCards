@@ -1219,11 +1219,11 @@ fieldset > .button.active
 	height: 100%;
 	top: 0;
 	right: -350px;
-	-webkit-transition: right 200ms;
-	-moz-transition: right 200ms;
-	-ms-transition: right 200ms;
-	-o-transition: right 200ms;
-	transition: right 200ms;
+	-webkit-transition: right 400ms;
+	-moz-transition: right 400ms;
+	-ms-transition: right 400ms;
+	-o-transition: right 400ms;
+	transition: right 400ms;
 	width: 350px;
 }
 
@@ -3049,6 +3049,11 @@ body #toast-container > .toast-info
 		margin-bottom: 2em;
 	}
 
+	body .game
+	{
+		padding-top: 2em;
+	}
+
 	body.chatOpen .game
 	{
 		max-height: 500px;
@@ -3057,7 +3062,7 @@ body #toast-container > .toast-info
 
 	body.chatOpen.right
 	{
-		margin: 0;
+		margin: 8px;
 	}
 	
 	body .chat.right
@@ -3068,7 +3073,7 @@ body #toast-container > .toast-info
 		padding: .75em;
 		position: absolute;
 		right: auto;
-		top: auto;
+		top: 0;
 		width: 100%;
 	}
 
