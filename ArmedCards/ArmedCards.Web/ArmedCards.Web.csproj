@@ -187,6 +187,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
     <Compile Include="Extensions\Html\Checkbox.cs" />
+    <Compile Include="Extensions\RequireHttpsAttribute.cs" />
     <Compile Include="Extensions\UnityControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
