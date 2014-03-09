@@ -25,12 +25,12 @@
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+
+    ArmedCards.Entities.Models.Shared.Header header = new ArmedCards.Entities.Models.Shared.Header();
+    header.SubHeaderText = "Set Display Name";
 }
 
-<div class="radHeader">
-	<h1><a href="index.html" title="Home">Armed Cards!#&amp;?</a></h1>
-	<h2>Set Display Name</h2>
-</div>
+@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", FormMethod.Post, new { id="externalLogin" }))
 {
