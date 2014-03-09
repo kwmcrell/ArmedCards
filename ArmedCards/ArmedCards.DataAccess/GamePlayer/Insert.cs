@@ -58,6 +58,7 @@ namespace ArmedCards.DataAccess.GamePlayer
                 _db.AddInParameter(cmd, "@Points",		DbType.Int32, 0);
 				_db.AddInParameter(cmd, "@JoinDate",	DbType.DateTime, DateTime.UtcNow);
                 _db.AddInParameter(cmd, "@Type",        DbType.Int32, player.PlayerType);
+                _db.AddInParameter(cmd, "@IdlePlayCount", DbType.Int32, player.IdlePlayCount);
 
                 _db.AddOutParameter(cmd, "@TotalPlayers", DbType.Int32, sizeof(Int32));
 

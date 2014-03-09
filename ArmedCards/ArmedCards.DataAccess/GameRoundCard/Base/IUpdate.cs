@@ -34,10 +34,11 @@ namespace ArmedCards.DataAccess.GameRoundCard.Base
 	/// </summary>
 	public interface IUpdate
 	{
-		/// <summary>
-		/// Update winning cards for the round
-		/// </summary>
-		/// <param name="filter"></param>
-		void Execute(Entities.Filters.GameRoundCard.UpdateWinner filter);
+        /// <summary>
+        /// Update winning cards for the round
+        /// </summary>
+        /// <param name="filter">Determins the winning cards</param>
+        /// <returns>If the winner was an auto played card</returns>
+        Boolean Execute(Entities.Filters.GameRoundCard.UpdateWinner filter);
 	}
 }

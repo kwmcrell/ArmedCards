@@ -34,7 +34,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[GameRoundCard_UpdateWinners]
 	@CardIDs			XML,
-	@GameID				INT
+	@GameID				INT,
+	@AutoPlayed			BIT OUTPUT
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -43,6 +44,12 @@ AS
 
 	UPDATE [dbo].[GameRoundCard]
 	SET [Winner] = 1
+	WHERE [Card_CardID] IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
+	AND [Game_GameID] = @GameID
+
+	SELECT TOP 1 @AutoPlayed = GRC.[AutoPlayed]
+	FROM [GameRoundCard] GRC
 	WHERE [Card_CardID] IN (SELECT ids.id.value('@value', 'int')
 						  FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
 	AND [Game_GameID] = @GameID

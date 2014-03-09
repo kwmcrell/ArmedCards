@@ -64,3 +64,11 @@ IF OBJECT_ID('[dbo].[GameRoundCard]') IS NULL
 
 	ALTER TABLE [dbo].[GameRoundCard] CHECK CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_GameRound_GameRoundID]
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'AutoPlayed' 
+				AND Object_ID = Object_ID(N'GameRoundCard'))
+BEGIN
+    ALTER TABLE [dbo].[GameRoundCard] ADD [AutoPlayed] [bit] NOT NULL DEFAULT 0
+END

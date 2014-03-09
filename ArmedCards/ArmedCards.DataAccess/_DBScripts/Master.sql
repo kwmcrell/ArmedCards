@@ -2237,7 +2237,13 @@ BEGIN
     ALTER TABLE [dbo].[Game] ADD [MaxNumberOfSpectators] [int] NOT NULL DEFAULT 0
 END
 
-
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'SecondsToPlay' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [SecondsToPlay] [int] NOT NULL DEFAULT -1
+END
 GO 
 
 /*
@@ -2286,6 +2292,7 @@ CREATE PROC [dbo].[Game_Insert]
 	@GameOver				datetime	  =	NULL,
 	@GameDeckIDs			xml,
 	@MaxNumberOfSpectators	int			  = 0,
+	@SecondsToPlay			int			  = -1,
 	@NewID					int				OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2303,7 +2310,8 @@ AS
            ,[DateCreated]
            ,[PlayedLast]
            ,[GameOver]
-		   ,[MaxNumberOfSpectators])
+		   ,[MaxNumberOfSpectators]
+		   ,[SecondsToPlay])
      SELECT
            @Title,
 		   @IsPrivate,
@@ -2314,7 +2322,8 @@ AS
 		   @DateCreated,
 		   @PlayedLast,
 		   @GameOver,
-		   @MaxNumberOfSpectators
+		   @MaxNumberOfSpectators,
+		   @SecondsToPlay
 	
 	SET @NewID = @@IDENTITY
 
@@ -2383,6 +2392,7 @@ AS
 			G.[GameOver],
 			G.[AnswerShuffleCount],
 			G.[QuestionShuffleCount],
+			G.[SecondsToPlay],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
@@ -2566,6 +2576,14 @@ IF NOT EXISTS(	SELECT *
 BEGIN
     ALTER TABLE [dbo].[GamePlayer] ADD [Type] [int] NOT NULL DEFAULT 1
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'IdlePlayCount' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [IdlePlayCount] [int] NOT NULL DEFAULT 0
+END
 GO 
 
 /*
@@ -2676,6 +2694,7 @@ CREATE PROC [dbo].[GamePlayer_Insert]
 	@Points			int,
 	@JoinDate		datetime,
 	@Type			int,
+	@IdlePlayCount  int,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2691,13 +2710,15 @@ AS
 		UserId,
 		Points,
 		JoinDate,
-		Type
+		Type,
+		IdlePlayCount
 	)
 	SELECT	@GameID,
 			@UserId,
 			@Points,
 			@JoinDate,
-			@Type
+			@Type,
+			@IdlePlayCount
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
@@ -2777,6 +2798,7 @@ AS
 			GP.[Type],
 			UP.[UserName],
 			UP.[PictureUrl],
+			GP.[IdlePlayCount],
 			CASE WHEN GP.[Type] = 1
 				THEN
 					(SELECT COUNT(CardID)
@@ -2847,11 +2869,65 @@ AS
 			GP.[GameID],
 			GP.[UserId],
 			GP.[JoinDate],
-			GP.[Type]
+			GP.[Type],
+			GP.[IdlePlayCount]
 	 FROM [dbo].[GamePlayer] GP
 	 INNER JOIN [dbo].[Game] G ON G.[GameID] = GP.[GameID]
 	 WHERE GP.[UserId] = @UserId
 	 AND   GP.[Type]   = @Type
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[GamePlayer_UpdateIdlePlayCount]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[GamePlayer_UpdateIdlePlayCount] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 2/8/2014
+-- Description:	Update player idle play count
+-- ===============================================
+CREATE PROC [dbo].[GamePlayer_UpdateIdlePlayCount] 
+	@GameID			int,
+	@UserId			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+
+	BEGIN TRAN 
+
+	UPDATE [dbo].[GamePlayer]
+	SET IdlePlayCount = (IdlePlayCount + 1)
+	WHERE	GameID = @GameID
+	AND		UserId = @UserId
+	AND		Type   = 1
 
 	COMMIT
 GO
@@ -3521,6 +3597,14 @@ IF OBJECT_ID('[dbo].[GameRoundCard]') IS NULL
 
 	ALTER TABLE [dbo].[GameRoundCard] CHECK CONSTRAINT [FK_dbo.GameRoundCard_dbo.GameRound_GameRound_GameRoundID]
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'AutoPlayed' 
+				AND Object_ID = Object_ID(N'GameRoundCard'))
+BEGIN
+    ALTER TABLE [dbo].[GameRoundCard] ADD [AutoPlayed] [bit] NOT NULL DEFAULT 0
+END
 GO 
 
 /*
@@ -3573,6 +3657,7 @@ AS
 			GRC.[PlayedBy_UserId],
 			GRC.[PlayOrder],
 			GRC.[Winner],
+			GRC.[AutoPlayed],
 			C.[Content],
 			C.[Instructions],
 			C.[Type],
@@ -3626,7 +3711,8 @@ GO
 -- ===============================================
 CREATE PROC [dbo].[GameRoundCard_UpdateWinners]
 	@CardIDs			XML,
-	@GameID				INT
+	@GameID				INT,
+	@AutoPlayed			BIT OUTPUT
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -3635,6 +3721,12 @@ AS
 
 	UPDATE [dbo].[GameRoundCard]
 	SET [Winner] = 1
+	WHERE [Card_CardID] IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
+	AND [Game_GameID] = @GameID
+
+	SELECT TOP 1 @AutoPlayed = GRC.[AutoPlayed]
+	FROM [GameRoundCard] GRC
 	WHERE [Card_CardID] IN (SELECT ids.id.value('@value', 'int')
 						  FROM	 @CardIDs.nodes('ids/id') AS ids ( id ))
 	AND [Game_GameID] = @GameID

@@ -1,24 +1,24 @@
 ﻿@*
- * Copyright (c) 2013, Kevin McRell & Paul Miller
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification, are permitted
- * provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this list of conditions
- *   and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice, this list of
- *   conditions and the following disclaimer in the documentation and/or other materials provided
- *   with the distribution.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
- * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
 @model ArmedCards.Entities.Models.Game.CreateGame
@@ -73,14 +73,14 @@
                         </select>
                     </div>
                     <label for="Game_PointToWin">points needed to win game.</label>
-					@Html.ValidationMessageFor(m => m.Game.PointToWin)
+                    @Html.ValidationMessageFor(m => m.Game.PointToWin)
                 </div>
                 <br />
                 <br />
                 <div>
                     <div class="fakeSelect">
                         <select id="Game_MaxNumberOfSpectators" name="Game.MaxNumberOfSpectators">
-                            @for (int i = 0; i < 11; i ++)
+                            @for (int i = 0; i < 11; i++)
                             {
                                 <option @(Model.Game.MaxNumberOfSpectators == i ? "selected='selected'" : "") value="@i">@i</option>
                             }
@@ -88,6 +88,22 @@
                     </div>
                     <label for="Game_PointToWin">spectators.</label>
                     @Html.ValidationMessageFor(m => m.Game.MaxNumberOfSpectators)
+                </div>
+                <br />
+                <br />
+                <div>
+                    <div class="fakeSelect">
+                        <select id="Game_SecondsToPlay" name="Game.SecondsToPlay">
+                            <option @(Model.Game.SecondsToPlay == -1 ? "selected='selected'" : "") value="-1">&infin;</option>
+                            <option @(Model.Game.SecondsToPlay == 60 ? "selected='selected'" : "") value="60">60</option>
+                            <option @(Model.Game.SecondsToPlay == 90 ? "selected='selected'" : "") value="90">90</option>
+                            <option @(Model.Game.SecondsToPlay == 120 ? "selected='selected'" : "") value="120">120</option>
+                            <option @(Model.Game.SecondsToPlay == 150 ? "selected='selected'" : "") value="150">150</option>
+                            <option @(Model.Game.SecondsToPlay == 180 ? "selected='selected'" : "") value="180">180</option>
+                        </select>
+                    </div>
+                    <label for="Game_SecondsToPlay">second round timer.</label>
+                    @Html.ValidationMessageFor(m => m.Game.SecondsToPlay)
                 </div>
             </div>
         </div>

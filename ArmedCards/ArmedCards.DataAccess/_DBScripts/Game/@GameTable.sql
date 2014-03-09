@@ -75,4 +75,10 @@ BEGIN
     ALTER TABLE [dbo].[Game] ADD [MaxNumberOfSpectators] [int] NOT NULL DEFAULT 0
 END
 
-
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'SecondsToPlay' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [SecondsToPlay] [int] NOT NULL DEFAULT -1
+END

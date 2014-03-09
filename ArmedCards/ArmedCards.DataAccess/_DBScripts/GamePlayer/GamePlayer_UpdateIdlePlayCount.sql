@@ -21,46 +21,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GameRoundCard_Select]') IS NOT NULL
+IF OBJECT_ID('[dbo].[GamePlayer_UpdateIdlePlayCount]') IS NOT NULL
 BEGIN 
-    DROP PROC [dbo].[GameRoundCard_Select] 
+    DROP PROC [dbo].[GamePlayer_UpdateIdlePlayCount] 
 END 
 GO
 
 -- ==============================================
 -- Author:		Kevin McRell
--- Create date: 9/19/2013
--- Description:	Select GameRoundCard
+-- Create date: 2/8/2014
+-- Description:	Update player idle play count
 -- ===============================================
-CREATE PROC [dbo].[GameRoundCard_Select]
-	@GameRoundID			int
+CREATE PROC [dbo].[GamePlayer_UpdateIdlePlayCount] 
+	@GameID			int,
+	@UserId			int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
 
-	SELECT	GRC.[Card_CardID] AS CardID,
-			GRC.[DatePlayed],
-			GRC.[Game_GameID],
-			GRC.[GameRound_GameRoundID],
-			GRC.[GameRoundCardID],
-			GRC.[PlayedBy_UserId],
-			GRC.[PlayOrder],
-			GRC.[Winner],
-			GRC.[AutoPlayed],
-			C.[Content],
-			C.[Instructions],
-			C.[Type],
-			C.[CreatedBy_UserId],
-			UP.[UserId],
-			UP.[UserName],
-			UP.[PictureUrl]
-	FROM [dbo].[GameRoundCard] GRC
-	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID]
-	INNER JOIN [dbo].[UserProfile] UP ON GRC.[PlayedBy_UserId] = UP.[UserId]
-	WHERE	GRC.[GameRound_GameRoundID] = @GameRoundID
+	BEGIN TRAN 
+
+	UPDATE [dbo].[GamePlayer]
+	SET IdlePlayCount = (IdlePlayCount + 1)
+	WHERE	GameID = @GameID
+	AND		UserId = @UserId
+	AND		Type   = 1
 
 	COMMIT
 GO
-

@@ -52,6 +52,7 @@ AS
 			G.[GameOver],
 			G.[AnswerShuffleCount],
 			G.[QuestionShuffleCount],
+			G.[SecondsToPlay],
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]

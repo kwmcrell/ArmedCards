@@ -43,6 +43,7 @@ namespace ArmedCards.Entities
             User    = new User(idr);
             Points  = idr.GetValueByName<Int32>("Points");
 			CardCount = idr.GetValueByName<Int32>("CardCount");
+            IdlePlayCount = idr.GetValueByName<Int32>("IdlePlayCount");
 
 			if (idr.HasColumn("Title"))
 			{
@@ -117,5 +118,10 @@ namespace ArmedCards.Entities
         /// The type of player
         /// </summary>
         public Enums.GamePlayerType PlayerType { get; set; }
+
+        /// <summary>
+        /// The number times a card has been played because the player has been idle
+        /// </summary>
+        public Int32 IdlePlayCount { get; set; }
     }
 }
