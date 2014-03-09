@@ -619,6 +619,12 @@ fieldset > .button.active
 	padding: 2px 0 0;
 }
 
+.confirmMessage.gameHistory
+{
+	margin-left: -512px;
+	width: 1024px;
+}
+
 .hidePickOrder {
 	opacity: 0 !important;
 }
@@ -743,6 +749,7 @@ fieldset > .button.active
 	display: inline-block;
 	margin-right: .4em;
 	position: relative;
+	vertical-align: top
 }
 
 .user .username.loggedIn div a
@@ -789,6 +796,7 @@ fieldset > .button.active
 	font-size: .75em;
 	margin-left: .4em;
 	opacity: .7;
+	vertical-align: text-top;
 }
 
 .user .friends .loggedIn
@@ -1170,12 +1178,12 @@ fieldset > .button.active
 
 .chat .lobby .viewSpectators
 {
+	display: inline-block;
 	margin: 0;
-	padding: 1em 0;
+	padding: 1.75em 0 0;
 	position: absolute;
+	right: 20px;
 	text-align: right;
-	width: calc(100% - 2.4em);
-    height: 0px;
 }
 
 .chat.bottom
@@ -1211,11 +1219,11 @@ fieldset > .button.active
 	height: 100%;
 	top: 0;
 	right: -350px;
-	-webkit-transition: right 200ms;
-	-moz-transition: right 200ms;
-	-ms-transition: right 200ms;
-	-o-transition: right 200ms;
-	transition: right 200ms;
+	-webkit-transition: right 400ms;
+	-moz-transition: right 400ms;
+	-ms-transition: right 400ms;
+	-o-transition: right 400ms;
+	transition: right 400ms;
 	width: 350px;
 }
 
@@ -1362,6 +1370,7 @@ body .chat.right .openClose a span.mobileOpenClose
 .chat.right .loggedIn img
 {
 	border-color: #999;
+	vertical-align: bottom;
 }
 
 .chat.right .playerMenu
@@ -1370,6 +1379,7 @@ body .chat.right .openClose a span.mobileOpenClose
 	display: none;
 	margin-right: .4em;
 	position: relative;
+	vertical-align: bottom;
 	width: 1.5em;
 }
 
@@ -1457,7 +1467,7 @@ body .chat.right .openClose a span.mobileOpenClose
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	/*width: 80%;*/
+	width: 75%;
 }
 
 .chat.right .lobby
@@ -1471,7 +1481,6 @@ body .chat.right .openClose a span.mobileOpenClose
 {
 	font-size: .8em;
 	margin: 0;
-    padding-top: 5px;
 }
 
 .chat fieldset a
@@ -2276,10 +2285,12 @@ body .chat.right .openClose a span.mobileOpenClose
 	display: inline-block;
 	font-style: normal;
 	font-weight: bold;
+	line-height: 24px;
 	margin-left: -3em;
 	margin-right: 2em;
 	min-width: 4em;
 	text-align: right;
+	vertical-align: top;
 }
 
 .leaderboard .board .loggedIn
@@ -3038,6 +3049,11 @@ body #toast-container > .toast-info
 		margin-bottom: 2em;
 	}
 
+	body .game
+	{
+		padding-top: 2em;
+	}
+
 	body.chatOpen .game
 	{
 		max-height: 500px;
@@ -3046,7 +3062,7 @@ body #toast-container > .toast-info
 
 	body.chatOpen.right
 	{
-		margin: 0;
+		margin: 8px;
 	}
 	
 	body .chat.right
@@ -3057,7 +3073,7 @@ body #toast-container > .toast-info
 		padding: .75em;
 		position: absolute;
 		right: auto;
-		top: auto;
+		top: 0;
 		width: 100%;
 	}
 
@@ -3169,6 +3185,11 @@ body #toast-container > .toast-info
 	{
 		font-size: 1em;
 		margin: 1em 0;
+	}
+
+	.chat .lobby .viewSpectators
+	{
+		font-size: .75em;
 	}
 
 	.chatOpen .chat.right

@@ -49,7 +49,7 @@ namespace ArmedCards.Entities.Models.Game.Board
         {
             Game = game;
             UserId = userId;
-            Hand = Game.Players.First(x => x.User.UserId == userId).Hand;
+            Hand = playerType == Enums.GamePlayerType.Player ? Game.Players.First(x => x.User.UserId == userId).Hand : new List<GamePlayerCard>();
             ActivePlayer = Hand.Count > 0;
             PlayerType = playerType;
 

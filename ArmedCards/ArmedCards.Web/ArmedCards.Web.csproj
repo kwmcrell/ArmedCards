@@ -187,6 +187,7 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Extensions\ArmedCardsController.cs" />
     <Compile Include="Extensions\Html\Checkbox.cs" />
+    <Compile Include="Extensions\RequireHttpsAttribute.cs" />
     <Compile Include="Extensions\UnityControllerFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -204,6 +205,16 @@
     <Content Include="Images\gray_jean-big.png" />
     <Content Include="Images\gray_jean.png" />
     <Content Include="Images\PlayerMenu.gif" />
+    <Content Include="Images\ProfilePics\Cats\1.jpg" />
+    <Content Include="Images\ProfilePics\Cats\10.jpg" />
+    <Content Include="Images\ProfilePics\Cats\2.jpg" />
+    <Content Include="Images\ProfilePics\Cats\3.jpg" />
+    <Content Include="Images\ProfilePics\Cats\4.jpg" />
+    <Content Include="Images\ProfilePics\Cats\5.jpg" />
+    <Content Include="Images\ProfilePics\Cats\6.jpg" />
+    <Content Include="Images\ProfilePics\Cats\7.jpg" />
+    <Content Include="Images\ProfilePics\Cats\8.jpg" />
+    <Content Include="Images\ProfilePics\Cats\9.jpg" />
     <Content Include="Scripts\Core\Chat.js" />
     <Content Include="Scripts\Core\Hub.js" />
     <Content Include="Scripts\Core\jQueryTopic.js" />
