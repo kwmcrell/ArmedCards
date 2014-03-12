@@ -21,6 +21,7 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.AspNet.SignalR;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.Unity;
 using System;
@@ -203,6 +204,8 @@ namespace ArmedCards.BusinessLogic
 			Container.RegisterType<BusinessLogic.Repositories.GameRound.Base.IDelete,			BusinessLogic.Repositories.GameRound.Delete>();
 
 			Container.RegisterType<DataAccess.GameRound.Base.IDelete,							DataAccess.GameRound.Delete>();
+
+            Container.RegisterType<BusinessLogic.AppServices.GameRound.Base.ITimerExpired,      BusinessLogic.AppServices.GameRound.TimerExpired>();
 
 			#endregion "Game Round"
 

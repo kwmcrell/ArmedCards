@@ -40,6 +40,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// <param name="gameID">The ID of the game to leave</param>
 		/// <param name="user">The user leaving the game</param>
         /// <param name="playerType">Type of player leaving</param>
-        void Execute(Int32 gameID, Entities.User user, Entities.Enums.GamePlayerType playerType);
+        /// <param name="forcedToLeave">The player was forced to leave</param>
+        void Execute(Int32 gameID, Entities.User user, Entities.Enums.GamePlayerType playerType, Boolean forcedToLeave = false);
 	}
 }

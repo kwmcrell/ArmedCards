@@ -43,5 +43,10 @@ namespace ArmedCards.Entities.ActionResponses
 		/// The current round
 		/// </summary>
 		public GameRound CurrentRound { get; set; }
+
+        /// <summary>
+        /// This card was auto played successfully
+        /// </summary>
+        public Boolean AutoPlayedSuccess { get; set; }
 	}
 }

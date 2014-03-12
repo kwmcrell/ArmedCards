@@ -202,6 +202,10 @@ State.prototype.AlertUsersVote = function (vote) {
 	}
 };
 
+State.prototype.ForceLeave = function () {
+    window.location = "/GameListing";
+};
+
 State.prototype.Init = function () {
 	var hub = $.connection.ArmedCardsHub;
 	hub.client.UpdateAnswers = ArmedCards.Game.State.UpdateAnswers;
@@ -211,6 +215,7 @@ State.prototype.Init = function () {
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;
+	hub.client.ForceLeave = ArmedCards.Game.State.ForceLeave;
 };
 
 State.prototype.ConnectionSuccess = function () {

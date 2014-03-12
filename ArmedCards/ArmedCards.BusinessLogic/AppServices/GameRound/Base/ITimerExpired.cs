@@ -21,46 +21,23 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayer;
 
-namespace ArmedCards.BusinessLogic.AppServices.GamePlayer
+namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
 {
-	/// <summary>
-	/// Implementation of <seealso cref="Base.IUpdate"/>
-	/// </summary>
-	public class Update : Base.IUpdate
-	{
-		private DS.Base.IUpdate _update;
-
-		public Update(DS.Base.IUpdate update)
-		{
-			this._update = update;
-		}
-
-		/// <summary>
-		/// Update a game player's point count
-		/// </summary>
-		/// <param name="filter">The filter used to update a player's points</param>
-		public void Execute(Entities.Filters.GamePlayer.UpdatePoints filter)
-		{
-			_update.Execute(filter);
-		}
-
+    /// <summary>
+    /// Interface defining the action to preform after round timer has expired
+    /// </summary>
+    public interface ITimerExpired
+    {
         /// <summary>
-        /// Update a game player's idle play count
+        /// Play cards for all players that have yet to play
         /// </summary>
-        /// <param name="filter">The filter used to update a player's idle play count</param>
-        public void Execute(Entities.Filters.GamePlayer.UpdateIdlePlayCount filter)
-        {
-            _update.Execute(filter);
-        }
-	}
+        /// <param name="gameID">The game ID</param>
+        void Execute(Int32 gameID);
+    }
 }

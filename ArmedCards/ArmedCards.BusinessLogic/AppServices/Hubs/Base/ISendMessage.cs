@@ -49,6 +49,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs.Base
         void UpdateGame(Entities.Game game, Boolean sendToSpectators);
 
         /// <summary>
+        /// Update most of the game view
+        /// </summary>
+        /// <param name="game">The game to update</param>
+        /// <param name="sendToSpectators">Should this update go to the spectators</param>
+        /// <param name="forcedToLeaveUserId">The player was forced to leave</param>
+        void UpdateGame(Entities.Game game, Boolean sendToSpectators, Int32? forcedToLeaveUserId);
+
+        /// <summary>
         /// Update the lobby
         /// </summary>
         /// <param name="game">The game to update</param>
