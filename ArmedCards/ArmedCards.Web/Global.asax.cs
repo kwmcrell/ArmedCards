@@ -46,8 +46,6 @@ namespace ArmedCards.Web
     {
         protected void Application_Start()
         {
-            RouteTable.Routes.MapHubs();
-
             AreaRegistration.RegisterAllAreas();
 
 			DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
