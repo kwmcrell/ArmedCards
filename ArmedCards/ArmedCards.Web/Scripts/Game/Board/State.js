@@ -184,7 +184,6 @@ State.prototype.VoteToKickResults = function (message, title, kick, kickUserId) 
 	toastr.info(message, title, options);
 	
 	ArmedCards.Game.ViewModels.GameVotesToKick.RemoveVote(kickUserId);
-	//$('#alert-vote-{0}'.format(kickUserId)).remove();
 
 	if (kick) {
 		window.location = "/GameListing";
@@ -217,5 +216,11 @@ State.prototype.ConnectionSuccess = function () {
 
 };
 
+State.prototype.ConnectionReconnected = function () {
+    $.connection.ArmedCardsHub.server.RefreshGameView($('#Game_GameID').val(), $('#ConnectionType').val());
+};
+
+
 $.Topic("beforeHubStart").subscribe(ArmedCards.Game.State.Init);
 $.Topic("hubStartComplete").subscribe(ArmedCards.Game.State.ConnectionSuccess);
+$.Topic("hubReconnected").subscribe(ArmedCards.Game.State.ConnectionReconnected)

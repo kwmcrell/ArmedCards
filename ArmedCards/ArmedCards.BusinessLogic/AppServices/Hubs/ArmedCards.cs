@@ -149,6 +149,63 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
             };
         }
 
+        [HubMethodName("RefreshGameView")]
+        public void RefreshGameView(Int32 gameID, Entities.Enums.ConnectionType connectionType)
+        {
+            Join(gameID, connectionType);
+
+            AS.GameRound.Base.ISelect _selectGameRound = BusinessLogic.UnityConfig.Container.Resolve<AS.GameRound.Base.ISelect>();
+            AS.Game.Base.ISelect _selectGame = BusinessLogic.UnityConfig.Container.Resolve<AS.Game.Base.ISelect>();
+            AS.GamePlayerKickVote.Base.ISelect _selectVotes = BusinessLogic.UnityConfig.Container.Resolve<AS.GamePlayerKickVote.Base.ISelect>();
+            AS.ActiveConnection.Base.ISelect _selectConnection = BusinessLogic.UnityConfig.Container.Resolve<AS.ActiveConnection.Base.ISelect>();
+
+            Int32 currentUserId = Authentication.Security.CurrentUserId;
+            Entities.ActiveConnection connection = _selectConnection.Execute(new Entities.Filters.ActiveConnection.Select(Context.ConnectionId, currentUserId));
+
+            Entities.Filters.GamePlayerKickVote.SelectForGame kickVoteFilter = new Entities.Filters.GamePlayerKickVote.SelectForGame();
+            kickVoteFilter.GameID = gameID;
+
+            List<Entities.GamePlayerKickVote> votes = _selectVotes.Execute(kickVoteFilter);
+            IEnumerable<IGrouping<Int32, Entities.GamePlayerKickVote>> grouped = votes.GroupBy(x => x.KickUserId);
+
+            Entities.Models.Game.Board.VoteToKick kickModel = null;
+
+            List<Entities.Models.Game.Board.VoteToKick> votesToKick = new List<Entities.Models.Game.Board.VoteToKick>();
+
+            foreach (IGrouping<Int32, Entities.GamePlayerKickVote> group in grouped)
+            {
+                if (group.FirstOrDefault(x => x.VotedUserId == currentUserId) == null)
+                {
+                    kickModel = new Entities.Models.Game.Board.VoteToKick(group.First().KickUser,
+                                                                 group.Count(x => x.Vote),
+                                                                 group.Count(x => !x.Vote));
+
+                    votesToKick.Add(kickModel);
+                }
+            }
+
+            List<Entities.GameRound> completedRounds = _selectGameRound.Execute(new Entities.Filters.GameRound.SelectCompleted(gameID));
+
+            Entities.Game game = _selectGame.Execute(new Entities.Filters.Game.Select
+            {
+                GameID = gameID,
+                DataToSelect = Entities.Enums.Game.Select.GamePlayerCards | Entities.Enums.Game.Select.Rounds
+            });
+
+            Entities.Enums.GamePlayerType playerType = (connection != null && connection.ConnectionType == Entities.Enums.ConnectionType.GamePlayer) ?
+                Entities.Enums.GamePlayerType.Player :
+                Entities.Enums.GamePlayerType.Spectator;
+
+            Entities.Models.Game.Board.GameBoard model = 
+                new Entities.Models.Game.Board.GameBoard(game, 
+                                                         currentUserId,
+                                                         playerType,
+                                                         votesToKick,
+                                                         completedRounds);
+
+            Clients.Client(Context.ConnectionId).UpdateGameView(model, model.LobbyViewModel);                                           
+        }
+
 		#region "Private Methods"
 
         private List<Entities.ActiveConnection> GetConnections(String groupName, Entities.Enums.ConnectionType connectionType)

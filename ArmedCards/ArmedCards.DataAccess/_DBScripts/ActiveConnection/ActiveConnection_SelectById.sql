@@ -21,31 +21,33 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[ActiveConnection_SelectById]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[ActiveConnection_SelectById]
+END 
+GO
 
-namespace ArmedCards.DataAccess.ActiveConnection.Base
-{
-    /// <summary>
-    /// Interface for selecting Active Connections
-    /// </summary>
-    public interface ISelect
-    {
-        /// <summary>
-        /// Return all active connections that match the filter
-        /// </summary>
-        /// <param name="filter">The filter used to select active connections</param>
-        /// <returns>A list of active connections</returns>
-        List<Entities.ActiveConnection> Execute(Entities.Filters.ActiveConnection.SelectAll filter);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 3/12/2014
+-- Description:	Select a active connection by its id
+-- ===============================================
+CREATE PROC [dbo].[ActiveConnection_SelectById]
+	@ActiveConnectionID		VARCHAR(255),
+	@UserId					INT
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-        /// <summary>
-        /// Return active connection that match the filter
-        /// </summary>
-        /// <param name="filter">The filter used to select a active connection</param>
-        /// <returns>A active connection</returns>
-        Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Select filter);
-    }
-}
+     SELECT AC.[ActiveConnectionID],
+			AC.[GroupName],
+			AC.[User_UserId],
+			AC.[ConnectionType],
+			UP.[UserName]
+	 FROM [dbo].[ActiveConnection] AC
+	 INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = @UserId
+	 WHERE (AC.[ActiveConnectionID] = @ActiveConnectionID)
+
+	COMMIT

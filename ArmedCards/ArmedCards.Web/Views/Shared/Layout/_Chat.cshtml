@@ -43,6 +43,10 @@
                 </section>
             </div>
         </div>
+        <div id="hubConnectionText" class="hubConnectionText">
+            <p id="reconnecting">Reconnecting...</p>
+            <p id="unableToReconnect" class="hidden">Unable to reconnect please refresh your <a id="reloadPage" href="#">page</a></p>
+        </div>
         @RenderBody()
         @Html.Hidden("showLogin", TempData["showLogin"] ?? false)
         @if(User.Identity.IsAuthenticated)

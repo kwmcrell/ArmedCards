@@ -56,17 +56,17 @@ namespace ArmedCards.DataAccess.ActiveConnection
 
             using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_Select"))
             {
-				if (!String.IsNullOrWhiteSpace(filter.GroupName))
-				{
-					_db.AddInParameter(cmd, "@GroupName", DbType.String, filter.GroupName);
-				}
+                if (!String.IsNullOrWhiteSpace(filter.GroupName))
+                {
+                    _db.AddInParameter(cmd, "@GroupName", DbType.String, filter.GroupName);
+                }
 
-				if (filter.ExcludeUsers != null && filter.ExcludeUsers.Count > 0)
-				{
-					_db.AddInParameter(cmd, "@ExcludeUserIds", DbType.Xml, filter.ExcludeUsers.ConvertCollectionToXML());
-				}
+                if (filter.ExcludeUsers != null && filter.ExcludeUsers.Count > 0)
+                {
+                    _db.AddInParameter(cmd, "@ExcludeUserIds", DbType.Xml, filter.ExcludeUsers.ConvertCollectionToXML());
+                }
 
-                if(filter.ConnectionType > 0)
+                if (filter.ConnectionType > 0)
                 {
                     _db.AddInParameter(cmd, "@ConnectionType", DbType.Int32, filter.ConnectionType);
                 }
@@ -85,6 +85,33 @@ namespace ArmedCards.DataAccess.ActiveConnection
             }
 
             return activeConnections;
+        }
+
+        /// <summary>
+        /// Return active connection that match the filter
+        /// </summary>
+        /// <param name="filter">The filter used to select a active connection</param>
+        /// <returns>A active connection</returns>
+        public Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Select filter)
+        {
+            Entities.ActiveConnection connection = null;
+
+            using (DbCommand cmd = _db.GetStoredProcCommand("ActiveConnection_SelectById"))
+            {
+                _db.AddInParameter(cmd, "@ActiveConnectionID", DbType.String, filter.ActiveConnectionID);
+
+                _db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+
+                using (IDataReader idr = _db.ExecuteReader(cmd))
+                {
+                    while (idr.Read())
+                    {
+                        connection = new Entities.ActiveConnection(idr);
+                    }
+                }
+            }
+
+            return connection;
         }
     }
 }

@@ -107,6 +107,7 @@
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Insert.sql" />
     <Content Include="_DBScripts\ActiveConnection\ActiveConnection_Select.sql" />
     <Content Include="_DBScripts\ActiveConnection\%40ActiveConnectionTable.sql" />
+    <Content Include="_DBScripts\ActiveConnection\ActiveConnection_SelectById.sql" />
     <Content Include="_DBScripts\Card\Card_Select.sql" />
     <Content Include="_DBScripts\Card\Card_SelectForDeal.sql" />
     <Content Include="_DBScripts\Card\DefaultCards.sql" />

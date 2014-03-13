@@ -21,48 +21,38 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using REPO = ArmedCards.BusinessLogic.Repositories.ActiveConnection;
 
-namespace ArmedCards.BusinessLogic.DomainServices.ActiveConnection
+namespace ArmedCards.Entities.Filters.ActiveConnection
 {
     /// <summary>
-    /// Implementation of ISelect
+    /// Filter used to select one active connection
     /// </summary>
-    public class Select : Base.ISelect
+    public class Select
     {
-        private REPO.Base.ISelect _selectActiveConnection;
-
-        public Select(REPO.Base.ISelect selectActiveConnection)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="activeConnectionID"></param>
+        /// <param name="userId"></param>
+        public Select(String activeConnectionID, Int32 userId)
         {
-            this._selectActiveConnection = selectActiveConnection;
+            this.ActiveConnectionID = activeConnectionID;
+            this.UserId = userId;
         }
 
         /// <summary>
-        /// Return all active connections that match the filter
+        /// Active Connection ID
         /// </summary>
-        /// <param name="filter">The filter used to select active connections</param>
-        /// <returns>A list of active connections</returns>
-        public List<Entities.ActiveConnection> Execute(Entities.Filters.ActiveConnection.SelectAll filter)
-        {
-            return _selectActiveConnection.Execute(filter);
-        }
+        public String ActiveConnectionID { get; private set; }
 
         /// <summary>
-        /// Return active connection that match the filter
+        /// The current user id
         /// </summary>
-        /// <param name="filter">The filter used to select a active connection</param>
-        /// <returns>A active connection</returns>
-        public Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Select filter)
-        {
-            return _selectActiveConnection.Execute(filter);
-        }
+        public Int32 UserId { get; private set; }
     }
 }

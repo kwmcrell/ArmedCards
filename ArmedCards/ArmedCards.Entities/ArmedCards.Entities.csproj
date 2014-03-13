@@ -65,6 +65,7 @@
     <Compile Include="Enums\LeaderboardType.cs" />
     <Compile Include="Filters\ActiveConnection\Delete.cs" />
     <Compile Include="Filters\ActiveConnection\DeleteAll.cs" />
+    <Compile Include="Filters\ActiveConnection\Select.cs" />
     <Compile Include="Filters\ActiveConnection\SelectAll.cs" />
     <Compile Include="Filters\Card\Select.cs" />
     <Compile Include="Filters\Card\SelectForDeal.cs" />

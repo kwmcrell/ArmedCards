@@ -35,6 +35,10 @@
     <body class="right chatOpen">
         <div id="overlay" class="overlay">
 	    </div>
+        <div id="hubConnectionText" class="hubConnectionText">
+            <p id="reconnecting">Reconnecting...</p>
+            <p id="unableToReconnect" class="hidden">Unable to reconnect please refresh your <a id="reloadPage" href="#">page</a></p>
+        </div>
         @RenderBody()
 		@RenderSection("Sidebar")
 		@Scripts.Render("~/bundles/toastr")
