@@ -38,7 +38,7 @@ namespace ArmedCards.Web
                         "~/Scripts/knockout-3.0.0.js",
                         "~/Scripts/knockout.mapping-latest.js",
                         "~/Scripts/Core/ViewModels.js",
-                        "~/Scripts/jquery.signalR-1.1.3.js"));
+                        "~/Scripts/jquery.signalR-2.0.2.js"));
 
             bundles.Add(new StyleBundle("~/bundles/Styles").Include(
                 "~/Content/Home.css",
@@ -73,7 +73,7 @@ namespace ArmedCards.Web
                         "~/Scripts/Game/Board/ViewModels.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Core/Hub").Include(
-                        "~/Scripts/jquery.signalR-1.1.3.js",
+                        "~/Scripts/jquery.signalR-2.0.2.js",
                         "~/Scripts/Core/Hub.js",
                          "~/Scripts/Core/Chat.js"));
 

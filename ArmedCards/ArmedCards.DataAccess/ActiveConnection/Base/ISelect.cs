@@ -40,5 +40,12 @@ namespace ArmedCards.DataAccess.ActiveConnection.Base
         /// <param name="filter">The filter used to select active connections</param>
         /// <returns>A list of active connections</returns>
         List<Entities.ActiveConnection> Execute(Entities.Filters.ActiveConnection.SelectAll filter);
+
+        /// <summary>
+        /// Return active connection that match the filter
+        /// </summary>
+        /// <param name="filter">The filter used to select a active connection</param>
+        /// <returns>A active connection</returns>
+        Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Select filter);
     }
 }

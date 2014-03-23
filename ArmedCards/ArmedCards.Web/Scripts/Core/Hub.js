@@ -34,16 +34,56 @@ if (!ArmedCards.Core.Hub) {
     ArmedCards.Core.Hub = new Hub();
 }
 
+Hub.prototype.ConnectionSlowed = function () {
+
+};
+
+Hub.prototype.Reconnecting = function () {
+    ArmedCards.Core.Hub.TryingToReconnect = true;
+    $('#hubConnectionText').addClass('on');
+    $('#overlay').addClass('on');
+};
+
+Hub.prototype.Disconnected = function () {
+    if (ArmedCards.Core.Hub.TryingToReconnect) {
+        $('#reconnecting').addClass('hidden');
+        $('#unableToReconnect').removeClass('hidden');
+    }
+};
+
+Hub.prototype.Reconnected = function () {
+    ArmedCards.Core.Hub.TryingToReconnect = false;
+
+    $('#hubConnectionText').removeClass('on');
+    $('#overlay').removeClass('on');
+
+    $.Topic("hubReconnected").publish();
+};
+
+Hub.prototype.ReloadPage = function() {
+    window.location.reload();
+};
+
 Hub.prototype.startHub = function () {
     $.Topic("renderViews").publish();
 
     //Setup hub events
     $.Topic("beforeHubStart").publish();
 
+    $.connection.hub.reconnecting(ArmedCards.Core.Hub.Reconnecting);
+
+    $.connection.hub.reconnected(ArmedCards.Core.Hub.Reconnected);
+
+    $.connection.hub.disconnected(ArmedCards.Core.Hub.Disconnected);
+
     // Start the hub. 
     $.connection.hub.start().done(function () {
         $.Topic("hubStartComplete").publish();
     });
+
+    $('#reloadPage').unbind().bind({
+        click: ArmedCards.Core.Hub.ReloadPage
+    })
 };
 
 $(document).ready(ArmedCards.Core.Hub.startHub);

@@ -54,5 +54,15 @@ namespace ArmedCards.BusinessLogic.DomainServices.ActiveConnection
         {
             return _selectActiveConnection.Execute(filter);
         }
+
+        /// <summary>
+        /// Return active connection that match the filter
+        /// </summary>
+        /// <param name="filter">The filter used to select a active connection</param>
+        /// <returns>A active connection</returns>
+        public Entities.ActiveConnection Execute(Entities.Filters.ActiveConnection.Select filter)
+        {
+            return _selectActiveConnection.Execute(filter);
+        }
     }
 }
