@@ -3287,6 +3287,7 @@ body #toast-container > .toast-info
 		overflow-x: scroll;
 	}
 
+	.pick .card,
 	.played.pick > div .pickMultiple
 	{
 		margin-right: 0;
