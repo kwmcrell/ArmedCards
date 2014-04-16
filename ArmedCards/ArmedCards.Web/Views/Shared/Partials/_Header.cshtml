@@ -24,7 +24,7 @@
 @model ArmedCards.Entities.Models.Shared.Header
 
 <div class="radHeader">
-	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a></h1>
+	<h1><a href="@Model.HeaderLink" title="Home">@Model.HeaderText</a><span class="beta">beta</span></h1>
 	<h2>@Html.Raw(Model.SubHeaderText)</h2>
     @if (Model.ExtraHtml != null)
     {
