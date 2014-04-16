@@ -3287,12 +3287,9 @@ body #toast-container > .toast-info
 		overflow-x: scroll;
 	}
 
-	.hand > div,
-	.played.pick > div
+	.played.pick > div .pickMultiple
 	{
-		margin-left: 3em;
-		text-align: left;
-		width: 74em;
+		margin-right: 0;
 	}
 
 	.voting .card
