@@ -87,7 +87,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
             if(response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.GameOver))
             {
-                return Redirect(Url.Action("Index", "GameListing"));
+                return Redirect("/GameListing");
             }
 
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
