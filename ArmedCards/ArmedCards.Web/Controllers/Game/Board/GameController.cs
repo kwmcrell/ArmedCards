@@ -85,6 +85,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Player);
 
+            if(response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.GameOver))
+            {
+                return Redirect(Url.Action("Index", "GameListing"));
+            }
+
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{

@@ -62,13 +62,20 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game
 
 			Boolean wasWaiting = game.IsWaiting();
 
-            if(playerType == Entities.Enums.GamePlayerType.Spectator)
+            if (game.GameOver.HasValue)
             {
-                AsSpectator(game, user, passphrase, response);
+                response.Result = Entities.Enums.Game.JoinResponseCode.GameOver;
             }
             else
             {
-                AsPlayer(game, user, passphrase, response, wasWaiting);
+                if (playerType == Entities.Enums.GamePlayerType.Spectator)
+                {
+                    AsSpectator(game, user, passphrase, response);
+                }
+                else
+                {
+                    AsPlayer(game, user, passphrase, response, wasWaiting);
+                }
             }
 
             return response;

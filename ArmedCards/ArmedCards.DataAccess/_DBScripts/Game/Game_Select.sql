@@ -65,7 +65,9 @@ AS
 			 WHERE GP.[GameID] = G.[GameID]
 			 AND   GP.[Type] = 2) AS SpectatorCount
 	 FROM [dbo].[Game] G
-	 WHERE G.[GameID] = @GameID OR @GameID IS NULL
+	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
+	 AND    G.[GameOver] IS NULL
+	 ORDER BY G.[PlayedLast] DESC
 
 	COMMIT
 GO
