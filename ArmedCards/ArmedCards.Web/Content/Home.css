@@ -2949,6 +2949,12 @@ body #toast-container > .toast-info
 	{
 		margin: 0 10px;
 	}
+
+	.radHeader + .user,
+	.createGame
+	{
+		margin: 0 8px;
+	}
 }
 
 @media screen and (max-width: 550px)
