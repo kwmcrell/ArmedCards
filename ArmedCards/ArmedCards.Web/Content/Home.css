@@ -2961,6 +2961,11 @@ body #toast-container > .toast-info
 	{
 		margin: 0 8px;
 	}
+
+	.radHeader + .user
+	{
+		text-align: left;
+	}
 }
 
 @media screen and (max-width: 550px)
