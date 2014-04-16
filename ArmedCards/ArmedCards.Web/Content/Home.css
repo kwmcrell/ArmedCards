@@ -767,6 +767,12 @@ fieldset > .button.active
 	margin-right: 0;
 }
 
+.user .username.loggedIn > img:first-child
+{
+	margin-right: .4em;
+	vertical-align: top;
+}
+
 .user .username.loggedIn div
 {
 	display: inline-block;
