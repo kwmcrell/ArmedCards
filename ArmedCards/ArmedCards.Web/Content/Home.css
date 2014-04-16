@@ -3358,3 +3358,27 @@ body #toast-container > .toast-info
     -webkit-transform: rotateX(0);
   }
 }
+
+@-moz-keyframes betaGrab {
+  0%
+  {
+    -moz-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -moz-transform: rotateX(0);
+  }
+}
+
+@-ms-keyframes betaGrab {
+  0%
+  {
+    -ms-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -ms-transform: rotateX(0);
+  }
+}
