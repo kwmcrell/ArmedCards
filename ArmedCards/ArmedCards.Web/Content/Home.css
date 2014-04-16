@@ -320,7 +320,7 @@ blockquote a
 	vertical-align: top;
 }
 
-blockquote:before
+/*blockquote:before
 {
 	content: "“";
 	font-size: 3.5em;
@@ -334,7 +334,7 @@ blockquote:after
 	font-size: 3.5em;
 	position: absolute;
 	right: -.35em;
-}
+}*/
 
 .button
 {
@@ -1349,6 +1349,38 @@ body .chat.right .openClose a span.mobileOpenClose
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.splash h1,
+.gameHeader h1,
+.radHeader h1
+{
+	position: relative;
+}
+
+.splash .beta,
+.gameHeader .beta,
+.radHeader .beta
+{
+	background: #777;
+	border-radius: 50%;
+	box-shadow: 2px 2px #CCC;
+	color: #FFF;
+	font-size: 0.15em;
+	height: 3em;
+	letter-spacing: 0.06em;
+	line-height: 3em;
+	position: absolute;
+	text-align: center;
+	text-shadow: none;
+	top: 0;
+	width: 3em;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-name: betaGrab;
+    -moz-animation-duration: 2s;
+    -moz-animation-name: betaGrab;
+    -ms-animation-duration: 2s;
+    -ms-animation-name: betaGrab;
 }
 
 .chat.right h4
@@ -3313,4 +3345,16 @@ body #toast-container > .toast-info
 		background-image: url('../Images/gray_jean-big.png');
 		background-size: 150px 150px;
 	}
+}
+
+@-webkit-keyframes betaGrab {
+  0%
+  {
+    -webkit-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -webkit-transform: rotateX(0);
+  }
 }
