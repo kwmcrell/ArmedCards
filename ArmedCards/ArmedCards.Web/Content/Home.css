@@ -848,11 +848,6 @@ fieldset > .button.active
 	width: 260px;
 }
 
-.user .activeGames a:last-child
-{
-	margin-bottom: 0;
-}
-
 .user h4
 {
 	font-size: 1.5em;
@@ -2743,11 +2738,30 @@ body #toast-container > .toast-info
 
 @media screen and (max-width: 735px)
 {
+	body.join
+	{
+		margin-bottom: 0;
+	}
+
 	.votingFor .options > fieldset
 	{
 		display: inline-block;
 		font-size: .8em;
 		margin: 1em 1.25em 1em 0;
+	}
+
+	.chatOpen .gameListing
+	{
+		margin-bottom: 0;
+	}
+
+	.chat.bottom
+	{
+		height: auto;
+		margin: 0 -38px;
+		padding: 8px;
+		position: static;
+		width: auto;
 	}
 }
 
@@ -2966,6 +2980,54 @@ body #toast-container > .toast-info
 	{
 		text-align: left;
 	}
+
+	.chatOpen .gameListing
+	{
+		margin-bottom: 0;
+	}
+
+	.chat.bottom
+	{
+		height: auto;
+		margin: 0;
+		position: static;
+		width: auto;
+	}
+
+	.chat.bottom .discussion
+	{
+		height: 100%;
+	}
+
+	.chat.bottom .chatContainer
+	{
+		display: block;
+		width: 100%;
+	}
+
+	.chat.bottom .lobby
+	{
+		/*display: none;*/
+		/*margin-bottom: 8px;*/
+		margin-left: 0;
+		height: 6.3em;
+		/*height: 13.8em;*/
+		width: 100%;
+	}
+
+	.chat.bottom .lobbyPlayers
+	{
+		margin-left: 0;
+	}
+
+	.chat.bottom .lobbyPlayers ul li
+	{
+		display: inline-block;
+		float: left;
+		margin: 0;
+		padding: 5px 0;
+		width: 33%;
+	}
 }
 
 @media screen and (max-width: 550px)
@@ -3034,41 +3096,6 @@ body #toast-container > .toast-info
 	.gameListing .game:nth-child(even)
 	{
 		background: #EEE;
-	}
-
-	.chatOpen .gameListing
-	{
-		margin-bottom: 0;
-	}
-
-	.chat.bottom
-	{
-		height: auto;
-		position: static;
-	}
-
-	.chat.bottom .discussion
-	{
-		height: 100%;
-	}
-
-	.chat.bottom .chatContainer
-	{
-		display: block;
-		width: 100%;
-	}
-
-	.chat.bottom .lobby
-	{
-		display: none;
-		margin-left: 0;
-		height: 13.8em;
-		width: 100%;
-	}
-
-	.chat.bottom .lobbyPlayers
-	{
-		margin-left: 0;
 	}
 }
 
@@ -3288,6 +3315,11 @@ body #toast-container > .toast-info
 	.chat.right .discussion
 	{
 		font-size: .9em;
+	}
+
+	.chat.bottom .lobbyPlayers ul li
+	{
+		width: 50%;
 	}
 }
 
