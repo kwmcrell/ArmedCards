@@ -3009,8 +3009,9 @@ body #toast-container > .toast-info
 	{
 		/*display: none;*/
 		/*margin-bottom: 8px;*/
+		font-size: .75em;
 		margin-left: 0;
-		height: 6.3em;
+		height: 5.4em;
 		/*height: 13.8em;*/
 		width: 100%;
 	}
