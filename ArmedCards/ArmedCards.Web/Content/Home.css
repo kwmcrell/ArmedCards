@@ -320,7 +320,7 @@ blockquote a
 	vertical-align: top;
 }
 
-blockquote:before
+/*blockquote:before
 {
 	content: "“";
 	font-size: 3.5em;
@@ -334,7 +334,7 @@ blockquote:after
 	font-size: 3.5em;
 	position: absolute;
 	right: -.35em;
-}
+}*/
 
 .button
 {
@@ -767,6 +767,12 @@ fieldset > .button.active
 	margin-right: 0;
 }
 
+.user .username.loggedIn > img:first-child
+{
+	margin-right: .4em;
+	vertical-align: top;
+}
+
 .user .username.loggedIn div
 {
 	display: inline-block;
@@ -840,11 +846,6 @@ fieldset > .button.active
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	width: 260px;
-}
-
-.user .activeGames a:last-child
-{
-	margin-bottom: 0;
 }
 
 .user h4
@@ -950,6 +951,19 @@ fieldset > .button.active
 .splash .buttons > a:focus .icon
 {
 	background-color: #777;
+}
+
+.splash .buttons > a.inactive
+{
+	color: #777;
+	cursor: default;
+	opacity: .6;
+}
+
+.splash .buttons > a.inactive .icon
+{
+	background-color: #777;
+	box-shadow: inset 0 2px 0 #444;
 }
 
 .radHeader
@@ -1349,6 +1363,38 @@ body .chat.right .openClose a span.mobileOpenClose
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.splash h1,
+.gameHeader h1,
+.radHeader h1
+{
+	position: relative;
+}
+
+.splash .beta,
+.gameHeader .beta,
+.radHeader .beta
+{
+	background: #777;
+	border-radius: 50%;
+	box-shadow: 2px 2px #CCC;
+	color: #FFF;
+	font-size: 0.15em;
+	height: 3em;
+	letter-spacing: 0.06em;
+	line-height: 3em;
+	position: absolute;
+	text-align: center;
+	text-shadow: none;
+	top: 0;
+	width: 3em;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-name: betaGrab;
+    -moz-animation-duration: 2s;
+    -moz-animation-name: betaGrab;
+    -ms-animation-duration: 2s;
+    -ms-animation-name: betaGrab;
 }
 
 .chat.right h4
@@ -2692,11 +2738,30 @@ body #toast-container > .toast-info
 
 @media screen and (max-width: 735px)
 {
+	body.join
+	{
+		margin-bottom: 0;
+	}
+
 	.votingFor .options > fieldset
 	{
 		display: inline-block;
 		font-size: .8em;
 		margin: 1em 1.25em 1em 0;
+	}
+
+	.chatOpen .gameListing
+	{
+		margin-bottom: 0;
+	}
+
+	.chat.bottom
+	{
+		height: auto;
+		margin: 0 -38px;
+		padding: 8px;
+		position: static;
+		width: auto;
 	}
 }
 
@@ -2904,6 +2969,66 @@ body #toast-container > .toast-info
 	{
 		margin: 0 10px;
 	}
+
+	.radHeader + .user,
+	.createGame
+	{
+		margin: 0 8px;
+	}
+
+	.radHeader + .user
+	{
+		text-align: left;
+	}
+
+	.chatOpen .gameListing
+	{
+		margin-bottom: 0;
+	}
+
+	.chat.bottom
+	{
+		height: auto;
+		margin: 0;
+		position: static;
+		width: auto;
+	}
+
+	.chat.bottom .discussion
+	{
+		height: 100%;
+	}
+
+	.chat.bottom .chatContainer
+	{
+		display: block;
+		width: 100%;
+	}
+
+	.chat.bottom .lobby
+	{
+		/*display: none;*/
+		/*margin-bottom: 8px;*/
+		font-size: .75em;
+		margin-left: 0;
+		height: 5.4em;
+		/*height: 13.8em;*/
+		width: 100%;
+	}
+
+	.chat.bottom .lobbyPlayers
+	{
+		margin-left: 0;
+	}
+
+	.chat.bottom .lobbyPlayers ul li
+	{
+		display: inline-block;
+		float: left;
+		margin: 0;
+		padding: 5px 0;
+		width: 33%;
+	}
 }
 
 @media screen and (max-width: 550px)
@@ -2972,41 +3097,6 @@ body #toast-container > .toast-info
 	.gameListing .game:nth-child(even)
 	{
 		background: #EEE;
-	}
-
-	.chatOpen .gameListing
-	{
-		margin-bottom: 0;
-	}
-
-	.chat.bottom
-	{
-		height: auto;
-		position: static;
-	}
-
-	.chat.bottom .discussion
-	{
-		height: 100%;
-	}
-
-	.chat.bottom .chatContainer
-	{
-		display: block;
-		width: 100%;
-	}
-
-	.chat.bottom .lobby
-	{
-		display: none;
-		margin-left: 0;
-		height: 13.8em;
-		width: 100%;
-	}
-
-	.chat.bottom .lobbyPlayers
-	{
-		margin-left: 0;
 	}
 }
 
@@ -3227,6 +3317,11 @@ body #toast-container > .toast-info
 	{
 		font-size: .9em;
 	}
+
+	.chat.bottom .lobbyPlayers ul li
+	{
+		width: 50%;
+	}
 }
 
 @media screen and (max-width: 400px)
@@ -3287,12 +3382,10 @@ body #toast-container > .toast-info
 		overflow-x: scroll;
 	}
 
-	.hand > div,
-	.played.pick > div
+	.pick .card,
+	.played.pick > div .pickMultiple
 	{
-		margin-left: 3em;
-		text-align: left;
-		width: 74em;
+		margin-right: 0;
 	}
 
 	.voting .card
@@ -3315,4 +3408,40 @@ body #toast-container > .toast-info
 		background-image: url('../Images/gray_jean-big.png');
 		background-size: 150px 150px;
 	}
+}
+
+@-webkit-keyframes betaGrab {
+  0%
+  {
+    -webkit-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -webkit-transform: rotateX(0);
+  }
+}
+
+@-moz-keyframes betaGrab {
+  0%
+  {
+    -moz-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -moz-transform: rotateX(0);
+  }
+}
+
+@-ms-keyframes betaGrab {
+  0%
+  {
+    -ms-transform: rotateX(-540deg);
+  }
+
+  100%
+  {
+    -ms-transform: rotateX(0);
+  }
 }

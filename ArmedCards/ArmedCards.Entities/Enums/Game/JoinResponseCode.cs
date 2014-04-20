@@ -47,6 +47,8 @@ namespace ArmedCards.Entities.Enums.Game
 
 		WaitingOnWinnerSelection = 16,
 
-        SpectatorsFull = 32
+        SpectatorsFull = 32,
+
+        GameOver = 64
     }
 }

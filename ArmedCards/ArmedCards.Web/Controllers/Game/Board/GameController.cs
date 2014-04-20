@@ -85,6 +85,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
 
 			Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Player);
 
+            if(response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.GameOver))
+            {
+                return Redirect("/GameListing");
+            }
+
 			if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
 				response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.FullGame) == false)
 			{
@@ -146,6 +151,11 @@ namespace ArmedCards.Web.Controllers.Game.Board
             Entities.User user = _selectUser.Execute(currentUserId);
 
             Entities.JoinResponse response = _joinGame.Execute(id, user, passphrase, Entities.Enums.GamePlayerType.Spectator);
+
+            if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.GameOver))
+            {
+                return Redirect("/GameListing");
+            }
 
             if (response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.BadPassphrase) == false &&
                 response.Result.HasFlag(Entities.Enums.Game.JoinResponseCode.SpectatorsFull) == false)

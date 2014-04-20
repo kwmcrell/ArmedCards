@@ -30,10 +30,7 @@
 	header.SubHeaderText = "Set Display Name";
 }
 
-<div class="radHeader">
-	<h1><a href="index.html" title="Home">Armed Cards!#&amp;?</a></h1>
-	<h2></h2>
-</div>
+@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 @using (Html.BeginForm("ChangeDisplayName", "Profile", FormMethod.Post, new { id = "changeDisplayName" }))
 {
     @Html.AntiForgeryToken()
