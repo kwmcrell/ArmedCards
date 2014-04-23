@@ -21,46 +21,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL = ArmedCards.DataAccess.Game;
+IF OBJECT_ID('[dbo].[Game_UpdateShuffleCount]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Game_UpdateShuffleCount] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.Repositories.Game
-{
-	/// <summary>
-	/// Implementation of <seealso cref="Base.IUpdate"/>
-	/// </summary>
-	public class Update : Base.IUpdate
-	{
-		private DAL.Base.IUpdate _update;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 04/21/2014
+-- Description:	Update the game shuffle counts
+-- ===============================================
+CREATE PROC [dbo].[Game_UpdateShuffleCount] 
+	@GameID					int,
+	@QuestionShuffleCount	int,
+	@AnswerShuffleCount		int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-		public Update(DAL.Base.IUpdate update)
-        {
-			this._update = update;
-        }
+	UPDATE [dbo].[Game]
+	SET [QuestionShuffleCount]	= @QuestionShuffleCount,
+		[AnswerShuffleCount]	= @AnswerShuffleCount
+	WHERE [GameID] = @GameID
 
-		/// <summary>
-		/// Update last played and possibly game over date based on <paramref name="filter"/>
-		/// </summary>
-		/// <param name="filter">The filter used to determine what game to update and the dates to update it with</param>
-		public void Execute(Entities.Filters.Game.UpdateDates filter)
-		{
-			_update.Execute(filter);
-		}
-        
-        /// <summary>
-        /// Update the game's shuffle counts based on <paramref name="filter"/>
-        /// </summary>
-        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
-        public void Execute(Entities.Filters.Game.UpdateCounts filter)
-        {
-            _update.Execute(filter);
-        }
-	}
-}
+	COMMIT
+GO

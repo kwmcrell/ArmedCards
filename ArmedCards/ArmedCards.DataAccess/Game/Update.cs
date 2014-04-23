@@ -63,5 +63,21 @@ namespace ArmedCards.DataAccess.Game
 				_db.ExecuteNonQuery(cmd);
 			}
 		}
+
+        /// <summary>
+        /// Update the game's shuffle counts based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
+        public void Execute(Entities.Filters.Game.UpdateCounts filter)
+        {
+            using (DbCommand cmd = _db.GetStoredProcCommand("Game_UpdateShuffleCount"))
+            {
+                _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+                _db.AddInParameter(cmd, "@QuestionShuffleCount", DbType.Int32, filter.QuestionShuffleCount);
+                _db.AddInParameter(cmd, "@AnswerShuffleCount", DbType.Int32, filter.AnswerShuffleCount);
+
+                _db.ExecuteNonQuery(cmd);
+            }
+        }
 	}
 }

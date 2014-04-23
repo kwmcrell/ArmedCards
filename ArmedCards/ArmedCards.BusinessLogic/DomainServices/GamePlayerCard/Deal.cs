@@ -43,13 +43,15 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		private Base.ICalculateDrawCount _calculateDrawCount;
 		private Base.ICreateHand _createHand;
 		private DS.GameRoundCard.Base.IInsert _insertGameRoundCard;
+        private AS.Game.Base.IUpdate _updateGame;
 
 		public Deal(DS.Card.Base.IShuffle shuffleCards,
 					DS.Card.Base.IExcludeCurrentHands excludeCurrentHands,
 					DS.Card.Base.IExcludeByCount excludeByCount,
 					Base.ICalculateDrawCount calculateDrawCount,
 					Base.ICreateHand createHand,
-					DS.GameRoundCard.Base.IInsert insertGameRoundCard)
+					DS.GameRoundCard.Base.IInsert insertGameRoundCard,
+                    AS.Game.Base.IUpdate updateGame)
 		{
 			this._shuffleCards = shuffleCards;
 			this._excludeCurrentHands = excludeCurrentHands;
@@ -57,6 +59,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 			this._calculateDrawCount = calculateDrawCount;
 			this._createHand = createHand;
 			this._insertGameRoundCard = insertGameRoundCard;
+            this._updateGame = updateGame;
 		}
 
 		/// <summary>
@@ -96,6 +99,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
                 filteredAnswers = _excludeByCount.Execute(filteredAnswers, ++game.AnswerShuffleCount);
 
 				drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
+
+                _updateGame.Execute(new Entities.Filters.Game.UpdateCounts(game.GameID, game.QuestionShuffleCount, game.AnswerShuffleCount));
 			}
 
 			_insertGameRoundCard.Execute(new List<Entities.GameRoundCard> { dealtQuestion });

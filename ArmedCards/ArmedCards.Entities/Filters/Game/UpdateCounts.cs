@@ -21,53 +21,39 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.Practices.EnterpriseLibrary.Data;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DS = ArmedCards.BusinessLogic.DomainServices.Game;
 
-namespace ArmedCards.BusinessLogic.AppServices.Game
+namespace ArmedCards.Entities.Filters.Game
 {
-	/// <summary>
-	/// Implementation of <seealso cref="Base.IUpdate"/>
-	/// </summary>
-	public class Update : Base.IUpdate
-	{
-		private DS.Base.IUpdate _update;
-
-		public Update(DS.Base.IUpdate update)
+    /// <summary>
+    /// Class used to update shuffle counts
+    /// </summary>
+    public class UpdateCounts
+    {
+        public UpdateCounts(Int32 gameID, Int32 questionShuffleCount, Int32 answerShuffleCount)
         {
-			this._update = update;
+            this.GameID = gameID;
+            this.QuestionShuffleCount = questionShuffleCount;
+            this.AnswerShuffleCount = answerShuffleCount;
         }
-
-		/// <summary>
-		/// Update last played and possibly game over date
-		/// </summary>
-		/// <param name="gameID">The ID of the game to update</param>
-		/// <param name="playedLast">The datetime to mark the game as last played</param>
-		/// <param name="gameOver">The datetime the game was ended</param>
-		public void Execute(Int32 gameID, DateTime playedLast, DateTime? gameOver)
-		{
-			Entities.Filters.Game.UpdateDates filter = new Entities.Filters.Game.UpdateDates();
-			filter.GameID = gameID;
-			filter.PlayedLast = playedLast;
-			filter.GameOver = gameOver;
-
-			_update.Execute(filter);
-		}
 
         /// <summary>
-        /// Update the game's shuffle counts based on <paramref name="filter"/>
+        /// The ID of the game to update
         /// </summary>
-        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
-        public void Execute(Entities.Filters.Game.UpdateCounts filter)
-        {
-            _update.Execute(filter);
-        }
-	}
+        public Int32 GameID { get; set; }
+
+        /// <summary>
+        /// The game's question shuffle count
+        /// </summary>
+        public Int32 QuestionShuffleCount { get; set; }
+
+        /// <summary>
+        /// The game's answer shuffle count
+        /// </summary>
+        public Int32 AnswerShuffleCount { get; set; }
+    }
 }
