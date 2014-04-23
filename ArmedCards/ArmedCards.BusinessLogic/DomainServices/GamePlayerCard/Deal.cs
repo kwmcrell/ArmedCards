@@ -93,12 +93,17 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
                     //Reselect question card
                     dealtQuestion = CreateQuestion(filteredQuestions, game);
+
+                    drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
+
+                    needMoreAnswers = drawCount.Values.Sum() > filteredAnswers.Count();
                 }
 
-                filteredAnswers = _excludeCurrentHands.Execute(answers);
-                filteredAnswers = _excludeByCount.Execute(filteredAnswers, ++game.AnswerShuffleCount);
-
-				drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
+                if (needMoreAnswers)
+                {
+                    filteredAnswers = _excludeCurrentHands.Execute(answers);
+                    filteredAnswers = _excludeByCount.Execute(filteredAnswers, ++game.AnswerShuffleCount);
+                }
 
                 _updateGame.Execute(new Entities.Filters.Game.UpdateCounts(game.GameID, game.QuestionShuffleCount, game.AnswerShuffleCount));
 			}
