@@ -35,9 +35,9 @@ GO
 CREATE PROC [dbo].[GamePlayer_Insert] 
 	@GameID			int,
 	@UserId			int,
-	@Points			int,
 	@JoinDate		datetime,
 	@Type			int,
+	@Points			int OUTPUT,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -46,25 +46,44 @@ AS
 	BEGIN TRAN 
 
 	DECLARE @maxPlayers INT
+	SET @Points = 0
 
-	INSERT INTO [dbo].[GamePlayer]
-	(
-		GameID,
-		UserId,
-		Points,
-		JoinDate,
-		Type
-	)
-	SELECT	@GameID,
-			@UserId,
-			@Points,
-			@JoinDate,
-			@Type
+	SELECT	@Points = Points 
+	FROM	[dbo].[GamePlayer]
+	WHERE	[UserId] = @UserId
+	AND		[GameID] = @GameID
+
+	IF @Points > 0
+		BEGIN
+			UPDATE [dbo].[GamePlayer]
+			SET [Status] = 1
+			WHERE [UserId] = @UserId
+		END
+	ELSE
+		BEGIN		
+			INSERT INTO [dbo].[GamePlayer]
+			(
+				GameID,
+				UserId,
+				Points,
+				JoinDate,
+				Type,
+				Status
+			)
+			SELECT	@GameID,
+					@UserId,
+					0,
+					@JoinDate,
+					@Type,
+					1
+		END
+
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]	  = @Type
+	AND	  GP.[Status] > 0
 
 	SELECT @maxPlayers = 
 			CASE WHEN @Type = 1

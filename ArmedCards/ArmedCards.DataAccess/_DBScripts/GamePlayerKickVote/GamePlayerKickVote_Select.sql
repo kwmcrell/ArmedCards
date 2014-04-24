@@ -47,6 +47,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = @PlayerType
+	AND   GP.[Status] > 0
 
 	SELECT	GPKV.[GameID],
 			GPKV.[KickUserId],

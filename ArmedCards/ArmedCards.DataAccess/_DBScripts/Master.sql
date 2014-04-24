@@ -96,11 +96,13 @@ AS
 	
 	DECLARE @GroupName varchar(255);
 	DECLARE @User_UserId int;
-	DECLARE @UserName nvarchar(max)
+	DECLARE @UserName nvarchar(max);
+	DECLARE @ConnectionType int;
 
 	SELECT	@GroupName = AC.[GroupName],
 			@User_UserId = AC.[User_UserId],
-			@UserName = UP.[UserName]
+			@UserName = UP.[UserName],
+			@ConnectionType = AC.[ConnectionType]
 	FROM [dbo].[ActiveConnection] AC
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
@@ -111,7 +113,8 @@ AS
 	SELECT @ActiveConnectionID AS ActiveConnectionID,
 		   @GroupName AS GroupName,
 		   @User_UserId AS User_UserId,
-		   @UserName AS UserName
+		   @UserName AS UserName,
+		   @ConnectionType AS ConnectionType
 
 	COMMIT
 GO 
@@ -2441,7 +2444,8 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 1) AS PlayerCount,
+			 AND   GP.[Type] = 1
+			 AND   GP.[Status] > 0) AS PlayerCount,
 			(SELECT COUNT([Game_GameID]) 
 			 FROM [dbo].[GameRound] GR
 			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
@@ -2449,7 +2453,8 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 2) AS SpectatorCount
+			 AND   GP.[Type] = 2
+			 AND   GP.[Status] > 0) AS SpectatorCount
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL
@@ -2676,6 +2681,14 @@ IF NOT EXISTS(	SELECT *
 BEGIN
     ALTER TABLE [dbo].[GamePlayer] ADD [Type] [int] NOT NULL DEFAULT 1
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'Status' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [Status] [int] NOT NULL DEFAULT 1
+END
 GO 
 
 /*
@@ -2727,19 +2740,25 @@ AS
 		WHERE G.[GameID] = @GameID) IS NULL OR @Type = 2
 		BEGIN
 
+			UPDATE	[dbo].[GamePlayer]
+			SET		[Status] = 0 
+			WHERE	[GameID] = @GameID 
+			AND		[UserId] = @UserId
+			AND		[Type]   = @Type
+
 			DELETE
-			FROM [dbo].[GamePlayer] 
-			WHERE [GameID] = @GameID 
-			AND   [UserId] = @UserId
-			AND   [Type]   = @Type
+			FROM	[dbo].[GamePlayerCard]
+			WHERE	[GameID] = @GameID
+			AND		[UserId] = @UserId
 
 		END
 		
 		IF @Type = 1
 			BEGIN
-				DELETE
-				FROM [dbo].[GamePlayerCard]
-				WHERE [GameID] = @GameID AND [UserId] = @UserId
+				UPDATE	[dbo].[GamePlayer]
+				SET		[Status] = 0
+				WHERE	[GameID] = @GameID 
+				AND		[UserId] = @UserId
 			END
 
 	COMMIT
@@ -2783,9 +2802,9 @@ GO
 CREATE PROC [dbo].[GamePlayer_Insert] 
 	@GameID			int,
 	@UserId			int,
-	@Points			int,
 	@JoinDate		datetime,
 	@Type			int,
+	@Points			int OUTPUT,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2794,25 +2813,44 @@ AS
 	BEGIN TRAN 
 
 	DECLARE @maxPlayers INT
+	SET @Points = 0
 
-	INSERT INTO [dbo].[GamePlayer]
-	(
-		GameID,
-		UserId,
-		Points,
-		JoinDate,
-		Type
-	)
-	SELECT	@GameID,
-			@UserId,
-			@Points,
-			@JoinDate,
-			@Type
+	SELECT	@Points = Points 
+	FROM	[dbo].[GamePlayer]
+	WHERE	[UserId] = @UserId
+	AND		[GameID] = @GameID
+
+	IF @Points > 0
+		BEGIN
+			UPDATE [dbo].[GamePlayer]
+			SET [Status] = 1
+			WHERE [UserId] = @UserId
+		END
+	ELSE
+		BEGIN		
+			INSERT INTO [dbo].[GamePlayer]
+			(
+				GameID,
+				UserId,
+				Points,
+				JoinDate,
+				Type,
+				Status
+			)
+			SELECT	@GameID,
+					@UserId,
+					0,
+					@JoinDate,
+					@Type,
+					1
+		END
+
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]	  = @Type
+	AND	  GP.[Status] > 0
 
 	SELECT @maxPlayers = 
 			CASE WHEN @Type = 1
@@ -2885,6 +2923,7 @@ AS
 			GP.[UserId],
 			GP.[JoinDate],
 			GP.[Type],
+			GP.[Status],
 			UP.[UserName],
 			UP.[PictureUrl],
 			CASE WHEN GP.[Type] = 1
@@ -2900,6 +2939,7 @@ AS
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE (GP.[GameID] = @GameID OR @GameID IS NULL)
 	AND   (GP.[Type]   = @Type   OR @Type IS NULL)
+	AND	  (GP.[Status] > 0)
 	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT
@@ -3871,6 +3911,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = 1
+	AND   GP.[Status] > 0
 	
 	IF NOT EXISTS	(	
 						SELECT TOP 1 GPKV.[VotedUserId]
@@ -3953,6 +3994,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = @PlayerType
+	AND   GP.[Status] > 0
 
 	SELECT	GPKV.[GameID],
 			GPKV.[KickUserId],
