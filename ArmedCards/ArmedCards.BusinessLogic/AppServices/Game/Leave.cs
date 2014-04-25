@@ -97,18 +97,28 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 				{
 					Entities.GameRound current = game.CurrentRound();
 
-					game.Rounds.Remove(current);
-					game.RoundCount--;
+                    if (!current.HasWinner())
+                    {
+                        game.Rounds.Remove(current);
+                        game.RoundCount--;
 
-					Entities.Filters.GameRound.Delete deleteRoundFilter = new Entities.Filters.GameRound.Delete();
-					deleteRoundFilter.GameRoundID = current.GameRoundID;
+                        Entities.Filters.GameRound.Delete deleteRoundFilter = new Entities.Filters.GameRound.Delete();
+                        deleteRoundFilter.GameRoundID = current.GameRoundID;
 
-					_deleteRound.Execute(deleteRoundFilter);
+                        _deleteRound.Execute(deleteRoundFilter);
+                    }
 				}
 			
 				Boolean started = _startRound.Execute(game, game.NextCommander(null));
 
-                _sendMessage.CommanderLeft(game, user.DisplayName);
+                if (game.HasRounds() && started)
+                {
+                    _sendMessage.CommanderLeft(game, user.DisplayName);
+                }
+                else
+                {
+                    _sendMessage.UpdateGame(game, true);
+                }
 			}
 			else if (game.IsWaiting() && wasWaiting)
 			{
@@ -120,19 +130,31 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 				{
 					Entities.GameRound current = game.CurrentRound();
 					current.CurrentPlayerCount--;
+
+                    if(!game.Players.Any(x => x.Hand.Count > 0 && !current.IsCommander(x.User.UserId)))
+                    {
+                        if (!current.HasWinner() && current.Answers.Count == 0)
+                        {
+                            game.Rounds.Remove(current);
+                            game.RoundCount--;
+
+                            Entities.Filters.GameRound.Delete deleteRoundFilter = new Entities.Filters.GameRound.Delete();
+                            deleteRoundFilter.GameRoundID = current.GameRoundID;
+
+                            _deleteRound.Execute(deleteRoundFilter);
+                        }
+
+                        if(game.NumberOfPlayersNeededToStart() == 0)
+                        {
+                            Boolean started = _startRound.Execute(game, game.NextCommander(null));
+                        }
+                    }
 				}
 
                 _sendMessage.UpdateGame(game, true);
 			}
 
 			_leaveGame.Execute(gameID, user, playerType);
-
-			if (game.PlayerCount == 0)
-			{
-				DateTime now = DateTime.UtcNow;
-
-				_updateGame.Execute(gameID, now, now);
-			}
 		}
 	}
 }

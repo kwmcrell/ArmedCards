@@ -2813,21 +2813,23 @@ AS
 	BEGIN TRAN 
 
 	DECLARE @maxPlayers INT
-	SET @Points = 0
+	SET @Points = -1
 
 	SELECT	@Points = Points 
 	FROM	[dbo].[GamePlayer]
 	WHERE	[UserId] = @UserId
 	AND		[GameID] = @GameID
 
-	IF @Points > 0
+	IF @Points > -1
 		BEGIN
 			UPDATE [dbo].[GamePlayer]
-			SET [Status] = 1
+			SET [Status] = 1, [JoinDate] = @JoinDate
 			WHERE [UserId] = @UserId
 		END
 	ELSE
 		BEGIN		
+			SET @Points = 0
+
 			INSERT INTO [dbo].[GamePlayer]
 			(
 				GameID,
