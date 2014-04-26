@@ -65,7 +65,8 @@ AS
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
 			 AND   GP.[Type] = 2
-			 AND   GP.[Status] > 0) AS SpectatorCount
+			 AND   GP.[Status] > 0) AS SpectatorCount,
+			 G.[IsPersistent]
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL

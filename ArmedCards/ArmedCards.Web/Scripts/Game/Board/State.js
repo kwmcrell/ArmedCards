@@ -202,11 +202,15 @@ State.prototype.AlertUsersVote = function (vote) {
 };
 
 State.prototype.Beforeunload = function () {
-    $.ajax({
-        type: 'POST',
-        url: $('#leaveGameLink').attr('href'),
-        async: false
-    });
+    var isPersistent = $('#Game_IsPersistent').val().toLowerCase();
+
+    if (isPersistent == 'false') {
+        $.ajax({
+            type: 'POST',
+            url: $('#leaveGameLink').attr('href'),
+            async: false
+        });
+    }
 };
 
 State.prototype.Init = function () {

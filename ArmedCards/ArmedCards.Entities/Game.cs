@@ -80,6 +80,7 @@ namespace ArmedCards.Entities
 			AnswerShuffleCount	= idr.GetValueByName<Int32>("AnswerShuffleCount");
             MaxNumberOfSpectators = idr.GetValueByName<Int32>("MaxNumberOfSpectators");
             SpectatorCount = idr.GetValueByName<Int32>("SpectatorCount");
+            IsPersistent = idr.GetValueByName<Boolean>("IsPersistent");
         }
 
         /// <summary>
@@ -416,5 +417,10 @@ namespace ArmedCards.Entities
         {
             return Spectators.Find(x => x.User.UserId == userID) != null;
         }
+
+        /// <summary>
+        /// Is the game persistent
+        /// </summary>
+        public Boolean IsPersistent { get; set; }
     }
 }

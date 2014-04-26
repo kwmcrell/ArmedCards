@@ -2295,6 +2295,13 @@ BEGIN
     ALTER TABLE [dbo].[Game] ADD [MaxNumberOfSpectators] [int] NOT NULL DEFAULT 0
 END
 
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'IsPersistent' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [IsPersistent] [bit] NOT NULL DEFAULT 0
+END
 
 GO 
 
@@ -2344,6 +2351,7 @@ CREATE PROC [dbo].[Game_Insert]
 	@GameOver				datetime	  =	NULL,
 	@GameDeckIDs			xml,
 	@MaxNumberOfSpectators	int			  = 0,
+	@IsPersistent			bit			  =	0,
 	@NewID					int				OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2361,7 +2369,8 @@ AS
            ,[DateCreated]
            ,[PlayedLast]
            ,[GameOver]
-		   ,[MaxNumberOfSpectators])
+		   ,[MaxNumberOfSpectators]
+		   ,[IsPersistent])
      SELECT
            @Title,
 		   @IsPrivate,
@@ -2372,7 +2381,8 @@ AS
 		   @DateCreated,
 		   @PlayedLast,
 		   @GameOver,
-		   @MaxNumberOfSpectators
+		   @MaxNumberOfSpectators,
+		   @IsPersistent
 	
 	SET @NewID = @@IDENTITY
 
@@ -2454,7 +2464,8 @@ AS
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
 			 AND   GP.[Type] = 2
-			 AND   GP.[Status] > 0) AS SpectatorCount
+			 AND   GP.[Status] > 0) AS SpectatorCount,
+			 G.[IsPersistent]
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL
