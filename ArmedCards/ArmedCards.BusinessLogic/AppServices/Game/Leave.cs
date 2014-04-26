@@ -41,13 +41,15 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 		private GameRound.Base.IStart _startRound;
 		private GameRound.Base.IDelete _deleteRound;
 		private Base.IUpdate _updateGame;
+        private GamePlayerCard.Base.IDeal _dealCards;
 
 		public Leave(DS.Game.Base.ILeave leaveGame, 
 					 Game.Base.ISelect selectGame,
                      Hubs.Base.ISendMessage sendMessage,
 					 GameRound.Base.IStart startRound,
 					 GameRound.Base.IDelete deleteRound,
-					 Base.IUpdate updateGame)
+					 Base.IUpdate updateGame,
+                     GamePlayerCard.Base.IDeal dealCards)
 		{
 			this._leaveGame = leaveGame;
 			this._selectGame = selectGame;
@@ -55,6 +57,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 			this._startRound = startRound;
 			this._deleteRound = deleteRound;
 			this._updateGame = updateGame;
+            this._dealCards = dealCards;
 		}
 
 		/// <summary>
@@ -135,18 +138,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
                     {
                         if (!current.HasWinner() && current.Answers.Count == 0)
                         {
-                            game.Rounds.Remove(current);
-                            game.RoundCount--;
-
-                            Entities.Filters.GameRound.Delete deleteRoundFilter = new Entities.Filters.GameRound.Delete();
-                            deleteRoundFilter.GameRoundID = current.GameRoundID;
-
-                            _deleteRound.Execute(deleteRoundFilter);
-                        }
-
-                        if(game.NumberOfPlayersNeededToStart() == 0)
-                        {
-                            Boolean started = _startRound.Execute(game, game.NextCommander(null));
+                            _dealCards.Execute(game, false);
                         }
                     }
 				}

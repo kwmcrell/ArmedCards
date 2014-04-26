@@ -38,6 +38,7 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard.Base
 		/// Handle dealing cards to players in <paramref name="game"/>
 		/// </summary>
 		/// <param name="game">The game to deal cards for</param>
-		void Execute(Entities.Game game);
+        /// <param name="dealQuestion">Is a question card needed</param>
+        void Execute(Entities.Game game, Boolean dealQuestion = true);
 	}
 }

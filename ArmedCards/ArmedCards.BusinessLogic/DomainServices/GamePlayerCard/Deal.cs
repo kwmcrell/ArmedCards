@@ -66,7 +66,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		/// Handle dealing cards to players in <paramref name="game"/>
 		/// </summary>
 		/// <param name="game">The game to deal cards for</param>
-		public void Execute(Entities.Game game)
+        /// <param name="dealQuestion">Is a question card needed</param>
+		public void Execute(Entities.Game game, Boolean dealQuestion)
 		{
 			List<Entities.Card> questions;
 			List<Entities.Card> answers;
@@ -74,14 +75,26 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 
 			IEnumerable<Entities.Card> filteredQuestions = _excludeByCount.Execute(questions, game.QuestionShuffleCount);
 
-			Entities.GameRoundCard dealtQuestion = CreateQuestion(filteredQuestions, game);
-
+            Entities.GameRoundCard dealtQuestion = null;
+            
+            if(dealQuestion)
+            {
+                dealtQuestion = CreateQuestion(filteredQuestions, game);
+            }
+            else
+            {
+                dealtQuestion = new Entities.GameRoundCard
+                {
+                    Card = game.CurrentRound().Question
+                };
+            }
+           
 			IEnumerable<Entities.Card> filteredAnswers = _excludeCurrentHands.Execute(answers);
 			filteredAnswers = _excludeByCount.Execute(filteredAnswers, game.AnswerShuffleCount);
 
 			Dictionary<Int32, Int32> drawCount = _calculateDrawCount.Execute(dealtQuestion.Card, game.Players);
 
-			Boolean needMoreQuestions = dealtQuestion == null;
+			Boolean needMoreQuestions = dealtQuestion == null && dealQuestion;
 			Boolean needMoreAnswers = drawCount.Values.Sum() > filteredAnswers.Count();
 
 			if (needMoreQuestions || needMoreAnswers)
@@ -108,8 +121,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
                 _updateGame.Execute(new Entities.Filters.Game.UpdateCounts(game.GameID, game.QuestionShuffleCount, game.AnswerShuffleCount));
 			}
 
-			_insertGameRoundCard.Execute(new List<Entities.GameRoundCard> { dealtQuestion });
-			game.CurrentRound().Question = dealtQuestion.Card;
+            if (dealQuestion)
+            {
+                _insertGameRoundCard.Execute(new List<Entities.GameRoundCard> { dealtQuestion });
+                game.CurrentRound().Question = dealtQuestion.Card;
+            }
 
 			_createHand.Execute(filteredAnswers.ToList(), drawCount, game);
 		}
