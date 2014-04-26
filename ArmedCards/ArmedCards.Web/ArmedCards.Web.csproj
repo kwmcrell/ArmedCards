@@ -228,6 +228,7 @@
     <Content Include="Images\ProfilePics\Cats\7.jpg" />
     <Content Include="Images\ProfilePics\Cats\8.jpg" />
     <Content Include="Images\ProfilePics\Cats\9.jpg" />
+    <Content Include="Scripts\commitment.js" />
     <Content Include="Scripts\Core\Chat.js" />
     <Content Include="Scripts\Core\Hub.js" />
     <Content Include="Scripts\Core\jQueryTopic.js" />
@@ -325,6 +326,7 @@
     <Content Include="Views\Game\Board\Partials\_Header.cshtml" />
     <Content Include="Views\Game\Board\Partials\_RoundQuestion.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_RoundHistory.cshtml" />
+    <Content Include="Views\Home\ChangeLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
