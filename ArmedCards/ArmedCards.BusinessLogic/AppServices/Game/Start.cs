@@ -62,7 +62,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 			Entities.GamePlayer host = game.Players.First();
 
-			if (host != null && host.User.UserId == commander.UserId && game.HasRounds() == false)
+			if (game.IsCurrentCommander(commander.UserId))
 			{
 				Boolean successful = _startRound.Execute(game, commander);
 

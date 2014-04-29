@@ -21,47 +21,39 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote_Select]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[GamePlayerKickVote_Select] 
-END 
-GO
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 10/16/2013
--- Description:	Select all votes to kick a user
--- ===============================================
-CREATE PROC [dbo].[GamePlayerKickVote_Select] 
-	@GameID			int,
-	@KickUserId		int,
-	@PlayerType		int,
-	@TotalPlayers	int output
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN 
-	
-	SELECT @TotalPlayers = COUNT(GP.[UserId])
-	FROM [GamePlayer] GP
-	WHERE GP.[GameID] = @GameID
-	AND	  GP.[Type]   = @PlayerType
-	AND   GP.[Status] > 0
+namespace ArmedCards.Entities.Filters.Game
+{
+    /// <summary>
+    /// Class used to update shuffle counts
+    /// </summary>
+    public class UpdateCounts
+    {
+        public UpdateCounts(Int32 gameID, Int32 questionShuffleCount, Int32 answerShuffleCount)
+        {
+            this.GameID = gameID;
+            this.QuestionShuffleCount = questionShuffleCount;
+            this.AnswerShuffleCount = answerShuffleCount;
+        }
 
-	SELECT	GPKV.[GameID],
-			GPKV.[KickUserId],
-			GPKV.[Vote],
-			GPKV.[VotedUserId]
-	FROM [GamePlayerKickVote] GPKV
-	WHERE GPKV.[GameID] = @GameID 
-	AND GPKV.[KickUserId] = @KickUserId
+        /// <summary>
+        /// The ID of the game to update
+        /// </summary>
+        public Int32 GameID { get; set; }
 
-	DELETE
-	FROM [GamePlayerKickVote]
-	WHERE [GameID] = @GameID 
-	AND [KickUserId] = @KickUserId
+        /// <summary>
+        /// The game's question shuffle count
+        /// </summary>
+        public Int32 QuestionShuffleCount { get; set; }
 
-	COMMIT TRAN
-		
-GO
+        /// <summary>
+        /// The game's answer shuffle count
+        /// </summary>
+        public Int32 AnswerShuffleCount { get; set; }
+    }
+}

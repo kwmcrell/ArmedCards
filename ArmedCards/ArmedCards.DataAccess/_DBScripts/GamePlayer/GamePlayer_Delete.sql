@@ -47,19 +47,25 @@ AS
 		WHERE G.[GameID] = @GameID) IS NULL OR @Type = 2
 		BEGIN
 
+			UPDATE	[dbo].[GamePlayer]
+			SET		[Status] = 0 
+			WHERE	[GameID] = @GameID 
+			AND		[UserId] = @UserId
+			AND		[Type]   = @Type
+
 			DELETE
-			FROM [dbo].[GamePlayer] 
-			WHERE [GameID] = @GameID 
-			AND   [UserId] = @UserId
-			AND   [Type]   = @Type
+			FROM	[dbo].[GamePlayerCard]
+			WHERE	[GameID] = @GameID
+			AND		[UserId] = @UserId
 
 		END
 		
 		IF @Type = 1
 			BEGIN
-				DELETE
-				FROM [dbo].[GamePlayerCard]
-				WHERE [GameID] = @GameID AND [UserId] = @UserId
+				UPDATE	[dbo].[GamePlayer]
+				SET		[Status] = 0
+				WHERE	[GameID] = @GameID 
+				AND		[UserId] = @UserId
 			END
 
 	COMMIT

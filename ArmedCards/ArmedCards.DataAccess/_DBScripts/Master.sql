@@ -96,11 +96,13 @@ AS
 	
 	DECLARE @GroupName varchar(255);
 	DECLARE @User_UserId int;
-	DECLARE @UserName nvarchar(max)
+	DECLARE @UserName nvarchar(max);
+	DECLARE @ConnectionType int;
 
 	SELECT	@GroupName = AC.[GroupName],
 			@User_UserId = AC.[User_UserId],
-			@UserName = UP.[UserName]
+			@UserName = UP.[UserName],
+			@ConnectionType = AC.[ConnectionType]
 	FROM [dbo].[ActiveConnection] AC
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
@@ -111,7 +113,8 @@ AS
 	SELECT @ActiveConnectionID AS ActiveConnectionID,
 		   @GroupName AS GroupName,
 		   @User_UserId AS User_UserId,
-		   @UserName AS UserName
+		   @UserName AS UserName,
+		   @ConnectionType AS ConnectionType
 
 	COMMIT
 GO 
@@ -2292,6 +2295,13 @@ BEGIN
     ALTER TABLE [dbo].[Game] ADD [MaxNumberOfSpectators] [int] NOT NULL DEFAULT 0
 END
 
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'IsPersistent' 
+				AND Object_ID = Object_ID(N'Game'))
+BEGIN
+    ALTER TABLE [dbo].[Game] ADD [IsPersistent] [bit] NOT NULL DEFAULT 0
+END
 
 GO 
 
@@ -2341,6 +2351,7 @@ CREATE PROC [dbo].[Game_Insert]
 	@GameOver				datetime	  =	NULL,
 	@GameDeckIDs			xml,
 	@MaxNumberOfSpectators	int			  = 0,
+	@IsPersistent			bit			  =	0,
 	@NewID					int				OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2358,7 +2369,8 @@ AS
            ,[DateCreated]
            ,[PlayedLast]
            ,[GameOver]
-		   ,[MaxNumberOfSpectators])
+		   ,[MaxNumberOfSpectators]
+		   ,[IsPersistent])
      SELECT
            @Title,
 		   @IsPrivate,
@@ -2369,7 +2381,8 @@ AS
 		   @DateCreated,
 		   @PlayedLast,
 		   @GameOver,
-		   @MaxNumberOfSpectators
+		   @MaxNumberOfSpectators,
+		   @IsPersistent
 	
 	SET @NewID = @@IDENTITY
 
@@ -2441,7 +2454,8 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 1) AS PlayerCount,
+			 AND   GP.[Type] = 1
+			 AND   GP.[Status] > 0) AS PlayerCount,
 			(SELECT COUNT([Game_GameID]) 
 			 FROM [dbo].[GameRound] GR
 			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
@@ -2449,7 +2463,9 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 2) AS SpectatorCount
+			 AND   GP.[Type] = 2
+			 AND   GP.[Status] > 0) AS SpectatorCount,
+			 G.[IsPersistent]
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL
@@ -2507,6 +2523,59 @@ AS
 	UPDATE [dbo].[Game]
 	SET [GameOver] = @GameOver,
 		[PlayedLast] = @PlayedLast
+	WHERE [GameID] = @GameID
+
+	COMMIT
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF OBJECT_ID('[dbo].[Game_UpdateShuffleCount]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Game_UpdateShuffleCount] 
+END 
+GO
+
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 04/21/2014
+-- Description:	Update the game shuffle counts
+-- ===============================================
+CREATE PROC [dbo].[Game_UpdateShuffleCount] 
+	@GameID					int,
+	@QuestionShuffleCount	int,
+	@AnswerShuffleCount		int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+
+	UPDATE [dbo].[Game]
+	SET [QuestionShuffleCount]	= @QuestionShuffleCount,
+		[AnswerShuffleCount]	= @AnswerShuffleCount
 	WHERE [GameID] = @GameID
 
 	COMMIT
@@ -2623,6 +2692,14 @@ IF NOT EXISTS(	SELECT *
 BEGIN
     ALTER TABLE [dbo].[GamePlayer] ADD [Type] [int] NOT NULL DEFAULT 1
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'Status' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [Status] [int] NOT NULL DEFAULT 1
+END
 GO 
 
 /*
@@ -2674,19 +2751,25 @@ AS
 		WHERE G.[GameID] = @GameID) IS NULL OR @Type = 2
 		BEGIN
 
+			UPDATE	[dbo].[GamePlayer]
+			SET		[Status] = 0 
+			WHERE	[GameID] = @GameID 
+			AND		[UserId] = @UserId
+			AND		[Type]   = @Type
+
 			DELETE
-			FROM [dbo].[GamePlayer] 
-			WHERE [GameID] = @GameID 
-			AND   [UserId] = @UserId
-			AND   [Type]   = @Type
+			FROM	[dbo].[GamePlayerCard]
+			WHERE	[GameID] = @GameID
+			AND		[UserId] = @UserId
 
 		END
 		
 		IF @Type = 1
 			BEGIN
-				DELETE
-				FROM [dbo].[GamePlayerCard]
-				WHERE [GameID] = @GameID AND [UserId] = @UserId
+				UPDATE	[dbo].[GamePlayer]
+				SET		[Status] = 0
+				WHERE	[GameID] = @GameID 
+				AND		[UserId] = @UserId
 			END
 
 	COMMIT
@@ -2730,9 +2813,9 @@ GO
 CREATE PROC [dbo].[GamePlayer_Insert] 
 	@GameID			int,
 	@UserId			int,
-	@Points			int,
 	@JoinDate		datetime,
 	@Type			int,
+	@Points			int OUTPUT,
 	@TotalPlayers	int OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -2741,25 +2824,46 @@ AS
 	BEGIN TRAN 
 
 	DECLARE @maxPlayers INT
+	SET @Points = -1
 
-	INSERT INTO [dbo].[GamePlayer]
-	(
-		GameID,
-		UserId,
-		Points,
-		JoinDate,
-		Type
-	)
-	SELECT	@GameID,
-			@UserId,
-			@Points,
-			@JoinDate,
-			@Type
+	SELECT	@Points = Points 
+	FROM	[dbo].[GamePlayer]
+	WHERE	[UserId] = @UserId
+	AND		[GameID] = @GameID
+
+	IF @Points > -1
+		BEGIN
+			UPDATE [dbo].[GamePlayer]
+			SET [Status] = 1, [JoinDate] = @JoinDate
+			WHERE [UserId] = @UserId
+		END
+	ELSE
+		BEGIN		
+			SET @Points = 0
+
+			INSERT INTO [dbo].[GamePlayer]
+			(
+				GameID,
+				UserId,
+				Points,
+				JoinDate,
+				Type,
+				Status
+			)
+			SELECT	@GameID,
+					@UserId,
+					0,
+					@JoinDate,
+					@Type,
+					1
+		END
+
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]	  = @Type
+	AND	  GP.[Status] > 0
 
 	SELECT @maxPlayers = 
 			CASE WHEN @Type = 1
@@ -2832,6 +2936,7 @@ AS
 			GP.[UserId],
 			GP.[JoinDate],
 			GP.[Type],
+			GP.[Status],
 			UP.[UserName],
 			UP.[PictureUrl],
 			CASE WHEN GP.[Type] = 1
@@ -2847,6 +2952,7 @@ AS
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE (GP.[GameID] = @GameID OR @GameID IS NULL)
 	AND   (GP.[Type]   = @Type   OR @Type IS NULL)
+	AND	  (GP.[Status] > 0)
 	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT
@@ -3818,6 +3924,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = 1
+	AND   GP.[Status] > 0
 	
 	IF NOT EXISTS	(	
 						SELECT TOP 1 GPKV.[VotedUserId]
@@ -3900,6 +4007,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = @PlayerType
+	AND   GP.[Status] > 0
 
 	SELECT	GPKV.[GameID],
 			GPKV.[KickUserId],

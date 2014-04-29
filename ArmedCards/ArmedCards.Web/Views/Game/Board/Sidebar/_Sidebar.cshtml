@@ -44,7 +44,7 @@
     <div id="gameHeader" class="gameHeader">
         <h3 title="@Model.Game.Title">@Model.Game.Title</h3>
         <p>Started by <a href="#" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
-        <a href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit @(Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player ? "game" : "spectating")</a>
+        <a id="leaveGameLink" href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit @(Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player ? "game" : "spectating")</a>
     </div>
     <h4 id="playersHeader" class="accessible">Players</h4>
     <div id="gameLobby" class="lobby">

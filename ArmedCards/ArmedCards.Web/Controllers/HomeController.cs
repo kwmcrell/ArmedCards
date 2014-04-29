@@ -49,5 +49,10 @@ namespace ArmedCards.Web.Controllers
 
             return View();
         }
+
+        public ActionResult ChangeLog()
+        {
+            return View();
+        }
     }
 }

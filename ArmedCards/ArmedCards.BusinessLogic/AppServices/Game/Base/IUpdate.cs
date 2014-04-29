@@ -41,5 +41,11 @@ namespace ArmedCards.BusinessLogic.AppServices.Game.Base
 		/// <param name="playedLast">The datetime to mark the game as last played</param>
 		/// <param name="gameOver">The datetime the game was ended</param>
 		void Execute(Int32 gameID, DateTime playedLast, DateTime? gameOver);
+
+        /// <summary>
+        /// Update the game's shuffle counts based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
+        void Execute(Entities.Filters.Game.UpdateCounts filter);
 	}
 }

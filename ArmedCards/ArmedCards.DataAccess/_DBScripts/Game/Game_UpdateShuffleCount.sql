@@ -21,47 +21,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GamePlayerKickVote_Select]') IS NOT NULL
+IF OBJECT_ID('[dbo].[Game_UpdateShuffleCount]') IS NOT NULL
 BEGIN 
-    DROP PROC [dbo].[GamePlayerKickVote_Select] 
+    DROP PROC [dbo].[Game_UpdateShuffleCount] 
 END 
 GO
 
 -- ==============================================
 -- Author:		Kevin McRell
--- Create date: 10/16/2013
--- Description:	Select all votes to kick a user
+-- Create date: 04/21/2014
+-- Description:	Update the game shuffle counts
 -- ===============================================
-CREATE PROC [dbo].[GamePlayerKickVote_Select] 
-	@GameID			int,
-	@KickUserId		int,
-	@PlayerType		int,
-	@TotalPlayers	int output
+CREATE PROC [dbo].[Game_UpdateShuffleCount] 
+	@GameID					int,
+	@QuestionShuffleCount	int,
+	@AnswerShuffleCount		int
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
-	BEGIN TRAN 
-	
-	SELECT @TotalPlayers = COUNT(GP.[UserId])
-	FROM [GamePlayer] GP
-	WHERE GP.[GameID] = @GameID
-	AND	  GP.[Type]   = @PlayerType
-	AND   GP.[Status] > 0
+	BEGIN TRAN
 
-	SELECT	GPKV.[GameID],
-			GPKV.[KickUserId],
-			GPKV.[Vote],
-			GPKV.[VotedUserId]
-	FROM [GamePlayerKickVote] GPKV
-	WHERE GPKV.[GameID] = @GameID 
-	AND GPKV.[KickUserId] = @KickUserId
+	UPDATE [dbo].[Game]
+	SET [QuestionShuffleCount]	= @QuestionShuffleCount,
+		[AnswerShuffleCount]	= @AnswerShuffleCount
+	WHERE [GameID] = @GameID
 
-	DELETE
-	FROM [GamePlayerKickVote]
-	WHERE [GameID] = @GameID 
-	AND [KickUserId] = @KickUserId
-
-	COMMIT TRAN
-		
+	COMMIT
 GO

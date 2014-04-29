@@ -31,4 +31,5 @@
     @Html.Partial("~/Views/Game/Board/Partials/_Answers.cshtml", Model.AnswersViewModel)
 
     @Html.Partial("~/Views/Game/Board/Partials/_Hand.cshtml", Model.HandViewModel)
+    @Html.HiddenFor(x => x.Game.IsPersistent)
 </div>

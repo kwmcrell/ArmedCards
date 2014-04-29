@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL = ArmedCards.DataAccess.GamePlayerCard;
+using Repo = ArmedCards.BusinessLogic.Repositories.GamePlayerCard;
 
 namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 {
@@ -35,9 +35,9 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 	/// </summary>
 	public class Delete : Base.IDelete
 	{
-		private DAL.Base.IDelete _delete;
+        private Repo.Base.IDelete _delete;
 
-		public Delete(DAL.Base.IDelete delete)
+        public Delete(Repo.Base.IDelete delete)
 		{
 			this._delete = delete;
 		}

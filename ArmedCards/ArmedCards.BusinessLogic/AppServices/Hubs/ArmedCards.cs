@@ -93,6 +93,22 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 
 			Entities.ActiveConnection connection = _deleteConnection.Execute(filter);
 
+            /*if(connection.ConnectionType != Entities.Enums.ConnectionType.GlobalChat)
+            {
+                Int32 gameID = Convert.ToInt32(connection.GroupName.Replace("Game_", ""));
+
+                Entities.User user = new Entities.User { UserId = connection.User_UserId, DisplayName = connection.UserName };
+
+                Entities.Enums.GamePlayerType playerType = 
+                    connection.ConnectionType == Entities.Enums.ConnectionType.GamePlayer ?
+                            Entities.Enums.GamePlayerType.Player :
+                            Entities.Enums.GamePlayerType.Spectator;
+
+                AS.Game.Base.ILeave _leaveGame = BusinessLogic.UnityConfig.Container.Resolve<AS.Game.Base.ILeave>();
+
+                _leaveGame.Execute(gameID, user, playerType);
+            }*/
+
 			Clients.All.RemoveConnection(connection);
 		}
 

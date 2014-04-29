@@ -46,6 +46,7 @@ AS
 			GP.[UserId],
 			GP.[JoinDate],
 			GP.[Type],
+			GP.[Status],
 			UP.[UserName],
 			UP.[PictureUrl],
 			CASE WHEN GP.[Type] = 1
@@ -61,6 +62,7 @@ AS
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = GP.[UserId]
 	WHERE (GP.[GameID] = @GameID OR @GameID IS NULL)
 	AND   (GP.[Type]   = @Type   OR @Type IS NULL)
+	AND	  (GP.[Status] > 0)
 	ORDER BY GP.[JoinDate] ASC
 
 	COMMIT

@@ -90,6 +90,8 @@
                     @Html.ValidationMessageFor(m => m.Game.MaxNumberOfSpectators)
                 </div>
             </div>
+            <br />
+            @Html.CheckboxFor(Model, x => x.Game.IsPersistent, "Users can close their browser or tab without leaving the game.", "fakeCheckLabel")
         </div>
         <a id="createGameSubmit" class="button" style="cursor: pointer;">Create</a>
     </div>
