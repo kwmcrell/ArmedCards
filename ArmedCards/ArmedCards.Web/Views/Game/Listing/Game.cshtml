@@ -24,5 +24,13 @@
 @model ArmedCards.Entities.Game
 
 <a href="#" class="game" id="@Model.GameID"><h3>@Model.Title</h3>
+    @if(Model.IsPrivate)
+    {
+        <span title="Private game">Private</span>
+    }
 	<span class="playas"><span class="count">@Model.PlayerCount / @Model.MaxNumberOfPlayers</span> Players</span>
+    @if(Model.IsPersistent)
+    {
+        <span title="Users can close their browser or tab without leaving the game">Persistent</span>
+    }
 </a>
