@@ -79,8 +79,8 @@ AS
 					[UserName],
 					[Rank]
 			FROM @leaderboard
-			WHERE	[Rank] >= (@currentUserRank + 5) OR
-					[Rank] <= (@currentUserRank + 4)
+			WHERE	[Rank] >= (@currentUserRank - 4) AND
+					[Rank] <= (@currentUserRank + 5)
 		END
 
 	COMMIT
