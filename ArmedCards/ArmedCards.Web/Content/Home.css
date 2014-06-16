@@ -1387,7 +1387,6 @@ body .chat.right .openClose a span.mobileOpenClose
 	position: absolute;
 	text-align: center;
 	text-shadow: none;
-	top: 0;
 	width: 3em;
     -webkit-animation-duration: 2s;
     -webkit-animation-name: betaGrab;
