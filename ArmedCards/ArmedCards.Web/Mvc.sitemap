@@ -3,8 +3,10 @@
             xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
             xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
 
-  <mvcSiteMapNode title="Home" controller="Home" action="Index">
-    <mvcSiteMapNode title="About" controller="Home" action="About"/>
+  <mvcSiteMapNode title="Home Page" controller="Home" action="Index" description="Home Page" changeFrequency="Weekly" updatePriority="High">
+    <mvcSiteMapNode title="Game Listing" description="Game Listing" controller="GameListing" action="Index" changeFrequency="Weekly" updatePriority="High" />
+    <mvcSiteMapNode title="Site Leaderboard" description="Site Leaderboard" controller="Leaderboard" action="Index" changeFrequency="Weekly" updatePriority="High" />
+    <mvcSiteMapNode title="Site Change Log" description="Site Change Log" controller="Home" action="ChangeLog" changeFrequency="Weekly" updatePriority="High" />
   </mvcSiteMapNode>
 
 </mvcSiteMap>
