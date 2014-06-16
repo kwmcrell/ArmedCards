@@ -1380,13 +1380,15 @@ body .chat.right .openClose a span.mobileOpenClose
 	border-radius: 50%;
 	box-shadow: 2px 2px #CCC;
 	color: #FFF;
+	display: inline-block;
 	font-size: 0.15em;
 	height: 3em;
 	letter-spacing: 0.06em;
 	line-height: 3em;
-	position: absolute;
+	position: relative;
 	text-align: center;
 	text-shadow: none;
+	vertical-align: top;
 	width: 3em;
     -webkit-animation-duration: 2s;
     -webkit-animation-name: betaGrab;
