@@ -39,7 +39,7 @@
     <div class="alert alert-warning" data-bind="attr: { id : 'alert-vote-' + UserToKick.UserId() }">
         <div class="alert-title">Kick Player</div>
         <span class="loggedIn">
-            <img data-bind="attr: { src: UserToKick.PictureUrl() }"><span data-bind="html : UserToKick.DisplayName()"></span>
+            <img data-bind="attr: { src: UserToKick.PictureUrl() }" alt="User Avatar"><span data-bind="html : UserToKick.DisplayName()"></span>
         </span>
         <div class="alert-message">
             <a name="kickPlayer" data-bind="attr: { 'data-userid' : UserToKick.UserId() }, html : '(' + VotesToKick() + ') Kick!'" href="#" style="font-size: medium;" class="button"></a>

@@ -29,14 +29,14 @@
         <li>
             <span class="loggedIn">
                 <span class="playerMenu">
-                    <img src="/Images/PlayerMenu.gif" data-bind="attr:{ title: 'Open options for ' + User.DisplayName }">
+                    <img src="/Images/PlayerMenu.gif" data-bind="attr:{ title: 'Open options for ' + User.DisplayName }"  alt="Menu Icon">
                     <span class="menu">
                         <ul>
                             <li><a name="kickPlayer" href="#" data-bind="attr: { 'data-userid': User.UserId }, text: 'Kick player'"></a></li>
                         </ul>
                     </span>
                 </span>
-                <img data-bind="attr:{ src: User.PictureUrl }">
+                <img data-bind="attr:{ src: User.PictureUrl }" alt="User Avatar">
                 <a data-bind="attr: { id: User.UserId, href: '/Profile/' + User.UserId }, text: User.DisplayName"></a>
             </span>
             <span class="gamePoints" data-bind="text: Points + ' points'"></span>
@@ -58,7 +58,7 @@
     <div class="hidden" id="hiddenSpectatorList">
         <ol data-bind="foreach: Spectators">
             <li><a data-bind="attr: { href: '/Profile/' + User.UserId }" class="loggedIn" target="_blank">
-                    <img data-bind="attr:{ src: User.PictureUrl }"><span data-bind="text: User.DisplayName"></span>
+                    <img data-bind="attr:{ src: User.PictureUrl }" alt="User Avatar"><span data-bind="text: User.DisplayName"></span>
                 </a>
             </li>
         </ol>
