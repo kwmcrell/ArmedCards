@@ -604,6 +604,17 @@ fieldset > .button.active
 	width: 20em;
 }
 
+.confirmMessage.logIn
+{
+	margin-top: -11.9em;
+}
+
+.confirmMessage.logIn p
+{
+	color: #777;
+	margin-top: 1.25em;
+}
+
 .confirmMessage.joinPassworded
 {
 	margin-top: -12em;
