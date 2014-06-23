@@ -3178,12 +3178,14 @@ body #toast-container > .toast-info
 	body .game
 	{
 		padding-top: 2em;
+		max-height: 500px;
+		overflow: hidden;
 	}
 
 	body.chatOpen .game
 	{
-		max-height: 500px;
-		overflow: hidden;
+		max-height: none;
+		overflow: auto;
 	}
 
 	body.chatOpen.right
@@ -3193,9 +3195,10 @@ body #toast-container > .toast-info
 	
 	body .chat.right
 	{
-		height: 2.2em;
+		bottom: auto;
+		height: auto;
+		overflow: visible;
 		left: 0;
-		overflow: hidden;
 		padding: .75em;
 		position: absolute;
 		right: auto;
@@ -3205,9 +3208,8 @@ body #toast-container > .toast-info
 
 	body.chatOpen .chat.right
 	{
-		bottom: auto;
-		height: auto;
-		overflow: visible;
+		height: 2.2em;
+		overflow: hidden;
 	}
 
 	body .chat.right .openClose,
@@ -3237,22 +3239,22 @@ body #toast-container > .toast-info
 
 	body .chat.right .openClose a span.mobileOpenClose .close
 	{
-		display: none;
+		display: inline;
 	}
 
 	body .chat.right .openClose a span.mobileOpenClose .open
 	{
-		display: inline;
+		display: none;
 	}
 
 	body.chatOpen .chat.right .openClose a span.mobileOpenClose .open
 	{
-		display: none;
+		display: inline;
 	}
 
 	body.chatOpen .chat.right .openClose a span.mobileOpenClose .close
 	{
-		display: inline;
+		display: none;
 	}
 
 	body.chatOpen .chat.right .openClose.new a span.mobileOpenClose .notify
