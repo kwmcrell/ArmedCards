@@ -29,6 +29,11 @@
     ArmedCards.Entities.Models.Shared.Header header = new ArmedCards.Entities.Models.Shared.Header();
     header.SubHeaderText = "Leaderboards";
 }
+
+<span class="visuallyHidden">
+    These are the best players and your standing amongst them.
+</span>
+
 <div class="leaderboard">
     @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
@@ -38,7 +43,7 @@
             <ol>
                 @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.Top10])
                 {
-                    <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl">@record.User.DisplayName - @record.Points pts</a></li>
+                    <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
                 }
             </ol>
         </div>
@@ -49,7 +54,7 @@
                 <ol>
                     @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.CurrentUser])
                     {
-                        <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl">@record.User.DisplayName - @record.Points pts</a></li>
+                        <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
                     }
                 </ol>
             </div>

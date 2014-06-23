@@ -32,9 +32,14 @@
 }
 
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+
+<span class="visuallyHidden">
+    This is your profile and games you're a part of.
+</span>
+
 <div class="user me">
     <h3 class="username loggedIn">
-        <img src="@Model.ViewedProfile.PictureUrl"><span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">@Model.TotalPoints points</span></h3>
+        <img src="@Model.ViewedProfile.PictureUrl" alt="User Avatar"><span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">@Model.TotalPoints points</span></h3>
     @if(Model.MyProfile)
     {
         <div class="options">
