@@ -3217,20 +3217,20 @@ body #toast-container > .toast-info
 		width: 100%;
 	}
 
-	body .chat.right .chatContainer
-	{
-		display: none;
-	}
-
 	body.chatOpen .chat.right
 	{
 		height: 2.2em;
 		overflow: hidden;
 	}
 
-	body.chatOpen .chat.right .chatContainer
+	body.chatOpen .chat.right > *
 	{
-		display: inline-block;
+		display: none;
+	}
+
+	body .chat.right .openClose
+	{
+		display: block;
 	}
 
 	body .chat.right .openClose,
