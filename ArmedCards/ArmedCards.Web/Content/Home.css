@@ -3223,6 +3223,16 @@ body #toast-container > .toast-info
 		overflow: hidden;
 	}
 
+	body.chatOpen .chat.right > *
+	{
+		display: none;
+	}
+
+	body .chat.right .openClose
+	{
+		display: block;
+	}
+
 	body .chat.right .openClose,
 	body .chat.right .openClose.new
 	{
