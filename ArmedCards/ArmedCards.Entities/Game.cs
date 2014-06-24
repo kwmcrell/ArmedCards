@@ -84,6 +84,7 @@ namespace ArmedCards.Entities
             MaxNumberOfSpectators   =   idr.GetValueByName<Int32>("MaxNumberOfSpectators");
             SpectatorCount          =   idr.GetValueByName<Int32>("SpectatorCount");
             SecondsToPlay           =   idr.GetValueByName<Int32>("SecondsToPlay");
+            IsPersistent 			= 	idr.GetValueByName<Boolean>("IsPersistent");
         }
 
         /// <summary>
@@ -436,5 +437,10 @@ namespace ArmedCards.Entities
                 return String.Format(RoundTimerCacheKey, GameID.ToString());
             }
         }
+		
+        /// <summary>
+        /// Is the game persistent
+        /// </summary>
+        public Boolean IsPersistent { get; set; }
     }
 }

@@ -42,6 +42,10 @@
 </div>
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
+<span class="visuallyHidden">
+    Select a game to join.
+</span>
+
 <div class="gameListing clearfix">
     @foreach (Game game in Model.Games)
     {

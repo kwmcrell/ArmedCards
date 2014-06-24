@@ -60,5 +60,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 			_update.Execute(filter);
 		}
+
+        /// <summary>
+        /// Update the game's shuffle counts based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
+        public void Execute(Entities.Filters.Game.UpdateCounts filter)
+        {
+            _update.Execute(filter);
+        }
 	}
 }

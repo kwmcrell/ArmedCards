@@ -23,7 +23,7 @@
 
 @model ArmedCards.Entities.Models.Game.CreateGame
 @{
-    ViewBag.Title = "CreateGame";
+    ViewBag.Title = "Create Game";
     Layout = "~/Views/Shared/Layout/_Footer.cshtml";
 
     ArmedCards.Entities.Models.Shared.Header header = new ArmedCards.Entities.Models.Shared.Header();
@@ -106,6 +106,8 @@
                     @Html.ValidationMessageFor(m => m.Game.SecondsToPlay)
                 </div>
             </div>
+            <br />
+            @Html.CheckboxFor(Model, x => x.Game.IsPersistent, "Users can close their browser or tab without leaving the game.", "fakeCheckLabel")
         </div>
         <a id="createGameSubmit" class="button" style="cursor: pointer;">Create</a>
     </div>

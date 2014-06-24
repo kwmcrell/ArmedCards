@@ -40,7 +40,7 @@ namespace ArmedCards.Entities.Models.Shared
         /// </summary>
         public Header()
         {
-            HeaderText = "Armed Cards!#%?";
+            HeaderText = "Armed Cards!#&?";
             HeaderLink = "/";
         }
 

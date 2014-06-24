@@ -303,6 +303,18 @@ input.title
 	display: none;
 }
 
+.visuallyHidden
+{
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
 blockquote
 {
 	display: inline-block;
@@ -590,6 +602,17 @@ fieldset > .button.active
 	top: 50%;
 	z-index: 1000;
 	width: 20em;
+}
+
+.confirmMessage.logIn
+{
+	margin-top: -11.9em;
+}
+
+.confirmMessage.logIn p
+{
+	color: #777;
+	margin-top: 1.25em;
 }
 
 .confirmMessage.joinPassworded
@@ -1380,14 +1403,15 @@ body .chat.right .openClose a span.mobileOpenClose
 	border-radius: 50%;
 	box-shadow: 2px 2px #CCC;
 	color: #FFF;
+	display: inline-block;
 	font-size: 0.15em;
 	height: 3em;
 	letter-spacing: 0.06em;
 	line-height: 3em;
-	position: absolute;
+	position: relative;
 	text-align: center;
 	text-shadow: none;
-	top: 0;
+	vertical-align: top;
 	width: 3em;
     -webkit-animation-duration: 2s;
     -webkit-animation-name: betaGrab;
@@ -3165,12 +3189,14 @@ body #toast-container > .toast-info
 	body .game
 	{
 		padding-top: 2em;
+		max-height: 500px;
+		overflow: hidden;
 	}
 
 	body.chatOpen .game
 	{
-		max-height: 500px;
-		overflow: hidden;
+		max-height: none;
+		overflow: auto;
 	}
 
 	body.chatOpen.right
@@ -3180,9 +3206,10 @@ body #toast-container > .toast-info
 	
 	body .chat.right
 	{
-		height: 2.2em;
+		bottom: auto;
+		height: auto;
+		overflow: visible;
 		left: 0;
-		overflow: hidden;
 		padding: .75em;
 		position: absolute;
 		right: auto;
@@ -3192,9 +3219,8 @@ body #toast-container > .toast-info
 
 	body.chatOpen .chat.right
 	{
-		bottom: auto;
-		height: auto;
-		overflow: visible;
+		height: 2.2em;
+		overflow: hidden;
 	}
 
 	body .chat.right .openClose,
@@ -3224,22 +3250,22 @@ body #toast-container > .toast-info
 
 	body .chat.right .openClose a span.mobileOpenClose .close
 	{
-		display: none;
+		display: inline;
 	}
 
 	body .chat.right .openClose a span.mobileOpenClose .open
 	{
-		display: inline;
+		display: none;
 	}
 
 	body.chatOpen .chat.right .openClose a span.mobileOpenClose .open
 	{
-		display: none;
+		display: inline;
 	}
 
 	body.chatOpen .chat.right .openClose a span.mobileOpenClose .close
 	{
-		display: inline;
+		display: none;
 	}
 
 	body.chatOpen .chat.right .openClose.new a span.mobileOpenClose .notify

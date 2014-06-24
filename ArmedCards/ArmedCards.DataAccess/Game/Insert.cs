@@ -69,6 +69,7 @@ namespace ArmedCards.DataAccess.Game
                 db.AddInParameter(cmd, "@GameDeckIDs",          DbType.Xml,         game.GameDeckIDs.ConvertCollectionToXML());
                 db.AddInParameter(cmd, "@MaxNumberOfSpectators",DbType.Int32,       game.MaxNumberOfSpectators);
                 db.AddInParameter(cmd, "@SecondsToPlay",        DbType.Int32,       game.SecondsToPlay);
+                db.AddInParameter(cmd, "@IsPersistent",         DbType.Boolean,     game.IsPersistent);
 
                 db.AddOutParameter(cmd, "NewID",                DbType.Int32,       sizeof(Int32));
 

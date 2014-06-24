@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+
+  <mvcSiteMapNode title="Home Page" description="Home Page" changeFrequency="Weekly" updatePriority="High" url="https://armedcards.com/">
+    <mvcSiteMapNode title="Game Listing" description="Game Listing" changeFrequency="Weekly" updatePriority="High" url="https://armedcards.com/GameListing" />
+    <mvcSiteMapNode title="Site Leaderboard" description="Site Leaderboard" changeFrequency="Weekly" updatePriority="High" url="https://armedcards.com/Leaderboard" />
+    <mvcSiteMapNode title="Site Change Log" description="Site Change Log" changeFrequency="Weekly" updatePriority="High" url="https://armedcards.com/ChangeLog" />
+  </mvcSiteMapNode>
+
+</mvcSiteMap>

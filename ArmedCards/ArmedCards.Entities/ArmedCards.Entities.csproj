@@ -88,6 +88,7 @@
     <Compile Include="Filters\Game\Select.cs" />
     <Compile Include="Filters\Game\SelectAll.cs" />
     <Compile Include="Filters\GamePlayer\SelectForUser.cs" />
+    <Compile Include="Filters\Game\UpdateCounts.cs" />
     <Compile Include="Filters\Game\UpdateDates.cs" />
     <Compile Include="Filters\User\Select.cs" />
     <Compile Include="Filters\User\UpdateDisplayName.cs" />

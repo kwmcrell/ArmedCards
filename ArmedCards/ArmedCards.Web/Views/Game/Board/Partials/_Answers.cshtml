@@ -31,7 +31,7 @@
             <div class="user" data-bind="css : { hidden: !Winner, winningUser: Winner }, if: Winner">
                 <h3>Winner</h3>
                 <a href="#" class="loggedIn">
-                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }" alt="User Avatar">
                     <span data-bind="html: PlayedBy.DisplayName"></span>
                 </a>
                 <p class="addPoints">+1 points</p>
@@ -43,7 +43,7 @@
             </div>
             <div class="user" style="opacity:0;" data-bind="css : { hidden: Winner, losingUser: !Winner }, if: !Winner">
                 <a href="#" class="loggedIn">
-                    <img data-bind="attr: { src: PlayedBy.PictureUrl }">
+                    <img data-bind="attr: { src: PlayedBy.PictureUrl }" alt="User Avatar">
                     <span data-bind="html: PlayedBy.DisplayName"></span>
                 </a>
             </div>

@@ -42,11 +42,13 @@ AS
 	
 	DECLARE @GroupName varchar(255);
 	DECLARE @User_UserId int;
-	DECLARE @UserName nvarchar(max)
+	DECLARE @UserName nvarchar(max);
+	DECLARE @ConnectionType int;
 
 	SELECT	@GroupName = AC.[GroupName],
 			@User_UserId = AC.[User_UserId],
-			@UserName = UP.[UserName]
+			@UserName = UP.[UserName],
+			@ConnectionType = AC.[ConnectionType]
 	FROM [dbo].[ActiveConnection] AC
 	INNER JOIN [dbo].[UserProfile] UP ON UP.[UserId] = AC.[User_UserId]
 	WHERE (AC.[GroupName] = @GroupName OR @GroupName IS NULL)
@@ -57,6 +59,7 @@ AS
 	SELECT @ActiveConnectionID AS ActiveConnectionID,
 		   @GroupName AS GroupName,
 		   @User_UserId AS User_UserId,
-		   @UserName AS UserName
+		   @UserName AS UserName,
+		   @ConnectionType AS ConnectionType
 
 	COMMIT

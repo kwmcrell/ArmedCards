@@ -56,7 +56,8 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 1) AS PlayerCount,
+			 AND   GP.[Type] = 1
+			 AND   GP.[Status] > 0) AS PlayerCount,
 			(SELECT COUNT([Game_GameID]) 
 			 FROM [dbo].[GameRound] GR
 			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
@@ -64,7 +65,9 @@ AS
 			(SELECT COUNT(UserID) 
 			 FROM [dbo].[GamePlayer] GP
 			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 2) AS SpectatorCount
+			 AND   GP.[Type] = 2
+			 AND   GP.[Status] > 0) AS SpectatorCount,
+			 G.[IsPersistent]
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL

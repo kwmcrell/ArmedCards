@@ -45,6 +45,7 @@ CREATE PROC [dbo].[Game_Insert]
 	@GameDeckIDs			xml,
 	@MaxNumberOfSpectators	int			  = 0,
 	@SecondsToPlay			int			  = -1,
+	@IsPersistent			bit			  =	0,
 	@NewID					int				OUTPUT
 AS 
 	SET NOCOUNT ON 
@@ -63,7 +64,8 @@ AS
            ,[PlayedLast]
            ,[GameOver]
 		   ,[MaxNumberOfSpectators]
-		   ,[SecondsToPlay])
+		   ,[SecondsToPlay]
+		   ,[IsPersistent])
      SELECT
            @Title,
 		   @IsPrivate,
@@ -75,7 +77,8 @@ AS
 		   @PlayedLast,
 		   @GameOver,
 		   @MaxNumberOfSpectators,
-		   @SecondsToPlay
+		   @SecondsToPlay,
+		   @IsPersistent
 	
 	SET @NewID = @@IDENTITY
 

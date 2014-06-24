@@ -62,6 +62,7 @@ AS
 	FROM [GamePlayer] GP
 	WHERE GP.[GameID] = @GameID
 	AND	  GP.[Type]   = 1
+	AND   GP.[Status] > 0
 	
 	IF NOT EXISTS	(	
 						SELECT TOP 1 GPKV.[VotedUserId]

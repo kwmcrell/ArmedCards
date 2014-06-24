@@ -39,5 +39,11 @@ namespace ArmedCards.BusinessLogic.DomainServices.Game.Base
 		/// </summary>
 		/// <param name="filter">The filter used to determine what game to update and the dates to update it with</param>
 		void Execute(Entities.Filters.Game.UpdateDates filter);
+
+        /// <summary>
+        /// Update the game's shuffle counts based on <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">The filter used to determine what game to update and the counts to update it with</param>
+        void Execute(Entities.Filters.Game.UpdateCounts filter);
 	}
 }

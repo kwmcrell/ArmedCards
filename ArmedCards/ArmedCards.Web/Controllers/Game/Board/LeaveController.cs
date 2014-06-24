@@ -49,7 +49,6 @@ namespace ArmedCards.Web.Controllers.Game.Board
         /// <param name="id">The game id to leave</param>
         /// <param name="playerType">The type of player leaving</param>
         /// <returns>The view for game listing screen</returns>
-        [HttpGet]
         public ActionResult Index(Int32 id, Entities.Enums.GamePlayerType playerType)
         {
 			Entities.User user = new Entities.User

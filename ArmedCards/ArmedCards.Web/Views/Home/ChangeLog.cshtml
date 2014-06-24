@@ -1,0 +1,97 @@
+﻿@*
+    * Copyright (c) 2013, Kevin McRell & Paul Miller
+    * All rights reserved.
+    *
+    * Redistribution and use in source and binary forms, with or without modification, are permitted
+    * provided that the following conditions are met:
+    *
+    * * Redistributions of source code must retain the above copyright notice, this list of conditions
+    *   and the following disclaimer.
+    * * Redistributions in binary form must reproduce the above copyright notice, this list of
+    *   conditions and the following disclaimer in the documentation and/or other materials provided
+    *   with the distribution.
+    *
+    * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+    * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+    * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+    * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
+
+@{
+    ViewBag.Title = "ARMED CARDS!#&?";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+
+    ArmedCards.Entities.Models.Shared.Header header = new ArmedCards.Entities.Models.Shared.Header();
+    header.SubHeaderText = "Change Log.";
+}
+<style>
+    .wrapper {
+        margin: 40px 0 40px 5%;
+    }
+
+    ul {
+        margin: 20px 0 0 0;
+        padding: 0;
+        float: left;
+        width: 100%;
+    }
+
+    li {
+        border-bottom: 1px #ccc solid;
+        margin: 0 0 20px 0;
+        padding: 0px 0px 20px 0px;
+        list-style: none;
+        float: left;
+        width: 100%;
+    }
+
+    li:last-child {
+        border: none;
+    }
+
+    .message, .date {
+        margin: 0 0 10px 0;
+        width: 100%;
+    }
+
+    .date {
+        font-style: italic;
+    }
+
+    .avatar {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+    }
+
+    .user {
+        margin: 5px 0 0 10px;
+        display: inline-block;
+    }
+</style>
+
+@Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
+<div class="splash">
+    <div id="commitsContainer">
+        <ul id="commits"></ul>
+    </div>
+</div>
+<script src="~/Scripts/commitment.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('#commits').commitment({
+            user: 'kwmcrell',
+            repo: 'armedcards',
+            filterBranch: 'master',
+            success: function () {
+                $('#commitsContainer').height($('#commits').height());
+            }
+        });
+
+    });
+</script>

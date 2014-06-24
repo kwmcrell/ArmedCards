@@ -67,3 +67,11 @@ IF NOT EXISTS(	SELECT *
 BEGIN
     ALTER TABLE [dbo].[GamePlayer] ADD [IdlePlayCount] [int] NOT NULL DEFAULT 0
 END
+
+IF NOT EXISTS(	SELECT * 
+				FROM sys.columns 
+				WHERE Name = N'Status' 
+				AND Object_ID = Object_ID(N'GamePlayer'))
+BEGIN
+    ALTER TABLE [dbo].[GamePlayer] ADD [Status] [int] NOT NULL DEFAULT 1
+END
