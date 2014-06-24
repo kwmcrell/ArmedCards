@@ -443,7 +443,7 @@ blockquote:after
 {
 	background: #555;
 	border-radius: 50%;
-	display: inline-block;
+	display: none;
 	font-size: 0.85em;
 	font-weight: bold;	
 	height: 1.25em;
@@ -451,6 +451,12 @@ blockquote:after
 	padding-bottom: 1.45em;
 	vertical-align: text-top;
 	width: 1.44em;
+}
+
+.new .alertExclaim,
+.alertExclaim.new
+{
+	display: inline-block;
 }
 
 fieldset
