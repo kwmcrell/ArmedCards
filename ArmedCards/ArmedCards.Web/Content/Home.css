@@ -936,7 +936,7 @@ fieldset > .button.active
 {
 	font-size: 8em;
 	min-height: 1.32em;
-	margin: 1em auto .05em;
+	margin: 1em auto .25em;
 	text-shadow: 2px 2px #DDD;
 	white-space: nowrap;
 }
