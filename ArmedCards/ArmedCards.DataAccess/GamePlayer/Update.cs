@@ -58,5 +58,20 @@ namespace ArmedCards.DataAccess.GamePlayer
 				_db.ExecuteNonQuery(cmd);
 			}
 		}
+
+        /// <summary>
+        /// Update a game player's idle play count
+        /// </summary>
+        /// <param name="filter">The filter used to update a player's idle play count</param>
+        public void Execute(Entities.Filters.GamePlayer.UpdateIdlePlayCount filter)
+        {
+            using (DbCommand cmd = _db.GetStoredProcCommand("GamePlayer_UpdateIdlePlayCount"))
+            {
+                _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+                _db.AddInParameter(cmd, "@UserId", DbType.Int32, filter.UserId);
+
+                _db.ExecuteNonQuery(cmd);
+            }
+        }
 	}
 }

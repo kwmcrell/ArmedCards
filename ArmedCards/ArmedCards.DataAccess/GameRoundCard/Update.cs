@@ -45,19 +45,22 @@ namespace ArmedCards.DataAccess.GameRoundCard
 			this._db = db;
 		}
 
-		/// <summary>
-		/// Update winning cards for the round
-		/// </summary>
-		/// <param name="filter"></param>
-		public void Execute(Entities.Filters.GameRoundCard.UpdateWinner filter)
-		{
-			using (DbCommand cmd = _db.GetStoredProcCommand("GameRoundCard_UpdateWinners"))
-			{
-				_db.AddInParameter(cmd, "@CardIDs", DbType.Xml, filter.CardIDs.ConvertCollectionToXML());
-				_db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+        /// <summary>
+        /// Update winning cards for the round
+        /// </summary>
+        /// <param name="filter">Determins the winning cards</param>
+        /// <returns>If the winner was an auto played card</returns>
+        public Boolean Execute(Entities.Filters.GameRoundCard.UpdateWinner filter)
+        {
+            using (DbCommand cmd = _db.GetStoredProcCommand("GameRoundCard_UpdateWinners"))
+            {
+                _db.AddInParameter(cmd, "@CardIDs", DbType.Xml, filter.CardIDs.ConvertCollectionToXML());
+                _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
+                _db.AddOutParameter(cmd, "@AutoPlayed", DbType.Boolean, sizeof(Boolean));
 
-				_db.ExecuteNonQuery(cmd);
-			}
-		}
+                _db.ExecuteScalar(cmd);
+                return Boolean.Parse(_db.GetParameterValue(cmd, "AutoPlayed").ToString());
+            }
+        }
 	}
 }

@@ -82,14 +82,17 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRound
 					cardfilter.CardIDs = cardIDs;
 					cardfilter.GameID = gameID;
 
-					_updateGameRoundCard.Execute(cardfilter);
+					Boolean autoPlayed = _updateGameRoundCard.Execute(cardfilter);
 
-					//Update player points
-					Entities.Filters.GamePlayer.UpdatePoints playerFilter = new Entities.Filters.GamePlayer.UpdatePoints();
-					playerFilter.GameID = gameID;
-					playerFilter.UserId = newCommander.UserId;
+                    if (!autoPlayed)
+                    {
+                        //Update player points
+                        Entities.Filters.GamePlayer.UpdatePoints playerFilter = new Entities.Filters.GamePlayer.UpdatePoints();
+                        playerFilter.GameID = gameID;
+                        playerFilter.UserId = newCommander.UserId;
 
-					_updateGamePlayer.Execute(playerFilter);
+                        _updateGamePlayer.Execute(playerFilter);
+                    }
 
 					//Start round
 					Entities.Filters.Game.Select gameFilter = new Entities.Filters.Game.Select();

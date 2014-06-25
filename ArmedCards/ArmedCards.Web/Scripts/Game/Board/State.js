@@ -201,6 +201,10 @@ State.prototype.AlertUsersVote = function (vote) {
 	}
 };
 
+State.prototype.ForceLeave = function () {
+    window.location = "/GameListing";
+};
+
 State.prototype.Beforeunload = function () {
     var isPersistent = $('#Game_IsPersistent').val().toLowerCase();
 
@@ -222,6 +226,7 @@ State.prototype.Init = function () {
 	hub.client.CommanderLeft = ArmedCards.Game.State.CommanderLeft;
 	hub.client.VoteToKickResults = ArmedCards.Game.State.VoteToKickResults;
 	hub.client.AlertUsersVote = ArmedCards.Game.State.AlertUsersVote;
+	hub.client.ForceLeave = ArmedCards.Game.State.ForceLeave;
 
 	$(window).bind('beforeunload', ArmedCards.Game.State.Beforeunload);
 };

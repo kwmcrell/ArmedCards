@@ -49,6 +49,7 @@ namespace ArmedCards.Entities
             this.PlayedBy = firstCard.PlayedBy;
             this.Winner = firstCard.Winner;
             this.AnswerCount = Answers.Count;
+            this.AutoPlayed = firstCard.AutoPlayed;
         }
 
         /// <summary>
@@ -75,5 +76,7 @@ namespace ArmedCards.Entities
         /// The answer count
         /// </summary>
         public Int32 AnswerCount { get; private set; }
+
+        public Boolean AutoPlayed { get; private set; }
     }
 }

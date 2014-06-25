@@ -21,46 +21,23 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-IF OBJECT_ID('[dbo].[GameRoundCard_Select]') IS NOT NULL
-BEGIN 
-    DROP PROC [dbo].[GameRoundCard_Select] 
-END 
-GO
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
--- ==============================================
--- Author:		Kevin McRell
--- Create date: 9/19/2013
--- Description:	Select GameRoundCard
--- ===============================================
-CREATE PROC [dbo].[GameRoundCard_Select]
-	@GameRoundID			int
-AS 
-	SET NOCOUNT ON 
-	SET XACT_ABORT ON  
-	
-	BEGIN TRAN
-
-	SELECT	GRC.[Card_CardID] AS CardID,
-			GRC.[DatePlayed],
-			GRC.[Game_GameID],
-			GRC.[GameRound_GameRoundID],
-			GRC.[GameRoundCardID],
-			GRC.[PlayedBy_UserId],
-			GRC.[PlayOrder],
-			GRC.[Winner],
-			GRC.[AutoPlayed],
-			C.[Content],
-			C.[Instructions],
-			C.[Type],
-			C.[CreatedBy_UserId],
-			UP.[UserId],
-			UP.[UserName],
-			UP.[PictureUrl]
-	FROM [dbo].[GameRoundCard] GRC
-	INNER JOIN [dbo].[Card] C ON C.[CardID] = GRC.[Card_CardID]
-	INNER JOIN [dbo].[UserProfile] UP ON GRC.[PlayedBy_UserId] = UP.[UserId]
-	WHERE	GRC.[GameRound_GameRoundID] = @GameRoundID
-
-	COMMIT
-GO
-
+namespace ArmedCards.BusinessLogic.AppServices.GameRound.Base
+{
+    /// <summary>
+    /// Interface defining the action to preform after round timer has expired
+    /// </summary>
+    public interface ITimerExpired
+    {
+        /// <summary>
+        /// Play cards for all players that have yet to play
+        /// </summary>
+        /// <param name="gameID">The game ID</param>
+        void Execute(Int32 gameID);
+    }
+}

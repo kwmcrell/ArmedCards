@@ -58,8 +58,9 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		/// <param name="cardIDs">The card IDs the user has selected </param>
 		/// <param name="gameID">The game ID in which the user wants to play the card</param>
 		/// <param name="userId">The user Id</param>
+        /// <param name="autoPlayed">Were these cards auto played</param>
 		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
-		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
+		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId, Boolean autoPlayed)
 		{
 			Entities.ActionResponses.PlayCard playResponse = new Entities.ActionResponses.PlayCard();
 
@@ -79,10 +80,15 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 					if (round.ValidateCardPlayedCount(cardIDs.Count))
 					{
 						//Create GameRoundCards for played cards
-						List<Entities.GameRoundCard> playedCards = CreateRoundCards(cardIDs, userId, round.GameRoundID, gameID);
+						List<Entities.GameRoundCard> playedCards = CreateRoundCards(cardIDs, userId, round.GameRoundID, gameID, autoPlayed);
 
 						//Insert playedCards
 						_insertGameRoundCard.Execute(playedCards);
+
+                        if (autoPlayed)
+                        {
+                            playResponse.AutoPlayedSuccess = true;
+                        }
 
 						//Select round with game cards
 						round = _selectGameRound.Execute(gameID, true);
@@ -113,7 +119,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 		}
 
 		private List<Entities.GameRoundCard> CreateRoundCards(List<Int32> cardIDs, Int32 userId, 
-															  Int32 gameRoundID, Int32 gameID)
+															  Int32 gameRoundID, Int32 gameID, Boolean autoPlayed)
 		{
 			DateTime datePlayed = DateTime.UtcNow;
 
@@ -128,7 +134,8 @@ namespace ArmedCards.BusinessLogic.DomainServices.GamePlayerCard
 					GameRound_GameRoundID = gameRoundID,
 					Game_GameID = gameID,
 					PlayedBy_UserId = userId,
-					PlayOrder = (Int16)cardIDs.IndexOf(cardID)
+					PlayOrder = (Int16)cardIDs.IndexOf(cardID),
+                    AutoPlayed = autoPlayed
 				});
 			}
 

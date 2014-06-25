@@ -128,6 +128,7 @@
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Insert.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_Select.sql" />
     <Content Include="_DBScripts\GamePlayer\%40GamePlayerTable.sql" />
+    <Content Include="_DBScripts\GamePlayer\GamePlayer_UpdateIdlePlayCount.sql" />
     <Content Include="_DBScripts\GamePlayer\GamePlayer_UpdatePoints.sql" />
     <Content Include="_DBScripts\GameRoundCard\%40GameRoundCardTable.sql" />
     <Content Include="_DBScripts\GameRoundCard\GameRoundCard_Select.sql" />

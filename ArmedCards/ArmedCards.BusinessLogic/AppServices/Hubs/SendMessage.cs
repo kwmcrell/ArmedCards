@@ -36,10 +36,12 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 	public class SendMessage : Base.ISendMessage
 	{
 		private readonly ActiveConnection.Base.ISelect _selectActiveConnection;
+        private readonly IHubContext _hub;
 		
         public SendMessage(ActiveConnection.Base.ISelect selectActiveConnection)
         {
 			this._selectActiveConnection = selectActiveConnection;
+            this._hub = GlobalHost.ConnectionManager.GetHubContext<BusinessLogic.AppServices.Hubs.ArmedCards>();
         }
 
         /// <summary>
@@ -60,6 +62,23 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
         public void UpdateGame(Entities.Game game, Boolean sendToSpectators)
         {
             Execute(game, Entities.Enums.Hubs.Actions.UpdateGameView, sendToSpectators);
+        }
+
+        /// <summary>
+        /// Update most of the game view
+        /// </summary>
+        /// <param name="game">The game to update</param>
+        /// <param name="sendToSpectators">Should this update go to the spectators</param>
+        /// <param name="forcedToLeaveUserId">The player was forced to leave</param>
+        public void UpdateGame(Entities.Game game, Boolean sendToSpectators, Int32? forcedToLeaveUserId)
+        {
+            Entities.ActiveConnection excluded = Execute(game, Entities.Enums.Hubs.Actions.UpdateGameView, sendToSpectators, forcedToLeaveUserId);
+
+            if(excluded != null)
+            {
+                _hub.Clients.Client(excluded.ActiveConnectionID).ForceLeave();
+                _hub.Groups.Remove(excluded.ActiveConnectionID, excluded.GroupName);
+            }
         }
 
         /// <summary>
@@ -117,8 +136,6 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 
 			Entities.GamePlayer sendToPlayer = null;
 
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-
 			foreach (Entities.ActiveConnection connection in connections)
 			{
 				sendToPlayer = game.Players.FirstOrDefault(player => player.User.UserId == connection.User_UserId);
@@ -127,7 +144,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 				{
                     Entities.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
-                    hub.Clients.Client(connection.ActiveConnectionID)
+                    _hub.Clients.Client(connection.ActiveConnectionID)
                                        .CommanderLeft(model, GetGameLobbyViewModel(connection, game), commanderName, game.IsWaiting());
 				}
 			}
@@ -148,8 +165,6 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 
 			List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
 
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-
 			foreach (Entities.ActiveConnection connection in connections)
 			{
                 String message;
@@ -168,7 +183,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                     message = "{0} was not kicked. <br /> Votes To Kick: {1} <br/> Votes To Stay: {2}";
                 }
 
-                hub.Clients.Client(connection.ActiveConnectionID)
+                _hub.Clients.Client(connection.ActiveConnectionID)
                                    .VoteToKickResults(String.Format(message, userSpan, votesToKick, votesNotToKick),
                                                         title,
                                                         (isKicked && kickedUser.UserId == connection.User_UserId),
@@ -188,24 +203,30 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 		{
 			List<Entities.ActiveConnection> connections = GetConnections(gameID, alreadyVoted);
 
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
-
 			foreach (Entities.ActiveConnection connection in connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer))
 			{
                 Entities.Models.Game.Board.VoteToKick model = new Entities.Models.Game.Board.VoteToKick(kickedUser, votesToKick, votesNotToKick);
 
-                hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(model);
+                _hub.Clients.Client(connection.ActiveConnectionID).AlertUsersVote(model);
 			}
 		}
 
         #region "Private Action Helpers"
 
-        private void Execute(Entities.Game game, Entities.Enums.Hubs.Actions action, Boolean sendToSpectators)
+        private Entities.ActiveConnection Execute(Entities.Game game, Entities.Enums.Hubs.Actions action, Boolean sendToSpectators, 
+                                                    Int32? excludedPlayerId = null)
         {
             Entities.Filters.ActiveConnection.SelectAll filter = new Entities.Filters.ActiveConnection.SelectAll();
             filter.GroupName = String.Format("Game_{0}", game.GameID);
 
             List<Entities.ActiveConnection> connections = _selectActiveConnection.Execute(filter);
+
+            Entities.ActiveConnection excludedConnection = null;
+
+            if(excludedPlayerId.HasValue)
+            {
+                excludedConnection = connections.DefaultIfEmpty(null).FirstOrDefault(x => x.User_UserId == excludedPlayerId);
+            }
 
             ExecuteAction(game, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GamePlayer), game.Players);
 
@@ -213,14 +234,14 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
             {
                 ExecuteAction(game, action, connections.Where(x => x.ConnectionType == Entities.Enums.ConnectionType.GameSpectator), game.Spectators);
             }
+
+            return excludedConnection;
         }
 
         private void ExecuteAction(Entities.Game game, Entities.Enums.Hubs.Actions action, IEnumerable<Entities.ActiveConnection> connections,
                                    List<Entities.GamePlayer> users)
         {
             Entities.GamePlayer sendToPlayer = null;
-
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<AppServices.Hubs.ArmedCards>();
 
             foreach (Entities.ActiveConnection connection in connections)
             {
@@ -230,7 +251,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                 {
                     if (action == Entities.Enums.Hubs.Actions.UpdateWaiting)
                     {
-                        hub.Clients.Client(connection.ActiveConnectionID)
+                        _hub.Clients.Client(connection.ActiveConnectionID)
                                    .UpdateWaiting(Entities.Models.Helpers.WaitingHeader.Build(game, connection.User_UserId, GetPlayerType(connection)),
                                                   GetGameLobbyViewModel(connection, game));
                     }
@@ -238,19 +259,19 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                     {
                         Entities.Models.Game.Board.GameBoard model = GetGameBoardModal(connection, game);
 
-                        hub.Clients.Client(connection.ActiveConnectionID)
+                        _hub.Clients.Client(connection.ActiveConnectionID)
                                            .UpdateGameView(model, GetGameLobbyViewModel(connection, game));
                     }
                     else if (action == Entities.Enums.Hubs.Actions.UpdateLobby)
                     {
-                        hub.Clients.Client(connection.ActiveConnectionID)
+                        _hub.Clients.Client(connection.ActiveConnectionID)
                                .UpdateLobbyView(GetGameLobbyViewModel(connection, game));
                     }
                     else if (action == Entities.Enums.Hubs.Actions.CardPlayed)
                     {
                         Entities.Models.Game.Board.GameBoard model = new Entities.Models.Game.Board.GameBoard(game, connection.User_UserId, GetPlayerType(connection));
 
-                        hub.Clients.Client(connection.ActiveConnectionID)
+                        _hub.Clients.Client(connection.ActiveConnectionID)
                                            .UpdateAnswers(model.AnswersViewModel, !model.ShowHand);
                     }
                 }
@@ -263,8 +284,6 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                                             List<Entities.GamePlayer> users)
         {
             Entities.GamePlayer sendToPlayer = null;
-
-            IHubContext hub = GlobalHost.ConnectionManager.GetHubContext<Hubs.ArmedCards>();
 
             foreach (Entities.ActiveConnection connection in connections)
             {
@@ -282,7 +301,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                     //so setting this here so that when pushed into the observable array it will look correct
                     round.CardCommander = round.Winner();
 
-                    hub.Clients.Client(connection.ActiveConnectionID)
+                    _hub.Clients.Client(connection.ActiveConnectionID)
                                        .WinnerSelected(answersModel, model, game.IsWaiting(), game.HasWinner(), round);
                 }
             }

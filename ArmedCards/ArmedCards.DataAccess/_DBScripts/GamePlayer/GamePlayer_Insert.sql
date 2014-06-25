@@ -37,6 +37,7 @@ CREATE PROC [dbo].[GamePlayer_Insert]
 	@UserId			int,
 	@JoinDate		datetime,
 	@Type			int,
+	@IdlePlayCount  int,
 	@Points			int OUTPUT,
 	@TotalPlayers	int OUTPUT
 AS 
@@ -70,16 +71,17 @@ AS
 				Points,
 				JoinDate,
 				Type,
-				Status
+				Status,
+				IdlePlayCount
 			)
 			SELECT	@GameID,
 					@UserId,
 					0,
 					@JoinDate,
 					@Type,
-					1
+					1,
+					@IdlePlayCount
 		END
-
 
 	SELECT @TotalPlayers = COUNT(UserId) 
 	FROM [dbo].[GamePlayer] GP
