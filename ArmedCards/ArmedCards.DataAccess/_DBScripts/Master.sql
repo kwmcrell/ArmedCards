@@ -2786,7 +2786,7 @@ AS
 		IF @Type = 1
 			BEGIN
 				UPDATE	[dbo].[GamePlayer]
-				SET		[Status] = 0
+				SET		[Status] = 0, [IdlePlayCount] = 0
 				WHERE	[GameID] = @GameID 
 				AND		[UserId] = @UserId
 			END

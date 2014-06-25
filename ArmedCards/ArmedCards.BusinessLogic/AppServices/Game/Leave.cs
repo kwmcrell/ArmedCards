@@ -112,8 +112,13 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
                         _deleteRound.Execute(deleteRoundFilter);
                     }
 				}
-			
-				Boolean started = _startRound.Execute(game, game.NextCommander(null));
+
+                Boolean started = false;
+
+                if (game.PlayerCount > 0)
+                {
+                    started = _startRound.Execute(game, game.NextCommander(null));
+                }
 
                 if (game.HasRounds() && started)
                 {
