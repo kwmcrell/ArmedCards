@@ -3038,6 +3038,7 @@ AS
 	 INNER JOIN [dbo].[Game] G ON G.[GameID] = GP.[GameID]
 	 WHERE GP.[UserId] = @UserId
 	 AND   GP.[Type]   = @Type
+	 AND   GP.[Status] = 1
 
 	COMMIT
 GO
