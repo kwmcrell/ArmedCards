@@ -24,9 +24,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
+using Microsoft.Practices.Unity;
+
 
 namespace ArmedCards.BusinessLogic.AppServices.GameRound
 {
@@ -54,6 +58,18 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 		public Boolean Execute(Entities.Game game, Entities.User commander)
 		{
 			Boolean started = _startRound.Execute(game, commander);
+
+            if (started && game.SecondsToPlay > 0)
+            {
+                CancellationTokenSource token = new CancellationTokenSource();
+
+                MemoryCache.Default.Add(game.RoundTimerKey, token, DateTimeOffset.Now.AddSeconds(15 + game.SecondsToPlay));
+
+                Task.Delay(((game.SecondsToPlay + 15) * 1000), token.Token).ContinueWith((delayedTask) =>
+                {
+                    UnityConfig.Container.Resolve<AppServices.GameRound.Base.ITimerExpired>().Execute(game.GameID);
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+            }
 
 			_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
 			

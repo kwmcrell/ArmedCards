@@ -58,10 +58,11 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 		/// <param name="cardIDs">The card IDs the user has selected </param>
 		/// <param name="gameID">The game ID in which the user wants to play the card</param>
 		/// <param name="userId">The user Id</param>
+        /// <param name="autoPlayed">Were these cards auto played</param>
 		/// <returns>PlayCard action result containing any errors and the round the card was played.</returns>
-		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId)
+		public Entities.ActionResponses.PlayCard Execute(List<Int32> cardIDs, Int32 gameID, Int32 userId, Boolean autoPlayed = false)
 		{
-			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, userId);
+			Entities.ActionResponses.PlayCard response = _playCard.Execute(cardIDs, gameID, userId, autoPlayed);
 
 			if (response.ResponseCode == Entities.ActionResponses.Enums.PlayCardResponseCode.Success)
 			{

@@ -34,7 +34,7 @@
                     <img data-bind="attr: { src: PlayedBy.PictureUrl }" alt="User Avatar">
                     <span data-bind="html: PlayedBy.DisplayName"></span>
                 </a>
-                <p class="addPoints">+1 points</p>
+                <p class="addPoints" data-bind="html : AutoPlayed ? 'Auto Played' : '+1 points'"></p>
             </div>
             <div class="pickMultiple noShadow" data-bind="attr: { 'data-groupcount': AnswerCount }, foreach: Answers">
                 <a href="#" class="answer card outTop"

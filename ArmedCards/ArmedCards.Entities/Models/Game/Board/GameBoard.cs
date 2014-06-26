@@ -49,6 +49,20 @@ namespace ArmedCards.Entities.Models.Game.Board
         {
             Game = game;
             UserId = userId;
+
+            Hand = new List<GamePlayerCard>();
+
+            if (playerType == Enums.GamePlayerType.Player)
+            {
+                Entities.GamePlayer player = Game.Players.FirstOrDefault(x => x.User.UserId == userId);
+
+                if(player != null && player.Hand != null)
+                {
+                    Hand = player.Hand;
+                }
+            }
+            
+
             Hand = playerType == Enums.GamePlayerType.Player ? Game.Players.First(x => x.User.UserId == userId).Hand : new List<GamePlayerCard>();
             ActivePlayer = Hand.Count > 0;
             PlayerType = playerType;

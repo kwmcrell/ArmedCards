@@ -46,11 +46,11 @@
 @if (Model.ShowSpectators)
 {
     Int32 spectatorCount = Model.Spectators.Count;
-    string spectator = "Spectator";
+    string spectator = "Spectators";
 
-    if (spectatorCount > 1)
+    if (spectatorCount == 1)
     {
-        spectator = spectator + "s";
+        spectator = "Spectator";
     }
 
     <p id="spectatorCount" class="viewSpectators"><a href="#">@spectatorCount @spectator</a></p>

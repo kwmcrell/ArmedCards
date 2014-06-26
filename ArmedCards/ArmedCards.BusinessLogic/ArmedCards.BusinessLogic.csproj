@@ -109,11 +109,13 @@
     <Compile Include="AppServices\GameRound\Base\IInsert.cs" />
     <Compile Include="AppServices\GameRound\Base\ISelect.cs" />
     <Compile Include="AppServices\GameRound\Base\IStart.cs" />
+    <Compile Include="AppServices\GameRound\Base\ITimerExpired.cs" />
     <Compile Include="AppServices\GameRound\Complete.cs" />
     <Compile Include="AppServices\GameRound\Delete.cs" />
     <Compile Include="AppServices\GameRound\Insert.cs" />
     <Compile Include="AppServices\GameRound\Select.cs" />
     <Compile Include="AppServices\GameRound\Start.cs" />
+    <Compile Include="AppServices\GameRound\TimerExpired.cs" />
     <Compile Include="AppServices\Game\Base\IInsert.cs" />
     <Compile Include="AppServices\Game\Base\IJoin.cs" />
     <Compile Include="AppServices\Game\Base\ILeave.cs" />

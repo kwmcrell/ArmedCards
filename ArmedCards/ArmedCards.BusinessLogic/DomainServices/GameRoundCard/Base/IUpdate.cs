@@ -38,6 +38,7 @@ namespace ArmedCards.BusinessLogic.DomainServices.GameRoundCard.Base
 		/// Update winning cards for the round
 		/// </summary>
 		/// <param name="filter"></param>
-		void Execute(Entities.Filters.GameRoundCard.UpdateWinner filter);
+        /// <returns>If the winner was an auto played card</returns>
+		Boolean Execute(Entities.Filters.GameRoundCard.UpdateWinner filter);
 	}
 }

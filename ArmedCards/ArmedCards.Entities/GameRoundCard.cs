@@ -64,6 +64,7 @@ namespace ArmedCards.Entities
 			PlayedBy_UserId = idr.GetValueByName<Int32>("PlayedBy_UserId");
 			PlayOrder = idr.GetValueByName<Int16>("PlayOrder");
 			Winner = idr.GetValueByName<Boolean>("Winner");
+            AutoPlayed = idr.GetValueByName<Boolean>("AutoPlayed");
 
 			PlayedBy = new User(idr);
 			Card = new Card(idr);
@@ -118,5 +119,10 @@ namespace ArmedCards.Entities
 		/// The order in which the card was played
 		/// </summary>
 		public Int16 PlayOrder { get; set; }
+
+        /// <summary>
+        /// Was this card played because a player was idle
+        /// </summary>
+        public Boolean AutoPlayed { get; set; }
 	}
 }

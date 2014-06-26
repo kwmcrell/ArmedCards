@@ -39,5 +39,11 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer.Base
 		/// </summary>
 		/// <param name="filter">The filter used to update a player's points</param>
 		void Execute(Entities.Filters.GamePlayer.UpdatePoints filter);
+
+        /// <summary>
+        /// Update a game player's idle play count
+        /// </summary>
+        /// <param name="filter">The filter used to update a player's idle play count</param>
+        void Execute(Entities.Filters.GamePlayer.UpdateIdlePlayCount filter);
 	}
 }

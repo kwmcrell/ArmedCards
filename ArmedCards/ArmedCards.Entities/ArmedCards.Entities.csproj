@@ -77,6 +77,7 @@
     <Compile Include="Filters\GamePlayerKickVote\SelectForGame.cs" />
     <Compile Include="Filters\GamePlayer\Select.cs" />
     <Compile Include="Filters\GamePlayer\SelectAll.cs" />
+    <Compile Include="Filters\GamePlayer\UpdateIdePlayCount.cs" />
     <Compile Include="Filters\GamePlayer\UpdatePoints.cs" />
     <Compile Include="Filters\GameRoundCard\Select.cs" />
     <Compile Include="Filters\GameRoundCard\UpdateWinner.cs" />

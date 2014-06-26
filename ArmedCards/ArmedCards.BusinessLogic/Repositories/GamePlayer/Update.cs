@@ -53,5 +53,14 @@ namespace ArmedCards.BusinessLogic.Repositories.GamePlayer
 		{
 			_update.Execute(filter);
 		}
+
+        /// <summary>
+        /// Update a game player's idle play count
+        /// </summary>
+        /// <param name="filter">The filter used to update a player's idle play count</param>
+        public void Execute(Entities.Filters.GamePlayer.UpdateIdlePlayCount filter)
+        {
+            _update.Execute(filter);
+        }
 	}
 }

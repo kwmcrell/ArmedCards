@@ -49,6 +49,7 @@ AS
 			GP.[Status],
 			UP.[UserName],
 			UP.[PictureUrl],
+			GP.[IdlePlayCount],
 			CASE WHEN GP.[Type] = 1
 				THEN
 					(SELECT COUNT(CardID)

@@ -50,9 +50,10 @@ namespace ArmedCards.BusinessLogic.Repositories.GameRoundCard
 		/// Update winning cards for the round
 		/// </summary>
 		/// <param name="filter"></param>
-		public void Execute(Entities.Filters.GameRoundCard.UpdateWinner filter)
+        /// <returns>If the winner was an auto played card</returns>
+		public Boolean Execute(Entities.Filters.GameRoundCard.UpdateWinner filter)
 		{
-			_updateGameRoundCard.Execute(filter);
+			return _updateGameRoundCard.Execute(filter);
 		}
 	}
 }

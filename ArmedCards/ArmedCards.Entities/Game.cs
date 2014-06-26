@@ -37,6 +37,8 @@ namespace ArmedCards.Entities
     /// </summary>
     public class Game
     {
+        private const String RoundTimerCacheKey = "GameID_{0}_RoundTimer";
+
 		/// <summary>
 		/// Number of players required to play
 		/// </summary>
@@ -55,6 +57,7 @@ namespace ArmedCards.Entities
 			QuestionShuffleCount = 1;
 			AnswerShuffleCount = 1;
             Spectators = new List<GamePlayer>();
+            SecondsToPlay = -1;
         }
 
         /// <summary>
@@ -64,23 +67,24 @@ namespace ArmedCards.Entities
         public Game(IDataReader idr)
             :this()
         {
-            GameID              =   idr.GetValueByName<Int32>("GameID");
-            Title               =   idr.GetValueByName<String>("Title");
-            IsPrivate           =   idr.GetValueByName<Boolean>("IsPrivate");
-            Passphrase          =   idr.GetValueByName<String>("Passphrase");
-			PointToWin          =   idr.GetValueByName<Int32>("PointsToWin");
-            MaxNumberOfPlayers  =   idr.GetValueByName<Int32>("MaxNumberOfPlayers");
-			GameCreator_UserId  =   idr.GetValueByName<Int32>("GameCreator_UserId");
-            DateCreated         =   idr.GetValueByName<DateTime>("DateCreated");
-            PlayedLast          =   idr.GetValueByName<DateTime?>("PlayedLast");
-            GameOver            =   idr.GetValueByName<DateTime?>("GameOver");
-            PlayerCount         =   idr.GetValueByName<Int32>("PlayerCount");
-			RoundCount			=	idr.GetValueByName<Int32>("RoundCount");
-			QuestionShuffleCount = idr.GetValueByName<Int32>("QuestionShuffleCount");
-			AnswerShuffleCount	= idr.GetValueByName<Int32>("AnswerShuffleCount");
-            MaxNumberOfSpectators = idr.GetValueByName<Int32>("MaxNumberOfSpectators");
-            SpectatorCount = idr.GetValueByName<Int32>("SpectatorCount");
-            IsPersistent = idr.GetValueByName<Boolean>("IsPersistent");
+            GameID                  =   idr.GetValueByName<Int32>("GameID");
+            Title                   =   idr.GetValueByName<String>("Title");
+            IsPrivate               =   idr.GetValueByName<Boolean>("IsPrivate");
+            Passphrase              =   idr.GetValueByName<String>("Passphrase");
+			PointToWin              =   idr.GetValueByName<Int32>("PointsToWin");
+            MaxNumberOfPlayers      =   idr.GetValueByName<Int32>("MaxNumberOfPlayers");
+			GameCreator_UserId      =   idr.GetValueByName<Int32>("GameCreator_UserId");
+            DateCreated             =   idr.GetValueByName<DateTime>("DateCreated");
+            PlayedLast              =   idr.GetValueByName<DateTime?>("PlayedLast");
+            GameOver                =   idr.GetValueByName<DateTime?>("GameOver");
+            PlayerCount             =   idr.GetValueByName<Int32>("PlayerCount");
+			RoundCount			    =	idr.GetValueByName<Int32>("RoundCount");
+			QuestionShuffleCount    =   idr.GetValueByName<Int32>("QuestionShuffleCount");
+			AnswerShuffleCount	    =   idr.GetValueByName<Int32>("AnswerShuffleCount");
+            MaxNumberOfSpectators   =   idr.GetValueByName<Int32>("MaxNumberOfSpectators");
+            SpectatorCount          =   idr.GetValueByName<Int32>("SpectatorCount");
+            SecondsToPlay           =   idr.GetValueByName<Int32>("SecondsToPlay");
+            IsPersistent 			= 	idr.GetValueByName<Boolean>("IsPersistent");
         }
 
         /// <summary>
@@ -418,6 +422,22 @@ namespace ArmedCards.Entities
             return Spectators.Find(x => x.User.UserId == userID) != null;
         }
 
+        /// <summary>
+        /// The number of seconds a user has to play
+        /// </summary>
+        public Int32 SecondsToPlay { get; set; }
+
+        /// <summary>
+        /// Get the round timer key
+        /// </summary>
+        public String RoundTimerKey
+        {
+            get
+            {
+                return String.Format(RoundTimerCacheKey, GameID.ToString());
+            }
+        }
+		
         /// <summary>
         /// Is the game persistent
         /// </summary>
