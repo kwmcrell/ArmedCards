@@ -1,0 +1,6 @@
+﻿<a href="#" class="game" id="{{game.GameID}}">
+    <h3>{{game.Title}}</h3>
+    <span title="Private game" ng-show="game.IsPrivate">Private</span>
+    <span class="playas"><span class="count">{{game.PlayerCount}} / {{game.MaxNumberOfPlayers}}</span> Players</span>
+    <span title="Users can close their browser or tab without leaving the game" ng-show="game.IsPersistent">Persistent</span>
+</a>
