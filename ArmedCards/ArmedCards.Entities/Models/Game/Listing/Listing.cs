@@ -39,13 +39,7 @@ namespace ArmedCards.Entities.Models.Game.Listing
         /// </summary>
         public Listing()
         {
-            Games = new List<Entities.Game>();
         }
-
-        /// <summary>
-        /// List of games available
-        /// </summary>
-        public List<Entities.Game> Games { get; set; }
 
         /// <summary>
         /// The id of the game to show

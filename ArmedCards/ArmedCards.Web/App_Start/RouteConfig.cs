@@ -19,11 +19,11 @@ namespace ArmedCards.Web
                 defaults: new { controller = "Game", action = "Index", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
+            /*routes.MapRoute(
                 name: "GameList_NoAction",
                 url: "GameListing/{id}",
                 defaults: new { controller = "GameListing", action = "Index", id = UrlParameter.Optional }
-            );
+            );*/
 
             routes.MapRoute(
                 name: "ValidatePassphrase_NoAction",

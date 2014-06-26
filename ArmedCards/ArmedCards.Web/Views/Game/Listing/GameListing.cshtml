@@ -20,7 +20,7 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
-
+@using ArmedCards.Library.Extensions;
 @model ArmedCards.Entities.Models.Game.Listing.Listing
 @{
     ViewBag.Title = "Game Listing";
@@ -38,6 +38,7 @@
 
     header.ExtraHtml.InnerHtml = anchor.ToString();
 }
+
 <div id="detailModal" class="confirmMessage logIn">	
 </div>
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
@@ -46,16 +47,16 @@
     Select a game to join.
 </span>
 
-<div class="gameListing clearfix">
-    @foreach (Game game in Model.Games)
-    {
-        @Html.Partial("~/Views/Game/Listing/Game.cshtml", game)
-    }
+<div ng-controller="GameListCtrl">
+    <div class="gameListing clearfix">
+        <rgd-game ng-repeat="game in games"></rgd-game>
+    </div>
 </div>
 
 @Html.HiddenFor(x => x.GameToShow)
 
 @section Scripts
 {
+    <script src="~/Scripts/angular.min.js"></script>
     @Scripts.Render("~/bundles/Game/Listing")
 }

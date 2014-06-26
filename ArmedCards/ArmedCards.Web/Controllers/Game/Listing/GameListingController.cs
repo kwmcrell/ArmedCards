@@ -66,10 +66,13 @@ namespace ArmedCards.Web.Controllers.Game.Listing
                 model.GameToShow = id.Value;
             }
 
-            model.Games = _selectGame.Execute(new Entities.Filters.Game.SelectAll());
-
             return View("~/Views/Game/Listing/GameListing.cshtml", model);
         }
 
+        [HttpGet]
+        public JsonResult Games()
+        {
+            return Json(_selectGame.Execute(new Entities.Filters.Game.SelectAll()), JsonRequestBehavior.AllowGet);
+        }
     }
 }

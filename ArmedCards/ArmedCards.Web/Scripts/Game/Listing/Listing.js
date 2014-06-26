@@ -1,4 +1,5 @@
-﻿/*
+﻿/// <reference path="../../angular.js" />
+/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -21,3 +22,20 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+/* Controllers */
+
+var gameApp = angular.module('gameApp', []);
+
+gameApp.controller('GameListCtrl', function ($scope, $http) {
+    $http.get('/GameListing/Games').success(function (data, status, headers, config) {
+        $scope.games = data;
+    });
+});
+
+/* Directives */
+gameApp.directive('rgdGame', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Game/Listing/Game.html'
+    };
+});
