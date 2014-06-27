@@ -37,7 +37,7 @@
                     </span>
                 </span>
                 <img data-bind="attr:{ src: User.PictureUrl }" alt="User Avatar">
-                <a data-bind="attr: { id: User.UserId, href: '/Profile/' + User.UserId }, text: User.DisplayName"></a>
+                <a target="_blank" data-bind="attr: { id: User.UserId, href: '/Profile/' + User.UserId }, text: User.DisplayName"></a>
             </span>
             <span class="gamePoints" data-bind="text: Points + ' points'"></span>
         </li>
