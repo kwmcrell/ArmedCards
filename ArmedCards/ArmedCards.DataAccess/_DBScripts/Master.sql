@@ -1389,6 +1389,631 @@ END
 GO
 GO 
 
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 550)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 550,N'A big black dick.', 1, 0, 1 UNION ALL
+	SELECT 551,N'A beached whale.', 1, 0, 1 UNION ALL
+	SELECT 552,N'A bloody pacifier.', 1, 0, 1 UNION ALL
+	SELECT 553,N'A crappy little hand.', 1, 0, 1 UNION ALL
+	SELECT 554,N'A low standard of living.', 1, 0, 1 UNION ALL
+	SELECT 555,N'A nuanced critique.', 1, 0, 1 UNION ALL
+	SELECT 556,N'Panty raids.', 1, 0, 1 UNION ALL
+	SELECT 557,N'A passionate Latino lover.', 1, 0, 1 UNION ALL
+	SELECT 558,N'A rival dojo.', 1, 0, 1 UNION ALL
+	SELECT 559,N'A web of lies.', 1, 0, 1 UNION ALL
+	SELECT 560,N'A woman scorned.', 1, 0, 1 UNION ALL
+	SELECT 561,N'Clams.', 1, 0, 1 UNION ALL
+	SELECT 562,N'Apologizing.', 1, 0, 1 UNION ALL
+	SELECT 563,N'Appreciative snapping.', 1, 0, 1 UNION ALL
+	SELECT 564,N'Neil Patrick Harris.', 1, 0, 1 UNION ALL
+	SELECT 565,N'Beating your wives.', 1, 0, 1 UNION ALL
+	SELECT 566,N'Being a dinosaur.', 1, 0, 1 UNION ALL
+	SELECT 567,N'Shaft.', 1, 0, 1 UNION ALL
+	SELECT 568,N'Bosnian chicken farmers.', 1, 0, 1 UNION ALL
+	SELECT 569,N'Nubile slave boys.', 1, 0, 1 UNION ALL
+	SELECT 570,N'Carnies.', 1, 0, 1 UNION ALL
+	SELECT 571,N'Coughing into a vagina.', 1, 0, 1 UNION ALL
+	SELECT 572,N'Suicidal thoughts.', 1, 0, 1 UNION ALL
+	SELECT 573,N'Dancing with a broom.', 1, 0, 1 UNION ALL
+	SELECT 574,N'Deflowering the princess.', 1, 0, 1 UNION ALL
+	SELECT 575,N'Dorito breath.', 1, 0, 1 UNION ALL
+	SELECT 576,N'Eating an albino.', 1, 0, 1 UNION ALL
+	SELECT 577,N'Enormous Scandinavian women.', 1, 0, 1 UNION ALL
+	SELECT 578,N'Fabricating statistics.', 1, 0, 1 UNION ALL
+	SELECT 579,N'Finding a skeleton.', 1, 0, 1 UNION ALL
+	SELECT 580,N'Gandalf.', 1, 0, 1 UNION ALL
+	SELECT 581,N'Genetically engineered super-soldiers.', 1, 0, 1 UNION ALL
+	SELECT 582,N'George Clooney''s musk.', 1, 0, 1 UNION ALL
+	SELECT 583,N'Getting abducted by Peter Pan.', 1, 0, 1 UNION ALL
+	SELECT 584,N'Getting in her pants, politely.', 1, 0, 1 UNION ALL
+	SELECT 585,N'Gladiatorial combat.', 1, 0, 1 UNION ALL
+	SELECT 586,N'Good grammar.', 1, 0, 1 UNION ALL
+	SELECT 587,N'Hipsters.', 1, 0, 1 UNION ALL
+	SELECT 588,N'Historical revisionism.', 1, 0, 1 UNION ALL
+	SELECT 589,N'Insatiable bloodlust.', 1, 0, 1 UNION ALL
+	SELECT 590,N'Jafar.', 1, 0, 1 UNION ALL
+	SELECT 591,N'Jean-Claude Van Damme.', 1, 0, 1 UNION ALL
+	SELECT 592,N'Just the tip.', 1, 0, 1 UNION ALL
+	SELECT 593,N'Mad hacky-sack skills.', 1, 0, 1 UNION ALL
+	SELECT 594,N'Leveling up.', 1, 0, 1 UNION ALL
+	SELECT 595,N'Literally eating shit.', 1, 0, 1 UNION ALL
+	SELECT 596,N'Making the penises kiss.', 1, 0, 1 UNION ALL
+	SELECT 597,N'Media coverage.', 1, 0, 1 UNION ALL
+	SELECT 598,N'Medieval Times® Dinner & Tournament.', 1, 0, 1 UNION ALL
+	SELECT 599,N'Moral ambiguity.', 1, 0, 1 UNION ALL
+	SELECT 600,N'My machete.', 1, 0, 1 UNION ALL
+	SELECT 601,N'One thousand Slim Jims.', 1, 0, 1 UNION ALL
+	SELECT 602,N'Ominous background music.', 1, 0, 1 UNION ALL
+	SELECT 603,N'Overpowering your father.', 1, 0, 1 UNION ALL
+	SELECT 604,N'Pistol-whipping a hostage.', 1, 0, 1 UNION ALL
+	SELECT 605,N'Quiche.', 1, 0, 1 UNION ALL
+	SELECT 606,N'Quivering jowls.', 1, 0, 1 UNION ALL
+	SELECT 607,N'Revenge fucking.', 1, 0, 1 UNION ALL
+	SELECT 608,N'Ripping into a man''s chest and pulling out his still-beating heart.', 1, 0, 1 UNION ALL
+	SELECT 609,N'Ryan Gosling riding in on a white horse.', 1, 0, 1 UNION ALL
+	SELECT 610,N'Santa Claus.', 1, 0, 1 UNION ALL
+	SELECT 611,N'Scrotum tickling.', 1, 0, 1 UNION ALL
+	SELECT 612,N'Sexual humiliation.', 1, 0, 1 UNION ALL
+	SELECT 613,N'Sexy Siamese twins.', 1, 0, 1 UNION ALL
+	SELECT 614,N'Slow motion.', 1, 0, 1 UNION ALL
+	SELECT 615,N'Space muffins.', 1, 0, 1 UNION ALL
+	SELECT 616,N'Statistically validated stereotypes.', 1, 0, 1 UNION ALL
+	SELECT 617,N'Sudden Poop Explosion Disease.', 1, 0, 1 UNION ALL
+	SELECT 618,N'The boners of the elderly.', 1, 0, 1 UNION ALL
+	SELECT 619,N'The economy.', 1, 0, 1 UNION ALL
+	SELECT 620,N'The Fanta® girls.', 1, 0, 1 UNION ALL
+	SELECT 621,N'The Gulags.', 1, 0, 1 UNION ALL
+	SELECT 622,N'The harsh light of day.', 1, 0, 1 UNION ALL
+	SELECT 623,N'The hiccups.', 1, 0, 1 UNION ALL
+	SELECT 624,N'The shambling corpse of Larry King.', 1, 0, 1 UNION ALL
+	SELECT 625,N'The four arms of Vishnu.', 1, 0, 1 UNION ALL
+	SELECT 626,N'Being a busy adult with many important things to do.', 1, 0, 1 UNION ALL
+	SELECT 627,N'Tripping balls.', 1, 0, 1 UNION ALL
+	SELECT 628,N'Words, words, words.', 1, 0, 1 UNION ALL
+	SELECT 629,N'Zeus''s sexual appetites.', 1, 0, 1 UNION ALL
+	SELECT 630,N'He who controls _____ controls the world.', 0, 0, 1 UNION ALL
+	SELECT 631,N'The CIA now interrogates enemy agents by repeatedly subjecting them to _____.', 0, 0, 1 UNION ALL
+	SELECT 632,N'Dear Sir or Madam, We regret to inform you that the Office of _____ has denied your request for _____.', 0, 1, 1 UNION ALL
+	SELECT 633,N'In Rome, there are whisperings that the Vatican has a secret room devoted to _____.', 0, 0, 1 UNION ALL
+	SELECT 634,N'Science will never explain the origin of _____.', 0, 0, 1 UNION ALL
+	SELECT 635,N'When all else fails, I can always masturbate to _____.', 0, 0, 1 UNION ALL
+	SELECT 636,N'I learned the hard way that you can''t cheer up a grieving friend with _____.', 0, 0, 1 UNION ALL
+	SELECT 637,N'In its new tourism campaign, Detroit proudly proclaims that it has finally eliminated _____.', 0, 0, 1 UNION ALL
+	SELECT 638,N'An international tribunal has found _____ guilty of _____.', 0, 1, 1 UNION ALL
+	SELECT 639,N'The socialist governments of Scandinavia have declared that access to _____ is a basic human right.', 0, 0, 1 UNION ALL
+	SELECT 640,N'In his new self-produced album, Kanye West raps over the sounds of _____.', 0, 0, 1 UNION ALL
+	SELECT 641,N'What''s the gift that keeps on giving?', 0, 0, 1 UNION ALL
+	SELECT 642,N'This season on Man vs. Wild, Bear Grylls must survive in the depths of the Amazon with only _____ and his wits.', 0, 0, 1 UNION ALL
+	SELECT 643,N'When I pooped, what came out of my butt?', 0, 0, 1 UNION ALL
+	SELECT 644,N'In the distant future, historians will agree that _____ marked the beginning of America''s decline.', 0, 0, 1 UNION ALL
+	SELECT 645,N'In a pinch, _____ can be a suitable substitute for _____.', 0, 1, 1 UNION ALL
+	SELECT 646,N'What has been making life difficult at the nudist colony?', 0, 0, 1 UNION ALL
+	SELECT 647,N'Michael Bay''s new three-hour action epic pits _____ against _____.', 0, 1, 1 UNION ALL
+	SELECT 648,N'And I would have gotten away with it, too, if it hadn''t been for _____!', 0, 0, 1 UNION ALL
+	SELECT 649,N'What brought the orgy to a grinding halt?', 0, 0, 1
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Expansion 1', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 650)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 650,N'A bigger, blacker dick.', 1, 0, 1 UNION ALL
+	SELECT 651,N'The mere concept of Applebee''s®.', 1, 0, 1 UNION ALL
+	SELECT 652,N'A sad fat dragon with no friends.', 1, 0, 1 UNION ALL
+	SELECT 653,N'Catastrophic urethral trauma.', 1, 0, 1 UNION ALL
+	SELECT 654,N'Hillary Clinton''s death stare.', 1, 0, 1 UNION ALL
+	SELECT 655,N'Existing.', 1, 0, 1 UNION ALL
+	SELECT 656,N'A piñata full of scorpions.', 1, 0, 1 UNION ALL
+	SELECT 657,N'Mooing.', 1, 0, 1 UNION ALL
+	SELECT 658,N'Swiftly achieving orgasm.', 1, 0, 1 UNION ALL
+	SELECT 659,N'Daddy''s belt.', 1, 0, 1 UNION ALL
+	SELECT 660,N'Double penetration.', 1, 0, 1 UNION ALL
+	SELECT 661,N'Weapons-grade plutonium.', 1, 0, 1 UNION ALL
+	SELECT 662,N'Some really fucked-up shit.', 1, 0, 1 UNION ALL
+	SELECT 663,N'Subduing a grizzly bear and making her your wife.', 1, 0, 1 UNION ALL
+	SELECT 664,N'Rising from the grave.', 1, 0, 1 UNION ALL
+	SELECT 665,N'The mixing of the races.', 1, 0, 1 UNION ALL
+	SELECT 666,N'Taking a man''s eyes and balls out and putting his eyes where his balls go and then his balls in the eye holes.', 1, 0, 1 UNION ALL
+	SELECT 667,N'Scrotal frostbite.', 1, 0, 1 UNION ALL
+	SELECT 668,N'All of this blood.', 1, 0, 1 UNION ALL
+	SELECT 669,N'Loki, the trickster god.', 1, 0, 1 UNION ALL
+	SELECT 670,N'Whining like a little bitch.', 1, 0, 1 UNION ALL
+	SELECT 671,N'Pumping out a baby every nine months.', 1, 0, 1 UNION ALL
+	SELECT 672,N'Tongue.', 1, 0, 1 UNION ALL
+	SELECT 673,N'Finding Waldo.', 1, 0, 1 UNION ALL
+	SELECT 674,N'Upgrading homeless people to mobile hotspots.', 1, 0, 1 UNION ALL
+	SELECT 675,N'Wearing an octopus for a hat.', 1, 0, 1 UNION ALL
+	SELECT 676,N'An unhinged ferris wheel rolling toward the sea.', 1, 0, 1 UNION ALL
+	SELECT 677,N'Living in a trashcan.', 1, 0, 1 UNION ALL
+	SELECT 678,N'The corporations.', 1, 0, 1 UNION ALL
+	SELECT 679,N'A magic hippie love cloud.', 1, 0, 1 UNION ALL
+	SELECT 680,N'Fuck Mountain.', 1, 0, 1 UNION ALL
+	SELECT 681,N'Survivor''s guilt.', 1, 0, 1 UNION ALL
+	SELECT 682,N'Me.', 1, 0, 1 UNION ALL
+	SELECT 683,N'Getting hilariously gang-banged by the Blue Man Group.', 1, 0, 1 UNION ALL
+	SELECT 684,N'Jeff Goldblum.', 1, 0, 1 UNION ALL
+	SELECT 685,N'Making a friend.', 1, 0, 1 UNION ALL
+	SELECT 686,N'A soulful rendition of "Ol'' Man River."', 1, 0, 1 UNION ALL
+	SELECT 687,N'Intimacy problems.', 1, 0, 1 UNION ALL
+	SELECT 688,N'A sweaty, panting leather daddy.', 1, 0, 1 UNION ALL
+	SELECT 689,N'Spring break!', 1, 0, 1 UNION ALL
+	SELECT 690,N'Being awesome at sex.', 1, 0, 1 UNION ALL
+	SELECT 691,N'Dining with cardboard cutouts of the cast of "Friends."', 1, 0, 1 UNION ALL
+	SELECT 692,N'Another shot of morphine.', 1, 0, 1 UNION ALL
+	SELECT 693,N'Beefin'' over turf.', 1, 0, 1 UNION ALL
+	SELECT 694,N'A squadron of moles wearing aviator goggles.', 1, 0, 1 UNION ALL
+	SELECT 695,N'Bullshit.', 1, 0, 1 UNION ALL
+	SELECT 696,N'The Google.', 1, 0, 1 UNION ALL
+	SELECT 697,N'Pretty Pretty Princess Dress-Up Board Game®.', 1, 0, 1 UNION ALL
+	SELECT 698,N'The new Radiohead album.', 1, 0, 1 UNION ALL
+	SELECT 699,N'An army of skeletons.', 1, 0, 1 UNION ALL
+	SELECT 700,N'A man in yoga pants with a ponytail and feather earrings.', 1, 0, 1 UNION ALL
+	SELECT 701,N'Mild autism.', 1, 0, 1 UNION ALL
+	SELECT 702,N'Nunchuck moves.', 1, 0, 1 UNION ALL
+	SELECT 703,N'Whipping a disobedient slave.', 1, 0, 1 UNION ALL
+	SELECT 704,N'An ether-soaked rag.', 1, 0, 1 UNION ALL
+	SELECT 705,N'A sweet spaceship.', 1, 0, 1 UNION ALL
+	SELECT 706,N'A 55-gallon drum of lube.', 1, 0, 1 UNION ALL
+	SELECT 707,N'Special musical guest, Cher.', 1, 0, 1 UNION ALL
+	SELECT 708,N'The human body.', 1, 0, 1 UNION ALL
+	SELECT 709,N'Boris the Soviet Love Hammer.', 1, 0, 1 UNION ALL
+	SELECT 710,N'The grey nutrient broth that sustains Mitt Romney.', 1, 0, 1 UNION ALL
+	SELECT 711,N'Tiny nipples.', 1, 0, 1 UNION ALL
+	SELECT 712,N'Power.', 1, 0, 1 UNION ALL
+	SELECT 713,N'Oncoming traffic.', 1, 0, 1 UNION ALL
+	SELECT 714,N'A dollop of sour cream.', 1, 0, 1 UNION ALL
+	SELECT 715,N'A slightly shittier parallel universe.', 1, 0, 1 UNION ALL
+	SELECT 716,N'My first kill.', 1, 0, 1 UNION ALL
+	SELECT 717,N'Graphic violence, adult language, and some sexual content.', 1, 0, 1 UNION ALL
+	SELECT 718,N'Fetal alcohol syndrome.', 1, 0, 1 UNION ALL
+	SELECT 719,N'The day the birds attacked.', 1, 0, 1 UNION ALL
+	SELECT 720,N'One Ring to rule them all.', 1, 0, 1 UNION ALL
+	SELECT 721,N'Grandpa''s ashes.', 1, 0, 1 UNION ALL
+	SELECT 722,N'Basic human decency.', 1, 0, 1 UNION ALL
+	SELECT 723,N'A Burmese tiger pit.', 1, 0, 1 UNION ALL
+	SELECT 724,N'Death by Steven Seagal.', 1, 0, 1 UNION ALL
+	SELECT 725,N'During his midlife crisis, my dad got really into _____.', 0, 0, 1 UNION ALL
+	SELECT 726,N'_____ would be woefully incomplete without _____.', 0, 1, 1 UNION ALL
+	SELECT 727,N'My new favorite porn star is Joey "_____" McGee.', 0, 0, 1 UNION ALL
+	SELECT 728,N'Before I run for president, I must destroy all evidence of my involvement with _____.', 0, 0, 1 UNION ALL
+	SELECT 729,N'This is your captain speaking. Fasten your seatbelts and prepare for _____.', 0, 0, 1 UNION ALL
+	SELECT 730,N'In his newest and most difficult stunt, David Blaine must escape from _____.', 0, 0, 1 UNION ALL
+	SELECT 731,N'The Five Stages of Grief: denial, anger, bargaining, _____, acceptance.', 0, 0, 1 UNION ALL
+	SELECT 732,N'My mom freaked out when she looked at my browser history and found _____.com/_____.', 0, 1, 1 UNION ALL
+	SELECT 733,N'I went from _____ to _____, all thanks to _____.', 0, 2, 1 UNION ALL
+	SELECT 734,N'Members of New York''s social elite are paying thousands of dollars just to experience _____.', 0, 0, 1 UNION ALL
+	SELECT 735,N'This month''s Cosmo: "Spice up your sex life by bringing _____ into the bedroom."', 0, 0, 1 UNION ALL
+	SELECT 736,N'Little Miss Muffet Sat on a tuffet, Eating her curds and _____.', 0, 0, 1 UNION ALL
+	SELECT 737,N'If God didn''t want us to enjoy _____, he wouldn''t have given us _____.', 0, 1, 1 UNION ALL
+	SELECT 738,N'My country, ''tis of thee, sweet land of _____.', 0, 0, 1 UNION ALL
+	SELECT 739,N'After months of debate, the Occupy Wall Street General Assembly could only agree on "More _____!"', 0, 0, 1 UNION ALL
+	SELECT 740,N'I spent my whole life working toward _____, only to have it ruined by _____.', 0, 1, 1 UNION ALL
+	SELECT 741,N'Next time on Dr. Phil: How to talk to your child about _____.', 0, 0, 1 UNION ALL
+	SELECT 742,N'Only two things in life are certain: death and _____.', 0, 0, 1 UNION ALL
+	SELECT 743,N'Everyone down on the ground! We don''t want to hurt anyone. We''re just here for _____.', 0, 0, 1 UNION ALL
+	SELECT 744,N'The healing process began when I joined a support group for victims of _____.', 0, 0, 1 UNION ALL
+	SELECT 745,N'The votes are in, and the new high school mascot is _____.', 0, 0, 1 UNION ALL
+	SELECT 746,N'Charades was ruined for me forever when my mom had to act out _____.', 0, 0, 1 UNION ALL
+	SELECT 747,N'Before _____, all we had was _____.', 0, 1, 1 UNION ALL
+	SELECT 748,N'Tonight on 20/20: What you don''t know about _____ could kill you.', 0, 0, 1 UNION ALL
+	SELECT 749,N'You haven''t truly lived until you''ve experienced _____ and _____ at the same time.', 0, 1, 1
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Expansion 2', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 750)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 750,N'The primal, ball-slapping sex your parents are having right now.', 1, 0, 1 UNION ALL
+	SELECT 751,N'A cat video so cute that your eyes roll back and your spine slides out of your anus.', 1, 0, 1 UNION ALL
+	SELECT 752,N'Cock.', 1, 0, 1 UNION ALL
+	SELECT 753,N'A cop who is also a dog.', 1, 0, 1 UNION ALL
+	SELECT 754,N'Dying alone and in pain.', 1, 0, 1 UNION ALL
+	SELECT 755,N'Gay aliens.', 1, 0, 1 UNION ALL
+	SELECT 756,N'The way white people is.', 1, 0, 1 UNION ALL
+	SELECT 757,N'Reverse cowgirl.', 1, 0, 1 UNION ALL
+	SELECT 758,N'The Quesadilla Explosion Salad™ from Chili''s®.', 1, 0, 1 UNION ALL
+	SELECT 759,N'Actually getting shot, for real.', 1, 0, 1 UNION ALL
+	SELECT 760,N'Not having sex.', 1, 0, 1 UNION ALL
+	SELECT 761,N'Vietnam flashbacks.', 1, 0, 1 UNION ALL
+	SELECT 762,N'Running naked through a mall, pissing and shitting everywhere.', 1, 0, 1 UNION ALL
+	SELECT 763,N'Nothing.', 1, 0, 1 UNION ALL
+	SELECT 764,N'Warm, velvety muppet sex.', 1, 0, 1 UNION ALL
+	SELECT 765,N'Self-flagellation.', 1, 0, 1 UNION ALL
+	SELECT 766,N'The systematic destruction of an entire people and their way of life.', 1, 0, 1 UNION ALL
+	SELECT 767,N'Samuel L. Jackson.', 1, 0, 1 UNION ALL
+	SELECT 768,N'A boo-boo.', 1, 0, 1 UNION ALL
+	SELECT 769,N'Going around punching people.', 1, 0, 1 UNION ALL
+	SELECT 770,N'The entire Internet.', 1, 0, 1 UNION ALL
+	SELECT 771,N'Some kind of bird-man.', 1, 0, 1 UNION ALL
+	SELECT 772,N'Chugging a lava lamp.', 1, 0, 1 UNION ALL
+	SELECT 773,N'Having sex on top of a pizza.', 1, 0, 1 UNION ALL
+	SELECT 774,N'Indescribable loneliness.', 1, 0, 1 UNION ALL
+	SELECT 775,N'An ass disaster.', 1, 0, 1 UNION ALL
+	SELECT 776,N'Shutting the fuck up.', 1, 0, 1 UNION ALL
+	SELECT 777,N'All my friends dying.', 1, 0, 1 UNION ALL
+	SELECT 778,N'Putting an entire peanut butter and jelly sandwich into the VCR.', 1, 0, 1 UNION ALL
+	SELECT 779,N'Spending lots of money.', 1, 0, 1 UNION ALL
+	SELECT 780,N'Some douche with an acoustic guitar.', 1, 0, 1 UNION ALL
+	SELECT 781,N'Flying robots that kill people.', 1, 0, 1 UNION ALL
+	SELECT 782,N'A greased-up Matthew McConaughey.', 1, 0, 1 UNION ALL
+	SELECT 783,N'An unstoppable wave of fire ants.', 1, 0, 1 UNION ALL
+	SELECT 784,N'Not contributing to society in any meaningful way.', 1, 0, 1 UNION ALL
+	SELECT 785,N'An all-midget production of Shakespeare''s Richard III.', 1, 0, 1 UNION ALL
+	SELECT 786,N'Screaming like a maniac.', 1, 0, 1 UNION ALL
+	SELECT 787,N'The moist, demanding chasm of his mouth.', 1, 0, 1 UNION ALL
+	SELECT 788,N'Filling every orifice with butterscotch pudding.', 1, 0, 1 UNION ALL
+	SELECT 789,N'Unlimited soup, salad, and breadsticks.', 1, 0, 1 UNION ALL
+	SELECT 790,N'Crying into the pages of Sylvia Plath.', 1, 0, 1 UNION ALL
+	SELECT 791,N'Velcro™.', 1, 0, 1 UNION ALL
+	SELECT 792,N'A PowerPoint presentation.', 1, 0, 1 UNION ALL
+	SELECT 793,N'A surprising amount of hair.', 1, 0, 1 UNION ALL
+	SELECT 794,N'Eating Tom Selleck''s mustache to gain his powers.', 1, 0, 1 UNION ALL
+	SELECT 795,N'Roland the Farter, flatulist to the king.', 1, 0, 1 UNION ALL
+	SELECT 796,N'That ass.', 1, 0, 1 UNION ALL
+	SELECT 797,N'A pile of squirming bodies.', 1, 0, 1 UNION ALL
+	SELECT 798,N'Buying the right pants to be cool.', 1, 0, 1 UNION ALL
+	SELECT 799,N'Blood farts.', 1, 0, 1 UNION ALL
+	SELECT 800,N'Three months in the hole.', 1, 0, 1 UNION ALL
+	SELECT 801,N'A botched circumcision.', 1, 0, 1 UNION ALL
+	SELECT 802,N'The Land of Chocolate.', 1, 0, 1 UNION ALL
+	SELECT 803,N'Slapping a racist old lady.', 1, 0, 1 UNION ALL
+	SELECT 804,N'A lamprey swimming up the toilet and latching onto your taint.', 1, 0, 1 UNION ALL
+	SELECT 805,N'Jumping out at people.', 1, 0, 1 UNION ALL
+	SELECT 806,N'A black male in his early 20s, last seen wearing a hoodie.', 1, 0, 1 UNION ALL
+	SELECT 807,N'Mufasa''s death scene.', 1, 0, 1 UNION ALL
+	SELECT 808,N'Bill Clinton, naked on a bearskin rug with a saxophone.', 1, 0, 1 UNION ALL
+	SELECT 809,N'Demonic possession.', 1, 0, 1 UNION ALL
+	SELECT 810,N'The Harlem Globetrotters.', 1, 0, 1 UNION ALL
+	SELECT 811,N'Vomiting mid-blowjob.', 1, 0, 1 UNION ALL
+	SELECT 812,N'My manservant, Claude.', 1, 0, 1 UNION ALL
+	SELECT 813,N'Having shotguns for legs.', 1, 0, 1 UNION ALL
+	SELECT 814,N'Letting everyone down.', 1, 0, 1 UNION ALL
+	SELECT 815,N'A spontaneous conga line.', 1, 0, 1 UNION ALL
+	SELECT 816,N'A vagina that leads to another dimension.', 1, 0, 1 UNION ALL
+	SELECT 817,N'Disco fever.', 1, 0, 1 UNION ALL
+	SELECT 818,N'Getting your dick stuck in a Chinese finger trap with another dick.', 1, 0, 1 UNION ALL
+	SELECT 819,N'Fisting.', 1, 0, 1 UNION ALL
+	SELECT 820,N'The thin veneer of situational causality that underlies porn.', 1, 0, 1 UNION ALL
+	SELECT 821,N'Girls that always be textin''.', 1, 0, 1 UNION ALL
+	SELECT 822,N'Blowing some dudes in an alley.', 1, 0, 1 UNION ALL
+	SELECT 823,N'Drinking ten 5-hour ENERGYs® to get fifty continuous hours of energy.', 1, 0, 1 UNION ALL
+	SELECT 824,N'Sneezing, farting, and coming at the same time.', 1, 0, 1 UNION ALL
+	SELECT 825,N'_____: Hours of fun. Easy to use. Perfect for _____!', 0, 1, 1 UNION ALL
+	SELECT 826,N'Turns out that _____-Man was neither the hero we needed nor wanted.', 0, 0, 1 UNION ALL
+	SELECT 827,N'What left this stain on my couch?', 0, 0, 1 UNION ALL
+	SELECT 828,N'Call the law offices of Goldstein & Goldstein, because no one should have to tolerate _____ in the workplace.', 0, 0, 1 UNION ALL
+	SELECT 829,N'A successful job interview begins with a firm handshake and ends with _____.', 0, 0, 1 UNION ALL
+	SELECT 830,N'Lovin'' you is easy ''cause you''re _____.', 0, 0, 1 UNION ALL
+	SELECT 831,N'Money can''t buy me love, but it can buy me _____.', 0, 0, 1 UNION ALL
+	SELECT 832,N'Listen, son. If you want to get involved with _____, I won''t stop you. Just steer clear of _____.', 0, 1, 1 UNION ALL
+	SELECT 833,N'During high school, I never really fit in until I found _____ club.', 0, 0, 1 UNION ALL
+	SELECT 834,N'Hey baby, come back to my place and I''ll show you _____.', 0, 0, 1 UNION ALL
+	SELECT 835,N'My life is ruled by a vicious cycle of _____ and _____.', 0, 1, 1 UNION ALL
+	SELECT 836,N'To prepare for his upcoming role, Daniel Day-Lewis immersed himself in the world of _____.', 0, 0, 1 UNION ALL
+	SELECT 837,N'Finally! A service that delivers _____ right to your door.', 0, 0, 1 UNION ALL
+	SELECT 838,N'My gym teacher got fired for adding _____ to the obstacle course.', 0, 0, 1 UNION ALL
+	SELECT 839,N'When you get right down to it, _____ is just _____.', 0, 1, 1 UNION ALL
+	SELECT 840,N'As part of his daily regimen, Anderson Cooper sets aside 15 minutes for _____.', 0, 0, 1 UNION ALL
+	SELECT 841,N'In the seventh circle of Hell, sinners must endure _____ for all eternity.', 0, 0, 1 UNION ALL
+	SELECT 842,N'After months of practice with _____, I think I''m finally ready for _____.', 0, 1, 1 UNION ALL
+	SELECT 843,N'The blind date was going horribly until we discovered our shared interest in _____.', 0, 0, 1 UNION ALL
+	SELECT 844,N'_____. Awesome in theory, kind of a mess in practice.', 0, 0, 1 UNION ALL
+	SELECT 845,N'With enough time and pressure, _____ will turn into _____.', 0, 1, 1 UNION ALL
+	SELECT 846,N'I''m not like the rest of you. I''m too rich and busy for _____.', 0, 0, 1 UNION ALL
+	SELECT 847,N'And what did you bring for show and tell?', 0, 0, 1 UNION ALL
+	SELECT 848,N'Having problems with _____? Try _____!', 0, 1, 1 UNION ALL
+	SELECT 849,N'As part of his contract, Prince won''t perform without _____ in his dressing room.', 0, 0, 1
+	
+	COMMIT;
+
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Expansion 3', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 850)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 850,N'A bunch of idiots playing a card game instead of interacting like normal humans.', 1, 0, 1 UNION ALL
+	SELECT 851,N'A sex goblin with a carnival penis.', 1, 0, 1 UNION ALL
+	SELECT 852,N'Lots and lots of abortions.', 1, 0, 1 UNION ALL
+	SELECT 853,N'Injecting speed into one arm and horse tranquilizer into the other.', 1, 0, 1 UNION ALL
+	SELECT 854,N'Sharks with legs.', 1, 0, 1 UNION ALL
+	SELECT 855,N'A sex comet from Neptune that plunges the Earth into eternal sexiness.', 1, 0, 1 UNION ALL
+	SELECT 856,N'How awesome I am.', 1, 0, 1 UNION ALL
+	SELECT 857,N'Smoking crack, for instance.', 1, 0, 1 UNION ALL
+	SELECT 858,N'A dance move that''s just sex.', 1, 0, 1 UNION ALL
+	SELECT 859,N'A hopeless amount of spiders.', 1, 0, 1 UNION ALL
+	SELECT 860,N'Drinking responsibly.', 1, 0, 1 UNION ALL
+	SELECT 861,N'Angelheaded hipsters burning for the ancient heavenly connection to the starry dynamo in the machinery of night.', 1, 0, 1 UNION ALL
+	SELECT 862,N'Bouncing up and down.', 1, 0, 1 UNION ALL
+	SELECT 863,N'A shiny rock that proves I love you.', 1, 0, 1 UNION ALL
+	SELECT 864,N'Crazy opium eyes.', 1, 0, 1 UNION ALL
+	SELECT 865,N'Moderate-to-severe joint pain.', 1, 0, 1 UNION ALL
+	SELECT 866,N'Finally finishing off the Indians.', 1, 0, 1 UNION ALL
+	SELECT 867,N'Actual mutants with medical conditions and no superpowers.', 1, 0, 1 UNION ALL
+	SELECT 868,N'The complex geopolitical quagmire that is the Middle East.', 1, 0, 1 UNION ALL
+	SELECT 869,N'Neil Diamond''s Greatest Hits.', 1, 0, 1 UNION ALL
+	SELECT 870,N'No clothes on, penis in vagina.', 1, 0, 1 UNION ALL
+	SELECT 871,N'Whispering all sexy.', 1, 0, 1 UNION ALL
+	SELECT 872,N'A horse with no legs.', 1, 0, 1 UNION ALL
+	SELECT 873,N'Depression.', 1, 0, 1 UNION ALL
+	SELECT 874,N'Almost giving money to a homeless person.', 1, 0, 1 UNION ALL
+	SELECT 875,N'Interspecies marriage.', 1, 0, 1 UNION ALL
+	SELECT 876,N'Blackula.', 1, 0, 1 UNION ALL
+	SELECT 877,N'What Jesus would do.', 1, 0, 1 UNION ALL
+	SELECT 878,N'A manhole.', 1, 0, 1 UNION ALL
+	SELECT 879,N'My dad''s dumb fucking face.', 1, 0, 1 UNION ALL
+	SELECT 880,N'A Ugandan warlord.', 1, 0, 1 UNION ALL
+	SELECT 881,N'My worthless son.', 1, 0, 1 UNION ALL
+	SELECT 882,N'A Native American who solves crimes by going into the spirit world.', 1, 0, 1 UNION ALL
+	SELECT 883,N'A kiss on the lips.', 1, 0, 1 UNION ALL
+	SELECT 884,N'A fart.', 1, 0, 1 UNION ALL
+	SELECT 885,N'The peaceful and nonthreatening rise of China.', 1, 0, 1 UNION ALL
+	SELECT 886,N'Snorting coke off a clown''s boner.', 1, 0, 1 UNION ALL
+	SELECT 887,N'Three consecutive seconds of happiness.', 1, 0, 1 UNION ALL
+	SELECT 888,N'Falling into the toilet.', 1, 0, 1 UNION ALL
+	SELECT 889,N'Ass to mouth.', 1, 0, 1 UNION ALL
+	SELECT 890,N'Some sort of Asian.', 1, 0, 1 UNION ALL
+	SELECT 891,N'The size of my penis.', 1, 0, 1 UNION ALL
+	SELECT 892,N'The safe word.', 1, 0, 1 UNION ALL
+	SELECT 893,N'Party Mexicans.', 1, 0, 1 UNION ALL
+	SELECT 894,N'Ambiguous sarcasm.', 1, 0, 1 UNION ALL
+	SELECT 895,N'Jizz.', 1, 0, 1 UNION ALL
+	SELECT 896,N'An interracial handshake.', 1, 0, 1 UNION ALL
+	SELECT 897,N'10 Incredible Facts About the Anus.', 1, 0, 1 UNION ALL
+	SELECT 898,N'The secret formula for ultimate female satisfaction.', 1, 0, 1 UNION ALL
+	SELECT 899,N'Sugar madness.', 1, 0, 1 UNION ALL
+	SELECT 900,N'Calculating every mannerism so as not to suggest homosexuality.', 1, 0, 1 UNION ALL
+	SELECT 901,N'Fucking a corpse back to life.', 1, 0, 1 UNION ALL
+	SELECT 902,N'All the single ladies.', 1, 0, 1 UNION ALL
+	SELECT 903,N'Whatever a McRib® is made of.', 1, 0, 1 UNION ALL
+	SELECT 904,N'Africa.', 1, 0, 1 UNION ALL
+	SELECT 905,N'The euphoric rush of strangling a drifter.', 1, 0, 1 UNION ALL
+	SELECT 906,N'Khakis.', 1, 0, 1 UNION ALL
+	SELECT 907,N'A gender identity that can only be conveyed through slam poetry.', 1, 0, 1 UNION ALL
+	SELECT 908,N'Stuff a child''s face with Fun Dip® until he starts having fun.', 1, 0, 1 UNION ALL
+	SELECT 909,N'A for-real lizard that spits blood from its eyes.', 1, 0, 1 UNION ALL
+	SELECT 910,N'The tiniest shred of evidence that God is real.', 1, 0, 1 UNION ALL
+	SELECT 911,N'Prince Ali, <br /> fabulous he, <br/> Ali Ababwa.', 1, 0, 1 UNION ALL
+	SELECT 912,N'Dem titties.', 1, 0, 1 UNION ALL
+	SELECT 913,N'Exploding pigeons.', 1, 0, 1 UNION ALL
+	SELECT 914,N'My sex dungeon.', 1, 0, 1 UNION ALL
+	SELECT 915,N'Child Protective Services.', 1, 0, 1 UNION ALL
+	SELECT 916,N'Doo-doo.', 1, 0, 1 UNION ALL
+	SELECT 917,N'Sports.', 1, 0, 1 UNION ALL
+	SELECT 918,N'Unquestioning obedience.', 1, 0, 1 UNION ALL
+	SELECT 919,N'Grammar nazis who are also regular Nazis.', 1, 0, 1 UNION ALL
+	SELECT 920,N'What''s fun until it gets weird?', 0, 0, 1 UNION ALL
+	SELECT 921,N'In the beginning, there was _____. <br /> And the Lord said, "Let there be _____."', 0, 1, 1 UNION ALL
+	SELECT 922,N'Wes Anderson''s new film tells the story of a precocious child coming to terms with _____.', 0, 0, 1 UNION ALL
+	SELECT 923,N'_____ will never be the same after _____.', 0, 1, 1 UNION ALL
+	SELECT 924,N'I''m sorry, sir, but we don''t allow _____ at the country club.', 0, 0, 1 UNION ALL
+	SELECT 925,N'How am I compensating for my tiny penis?', 0, 0, 1 UNION ALL
+	SELECT 926,N'You''ve seen the bearded lady! <br /> You''ve seen the ring of fire! <br /> Now, ladies and gentlemen, feast your eyes upon _____!', 0, 0, 1 UNION ALL
+	SELECT 927,N'We never did find _____, but along the way we sure learned a lot about _____.', 0, 1, 1 UNION ALL
+	SELECT 928,N'She''s up all night for good fun. <br /> I''m up all night for _____.', 0, 0, 1 UNION ALL
+	SELECT 929,N'_____ may pass, but _____ will last forever.', 0, 1, 1 UNION ALL
+	SELECT 930,N'Dear Leader Kim Jong-un, <br /> our village praises your infinite wisdom with a humble offering of _____.', 0, 0, 1 UNION ALL
+	SELECT 931,N'Man, this is bullshit. Fuck _____.', 0, 0, 1 UNION ALL
+	SELECT 932,N'You guys, I saw this crazy movie last night. It opens on _____, and then there''s some stuff about _____, and then it ends with _____.', 0, 2, 1 UNION ALL
+	SELECT 933,N'In return for my soul, the Devil promised me _____, but all I got was _____.', 0, 1, 1 UNION ALL
+	SELECT 934,N'The Japanese have developed a smaller, more efficient version of _____.', 0, 0, 1 UNION ALL
+	SELECT 935,N'Alright, bros. Our frat house is condemned, and all the hot slampieces are over at Gamma Phi. The time has come to commence Operation _____.', 0, 0, 1 UNION ALL
+	SELECT 936,N'This is the prime of my life. I''m young, hot, and full of _____.', 0, 0, 1 UNION ALL
+	SELECT 937,N'I''m pretty sure I''m high right now, because I''m absolutely mesmerized by _____.', 0, 0, 1 UNION ALL
+	SELECT 938,N'It lurks in the night. It hungers for flesh. This summer, no one is safe from _____.', 0, 0, 1 UNION ALL
+	SELECT 939,N'If you can''t handle _____, you''d better stay away from _____.', 0, 1, 1 UNION ALL
+	SELECT 940,N'Forget everything you know about _____, because now we''ve supercharged it with _____!', 0, 1, 1 UNION ALL
+	SELECT 941,N'Honey, I have a new role-play I want to try tonight! You can be _____, and I''ll be _____.', 0, 1, 1 UNION ALL
+	SELECT 942,N'This year''s hottest album is "_____" by _____.', 0, 1, 1 UNION ALL
+	SELECT 943,N'Every step towards _____ gets me a little closer to _____.', 0, 1, 1 UNION ALL
+	SELECT 944,N'Oprah''s book of the month is "_____ For _____: A Story of Hope."', 0, 1, 1 UNION ALL
+	SELECT 945,N'Do not fuck with me! I am literally _____ right now.', 0, 0, 1 UNION ALL
+	SELECT 946,N'2 AM in the city that never sleeps. The door swings open and she walks in, legs up to here. Something in her eyes tells me she''s looking for _____.', 0, 0, 1 UNION ALL
+	SELECT 947,N'As king, how will I keep the peasants in line?', 0, 0, 1 UNION ALL
+	SELECT 948,N'Adventure. <br /> Romance. <br /> _____. <br /> From Paramount Pictures, "_____."', 0, 1, 1 UNION ALL
+	SELECT 949,N'I am become _____, destroyer of _____!', 0, 1, 1
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Expansion 4', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 950)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 950,N'Santa''s heavy sack.', 1, 0, 1 UNION ALL
+	SELECT 951,N'Clearing a bloody path through Walmart with a scimitar.', 1, 0, 1 UNION ALL
+	SELECT 952,N'Another shitty year.', 1, 0, 1 UNION ALL
+	SELECT 953,N'Whatever Kwanzaa is supposed to be about.', 1, 0, 1 UNION ALL
+	SELECT 954,N'A Christmas stocking full of coleslaw.', 1, 0, 1 UNION ALL
+	SELECT 955,N'Elf cum.', 1, 0, 1 UNION ALL
+	SELECT 956,N'The tiny, calloused hands of the Chinese children that made this card.', 1, 0, 1 UNION ALL
+	SELECT 957,N'Taking down Santa with a surface-to-air missle.', 1, 0, 1 UNION ALL
+	SELECT 958,N'Socks.', 1, 0, 1 UNION ALL
+	SELECT 959,N'Pretending to be happy.', 1, 0, 1 UNION ALL
+	SELECT 960,N'Krampus, the Austrian Christmas monster.', 1, 0, 1 UNION ALL
+	SELECT 961,N'The Star Wars Holiday Special.', 1, 0, 1 UNION ALL
+	SELECT 962,N'My hot cousin.', 1, 0, 1 UNION ALL
+	SELECT 963,N'Mall Santa.', 1, 0, 1 UNION ALL
+	SELECT 964,N'Several intertwining love stories featuring Hugh Grant.', 1, 0, 1 UNION ALL
+	SELECT 965,N'A Hungry-Man™ Frozen Christmas Dinner for One.', 1, 0, 1 UNION ALL
+	SELECT 966,N'Gift-wrapping a live hamster.', 1, 0, 1 UNION ALL
+	SELECT 967,N'Space Jam on VHS.', 1, 0, 1 UNION ALL
+	SELECT 968,N'Immaculate conception.', 1, 0, 1 UNION ALL
+	SELECT 969,N'Fucking up "Silent Night" in front of 300 parents.', 1, 0, 1 UNION ALL
+	SELECT 970,N'A visually arresting turtleneck.', 1, 0, 1 UNION ALL
+	SELECT 971,N'A toxic family environment.', 1, 0, 1 UNION ALL
+	SELECT 972,N'Eating an entire snowman.', 1, 0, 1 UNION ALL
+	SELECT 973,N'After blacking out during New Year''s Eve, I was awoken by _____.', 0, 0, 1 UNION ALL
+	SELECT 974,N'This holiday season, Tim Allen must overcome his fear of _____ to save Christmas.', 0, 0, 1 UNION ALL
+	SELECT 975,N'Jesus is _____.', 0, 0, 1 UNION ALL
+	SELECT 976,N'Every Christmas, my uncle gets drunk and tells the story about _____.', 0, 0, 1 UNION ALL
+	SELECT 978,N'What keeps me warm during the cold, cold winter?', 0, 0, 1 UNION ALL
+	SELECT 979,N'On the third day of Christmas, my true love gave to me: three French hens, two turtle doves, and _____.', 0, 0, 1 UNION ALL
+	SELECT 980,N'Wake up, America. Christmas is under attack by secular liberals and their _____.', 0, 0, 1
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Holiday Pack 2012', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 981)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 981 , N'Giving money and personal information to strangers on the Internet.', 1, 0, 1 UNION ALL
+	SELECT 982 , N'A magical tablet containing a world of unlimited pornography.', 1, 0, 1 UNION ALL
+	SELECT 983 , N'These low, low prices!', 1, 0, 1 UNION ALL
+	SELECT 984 , N'Piece of shit Christmas cards with no money in them.', 1, 0, 1 UNION ALL
+	SELECT 985 , N'Moses gargling Jesus''s balls while Shiva and the Buddha penetrate his divine hand holes.', 1, 0, 1 UNION ALL
+	SELECT 986 , N'The Hawaiian goddess Kapo and her flying detachable vagina.', 1, 0, 1 UNION ALL
+	SELECT 987 , N'The shittier, Jewish version of Christmas.', 1, 0, 1 UNION ALL
+	SELECT 988 , N'Making up for 10 years of shitty parenting with a PlayStation.', 1, 0, 1 UNION ALL
+	SELECT 989 , N'Swapping bodies with mom for a day.', 1, 0, 1 UNION ALL
+	SELECT 990 , N'Slicing a ham in icy silence.', 1, 0, 1 UNION ALL
+	SELECT 991 , N'Finding out that Santa isn''t real.', 1, 0, 1 UNION ALL
+	SELECT 992 , N'Rudolph''s bright red balls.', 1, 0, 1 UNION ALL
+	SELECT 993 , N'The Grinch''s musty, cum-stained pelt.', 1, 0, 1 UNION ALL
+	SELECT 994 , N'Breeding elves for their priceless semen.', 1, 0, 1 UNION ALL
+	SELECT 995 , N'Jizzing into Santa''s beard.', 1, 0, 1 UNION ALL
+	SELECT 996 , N'A simultaneous nightmare and wet dream starring Sigourney Weaver.', 1, 0, 1 UNION ALL
+	SELECT 997 , N'Being blind and deaf and having no limbs.', 1, 0, 1 UNION ALL
+	SELECT 998 , N'People with cake in their mouths talking about how good cake is.', 1, 0, 1 UNION ALL
+	SELECT 999 , N'Congress''s flaccid penises withering away beneath their suit pants.', 1, 0, 1 UNION ALL
+	SELECT 1000, N'The royal afterbirth.', 1, 0, 1 UNION ALL
+	SELECT 1001, N'Having a strong opinion about Obamacare.', 1, 0, 1 UNION ALL
+	SELECT 1002, N'But wait, there''s more! If you order _____ in the next 15 minutes, we''ll throw in _____ absolutely free!', 0, 1, 1 UNION ALL
+	SELECT 1003, N'Blessed are you, Lord our God, creator of the universe, who has granted us _____.', 0, 0, 1 UNION ALL
+	SELECT 1004, N'Because they are forbidden from masturbating, Mormons channel their repressed sexual energy into _____.', 0, 0, 1 UNION ALL
+	SELECT 1005, N'I really hope my grandmother doesn''t ask me to explain _____ again.', 0, 0, 1 UNION ALL
+	SELECT 1006,N'What''s the one thing that makes an elf instantly ejaculate?', 0, 0, 1 UNION ALL
+	SELECT 1007,N'GREETINGS HUMANS <br /> I AM _____ BOT <br /> EXECUTING PROGRAM', 0, 0, 1 UNION ALL
+	SELECT 1008,N'Kids these days with their iPods and their Internet. In my day, all we needed to pass the time was _____.', 0, 0, 1 UNION ALL
+	SELECT 1009,N'Revealed: <br /> Why He Really Resigned! <br /> Pope Benedict''s Secret Struggle with _____!', 0, 0, 1 UNION ALL
+	SELECT 1010,N'Here''s what you can expect for the new year. <br /> Out: _____. <br /> In: _____.', 0, 1, 1
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Holiday Bullshit 2013', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[Card] WHERE [CardID] = 1011)
+BEGIN
+
+	SET IDENTITY_INSERT [dbo].[Card] ON;
+
+	BEGIN TRANSACTION;
+
+	INSERT INTO [dbo].[Card]([CardID], [Content], [Type], [Instructions], [CreatedBy_UserId])
+	SELECT 1011,N'25 shitty jokes about House of Cards.', 1, 0, 1 UNION ALL
+	SELECT 1012,N'An origami swan thatâ??s some kind of symbol?', 1, 0, 1 UNION ALL
+	SELECT 1013,N'A homoerotic subplot.', 1, 0, 1 UNION ALL
+	SELECT 1014,N'Forcing a handjob on a dying man.', 1, 0, 1 UNION ALL
+	SELECT 1015,N'Ribs so good they transcend race and class.', 1, 0, 1 UNION ALL
+	SELECT 1016,N'The sensitive European photographer who??''s fucking my wife.', 1, 0, 1 UNION ALL
+	SELECT 1017,N'Carbon monoxide poisoning.', 1, 0, 1 UNION ALL
+	SELECT 1018,N'Discharging a firearm in a residential area.', 1, 0, 1 UNION ALL
+	SELECT 1019,N'Getting eaten out while on the phone with Dad.', 1, 0, 1 UNION ALL
+	SELECT 1020,N'Making it look like a suicide.', 1, 0, 1 UNION ALL
+	SELECT 1021,N'A much younger woman.', 1, 0, 1 UNION ALL
+	SELECT 1022,N'An older man.', 1, 0, 1 UNION ALL
+	SELECT 1023,N'Strangling a dog to make a point to the audience.', 1, 0, 1 UNION ALL
+	SELECT 1024,N'A childless marriage.', 1, 0, 1 UNION ALL
+	SELECT 1025,N'My constituents.', 1, 0, 1 UNION ALL
+	SELECT 1026,N'Punching a congressman in the face.', 1, 0, 1 UNION ALL
+	SELECT 1027,N'I can''t believe Netflix is using _____ to promote House of Cards.', 0, 0, 1 UNION ALL
+	SELECT 1028,N'I''m not going to lie. I despise _____. There, I said it.', 0, 0, 1 UNION ALL
+	SELECT 1029,N'A wise man said, "Everything is about sex. Except sex. Sex is about _____."', 0, 0, 1 UNION ALL
+	SELECT 1030,N'Corruption. Betrayal. _____. Coming soon to Netflix, "House of _____."', 0, 1, 1 UNION ALL
+	SELECT 1031,N'Our relationship is strictly professional. Let''s not complicate things with _____.', 0, 0, 1 UNION ALL
+	SELECT 1032,N'Because you enjoyed _____, we thought you''d like _____.', 0, 1, 1 UNION ALL
+	SELECT 1033,N'We''re not like other news organizations. Here at Slugline, we welcome _____ in the office.', 0, 0, 1 UNION ALL
+	SELECT 1034,N'Cancel all my meetings. We''ve got a situation with _____ that requires my immediate attention.', 0, 0, 1 UNION ALL
+	SELECT 1035,N'If you need him to, Remy Danton can pull some strings and get you _____, but it''ll cost you.', 0, 0, 1			
+
+	COMMIT;
+	
+	RAISERROR (N'[dbo].[Card]: Insert Batch: Holiday House Of Cards Against Hummanity', 10, 1) WITH NOWAIT;
+
+	SET IDENTITY_INSERT [dbo].[Card] OFF;
+
+END
+
+GO
+GO 
+
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
@@ -1523,6 +2148,53 @@ INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_User
 SELECT 1, 0, N'Main', 0, 1
 COMMIT;
 RAISERROR (N'[dbo].[Deck]: Insert Batch: 1.....Done!', 10, 1) WITH NOWAIT;
+
+SET IDENTITY_INSERT [dbo].[Deck] OFF;
+
+END
+
+GO
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+IF NOT EXISTS (SELECT TOP 1 [DeckID] FROM [dbo].[Deck] WHERE [DeckID] = 2)
+BEGIN
+
+SET IDENTITY_INSERT [dbo].[Deck] ON;
+
+BEGIN TRANSACTION;
+INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_UserId])
+SELECT 2, 0, N'First Expansion', 0, 1 UNION ALL
+SELECT 3, 0, N'Second Expansion', 0, 1 UNION ALL
+SELECT 4, 0, N'Third Expansion', 0, 1 UNION ALL
+SELECT 5, 0, N'Fourth Expansion', 0, 1 UNION ALL
+SELECT 6, 0, N'Holiday Pack 2012', 0, 1 UNION ALL
+SELECT 7, 0, N'Holiday Bullshit 2013', 0, 1 UNION ALL
+SELECT 8, 0, N'House Of Cards Against Hummanity', 0, 1
+COMMIT;
+RAISERROR (N'[dbo].[Deck]: Insert Batch: 2.....Done!', 10, 1) WITH NOWAIT;
 
 SET IDENTITY_INSERT [dbo].[Deck] OFF;
 
@@ -2215,6 +2887,591 @@ SELECT 549, 1
 COMMIT;
 RAISERROR (N'[dbo].[DeckCard]: Insert Batch: 11.....Done!', 10, 1) WITH NOWAIT;
 
+END
+GO 
+
+/*
+* Copyright (c) 2013, Kevin McRell & Paul Miller
+* All rights reserved.
+* 
+* Redistribution and use in source and binary forms, with or without modification, are permitted
+* provided that the following conditions are met:
+* 
+* * Redistributions of source code must retain the above copyright notice, this list of conditions
+*   and the following disclaimer.
+* * Redistributions in binary form must reproduce the above copyright notice, this list of
+*   conditions and the following disclaimer in the documentation and/or other materials provided
+*   with the distribution.
+* 
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+* FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+* CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+* DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+* WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+--First Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 550)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 550, 2 UNION ALL
+	SELECT 551, 2 UNION ALL
+	SELECT 552, 2 UNION ALL
+	SELECT 553, 2 UNION ALL
+	SELECT 554, 2 UNION ALL
+	SELECT 555, 2 UNION ALL
+	SELECT 556, 2 UNION ALL
+	SELECT 557, 2 UNION ALL
+	SELECT 558, 2 UNION ALL
+	SELECT 559, 2 UNION ALL
+	SELECT 560, 2 UNION ALL
+	SELECT 561, 2 UNION ALL
+	SELECT 562, 2 UNION ALL
+	SELECT 563, 2 UNION ALL
+	SELECT 564, 2 UNION ALL
+	SELECT 565, 2 UNION ALL
+	SELECT 566, 2 UNION ALL
+	SELECT 567, 2 UNION ALL
+	SELECT 568, 2 UNION ALL
+	SELECT 569, 2 UNION ALL
+	SELECT 570, 2 UNION ALL
+	SELECT 571, 2 UNION ALL
+	SELECT 572, 2 UNION ALL
+	SELECT 573, 2 UNION ALL
+	SELECT 574, 2 UNION ALL
+	SELECT 575, 2 UNION ALL
+	SELECT 576, 2 UNION ALL
+	SELECT 577, 2 UNION ALL
+	SELECT 578, 2 UNION ALL
+	SELECT 579, 2 UNION ALL
+	SELECT 580, 2 UNION ALL
+	SELECT 581, 2 UNION ALL
+	SELECT 582, 2 UNION ALL
+	SELECT 583, 2 UNION ALL
+	SELECT 584, 2 UNION ALL
+	SELECT 585, 2 UNION ALL
+	SELECT 586, 2 UNION ALL
+	SELECT 587, 2 UNION ALL
+	SELECT 588, 2 UNION ALL
+	SELECT 589, 2 UNION ALL
+	SELECT 590, 2 UNION ALL
+	SELECT 591, 2 UNION ALL
+	SELECT 592, 2 UNION ALL
+	SELECT 593, 2 UNION ALL
+	SELECT 594, 2 UNION ALL
+	SELECT 595, 2 UNION ALL
+	SELECT 596, 2 UNION ALL
+	SELECT 597, 2 UNION ALL
+	SELECT 598, 2 UNION ALL
+	SELECT 599, 2 UNION ALL
+	SELECT 600, 2 UNION ALL
+	SELECT 601, 2 UNION ALL
+	SELECT 602, 2 UNION ALL
+	SELECT 603, 2 UNION ALL
+	SELECT 604, 2 UNION ALL
+	SELECT 605, 2 UNION ALL
+	SELECT 606, 2 UNION ALL
+	SELECT 607, 2 UNION ALL
+	SELECT 608, 2 UNION ALL
+	SELECT 609, 2 UNION ALL
+	SELECT 610, 2 UNION ALL
+	SELECT 611, 2 UNION ALL
+	SELECT 612, 2 UNION ALL
+	SELECT 613, 2 UNION ALL
+	SELECT 614, 2 UNION ALL
+	SELECT 615, 2 UNION ALL
+	SELECT 616, 2 UNION ALL
+	SELECT 617, 2 UNION ALL
+	SELECT 618, 2 UNION ALL
+	SELECT 619, 2 UNION ALL
+	SELECT 620, 2 UNION ALL
+	SELECT 621, 2 UNION ALL
+	SELECT 622, 2 UNION ALL
+	SELECT 623, 2 UNION ALL
+	SELECT 624, 2 UNION ALL
+	SELECT 625, 2 UNION ALL
+	SELECT 626, 2 UNION ALL
+	SELECT 627, 2 UNION ALL
+	SELECT 628, 2 UNION ALL
+	SELECT 629, 2 UNION ALL
+	SELECT 630, 2 UNION ALL
+	SELECT 631, 2 UNION ALL
+	SELECT 632, 2 UNION ALL
+	SELECT 633, 2 UNION ALL
+	SELECT 634, 2 UNION ALL
+	SELECT 635, 2 UNION ALL
+	SELECT 636, 2 UNION ALL
+	SELECT 637, 2 UNION ALL
+	SELECT 638, 2 UNION ALL
+	SELECT 639, 2 UNION ALL
+	SELECT 640, 2 UNION ALL
+	SELECT 641, 2 UNION ALL
+	SELECT 642, 2 UNION ALL
+	SELECT 643, 2 UNION ALL
+	SELECT 644, 2 UNION ALL
+	SELECT 645, 2 UNION ALL
+	SELECT 646, 2 UNION ALL
+	SELECT 647, 2 UNION ALL
+	SELECT 648, 2 UNION ALL
+	SELECT 649, 2
+	
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: First Expansion.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--Second Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 650)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 650, 3 UNION ALL
+	SELECT 651, 3 UNION ALL
+	SELECT 652, 3 UNION ALL
+	SELECT 653, 3 UNION ALL
+	SELECT 654, 3 UNION ALL
+	SELECT 655, 3 UNION ALL
+	SELECT 656, 3 UNION ALL
+	SELECT 657, 3 UNION ALL
+	SELECT 658, 3 UNION ALL
+	SELECT 659, 3 UNION ALL
+	SELECT 660, 3 UNION ALL
+	SELECT 661, 3 UNION ALL
+	SELECT 662, 3 UNION ALL
+	SELECT 663, 3 UNION ALL
+	SELECT 664, 3 UNION ALL
+	SELECT 665, 3 UNION ALL
+	SELECT 666, 3 UNION ALL
+	SELECT 667, 3 UNION ALL
+	SELECT 668, 3 UNION ALL
+	SELECT 669, 3 UNION ALL
+	SELECT 670, 3 UNION ALL
+	SELECT 671, 3 UNION ALL
+	SELECT 672, 3 UNION ALL
+	SELECT 673, 3 UNION ALL
+	SELECT 674, 3 UNION ALL
+	SELECT 675, 3 UNION ALL
+	SELECT 676, 3 UNION ALL
+	SELECT 677, 3 UNION ALL
+	SELECT 678, 3 UNION ALL
+	SELECT 679, 3 UNION ALL
+	SELECT 680, 3 UNION ALL
+	SELECT 681, 3 UNION ALL
+	SELECT 682, 3 UNION ALL
+	SELECT 683, 3 UNION ALL
+	SELECT 684, 3 UNION ALL
+	SELECT 685, 3 UNION ALL
+	SELECT 686, 3 UNION ALL
+	SELECT 687, 3 UNION ALL
+	SELECT 688, 3 UNION ALL
+	SELECT 689, 3 UNION ALL
+	SELECT 690, 3 UNION ALL
+	SELECT 691, 3 UNION ALL
+	SELECT 692, 3 UNION ALL
+	SELECT 693, 3 UNION ALL
+	SELECT 694, 3 UNION ALL
+	SELECT 695, 3 UNION ALL
+	SELECT 696, 3 UNION ALL
+	SELECT 697, 3 UNION ALL
+	SELECT 698, 3 UNION ALL
+	SELECT 699, 3 UNION ALL
+	SELECT 700, 3 UNION ALL
+	SELECT 701, 3 UNION ALL
+	SELECT 702, 3 UNION ALL
+	SELECT 703, 3 UNION ALL
+	SELECT 704, 3 UNION ALL
+	SELECT 705, 3 UNION ALL
+	SELECT 706, 3 UNION ALL
+	SELECT 707, 3 UNION ALL
+	SELECT 708, 3 UNION ALL
+	SELECT 709, 3 UNION ALL
+	SELECT 710, 3 UNION ALL
+	SELECT 711, 3 UNION ALL
+	SELECT 712, 3 UNION ALL
+	SELECT 713, 3 UNION ALL
+	SELECT 714, 3 UNION ALL
+	SELECT 715, 3 UNION ALL
+	SELECT 716, 3 UNION ALL
+	SELECT 717, 3 UNION ALL
+	SELECT 718, 3 UNION ALL
+	SELECT 719, 3 UNION ALL
+	SELECT 720, 3 UNION ALL
+	SELECT 721, 3 UNION ALL
+	SELECT 722, 3 UNION ALL
+	SELECT 723, 3 UNION ALL
+	SELECT 724, 3 UNION ALL
+	SELECT 725, 3 UNION ALL
+	SELECT 726, 3 UNION ALL
+	SELECT 727, 3 UNION ALL
+	SELECT 728, 3 UNION ALL
+	SELECT 729, 3 UNION ALL
+	SELECT 730, 3 UNION ALL
+	SELECT 731, 3 UNION ALL
+	SELECT 732, 3 UNION ALL
+	SELECT 733, 3 UNION ALL
+	SELECT 734, 3 UNION ALL
+	SELECT 735, 3 UNION ALL
+	SELECT 736, 3 UNION ALL
+	SELECT 737, 3 UNION ALL
+	SELECT 738, 3 UNION ALL
+	SELECT 739, 3 UNION ALL
+	SELECT 740, 3 UNION ALL
+	SELECT 741, 3 UNION ALL
+	SELECT 742, 3 UNION ALL
+	SELECT 743, 3 UNION ALL
+	SELECT 744, 3 UNION ALL
+	SELECT 745, 3 UNION ALL
+	SELECT 746, 3 UNION ALL
+	SELECT 747, 3 UNION ALL
+	SELECT 748, 3 UNION ALL
+	SELECT 749, 3
+
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: Second Expansion.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--Third Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 750)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 750, 4 UNION ALL
+	SELECT 751, 4 UNION ALL
+	SELECT 752, 4 UNION ALL
+	SELECT 753, 4 UNION ALL
+	SELECT 754, 4 UNION ALL
+	SELECT 755, 4 UNION ALL
+	SELECT 756, 4 UNION ALL
+	SELECT 757, 4 UNION ALL
+	SELECT 758, 4 UNION ALL
+	SELECT 759, 4 UNION ALL
+	SELECT 760, 4 UNION ALL
+	SELECT 761, 4 UNION ALL
+	SELECT 762, 4 UNION ALL
+	SELECT 763, 4 UNION ALL
+	SELECT 764, 4 UNION ALL
+	SELECT 765, 4 UNION ALL
+	SELECT 766, 4 UNION ALL
+	SELECT 767, 4 UNION ALL
+	SELECT 768, 4 UNION ALL
+	SELECT 769, 4 UNION ALL
+	SELECT 770, 4 UNION ALL
+	SELECT 771, 4 UNION ALL
+	SELECT 772, 4 UNION ALL
+	SELECT 773, 4 UNION ALL
+	SELECT 774, 4 UNION ALL
+	SELECT 775, 4 UNION ALL
+	SELECT 776, 4 UNION ALL
+	SELECT 777, 4 UNION ALL
+	SELECT 778, 4 UNION ALL
+	SELECT 779, 4 UNION ALL
+	SELECT 780, 4 UNION ALL
+	SELECT 781, 4 UNION ALL
+	SELECT 782, 4 UNION ALL
+	SELECT 783, 4 UNION ALL
+	SELECT 784, 4 UNION ALL
+	SELECT 785, 4 UNION ALL
+	SELECT 786, 4 UNION ALL
+	SELECT 787, 4 UNION ALL
+	SELECT 788, 4 UNION ALL
+	SELECT 789, 4 UNION ALL
+	SELECT 790, 4 UNION ALL
+	SELECT 791, 4 UNION ALL
+	SELECT 792, 4 UNION ALL
+	SELECT 793, 4 UNION ALL
+	SELECT 794, 4 UNION ALL
+	SELECT 795, 4 UNION ALL
+	SELECT 796, 4 UNION ALL
+	SELECT 797, 4 UNION ALL
+	SELECT 798, 4 UNION ALL
+	SELECT 799, 4 UNION ALL
+	SELECT 800, 4 UNION ALL
+	SELECT 801, 4 UNION ALL
+	SELECT 802, 4 UNION ALL
+	SELECT 803, 4 UNION ALL
+	SELECT 804, 4 UNION ALL
+	SELECT 805, 4 UNION ALL
+	SELECT 806, 4 UNION ALL
+	SELECT 807, 4 UNION ALL
+	SELECT 808, 4 UNION ALL
+	SELECT 809, 4 UNION ALL
+	SELECT 810, 4 UNION ALL
+	SELECT 811, 4 UNION ALL
+	SELECT 812, 4 UNION ALL
+	SELECT 813, 4 UNION ALL
+	SELECT 814, 4 UNION ALL
+	SELECT 815, 4 UNION ALL
+	SELECT 816, 4 UNION ALL
+	SELECT 817, 4 UNION ALL
+	SELECT 818, 4 UNION ALL
+	SELECT 819, 4 UNION ALL
+	SELECT 820, 4 UNION ALL
+	SELECT 821, 4 UNION ALL
+	SELECT 822, 4 UNION ALL
+	SELECT 823, 4 UNION ALL
+	SELECT 824, 4 UNION ALL
+	SELECT 825, 4 UNION ALL
+	SELECT 826, 4 UNION ALL
+	SELECT 827, 4 UNION ALL
+	SELECT 828, 4 UNION ALL
+	SELECT 829, 4 UNION ALL
+	SELECT 830, 4 UNION ALL
+	SELECT 831, 4 UNION ALL
+	SELECT 832, 4 UNION ALL
+	SELECT 833, 4 UNION ALL
+	SELECT 834, 4 UNION ALL
+	SELECT 835, 4 UNION ALL
+	SELECT 836, 4 UNION ALL
+	SELECT 837, 4 UNION ALL
+	SELECT 838, 4 UNION ALL
+	SELECT 839, 4 UNION ALL
+	SELECT 840, 4 UNION ALL
+	SELECT 841, 4 UNION ALL
+	SELECT 842, 4 UNION ALL
+	SELECT 843, 4 UNION ALL
+	SELECT 844, 4 UNION ALL
+	SELECT 845, 4 UNION ALL
+	SELECT 846, 4 UNION ALL
+	SELECT 847, 4 UNION ALL
+	SELECT 848, 4 UNION ALL
+	SELECT 849, 4
+
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: Third Expansion.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--Fourth Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 850)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 850, 5 UNION ALL
+	SELECT 851, 5 UNION ALL
+	SELECT 852, 5 UNION ALL
+	SELECT 853, 5 UNION ALL
+	SELECT 854, 5 UNION ALL
+	SELECT 855, 5 UNION ALL
+	SELECT 856, 5 UNION ALL
+	SELECT 857, 5 UNION ALL
+	SELECT 858, 5 UNION ALL
+	SELECT 859, 5 UNION ALL
+	SELECT 860, 5 UNION ALL
+	SELECT 861, 5 UNION ALL
+	SELECT 862, 5 UNION ALL
+	SELECT 863, 5 UNION ALL
+	SELECT 864, 5 UNION ALL
+	SELECT 865, 5 UNION ALL
+	SELECT 866, 5 UNION ALL
+	SELECT 867, 5 UNION ALL
+	SELECT 868, 5 UNION ALL
+	SELECT 869, 5 UNION ALL
+	SELECT 870, 5 UNION ALL
+	SELECT 871, 5 UNION ALL
+	SELECT 872, 5 UNION ALL
+	SELECT 873, 5 UNION ALL
+	SELECT 874, 5 UNION ALL
+	SELECT 875, 5 UNION ALL
+	SELECT 876, 5 UNION ALL
+	SELECT 877, 5 UNION ALL
+	SELECT 878, 5 UNION ALL
+	SELECT 879, 5 UNION ALL
+	SELECT 880, 5 UNION ALL
+	SELECT 881, 5 UNION ALL
+	SELECT 882, 5 UNION ALL
+	SELECT 883, 5 UNION ALL
+	SELECT 884, 5 UNION ALL
+	SELECT 885, 5 UNION ALL
+	SELECT 886, 5 UNION ALL
+	SELECT 887, 5 UNION ALL
+	SELECT 888, 5 UNION ALL
+	SELECT 889, 5 UNION ALL
+	SELECT 890, 5 UNION ALL
+	SELECT 891, 5 UNION ALL
+	SELECT 892, 5 UNION ALL
+	SELECT 893, 5 UNION ALL
+	SELECT 894, 5 UNION ALL
+	SELECT 895, 5 UNION ALL
+	SELECT 896, 5 UNION ALL
+	SELECT 897, 5 UNION ALL
+	SELECT 898, 5 UNION ALL
+	SELECT 899, 5 UNION ALL
+	SELECT 900, 5 UNION ALL
+	SELECT 901, 5 UNION ALL
+	SELECT 902, 5 UNION ALL
+	SELECT 903, 5 UNION ALL
+	SELECT 904, 5 UNION ALL
+	SELECT 905, 5 UNION ALL
+	SELECT 906, 5 UNION ALL
+	SELECT 907, 5 UNION ALL
+	SELECT 908, 5 UNION ALL
+	SELECT 909, 5 UNION ALL
+	SELECT 910, 5 UNION ALL
+	SELECT 911, 5 UNION ALL
+	SELECT 912, 5 UNION ALL
+	SELECT 913, 5 UNION ALL
+	SELECT 914, 5 UNION ALL
+	SELECT 915, 5 UNION ALL
+	SELECT 916, 5 UNION ALL
+	SELECT 917, 5 UNION ALL
+	SELECT 918, 5 UNION ALL
+	SELECT 919, 5 UNION ALL
+	SELECT 920, 5 UNION ALL
+	SELECT 921, 5 UNION ALL
+	SELECT 922, 5 UNION ALL
+	SELECT 923, 5 UNION ALL
+	SELECT 924, 5 UNION ALL
+	SELECT 925, 5 UNION ALL
+	SELECT 926, 5 UNION ALL
+	SELECT 927, 5 UNION ALL
+	SELECT 928, 5 UNION ALL
+	SELECT 929, 5 UNION ALL
+	SELECT 930, 5 UNION ALL
+	SELECT 931, 5 UNION ALL
+	SELECT 932, 5 UNION ALL
+	SELECT 933, 5 UNION ALL
+	SELECT 934, 5 UNION ALL
+	SELECT 935, 5 UNION ALL
+	SELECT 936, 5 UNION ALL
+	SELECT 937, 5 UNION ALL
+	SELECT 938, 5 UNION ALL
+	SELECT 939, 5 UNION ALL
+	SELECT 940, 5 UNION ALL
+	SELECT 941, 5 UNION ALL
+	SELECT 942, 5 UNION ALL
+	SELECT 943, 5 UNION ALL
+	SELECT 944, 5 UNION ALL
+	SELECT 945, 5 UNION ALL
+	SELECT 946, 5 UNION ALL
+	SELECT 947, 5 UNION ALL
+	SELECT 948, 5 UNION ALL
+	SELECT 949, 5
+
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: Fourth Expansion.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--Holiday Pack 2012 Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 950)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 950, 6 UNION ALL
+	SELECT 951, 6 UNION ALL
+	SELECT 952, 6 UNION ALL
+	SELECT 953, 6 UNION ALL
+	SELECT 954, 6 UNION ALL
+	SELECT 955, 6 UNION ALL
+	SELECT 956, 6 UNION ALL
+	SELECT 957, 6 UNION ALL
+	SELECT 958, 6 UNION ALL
+	SELECT 959, 6 UNION ALL
+	SELECT 960, 6 UNION ALL
+	SELECT 961, 6 UNION ALL
+	SELECT 962, 6 UNION ALL
+	SELECT 963, 6 UNION ALL
+	SELECT 964, 6 UNION ALL
+	SELECT 965, 6 UNION ALL
+	SELECT 966, 6 UNION ALL
+	SELECT 967, 6 UNION ALL
+	SELECT 968, 6 UNION ALL
+	SELECT 969, 6 UNION ALL
+	SELECT 970, 6 UNION ALL
+	SELECT 971, 6 UNION ALL
+	SELECT 972, 6 UNION ALL
+	SELECT 973, 6 UNION ALL
+	SELECT 974, 6 UNION ALL
+	SELECT 975, 6 UNION ALL
+	SELECT 976, 6 UNION ALL
+	SELECT 978, 6 UNION ALL
+	SELECT 979, 6 UNION ALL
+	SELECT 980, 6 
+
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: Holiday Pack 2012.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--Holiday Bullshit 2013 Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 981)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 981 , 7 UNION ALL
+	SELECT 982 , 7 UNION ALL
+	SELECT 983 , 7 UNION ALL
+	SELECT 984 , 7 UNION ALL
+	SELECT 985 , 7 UNION ALL
+	SELECT 986 , 7 UNION ALL
+	SELECT 987 , 7 UNION ALL
+	SELECT 988 , 7 UNION ALL
+	SELECT 989 , 7 UNION ALL
+	SELECT 990 , 7 UNION ALL
+	SELECT 991 , 7 UNION ALL
+	SELECT 992 , 7 UNION ALL
+	SELECT 993 , 7 UNION ALL
+	SELECT 994 , 7 UNION ALL
+	SELECT 995 , 7 UNION ALL
+	SELECT 996 , 7 UNION ALL
+	SELECT 997 , 7 UNION ALL
+	SELECT 998 , 7 UNION ALL
+	SELECT 999 , 7 UNION ALL
+	SELECT 1000, 7 UNION ALL
+	SELECT 1001, 7 UNION ALL
+	SELECT 1002, 7 UNION ALL
+	SELECT 1003, 7 UNION ALL
+	SELECT 1004, 7 UNION ALL
+	SELECT 1005, 7 UNION ALL
+	SELECT 1006, 7 UNION ALL
+	SELECT 1007, 7 UNION ALL
+	SELECT 1008, 7 UNION ALL
+	SELECT 1009, 7 UNION ALL
+	SELECT 1010, 7 
+	
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: Holiday Bullshit 2013.....Done!', 10, 1) WITH NOWAIT;
+END
+
+--House Of Cards Against Hummanity Expansion
+IF NOT EXISTS (SELECT TOP 1 CardID FROM [dbo].[DeckCard] WHERE CardID = 1011)
+BEGIN
+
+	BEGIN TRANSACTION;
+	INSERT INTO [dbo].[DeckCard]([CardID], [DeckID])
+	SELECT 1011, 8 UNION ALL
+	SELECT 1012, 8 UNION ALL
+	SELECT 1013, 8 UNION ALL
+	SELECT 1014, 8 UNION ALL
+	SELECT 1015, 8 UNION ALL
+	SELECT 1016, 8 UNION ALL
+	SELECT 1017, 8 UNION ALL
+	SELECT 1018, 8 UNION ALL
+	SELECT 1019, 8 UNION ALL
+	SELECT 1020, 8 UNION ALL
+	SELECT 1021, 8 UNION ALL
+	SELECT 1022, 8 UNION ALL
+	SELECT 1023, 8 UNION ALL
+	SELECT 1024, 8 UNION ALL
+	SELECT 1025, 8 UNION ALL
+	SELECT 1026, 8 UNION ALL
+	SELECT 1027, 8 UNION ALL
+	SELECT 1028, 8 UNION ALL
+	SELECT 1029, 8 UNION ALL
+	SELECT 1030, 8 UNION ALL
+	SELECT 1031, 8 UNION ALL
+	SELECT 1032, 8 UNION ALL
+	SELECT 1033, 8 UNION ALL
+	SELECT 1034, 8 UNION ALL
+	SELECT 1035, 8
+
+	COMMIT;
+	RAISERROR (N'[dbo].[DeckCard]: Insert Batch: House Of Cards Against Hummanity.....Done!', 10, 1) WITH NOWAIT;
 END
 GO 
 
