@@ -24,8 +24,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using ACAS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game
@@ -61,6 +63,13 @@ namespace ArmedCards.Web.Controllers.Game
                 model.Game.GameDeckIDs.Add(1);
 
                 _insertGame.Execute(model.Game);
+
+                string key = string.Format("Game_{0}_Passphrase", model.Game.GameID);
+
+                if (!string.IsNullOrWhiteSpace(model.Game.Passphrase))
+                {
+                    Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(model.Game.Passphrase), Session.SessionID));
+                }
 
                 return Redirect(Url.RouteUrl("Game_NoAction", new { id = model.Game.GameID }));
             }
