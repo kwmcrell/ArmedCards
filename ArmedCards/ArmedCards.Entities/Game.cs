@@ -380,7 +380,7 @@ namespace ArmedCards.Entities
 				}
 			}
 
-			if(newCommander != null && Players.Any(x => x.User.UserId == newCommander.UserId) == false)
+			if(newCommander == null || (newCommander != null && Players.Any(x => x.User.UserId == newCommander.UserId) == false))
 			{
 				newCommander = Players.OrderByDescending(x => x.Points).First().User;
 			}
