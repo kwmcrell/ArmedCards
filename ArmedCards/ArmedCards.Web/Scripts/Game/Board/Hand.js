@@ -242,6 +242,9 @@ Hand.prototype.Init = function () {
 		ArmedCards.Game.Hand.HandlePickOrder(ArmedCards.Game.Hand.MultiPicks.Pick1.Number);
 	}
 	ArmedCards.Game.Hand.CurrentPickCount = 1;
+	ArmedCards.Game.Hand.MultiPicks.Pick1.Available = true;
+	ArmedCards.Game.Hand.MultiPicks.Pick2.Available = true;
+	ArmedCards.Game.Hand.MultiPicks.Pick3.Available = true;
 };
 
 Hand.prototype.DealQuestion = function () {
