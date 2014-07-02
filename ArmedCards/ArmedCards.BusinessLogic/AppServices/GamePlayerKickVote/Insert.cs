@@ -33,6 +33,7 @@ using DS = ArmedCards.BusinessLogic.DomainServices.GamePlayerKickVote;
 using AS = ArmedCards.BusinessLogic.AppServices;
 using System.Runtime.Caching;
 using System.Threading;
+using Hangfire;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 {
@@ -73,24 +74,19 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerKickVote
 				response.ResponseCode == Entities.ActionResponses.Enums.VoteToKick.VoteSuccessful &&
 				userVote.Vote)
 			{
-                CancellationTokenSource token = new CancellationTokenSource();
+                String jobId = BackgroundJob.Schedule(() => _checkVotes.Execute(userVote.GameID, userVote.KickUserId), TimeSpan.FromSeconds(30));
 
-                MemoryCache.Default.Add(cacheKey, token, DateTimeOffset.Now.AddSeconds(32));
-
-                Task.Delay(30000, token.Token).ContinueWith((delayedTask) =>
-                    {
-                        _checkVotes.Execute(userVote.GameID, userVote.KickUserId);
-                    });
+                MemoryCache.Default.Set(cacheKey, jobId, new CacheItemPolicy { SlidingExpiration = TimeSpan.FromMinutes(1) });
 			}
 
             if (response.AllVotesCasted)
             {
 
-                var cachedToken = MemoryCache.Default.Get(cacheKey);
+                var cachedJobId = MemoryCache.Default.Get(cacheKey);
 
-                if(cachedToken != null)
+                if (cachedJobId != null && cachedJobId is String)
                 {
-                    ((CancellationTokenSource)cachedToken).Cancel();
+                    BackgroundJob.Delete(cachedJobId as String);
                 }
                 else
                 {
