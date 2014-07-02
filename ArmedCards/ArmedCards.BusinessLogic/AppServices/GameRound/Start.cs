@@ -30,6 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices.GameRound;
 using Microsoft.Practices.Unity;
+using Hangfire;
 
 
 namespace ArmedCards.BusinessLogic.AppServices.GameRound
@@ -61,14 +62,9 @@ namespace ArmedCards.BusinessLogic.AppServices.GameRound
 
             if (started && game.SecondsToPlay > 0)
             {
-                CancellationTokenSource token = new CancellationTokenSource();
+                String jobId = BackgroundJob.Schedule<AppServices.GameRound.Base.ITimerExpired>(x => x.Execute(game.GameID), TimeSpan.FromSeconds(15 + game.SecondsToPlay));
 
-                MemoryCache.Default.Add(game.RoundTimerKey, token, DateTimeOffset.Now.AddSeconds(15 + game.SecondsToPlay));
-
-                Task.Delay(((game.SecondsToPlay + 15) * 1000), token.Token).ContinueWith((delayedTask) =>
-                {
-                    UnityConfig.Container.Resolve<AppServices.GameRound.Base.ITimerExpired>().Execute(game.GameID);
-                }, TaskContinuationOptions.OnlyOnRanToCompletion);
+                MemoryCache.Default.Set(game.RoundTimerKey, jobId, new CacheItemPolicy { SlidingExpiration = TimeSpan.FromMinutes(5) });
             }
 
 			_updateGame.Execute(game.GameID, DateTime.UtcNow, null);

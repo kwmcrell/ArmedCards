@@ -28,6 +28,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DS = ArmedCards.BusinessLogic.DomainServices;
 using AS = ArmedCards.BusinessLogic.AppServices;
+using Hangfire;
+using System.Runtime.Caching;
 
 namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 {
@@ -73,6 +75,13 @@ namespace ArmedCards.BusinessLogic.AppServices.GamePlayerCard
 				Entities.Game game = _selectGame.Execute(filter);
 
 				game.Rounds.Add(response.CurrentRound);
+
+                if(response.CurrentRound.AllPlayersAnswered() && game.SecondsToPlay > 0)
+                {
+                    var cachedJobId = MemoryCache.Default.Get(game.RoundTimerKey);
+
+                    BackgroundJob.Delete(cachedJobId as String);
+                }
 
                 _sendMessage.CardPlayed(game, true);
 				_updateGame.Execute(game.GameID, DateTime.UtcNow, null);
