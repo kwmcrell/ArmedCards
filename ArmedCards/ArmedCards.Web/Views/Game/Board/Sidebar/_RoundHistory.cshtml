@@ -25,7 +25,7 @@
 @model ArmedCards.Entities.Models.Game.Board.AllRounds
 
 <ul id="roundHistory" class="discussion hidden" data-bind="foreach: Rounds, css : { hidden: Hidden }">
-    <li><a href="#" data-bind="html : 'Round ' + ($parent.Rounds().length - $index()), attr: { 'data-roundId': GameRoundID }"></a> won by <a href="#" data-bind="html: CardCommander.DisplayName, attr: { href: '/Profile/' + CardCommander.UserId }"></a></li>
+    <li><a href="#" data-bind="html : 'Round ' + ($parent.Rounds().length - $index()), attr: { 'data-roundId': GameRoundID }"></a> won by <a href="#" target="_blank" data-bind="html: CardCommander.DisplayName, attr: { href: '/Profile/' + CardCommander.UserId }"></a></li>
 </ul>
 
 @Html.Hidden("gameCompletedRounds", Html.Raw(Model.ToJson()))

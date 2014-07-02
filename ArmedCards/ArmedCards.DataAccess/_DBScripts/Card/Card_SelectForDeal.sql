@@ -57,6 +57,7 @@ AS
 											SELECT TOP 1 GPC.CardID
 											FROM [dbo].[GamePlayerCard] GPC
 											WHERE GPC.[CardID] = C.[CardID]
+											AND   GPC.[GameID] = @GameID
 										)
 								THEN CAST(1 as BIT)
 							ELSE CAST(0 as BIT)

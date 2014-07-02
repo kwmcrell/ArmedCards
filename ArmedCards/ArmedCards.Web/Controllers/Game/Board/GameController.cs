@@ -78,7 +78,6 @@ namespace ArmedCards.Web.Controllers.Game.Board
             if (Session[key] != null)
             {
                 passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
-                Session.Remove(key);
             }
 
 			Entities.User user = _selectUser.Execute(currentUserId);
@@ -145,7 +144,6 @@ namespace ArmedCards.Web.Controllers.Game.Board
             if (Session[key] != null)
             {
                 passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
-                Session.Remove(key);
             }
 
             Entities.User user = _selectUser.Execute(currentUserId);

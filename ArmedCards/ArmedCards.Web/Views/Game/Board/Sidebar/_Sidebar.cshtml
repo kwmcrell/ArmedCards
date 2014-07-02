@@ -34,7 +34,7 @@
         </a>
     </div>
     <div id="playerHeader" class="playerHeader">
-        <a href="#" target="_blank"><h3 class="loggedIn">@User.Identity.Name</h3></a>
+        <a href="/Profile/@ArmedCards.Authentication.Security.CurrentUserId" target="_blank"><h3 class="loggedIn">@User.Identity.Name</h3></a>
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
@@ -43,7 +43,7 @@
     </div>
     <div id="gameHeader" class="gameHeader">
         <h3 title="@Model.Game.Title">@Model.Game.Title</h3>
-        <p>Started by <a href="#" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
+        <p>Started by <a href="/Profile/@Model.Game.Players.First().User.UserId" target="_blank">@Model.Game.Players.First().User.DisplayName</a></p>
         <a id="leaveGameLink" href="/Leave/Index/@Model.Game.GameID?playerType=@(Model.PlayerType)" class="leaveGame">Quit @(Model.PlayerType == ArmedCards.Entities.Enums.GamePlayerType.Player ? "game" : "spectating")</a>
     </div>
     <h4 id="playersHeader" class="accessible">Players</h4>
