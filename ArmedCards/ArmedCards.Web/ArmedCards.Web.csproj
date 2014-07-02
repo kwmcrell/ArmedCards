@@ -63,6 +63,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Hangfire.Core.1.0.2\lib\net45\Hangfire.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Hangfire.Dashboard.Authorization">
+      <HintPath>..\packages\Hangfire.Dashboard.Authorization.1.0.0\lib\net45\Hangfire.Dashboard.Authorization.dll</HintPath>
+    </Reference>
     <Reference Include="Hangfire.SqlServer, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Hangfire.SqlServer.1.0.2\lib\net45\Hangfire.SqlServer.dll</HintPath>
