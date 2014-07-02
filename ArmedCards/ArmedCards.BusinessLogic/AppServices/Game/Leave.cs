@@ -154,5 +154,17 @@ namespace ArmedCards.BusinessLogic.AppServices.Game
 
 			_leaveGame.Execute(gameID, user, playerType);
 		}
+
+        /// <summary>
+        /// Removes a player from the game
+        /// </summary>
+        /// <param name="gameID">The ID of the game to leave</param>
+        /// <param name="userId">The user id of the user leaving the game</param>
+        /// <param name="displayName">The user display name of the user leaving the game</param>
+        /// <param name="playerType">Type of player leaving</param>
+        public void Execute(Int32 gameID, Int32 userId, String displayName, Entities.Enums.GamePlayerType playerType)
+        {
+            this.Execute(gameID, new Entities.User { UserId = userId, DisplayName = displayName }, playerType, false);
+        }
 	}
 }

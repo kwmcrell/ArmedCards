@@ -211,7 +211,7 @@ State.prototype.Beforeunload = function () {
     if (isPersistent == 'false') {
         $.ajax({
             type: 'POST',
-            url: $('#leaveGameLink').attr('href'),
+            url: $('#leaveGameLink').attr('href') + '&windowUnload=true',
             async: false
         });
     }
