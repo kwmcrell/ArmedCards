@@ -61,15 +61,15 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         {
             List<Entities.Game> games = _selectGame.Execute(filter);
 
-            //Entities.Filters.Deck.SelectByGameID deckFilter = new Entities.Filters.Deck.SelectByGameID();
-            //deckFilter.GameIDs.AddRange(games.Select(x => x.GameID));
+            Entities.Filters.Deck.SelectByGameID deckFilter = new Entities.Filters.Deck.SelectByGameID();
+            deckFilter.GameIDs.AddRange(games.Select(x => x.GameID));
 
-            //List<Entities.Deck> decks =  _selectDeck.Execute(deckFilter);
+            List<Entities.Deck> decks = _selectDeck.Execute(deckFilter);
 
-            //foreach (Entities.Game game in games)
-            //{
-            //    game.GameDecks = decks.Where(x => x.GameID == game.GameID && x.DeckID != 1).ToList();
-            //}
+            foreach (Entities.Game game in games)
+            {
+                game.GameDecks = decks.Where(x => x.GameID == game.GameID && x.DeckID != 1).ToList();
+            }
 
             return games;
         }
