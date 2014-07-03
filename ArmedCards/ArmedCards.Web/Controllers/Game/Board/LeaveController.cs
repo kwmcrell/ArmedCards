@@ -21,11 +21,14 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Hangfire;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AS = ArmedCards.BusinessLogic.AppServices;
 
 namespace ArmedCards.Web.Controllers.Game.Board
@@ -49,7 +52,7 @@ namespace ArmedCards.Web.Controllers.Game.Board
         /// <param name="id">The game id to leave</param>
         /// <param name="playerType">The type of player leaving</param>
         /// <returns>The view for game listing screen</returns>
-        public ActionResult Index(Int32 id, Entities.Enums.GamePlayerType playerType)
+        public ActionResult Index(Int32 id, Entities.Enums.GamePlayerType playerType, Boolean windowUnload = false)
         {
 			Entities.User user = new Entities.User
 			{
@@ -57,7 +60,18 @@ namespace ArmedCards.Web.Controllers.Game.Board
 				DisplayName = Authentication.Security.CurrentUserName
 			};
 
-			_leaveGame.Execute(id, user, playerType);
+            if(windowUnload)
+            {
+                String jobId = BackgroundJob.Schedule(() => _leaveGame.Execute(id, user.UserId, user.DisplayName, playerType), TimeSpan.FromSeconds(20));
+
+                String key = String.Format("LeaveGame_{0}_JobId", id);
+
+                Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(jobId), Session.SessionID));
+            }
+            else
+            {
+			    _leaveGame.Execute(id, user, playerType);
+            }
 
 			return Redirect("/GameListing");
         }

@@ -208,5 +208,14 @@ namespace ArmedCards.Entities
         {
             return Winner() != null;
         }
+
+        /// <summary>
+        /// Check to see if all players have answered
+        /// </summary>
+        /// <returns></returns>
+        public Boolean AllPlayersAnswered()
+        {
+            return this.PlayedCount >= this.CurrentPlayerCount && this.Answers != null && this.Answers.Count > 0;
+        }
     }
 }

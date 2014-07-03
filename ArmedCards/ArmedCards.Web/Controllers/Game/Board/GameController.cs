@@ -21,6 +21,7 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Hangfire;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
@@ -72,12 +73,23 @@ namespace ArmedCards.Web.Controllers.Game.Board
         public ActionResult Index(Int32 id)
         {
 			String key = String.Format("Game_{0}_Passphrase", id);
+            String leaveGameJobIdKey = String.Format("LeaveGame_{0}_JobId", id);
 			String passphrase = String.Empty;
+            String jobId = String.Empty;
             Int32 currentUserId = Authentication.Security.CurrentUserId;
 
             if (Session[key] != null)
             {
                 passphrase = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[key] as Byte[]), Session.SessionID));
+            }
+
+            if (Session[leaveGameJobIdKey] != null)
+            {
+                jobId = Encoding.ASCII.GetString(MachineKey.Unprotect((Session[leaveGameJobIdKey] as Byte[]), Session.SessionID));
+
+                BackgroundJob.Delete(jobId);
+
+                Session.Remove(leaveGameJobIdKey);
             }
 
 			Entities.User user = _selectUser.Execute(currentUserId);
