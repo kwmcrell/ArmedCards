@@ -53,9 +53,19 @@ namespace ArmedCards.BusinessLogic.Repositories.Deck
 		/// </summary>
 		/// <param name="filter">The filter used to select decks</param>
 		/// <returns>A filtered list of decks</returns>
-		public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+		public List<Entities.Deck> Execute(Entities.Filters.Deck.SelectByGameID filter)
 		{
 			return _selectDeck.Execute(filter);
 		}
+
+        /// <summary>
+        /// Select decks base on provided filter
+        /// </summary>
+        /// <param name="filter">The filter used to select decks</param>
+        /// <returns>A filtered list of decks</returns>
+        public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+        {
+            return _selectDeck.Execute(filter);
+        }
 	}
 }

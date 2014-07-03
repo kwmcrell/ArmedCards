@@ -115,6 +115,7 @@
     <Content Include="_DBScripts\DeckCard\DefaultDeckCard.sql" />
     <Content Include="_DBScripts\DeckCard\%40DeckCardTable.sql" />
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />
+    <Content Include="_DBScripts\Deck\Deck_SelectByGameID.sql" />
     <Content Include="_DBScripts\Deck\DefaultDecks.sql" />
     <Content Include="_DBScripts\Deck\%40DeckTable.sql" />
     <Content Include="_DBScripts\GamePlayerCard\GamePlayerCard_Delete.sql" />

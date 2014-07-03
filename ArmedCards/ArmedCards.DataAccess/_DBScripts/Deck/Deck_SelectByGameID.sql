@@ -21,31 +21,35 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[Deck_SelectByGameID]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[Deck_SelectByGameID] 
+END 
+GO
 
-namespace ArmedCards.BusinessLogic.Repositories.Deck.Base
-{
-	/// <summary>
-	/// Interface for selecting decks
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Select decks base on provided filter
-		/// </summary>
-		/// <param name="filter">The filter used to select decks</param>
-		/// <returns>A filtered list of decks</returns>
-		List<Entities.Deck> Execute(Entities.Filters.Deck.SelectByGameID filter);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 9/6/2013
+-- Description:	Select decks based on game IDs
+-- ===============================================
+CREATE PROC [dbo].[Deck_SelectByGameID]
+	@GameIDs			XML		=	NULL
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-        /// <summary>
-        /// Select decks base on provided filter
-        /// </summary>
-        /// <param name="filter">The filter used to select decks</param>
-        /// <returns>A filtered list of decks</returns>
-        List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter);
-	}
-}
+	SELECT D.[DeckID],
+		   D.[Title],
+		   D.[Type],
+		   D.[IsPrivate],
+		   D.[CreatedBy_UserId],
+		   GD.[GameID]
+	FROM [dbo].[Deck] D
+	INNER JOIN [dbo].[GameDeck] GD ON GD.[DeckID] = D.[DeckID]
+	WHERE GD.[GameID] IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @GameIDs.nodes('ids/id') AS ids ( id ))
+
+	COMMIT
+GO

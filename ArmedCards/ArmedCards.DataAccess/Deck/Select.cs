@@ -50,11 +50,11 @@ namespace ArmedCards.DataAccess.Deck
 		/// </summary>
 		/// <param name="filter">The filter used to select decks</param>
 		/// <returns>A filtered list of decks</returns>
-		public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+		public List<Entities.Deck> Execute(Entities.Filters.Deck.SelectByGameID filter)
 		{
-			List<Entities.Deck> cards = new List<Entities.Deck>();
+			List<Entities.Deck> decks = new List<Entities.Deck>();
 
-			using (DbCommand cmd = _db.GetStoredProcCommand("Deck_Select"))
+            using (DbCommand cmd = _db.GetStoredProcCommand("Deck_SelectByGameID"))
 			{
 				_db.AddInParameter(cmd, "@GameIDs", DbType.Xml, filter.GameIDs.ConvertCollectionToXML());
 
@@ -62,12 +62,35 @@ namespace ArmedCards.DataAccess.Deck
 				{
 					while (idr.Read())
 					{
-						cards.Add(new Entities.Deck(idr));
+                        decks.Add(new Entities.Deck(idr));
 					}
 				}
 			}
 
-			return cards;
+            return decks;
 		}
+
+        /// <summary>
+        /// Select decks base on provided filter
+        /// </summary>
+        /// <param name="filter">The filter used to select decks</param>
+        /// <returns>A filtered list of decks</returns>
+        public List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter)
+        {
+            List<Entities.Deck> decks = new List<Entities.Deck>();
+
+            using (DbCommand cmd = _db.GetStoredProcCommand("Deck_Select"))
+            {
+                using (IDataReader idr = _db.ExecuteReader(cmd))
+                {
+                    while (idr.Read())
+                    {
+                        decks.Add(new Entities.Deck(idr));
+                    }
+                }
+            }
+
+            return decks;
+        }
 	}
 }

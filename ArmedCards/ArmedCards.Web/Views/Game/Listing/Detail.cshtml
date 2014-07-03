@@ -41,15 +41,18 @@
     }
 </div>
 <div class="bar"></div>
-@*<div class="meta">
-    <p>Decks:</p>
-    <div class="otherDecks">
-    @foreach (ACENT.Deck deck in Model.Game.Decks)
-    {
-        <span class="playas">@deck.Title</span>
-    }
-	</div>
-</div>*@
+@if(Model.Game.GameDecks != null && Model.Game.GameDecks.Count > 0)
+{
+    <div class="meta">
+        <p>Decks:</p>
+        <div class="otherDecks">
+        @foreach (ArmedCards.Entities.Deck deck in Model.Game.GameDecks)
+        {
+            <span class="playas">@deck.Title</span>
+        }
+	    </div>
+    </div>
+}
 @if(Model.Game.IsPrivate && !string.IsNullOrEmpty(Model.Game.Passphrase))
 {
     <div class="passphrase">

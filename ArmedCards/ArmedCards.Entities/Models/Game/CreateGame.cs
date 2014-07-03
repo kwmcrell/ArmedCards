@@ -47,5 +47,7 @@ namespace ArmedCards.Entities.Models.Game
         /// The Game being created
         /// </summary>
         public Entities.Game Game { get; set; }
+
+        public List<Entities.Deck> AvailableDecks { get; set; }
     }
 }

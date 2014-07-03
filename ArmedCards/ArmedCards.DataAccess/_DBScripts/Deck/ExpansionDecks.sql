@@ -21,31 +21,25 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF NOT EXISTS (SELECT TOP 1 [DeckID] FROM [dbo].[Deck] WHERE [DeckID] = 2)
+BEGIN
 
-namespace ArmedCards.BusinessLogic.Repositories.Deck.Base
-{
-	/// <summary>
-	/// Interface for selecting decks
-	/// </summary>
-	public interface ISelect
-	{
-		/// <summary>
-		/// Select decks base on provided filter
-		/// </summary>
-		/// <param name="filter">The filter used to select decks</param>
-		/// <returns>A filtered list of decks</returns>
-		List<Entities.Deck> Execute(Entities.Filters.Deck.SelectByGameID filter);
+SET IDENTITY_INSERT [dbo].[Deck] ON;
 
-        /// <summary>
-        /// Select decks base on provided filter
-        /// </summary>
-        /// <param name="filter">The filter used to select decks</param>
-        /// <returns>A filtered list of decks</returns>
-        List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter);
-	}
-}
+BEGIN TRANSACTION;
+INSERT INTO [dbo].[Deck]([DeckID], [Type], [Title], [IsPrivate], [CreatedBy_UserId])
+SELECT 2, 0, N'First Expansion', 0, 1 UNION ALL
+SELECT 3, 0, N'Second Expansion', 0, 1 UNION ALL
+SELECT 4, 0, N'Third Expansion', 0, 1 UNION ALL
+SELECT 5, 0, N'Fourth Expansion', 0, 1 UNION ALL
+SELECT 6, 0, N'Holiday Pack 2012', 0, 1 UNION ALL
+SELECT 7, 0, N'Holiday Bullshit 2013', 0, 1 UNION ALL
+SELECT 8, 0, N'House Of Cards Against Hummanity', 0, 1
+COMMIT;
+RAISERROR (N'[dbo].[Deck]: Insert Batch: 2.....Done!', 10, 1) WITH NOWAIT;
+
+SET IDENTITY_INSERT [dbo].[Deck] OFF;
+
+END
+
+GO
