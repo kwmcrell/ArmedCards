@@ -66,7 +66,11 @@ namespace ArmedCards.Web.Controllers.Game.Listing
                 model.GameToShow = id.Value;
             }
 
-            model.Games = _selectGame.Execute(new Entities.Filters.Game.SelectAll());
+            Entities.Filters.Game.SelectAll filter = new Entities.Filters.Game.SelectAll();
+
+            model.Games = _selectGame.Execute(filter);
+
+            model.MaxOfficialDeckCount = filter.MaxOfficialCount;
 
             return View("~/Views/Game/Listing/GameListing.cshtml", model);
         }

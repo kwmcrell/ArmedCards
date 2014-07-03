@@ -29,6 +29,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.DataAccess.Game
 {
@@ -60,6 +61,13 @@ namespace ArmedCards.DataAccess.Game
                     while (idr.Read())
                     {
                         games.Add(new Entities.Game(idr));
+                    }
+
+                    idr.NextResult();
+
+                    while(idr.Read())
+                    {
+                        filter.MaxOfficialCount = idr.GetValueByName<Int32>("MaxOfficialDeckCount");
                     }
                 }
             }

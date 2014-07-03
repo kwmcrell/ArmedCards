@@ -21,20 +21,28 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *@
 
-@model ArmedCards.Entities.Game
+@model ArmedCards.Entities.Models.Game.Listing.Game
 
-<a href="#" class="game" id="@Model.GameID"><h3>@Model.Title</h3>
-    @if(Model.IsPrivate)
+<a href="#" class="game" id="@Model.Value.GameID"><h3>@Model.Value.Title</h3>
+    @if (Model.Value.IsPrivate)
     {
         <span title="Private game">Private</span>
     }
-	<span class="playas"><span class="count">@Model.PlayerCount / @Model.MaxNumberOfPlayers</span> Players</span>
-    @if(Model.IsPersistent)
+	<span class="playas"><span class="count">@Model.Value.PlayerCount / @Model.Value.MaxNumberOfPlayers</span> Players</span>
+    @if (Model.Value.IsPersistent)
     {
         <span title="Users can close their browser or tab without leaving the game">Persistent</span>
     }
-    @foreach (ArmedCards.Entities.Deck deck in Model.GameDecks)
+    @if (Model.Value.OfficialDeckCount == Model.MaxOfficialDecks)
     {
-        <span title="Cards from deck @deck.Title will be dealt">@deck.Title</span>
+        <span title="All official decks will be dealt">All official decks</span>
+    }
+    else if(Model.Value.OfficialDeckCount == 1)
+    {
+        <span title="@Model.Value.OfficialDeckCount official decks will be dealt">@Model.Value.OfficialDeckCount official deck</span>
+    }
+    else
+    {
+        <span title="@Model.Value.OfficialDeckCount official decks will be dealt">@Model.Value.OfficialDeckCount official decks</span>
     }
 </a>

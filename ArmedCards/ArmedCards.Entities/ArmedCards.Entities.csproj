@@ -114,6 +114,7 @@
     <Compile Include="Models\Game\Board\Waiting.cs" />
     <Compile Include="Models\Game\CreateGame.cs" />
     <Compile Include="Models\Game\Listing\Detail.cs" />
+    <Compile Include="Models\Game\Listing\Game.cs" />
     <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Helpers\WaitingHeader.cs" />
     <Compile Include="Models\Home\Index.cs" />

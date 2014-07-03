@@ -34,5 +34,6 @@ namespace ArmedCards.Entities.Filters.Game
     /// </summary>
     public class SelectAll
     {
+        public Int32 MaxOfficialCount { get; set; }
     }
 }

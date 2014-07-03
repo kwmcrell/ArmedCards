@@ -61,11 +61,6 @@ namespace ArmedCards.Web.Controllers.Game.Listing
 
             model.Game = _selectGame.Execute(filter);
 
-            if(model.Game.GameDecks != null)
-            {
-                model.Game.GameDecks.RemoveAll(x => x.DeckID == 1);
-            }
-
             return PartialView("~/Views/Game/Listing/Detail.cshtml", model);
         }
 

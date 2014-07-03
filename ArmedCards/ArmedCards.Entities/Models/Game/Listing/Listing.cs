@@ -51,5 +51,10 @@ namespace ArmedCards.Entities.Models.Game.Listing
         /// The id of the game to show
         /// </summary>
         public Int32 GameToShow { get; set; }
+
+        /// <summary>
+        /// The max number of official decks
+        /// </summary>
+        public Int32 MaxOfficialDeckCount { get; set; }
     }
 }
