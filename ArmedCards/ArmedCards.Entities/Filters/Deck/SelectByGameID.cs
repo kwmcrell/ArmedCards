@@ -27,25 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArmedCards.BusinessLogic.Repositories.Deck.Base
+namespace ArmedCards.Entities.Filters.Deck
 {
 	/// <summary>
-	/// Interface for selecting decks
+	/// The filter used to select decks
 	/// </summary>
-	public interface ISelect
+	public class SelectByGameID
 	{
-		/// <summary>
-		/// Select decks base on provided filter
-		/// </summary>
-		/// <param name="filter">The filter used to select decks</param>
-		/// <returns>A filtered list of decks</returns>
-		List<Entities.Deck> Execute(Entities.Filters.Deck.SelectByGameID filter);
+		public SelectByGameID()
+		{
+			GameIDs = new List<Int32>();
+		}
 
-        /// <summary>
-        /// Select decks base on provided filter
-        /// </summary>
-        /// <param name="filter">The filter used to select decks</param>
-        /// <returns>A filtered list of decks</returns>
-        List<Entities.Deck> Execute(Entities.Filters.Deck.Select filter);
+		/// <summary>
+		/// List of GameIDs to get decks for
+		/// </summary>
+		public List<Int32> GameIDs { get; set; }
 	}
 }

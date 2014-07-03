@@ -59,7 +59,19 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
         /// <returns>A list of games that satisfy the supplied filter</returns>
         public List<Entities.Game> Execute(Entities.Filters.Game.SelectAll filter)
         {
-            return _selectGame.Execute(filter);
+            List<Entities.Game> games = _selectGame.Execute(filter);
+
+            //Entities.Filters.Deck.SelectByGameID deckFilter = new Entities.Filters.Deck.SelectByGameID();
+            //deckFilter.GameIDs.AddRange(games.Select(x => x.GameID));
+
+            //List<Entities.Deck> decks =  _selectDeck.Execute(deckFilter);
+
+            //foreach (Entities.Game game in games)
+            //{
+            //    game.GameDecks = decks.Where(x => x.GameID == game.GameID && x.DeckID != 1).ToList();
+            //}
+
+            return games;
         }
 
         /// <summary>
@@ -80,7 +92,7 @@ namespace ArmedCards.BusinessLogic.Repositories.Game
             game.Players = allPlayers.Where(x => x.PlayerType == Entities.Enums.GamePlayerType.Player).ToList();
             game.Spectators = allPlayers.Where(x => x.PlayerType == Entities.Enums.GamePlayerType.Spectator).ToList();
 
-			Entities.Filters.Deck.Select deckFilter = new Entities.Filters.Deck.Select();
+			Entities.Filters.Deck.SelectByGameID deckFilter = new Entities.Filters.Deck.SelectByGameID();
 			deckFilter.GameIDs.Add(game.GameID);
 
 			game.GameDecks = _selectDeck.Execute(deckFilter);

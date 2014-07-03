@@ -71,6 +71,7 @@
     <Compile Include="Filters\Card\Select.cs" />
     <Compile Include="Filters\Card\SelectForDeal.cs" />
     <Compile Include="Filters\Deck\Select.cs" />
+    <Compile Include="Filters\Deck\SelectByGameID.cs" />
     <Compile Include="Filters\GamePlayerCard\Delete.cs" />
     <Compile Include="Filters\GamePlayerCard\Select.cs" />
     <Compile Include="Filters\GamePlayerKickVote\Select.cs" />

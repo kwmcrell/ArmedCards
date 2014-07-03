@@ -33,4 +33,8 @@
     {
         <span title="Users can close their browser or tab without leaving the game">Persistent</span>
     }
+    @foreach (ArmedCards.Entities.Deck deck in Model.GameDecks)
+    {
+        <span title="Cards from deck @deck.Title will be dealt">@deck.Title</span>
+    }
 </a>
