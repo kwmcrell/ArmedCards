@@ -54,5 +54,11 @@ namespace ArmedCards.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Robots()
+        {
+            Response.ContentType = "text/plain";
+            return View();
+        }
     }
 }

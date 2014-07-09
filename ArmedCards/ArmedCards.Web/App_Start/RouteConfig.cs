@@ -13,6 +13,10 @@ namespace ArmedCards.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute("Robots.txt",
+                "robots.txt",
+                new { controller = "Home", action = "Robots" });
+
             routes.MapRoute(
                 name: "Game_NoAction",
                 url: "Game/{id}",
