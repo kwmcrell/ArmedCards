@@ -67,11 +67,21 @@ AS
 			 WHERE GP.[GameID] = G.[GameID]
 			 AND   GP.[Type] = 2
 			 AND   GP.[Status] > 0) AS SpectatorCount,
-			 G.[IsPersistent]
+			 G.[IsPersistent],
+			 (
+				SELECT COUNT(D.[DeckID])
+				FROM [dbo].[GameDeck] GD
+				INNER JOIN [dbo].[Deck] D ON GD.[DeckID] = D.[DeckID] AND D.[Type] = 0
+				WHERE GD.[GameID] = G.[GameID]
+			 ) AS OfficialDeckCount
 	 FROM [dbo].[Game] G
 	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
 	 AND    G.[GameOver] IS NULL
 	 ORDER BY G.[PlayedLast] DESC
+
+	 SELECT COUNT(D.[DeckID]) AS MaxOfficialDeckCount
+	 FROM [dbo].[Deck] D
+	 WHERE D.[Type] = 0
 
 	COMMIT
 GO

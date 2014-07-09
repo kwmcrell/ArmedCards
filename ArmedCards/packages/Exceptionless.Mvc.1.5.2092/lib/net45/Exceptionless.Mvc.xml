@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Exceptionless.Mvc</name>
+    </assembly>
+    <members>
+        <member name="M:Exceptionless.ExceptionlessWebExtensions.AddRequestInfo(Exceptionless.Models.Error,Exceptionless.ExceptionlessClient,System.Web.HttpContext)">
+            <summary>
+            Adds the current request info to the error.
+            </summary>
+            <param name="error">The error model.</param>
+            <param name="client">The client.</param>
+            <param name="context">The http context to gather information from.</param>
+        </member>
+        <member name="M:Exceptionless.ExceptionlessWebExtensions.AddRequestInfo(Exceptionless.Models.Error,Exceptionless.ExceptionlessClient,System.Web.HttpContextBase)">
+            <summary>
+            Adds the current request info to the error.
+            </summary>
+            <param name="error">The error model.</param>
+            <param name="client">The client.</param>
+            <param name="context">The http context to gather information from.</param>
+        </member>
+        <member name="M:Exceptionless.ExceptionlessWebExtensions.AddRequestInfo(Exceptionless.ErrorBuilder)">
+            <summary>
+            Adds the current request info to the error.
+            </summary>
+            <param name="builder">The error builder.</param>
+        </member>
+        <member name="M:Exceptionless.WebLastErrorIdManager.GetLast">
+            <summary>
+            Gets the last error id that was submitted to the server.
+            </summary>
+            <returns>The error id</returns>
+        </member>
+        <member name="M:Exceptionless.WebLastErrorIdManager.ClearLast">
+            <summary>
+            Clears the last error id.
+            </summary>
+        </member>
+        <member name="P:Exceptionless.WebLastErrorIdManager.LogAccessor">
+            <summary>
+            The log accessor used for diagnostic information.
+            </summary>
+        </member>
+    </members>
+</doc>

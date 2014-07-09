@@ -39,14 +39,16 @@ namespace ArmedCards.Web.Controllers.Game
     public class CreateGameController : Extensions.ArmedCardsController
     {
         private readonly ACAS.Game.Base.IInsert _insertGame;
+        private readonly ACAS.Deck.Base.ISelect _selectDeck;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="insertGame"></param>
-        public CreateGameController(ACAS.Game.Base.IInsert insertGame)
+        public CreateGameController(ACAS.Game.Base.IInsert insertGame, ACAS.Deck.Base.ISelect selectDeck)
         {
             this._insertGame = insertGame;
+            this._selectDeck = selectDeck;
         }
 
         /// <summary>
@@ -87,6 +89,10 @@ namespace ArmedCards.Web.Controllers.Game
         public ActionResult Index()
         {
             Entities.Models.Game.CreateGame model = new Entities.Models.Game.CreateGame();
+
+            model.AvailableDecks = _selectDeck.Execute(new Entities.Filters.Deck.Select { });
+
+            model.AvailableDecks.RemoveAll(x => x.DeckID == 1);
 
             return View("~/Views/CreateGame/CreateGame.cshtml", model);
         }

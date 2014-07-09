@@ -91,6 +91,14 @@
                 </div>
                 <br />
                 <br />
+                <select multiple id="Game_GameDeckIDs" name="Game.GameDeckIDs">
+                    @foreach (ArmedCards.Entities.Deck deck in Model.AvailableDecks)
+                    {
+                        <option selected value="@deck.DeckID">@deck.Title</option>
+                    }
+                </select>
+                <br />
+                <br />
                 <div>
                     <div class="fakeSelect">
                         <select id="Game_SecondsToPlay" name="Game.SecondsToPlay">

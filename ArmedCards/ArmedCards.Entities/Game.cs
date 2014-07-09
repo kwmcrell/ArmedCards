@@ -85,6 +85,7 @@ namespace ArmedCards.Entities
             SpectatorCount          =   idr.GetValueByName<Int32>("SpectatorCount");
             SecondsToPlay           =   idr.GetValueByName<Int32>("SecondsToPlay");
             IsPersistent 			= 	idr.GetValueByName<Boolean>("IsPersistent");
+            OfficialDeckCount       =   idr.GetValueByName<Int32>("OfficialDeckCount");
         }
 
         /// <summary>
@@ -442,5 +443,10 @@ namespace ArmedCards.Entities
         /// Is the game persistent
         /// </summary>
         public Boolean IsPersistent { get; set; }
+
+        /// <summary>
+        /// The number of official decks
+        /// </summary>
+        public Int32 OfficialDeckCount { get; set; }
     }
 }

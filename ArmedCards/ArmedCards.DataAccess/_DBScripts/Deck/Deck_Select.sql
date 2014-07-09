@@ -30,10 +30,9 @@ GO
 -- ==============================================
 -- Author:		Kevin McRell
 -- Create date: 9/6/2013
--- Description:	Select decks based on game IDs
+-- Description:	Select decks
 -- ===============================================
 CREATE PROC [dbo].[Deck_Select]
-	@GameIDs			XML		=	NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
@@ -44,12 +43,8 @@ AS
 		   D.[Title],
 		   D.[Type],
 		   D.[IsPrivate],
-		   D.[CreatedBy_UserId],
-		   GD.[GameID]
+		   D.[CreatedBy_UserId]
 	FROM [dbo].[Deck] D
-	INNER JOIN [dbo].[GameDeck] GD ON GD.[DeckID] = D.[DeckID]
-	WHERE GD.[GameID] IN (SELECT ids.id.value('@value', 'int')
-						  FROM	 @GameIDs.nodes('ids/id') AS ids ( id ))
 
 	COMMIT
 GO
