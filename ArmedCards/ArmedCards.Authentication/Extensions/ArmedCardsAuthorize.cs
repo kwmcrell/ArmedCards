@@ -51,9 +51,8 @@ namespace ArmedCards.Authentication.Extensions
                 url = "/?showLogIn=true&returnUrl=" + filterContext.HttpContext.Request.RawUrl;
             }
 
-            filterContext.HttpContext.Response.Redirect(url.ToString());
-
-            base.HandleUnauthorizedRequest(filterContext);
+            filterContext.Result = new RedirectResult(url.ToString());
+            return;
         }
     }
 }
