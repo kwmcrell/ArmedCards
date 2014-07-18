@@ -61,7 +61,40 @@ AS
 			@DateSent		,
 			@GameID			,
 			@Global			,
-			@ConnectionType	
+			@ConnectionType
+
+	DECLARE @count INT
+
+	IF @GameID IS NULL
+		BEGIN
+			SELECT @count = COUNT([SentByUserId])
+			FROM [dbo].[ChatMessage]
+			WHERE [GameID] IS NULL
+			AND   [Global] = 'true'
+
+			IF @count > 1000
+				BEGIN
+					DELETE TOP (1)
+					FROM [dbo].[ChatMessage]
+					WHERE [GameID] IS NULL
+					AND   [Global] = 'true'
+				END
+		END
+	ELSE
+		BEGIN
+			SELECT @count = COUNT([SentByUserId])
+			FROM [dbo].[ChatMessage]
+			WHERE [GameID] = @GameID
+			AND   [Global] = 'false'
+
+			IF @count > 1000
+				BEGIN
+					DELETE TOP (1)
+					FROM [dbo].[ChatMessage]
+					WHERE [GameID] = @GameID
+					AND   [Global] = 'false'
+				END
+		END
 
 	COMMIT
 GO

@@ -40,7 +40,7 @@ AS
 	BEGIN TRAN
 
 	DELETE FROM [dbo].[ChatMessage]
-	WHERE [DateSent] < DATEADD(hh, -1, GETDATE())
+	WHERE [DateSent] < DATEADD(wk, -1, GETDATE())
 
 	COMMIT
 GO

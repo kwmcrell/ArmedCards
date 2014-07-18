@@ -34,7 +34,7 @@ namespace ArmedCards.Web
 
             AS.ChatMessage.Base.IDelete _deleteChatMessages = BusinessLogic.UnityConfig.Container.Resolve<AS.ChatMessage.Base.IDelete>();
 
-            RecurringJob.AddOrUpdate("DeleteChatMessages", () => _deleteChatMessages.Execute(), Cron.Hourly());
+            RecurringJob.AddOrUpdate("DeleteChatMessages", () => _deleteChatMessages.Execute(), Cron.Weekly());
         }
     }
 }
