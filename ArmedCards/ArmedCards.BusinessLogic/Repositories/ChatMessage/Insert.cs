@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,34 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.ChatMessage;
 
-var gameApp = angular.module('gameApp', []);
+namespace ArmedCards.BusinessLogic.Repositories.ChatMessage
+{
+    /// <summary>
+    /// Implementation of <seealso cref="Base.IInsert"/>
+    /// </summary>
+    public class Insert : Base.IInsert
+    {
+        private DAL.Base.IInsert _insert;
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+        public Insert(DAL.Base.IInsert insert)
+        {
+            this._insert = insert;
+        }
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+        /// <summary>
+        /// Insert a chat message
+        /// </summary>
+        /// <param name="message">The message to insert</param>
+        public void Execute(Entities.ChatMessage message)
+        {
+            _insert.Execute(message);
+        }
+    }
+}

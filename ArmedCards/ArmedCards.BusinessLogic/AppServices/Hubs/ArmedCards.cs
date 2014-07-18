@@ -16,15 +16,26 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
     {
         private const string GLOBAL = "Global";
 
+        private AS.ChatMessage.Base.IInsert _insert;
+
+        public ArmedCards()
+        {
+            this._insert = BusinessLogic.UnityConfig.Container.Resolve<AS.ChatMessage.Base.IInsert>();
+        }
+
         /// <summary>
         /// Send a global chat message to all connections
         /// </summary>
         /// <param name="message">Message to send</param>
         [HubMethodName("SendMessage")]
-        public void SendMessage(Entities.Models.Hub.ChatMessage message)
+        public void SendMessage(Entities.ChatMessage message)
         {
-            message.SentBy = Context.User.Identity.Name;
-            message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
+            message.SentByUserId = Authentication.Security.CurrentUserId;
+            message.SentBy = Authentication.Security.CurrentUserName;
+            message.SentDate = DateTime.UtcNow;
+            message.DateSent = String.Format("{0} UTC", message.SentDate);
+
+            _insert.Execute(message);
 
 			if (message.Global)
 			{

@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,45 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-var gameApp = angular.module('gameApp', []);
+namespace ArmedCards.Entities.Filters.ChatMessage
+{
+    /// <summary>
+    /// Filter used to select chat messages
+    /// </summary>
+    public class Select
+    {
+        public Select(DateTime? dateSent, Int32? gameID, Boolean? global, Int32? offsetHours)
+        {
+            DateSent = dateSent ?? DateTime.UtcNow.AddHours(-1);
+            GameID = gameID;
+            Global = global ?? true;
+            OffsetHours = -offsetHours ?? 0;
+        }
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+        /// <summary>
+        /// Get all messages sent from this date forward
+        /// </summary>
+        public DateTime DateSent { get; private set; }
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
+        /// <summary>
+        /// The id of the game to retrieve specific messages for
+        /// </summary>
+        public Int32? GameID { get; private set; }
 
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+        /// <summary>
+        /// Retrieve global games
+        /// </summary>
+        public Boolean Global { get; private set; }
+
+        /// <summary>
+        /// The user's timezone offset
+        /// </summary>
+        public Int32 OffsetHours { get; private set; }
+    }
+}

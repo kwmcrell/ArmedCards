@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,26 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+IF OBJECT_ID('[dbo].[ChatMessage_Delete]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[ChatMessage_Delete] 
+END 
+GO
 
-var gameApp = angular.module('gameApp', []);
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 7/17/2014
+-- Description:	Delete chat messages
+-- ===============================================
+CREATE PROC [dbo].[ChatMessage_Delete]
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+	DELETE FROM [dbo].[ChatMessage]
+	WHERE [DateSent] < DATEADD(hh, -1, GETDATE())
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+	COMMIT
+GO

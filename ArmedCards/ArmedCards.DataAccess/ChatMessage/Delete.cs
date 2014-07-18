@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,42 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+using Microsoft.Practices.EnterpriseLibrary.Data;
+using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-var gameApp = angular.module('gameApp', []);
+namespace ArmedCards.DataAccess.ChatMessage
+{
+    /// <summary>
+    /// Implementation of <seealso cref="Base.IDelete"/>
+    /// </summary>
+    public class Delete : Base.IDelete
+    {
+        private Database _db;
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+        /// <summary>
+        /// Dependency Injected Constructor
+        /// </summary>
+        /// <param name="db">Database</param>
+        public Delete(Database db)
+        {
+            this._db = db;
+        }
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+        /// <summary>
+        /// Delete chat messages that match <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">Filter used to delete chat messages</param>
+        public void Execute(Entities.Filters.ChatMessage.Delete filter)
+        {
+            using (DbCommand cmd = _db.GetStoredProcCommand("ChatMessage_Delete"))
+            {
+                _db.ExecuteScalar(cmd);
+            }
+        }
+    }
+}

@@ -21,54 +21,47 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+IF OBJECT_ID('[dbo].[ChatMessage_Insert]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[ChatMessage_Insert] 
+END 
+GO
 
-namespace ArmedCards.Entities.Models.Hub
-{
-    /// <summary>
-    /// Model that describes a global chat message
-    /// </summary>
-    public class ChatMessage
-    {
-        /// <summary>
-        /// The name of the user that sent the message
-        /// </summary>
-        [JsonProperty("SentBy")]
-        public String SentBy { get; set; }
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 7/11/2014
+-- Description:	Creates a new chat message
+-- ===============================================
+CREATE PROC [dbo].[ChatMessage_Insert] 
+			@SentByUserId			int,
+			@SentByUserName			nvarchar(56),
+			@Message				nvarchar(max),
+			@DateSent				datetime,
+			@GameID					int = NULL,
+			@Global					bit,
+			@ConnectionType			int
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
 
-        /// <summary>
-        /// The message that was sent
-        /// </summary>
-        [JsonProperty("Message")]
-        public String Message { get; set; }
+	INSERT INTO [dbo].[ChatMessage]
+           ([SentByUserId],
+			[SentByUserName],
+			[Message],
+			[DateSent],
+			[GameID],
+			[Global],
+			[ConnectionType])
+     SELECT
+            @SentByUserId	,
+			@SentByUserName	,
+			@Message		,
+			@DateSent		,
+			@GameID			,
+			@Global			,
+			@ConnectionType	
 
-        /// <summary>
-        /// Date the was sent
-        /// </summary>
-        [JsonProperty("DateSent")]
-        public String DateSent { get; set; }
-
-		/// <summary>
-		/// The game ID for the game specific message
-		/// </summary>
-		[JsonProperty("GameID")]
-		public Int32? GameID { get; set; }
-
-		/// <summary>
-		/// Is message meant for global
-		/// </summary>
-		[JsonProperty("Global")]
-		public Boolean Global { get; set; }
-
-        /// <summary>
-        /// The type of connection
-        /// </summary>
-        [JsonProperty("ConnectionType")]
-        public Entities.Enums.ConnectionType ConnectionType { get; set; }
-    }
-}
+	COMMIT
+GO

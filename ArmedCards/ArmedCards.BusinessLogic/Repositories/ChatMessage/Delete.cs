@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,34 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL = ArmedCards.DataAccess.ChatMessage;
 
-var gameApp = angular.module('gameApp', []);
+namespace ArmedCards.BusinessLogic.Repositories.ChatMessage
+{
+    /// <summary>
+    /// Implementation of <seealso cref="Base.IDelete"/>
+    /// </summary>
+    public class Delete : Base.IDelete
+    {
+        private DAL.Base.IDelete _delete;
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+        public Delete(DAL.Base.IDelete delete)
+        {
+            this._delete = delete;
+        }
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+        /// <summary>
+        /// Delete chat messages that match <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">Filter used to delete chat messages</param>
+        public void Execute(Entities.Filters.ChatMessage.Delete filter)
+        {
+            _delete.Execute(filter);
+        }
+    }
+}

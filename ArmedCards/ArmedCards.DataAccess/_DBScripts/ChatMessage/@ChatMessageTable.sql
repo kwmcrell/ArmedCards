@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,30 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+IF OBJECT_ID('[dbo].[ChatMessage]') IS NULL
+	BEGIN
+		CREATE TABLE [dbo].[ChatMessage](
+			[SentByUserId]			[int] NOT NULL,
+			[SentByUserName]		[nvarchar](56) NOT NULL,
+			[Message]				[nvarchar](max) NOT NULL,
+			[DateSent]				[datetime] NOT NULL,
+			[GameID]				[int] NULL,
+			[Global]				[bit] NOT NULL,
+			[ConnectionType]		[int] NOT NULL
+		 CONSTRAINT [PK_dbo.ChatMessage] PRIMARY KEY CLUSTERED 
+		(
+			[DateSent] ASC,
+			[SentByUserId] ASC,
+			[Global] ASC,
+			[ConnectionType]   ASC
+		)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+		) ON [PRIMARY]
 
-var gameApp = angular.module('gameApp', []);
+		ALTER TABLE [dbo].[ChatMessage] ADD  DEFAULT ((0)) FOR [ConnectionType]
+		ALTER TABLE [dbo].[ChatMessage] ADD  DEFAULT ((1)) FOR [Global]
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+		ALTER TABLE [dbo].[ChatMessage]  WITH CHECK ADD  CONSTRAINT [FK_dbo.ChatMessage_dbo.UserProfile_UserId] FOREIGN KEY([SentByUserId])
+		REFERENCES [dbo].[UserProfile] ([UserId])
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+		ALTER TABLE [dbo].[ChatMessage] CHECK CONSTRAINT [FK_dbo.ChatMessage_dbo.UserProfile_UserId]
+	END

@@ -237,6 +237,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatMessageController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />
     <Compile Include="Controllers\Game\Board\GameController.cs" />
@@ -259,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Home.css" />
+    <Content Include="Content\Templates\Core\ChatMessage.html" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\Alerts.css" />
@@ -700,6 +702,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Templates\Game\" />
+    <Folder Include="Views\ChatMessage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

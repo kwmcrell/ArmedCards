@@ -1,5 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -22,22 +21,35 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DS = ArmedCards.BusinessLogic.DomainServices.ChatMessage;
 
-var gameApp = angular.module('gameApp', []);
+namespace ArmedCards.BusinessLogic.AppServices.ChatMessage
+{
+    /// <summary>
+    /// Implementation of <seealso cref="Base.ISelect"/>
+    /// </summary>
+    public class Select : Base.ISelect
+    {
+        private DS.Base.ISelect _select;
 
-gameApp.controller('ListingCtrl', function ($scope, $http) {
-    var offsetHours = new Date().getTimezoneOffset() / 60;
+        public Select(DS.Base.ISelect select)
+        {
+            this._select = select;
+        }
 
-    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-});
-
-/* Directives */
-gameApp.directive('rgdChatmessage', function () {
-    return {
-        restrict: 'AEC',
-        templateUrl: '/Content/Templates/Core/ChatMessage.html'
-    };
-});
+        /// <summary>
+        /// Select chat messages that match the provided <paramref name="filter"/>
+        /// </summary>
+        /// <param name="filter">The filter used to chat messages</param>
+        /// <returns>List of chat messages</returns>
+        public List<Entities.ChatMessage> Execute(Entities.Filters.ChatMessage.Select filter)
+        {
+            return _select.Execute(filter);
+        }
+    }
+}
