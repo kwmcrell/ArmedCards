@@ -982,17 +982,45 @@ fieldset > .button.active
 	background-color: #777;
 }
 
-.splash .buttons > a.inactive
+.splash .buttons > a.inactive,
+.inactive,
+.inactive:hover
 {
 	color: #777;
 	cursor: default;
 	opacity: .6;
+	text-decoration: none;
 }
 
 .splash .buttons > a.inactive .icon
 {
 	background-color: #777;
 	box-shadow: inset 0 2px 0 #444;
+}
+
+.splash .almostFooter
+{
+	margin: 3em auto 0;
+	max-width: 400px;
+}
+
+.splash .almostFooter > div
+{
+	display: inline-block;
+	text-align: left;
+	width: 49%;
+}
+
+.splash .almostFooter ol
+{
+	list-style: none;
+	padding: 0;
+}
+
+.splash .almostFooter a
+{
+	display: inline-block;
+	padding: .15em 0;
 }
 
 .radHeader
@@ -2630,6 +2658,13 @@ body #toast-container > .toast-info
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAMFBMVEXw8PDu7u729vbv7+/29vb////////+/v7////x8fH///////8AAAD8/Pz9/f3///9NTWjrAAAADXRSTlPu/cf2xYdHo0LnZH8Azb03eAAAAINJREFUeNqF0VsOxCAIBVDfIlbZ/24njqTQqPF+NTkSe8U8h9whxeCbDzF9AXKnmZ5BARaSFHwBLelYZAA+b5zhGZiQaaY+lb/yH1JfoKcBkRagOCBsIAzwG/AD2gbaceJ4B/+VFORE7iGRHqq5q06ay1upOwrI6+oJi9d9rBu873zND9mTHAMLUWGEAAAAAElFTkSuQmCC') !important;
 }
 
+/* Temp fix for notification being too wide */
+#toast-container.toast-top-full-width > div,
+#toast-container.toast-bottom-full-width > div
+{
+	width: 35%;
+}
+
 @media screen and (min-width: 2250px)
 {
 	.gameListing .game
@@ -2715,6 +2750,13 @@ body #toast-container > .toast-info
 	.user .username .name
 	{
 		max-width: 80%;
+	}
+
+	/* Temp fix for notification being too wide */
+	#toast-container.toast-top-full-width > div,
+	#toast-container.toast-bottom-full-width > div
+	{
+		width: 96%;
 	}
 }
 
@@ -2808,6 +2850,17 @@ body #toast-container > .toast-info
 	{
 		margin: 2em auto 3em;
 		max-width: 90%;
+	}
+
+	.splash .almostFooter
+	{
+		margin-top: 2em;
+		max-width: 100%;
+	}
+
+	.splash .almostFooter > div
+	{
+		text-align: center;
 	}
 }
 
@@ -3408,6 +3461,16 @@ body #toast-container > .toast-info
 	{
 		font-size: 2em;
 		margin: 1em 0 .5em 0;
+	}
+
+	.splash .almostFooter > div
+	{
+		width: 100%;
+	}
+
+	.splash .almostFooter a
+	{
+		padding: .35em 0;
 	}
 
 	.hand > .card,
