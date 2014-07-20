@@ -687,6 +687,7 @@
     <Content Include="Views\Game\Board\Partials\_RoundQuestion.cshtml" />
     <Content Include="Views\Game\Board\Sidebar\_RoundHistory.cshtml" />
     <Content Include="Views\Home\ChangeLog.cshtml" />
+    <Content Include="Views\Home\HowToPlay.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />

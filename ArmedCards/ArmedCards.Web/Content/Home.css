@@ -934,6 +934,7 @@ fieldset > .button.active
 
 .splash
 {
+	padding-bottom: 4em;
 	text-align: center;
 	width: 100%;
 }
@@ -1090,11 +1091,107 @@ fieldset > .button.active
 	display: none;
 }
 
+.pageContent
+{
+	margin: 0 auto;
+	max-width: 680px;
+	padding: 0 1em;
+}
+
+.pageContent > p
+{
+	font-family: helvetica;
+	line-height: 1.66;
+	text-align: justify;
+}
+
+.pageContent > p a
+{
+	text-decoration: underline;
+}
+
+.playOurGamePlease
+{
+	list-style: none;
+	margin: 3em 0 0;
+	padding: 0;
+}
+
+.playOurGamePlease li
+{
+	display: inline-block;
+	margin: 0 1em;
+}
+
 .radHeader .actions
 {
 	bottom: 0;
 	position: absolute;
 	right: 0;
+}
+
+.radHeader .actions > .button
+{
+	margin-top: .25em;
+}
+
+.radHeader .actions .button:last-child
+{
+	margin-right: 0;
+}
+
+.gameSearch
+{
+	font-size: 0.87em;
+	margin-right: .75em;
+	padding: 0 2.8em;
+	position: relative;
+}
+
+.gameSearch .button svg
+{
+	height: 1em;
+	width: 1em;
+	vertical-align: middle;
+}
+
+.gameSearch .button
+{
+	box-shadow: none;
+	height: calc(100% + 2px);
+	left: -1px;
+	margin: 0;
+	position: absolute;
+	top: -1px;
+}
+
+.gameSearch .button.goSearch
+{
+	left: auto;
+	position: absolute;
+	right: -1px;
+}
+
+.gameSearch .button:active svg *
+{
+	-webkit-transition: 200ms;
+	-moz-transition: 200ms;
+	-ms-transition: 200ms;
+	-o-transition: 200ms;
+	transition: 200ms;
+	
+}
+
+.gameSearch .button:active svg > polygon
+{
+	fill: #AAA;
+}
+
+.gameSearch .button:active svg > path,
+.gameSearch .button:active svg > circle,
+.gameSearch .button:active svg > line
+{
+	stroke: #AAA;
 }
 
 .gameTitle,
@@ -2808,6 +2905,14 @@ body #toast-container > .toast-info
 	}
 }
 
+@media screen and (max-width: 800px)
+{
+	.radHeader .actions
+	{
+		position: static;
+	}
+}
+
 @media screen and (max-width: 735px)
 {
 	body.join
@@ -3416,14 +3521,6 @@ body #toast-container > .toast-info
 	.chat.bottom .lobbyPlayers ul li
 	{
 		width: 50%;
-	}
-}
-
-@media screen and (max-width: 400px)
-{
-	.radHeader .actions
-	{
-		position: static;
 	}
 }
 

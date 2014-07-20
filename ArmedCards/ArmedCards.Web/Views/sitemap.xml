@@ -11,6 +11,11 @@
   <priority>1.00</priority>
 </url>
 <url>
+  <loc>https://armedcards.com/HowToPlay</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://armedcards.com/GameListing</loc>
   <changefreq>weekly</changefreq>
   <priority>0.80</priority>
