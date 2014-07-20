@@ -2338,8 +2338,13 @@ body .chat.right .openClose a span.mobileOpenClose
 .user .options
 {
 	position: absolute;
-	right: 1em;
+	right: 0;
 	top: 0;
+}
+
+.user .options .button:last-child
+{
+	margin-right: 0;
 }
 
 .deckInfo .options
