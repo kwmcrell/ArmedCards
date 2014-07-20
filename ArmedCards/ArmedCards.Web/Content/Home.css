@@ -769,8 +769,8 @@ fieldset > .button.active
 {
 	font-size: .9em;
 	position: absolute;
-	right: 1.618em;
-	top: 1em;
+	right: 38px;
+	top: 1.64em;
 	z-index: 2;
 }
 
