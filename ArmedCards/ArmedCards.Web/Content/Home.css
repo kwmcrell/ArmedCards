@@ -1035,13 +1035,16 @@ fieldset > .button.active
 	margin: .5em 0 0;
 }
 
-.radHeader h1 a
+.radHeader h1 a,
+.splash h1 a
 {
 	color: #222;
 }
 
 .radHeader h1 a:hover,
-.radHeader h1 a:focus
+.radHeader h1 a:focus,
+.splash h1 a:hover,
+.splash h1 a:focus
 {
 	color: #666;
 	text-decoration: none;
