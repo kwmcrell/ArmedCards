@@ -760,6 +760,7 @@ fieldset > .button.active
 	background: #555;
 	max-height: 0;
 	margin: 0 -1.5em -.5em;
+	overflow: hidden;
 	padding: 0 1.5em;
 	text-align: center;
 	-webkit-transition: max-height linear 400ms;
