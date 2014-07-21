@@ -3108,6 +3108,11 @@ body #toast-container > .toast-info
 		border-color: #AAA;
 	}
 
+	.splash
+	{
+		padding-bottom: 1.5em;
+	}
+
 	.splash h1
 	{
 		font-size: 2.45em;
@@ -3592,7 +3597,7 @@ body #toast-container > .toast-info
 
 	.splash .almostFooter a
 	{
-		padding: .35em 0;
+		padding: .5em 0;
 	}
 
 	.hand > .card,
