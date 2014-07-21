@@ -800,7 +800,7 @@ fieldset > .button.active
 .user
 {
 	position: relative;
-	margin-bottom: 2em;
+	margin-bottom: 4em;
 }
 
 .user .username.loggedIn img
@@ -3092,7 +3092,7 @@ body #toast-container > .toast-info
 		margin: -0.6em;
 	}
 
-	.userPageHack
+	body div.userPageHack
 	{
 		margin: 0 8px;
 		text-align: left;
