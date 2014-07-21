@@ -3615,7 +3615,8 @@ body #toast-container > .toast-info
 	}
 
 	.pick .card,
-	.played.pick > div .pickMultiple
+	.played.pick > div .pickMultiple,
+	.played.noPick > div .pickMultiple
 	{
 		margin-right: 0;
 	}
