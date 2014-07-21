@@ -43,7 +43,7 @@
             <ol>
                 @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.Top10])
                 {
-                    <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
+                    <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a data-bind="attr: { id: record.User.UserId, href: '/Profile/' + record.User.UserId }" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
                 }
             </ol>
         </div>
@@ -54,7 +54,7 @@
                 <ol>
                     @foreach (ArmedCards.Entities.LeaderboardRecord record in Model.Leaderboards[ArmedCards.Entities.Enums.LeaderboardType.CurrentUser])
                     {
-                        <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a href="#" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
+                        <li class="@(record.User.UserId == Model.CurrentUserId ? "me" : "")"><span>@record.Rank</span><a data-bind="attr: { id: record.User.UserId, href: '/Profile/' + record.User.UserId }" class="loggedIn"><img src="@record.User.PictureUrl" alt="User Avatar">@record.User.DisplayName - @record.Points pts</a></li>
                     }
                 </ol>
             </div>
