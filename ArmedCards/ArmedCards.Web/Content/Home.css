@@ -3092,6 +3092,12 @@ body #toast-container > .toast-info
 		margin: -0.6em;
 	}
 
+	.userPageHack
+	{
+		margin: 0 8px;
+		text-align: left;
+	}
+
 	.loggin a
 	{
 		color: #AAA;
