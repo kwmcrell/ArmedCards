@@ -146,6 +146,16 @@ input
 	margin: 6px 0;
 }
 
+input[type=search]
+{
+	-webkit-appearance: textfield;
+}
+
+::-webkit-search-cancel-button
+{
+	display: none;
+}
+
 input:not([type]),
 input[type="color"],
 input[type="email"],
@@ -153,6 +163,7 @@ input[type="number"],
 input[type="password"],
 input[type="tel"],
 input[type="url"],
+input[type="search"],
 input[type="text"]
 {
 	background: none;
