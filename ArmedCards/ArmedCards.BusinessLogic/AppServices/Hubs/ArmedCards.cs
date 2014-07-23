@@ -33,7 +33,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
             message.SentByUserId = Authentication.Security.CurrentUserId;
             message.SentBy = Authentication.Security.CurrentUserName;
             message.SentDate = DateTime.UtcNow;
-            message.DateSent = String.Format("{0} UTC", message.SentDate);
+            message.DateSent = message.SentDate.ToLongTimeString();
 
             _insert.Execute(message);
 

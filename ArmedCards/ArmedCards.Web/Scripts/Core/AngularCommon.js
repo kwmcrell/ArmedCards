@@ -1,8 +1,4 @@
-﻿/// <reference path="../../angular.js" />
-/// <reference path="../../Core/AngularHub.js" />
-/// <reference path="../../Core/AngularChat.js" />
-
-/*
+﻿/*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
 * All rights reserved.
 * 
@@ -25,22 +21,24 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+/* Directives */
+ArmedCards.Core.AngularHub.App.directive('rgdEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if (event.which === 13) {
+                scope.$apply(function () {
+                    scope.$eval(attrs.rgdEnter);
+                });
 
-ArmedCards.Core.AngularHub.App.controller('ListingChatCtrl', ['$scope', '$http', 'ArmedCardsHub', 'ArmedCardsChat', function ($scope, $http, ArmedCardsHub, ArmedCardsChat) {
-    
+                event.preventDefault();
+            }
+        });
+    };
+});
 
-    ArmedCardsHub.Hub.addNewListeners({
-        'BroadcastGlobalMessage': function (message) {
-            ArmedCardsChat.BroadcastGlobalMessage(message, $scope.messages);
-            $scope.$apply();
-        },
-        'UpdateLobby': ArmedCardsChat.UpdateLobby
-    });
-
-    ArmedCardsChat.InitGlobalMessages().success(function (data, status, headers, config) {
-        $scope.messages = data.Messages;
-    });
-
-    $scope.armedCardsHub = ArmedCardsHub;
-}]);
+ArmedCards.Core.AngularHub.App.directive('rgdChatmessage', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Core/ChatMessage.html'
+    };
+});

@@ -31,7 +31,8 @@
     <meta name="description" content="Join a game of Armed Cards, a version of Cards Against Humanity Online.">
     @Styles.Render("~/bundles/Styles")
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/Core/Hub")
+    <script src="~/Scripts/angular.min.js"></script>
+    @Scripts.Render("~/bundles/Core/AngularHub")
     <script src='/SignalR/hubs'></script>
 </head>
 <body class="join chatOpen">
@@ -54,7 +55,7 @@
     {
         @Html.Partial("~/Views/Shared/Partials/_Chat.cshtml")
     }
-    <script src="~/Scripts/angular.min.js"></script>
+    
     @Scripts.Render("~/bundles/toastr")
     @Scripts.Render("~/bundles/Core/Login")
     @RenderSection("Scripts", required: false)
