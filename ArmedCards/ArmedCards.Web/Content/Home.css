@@ -2998,12 +2998,12 @@ body #toast-container > .toast-info
 {
 	.confirmMessage.cardSubmit
 	{
-		margin-top: -8.6em;
+		margin-top: -12.4em;
 	}
 
 	.confirmMessage.pickThree.cardSubmit
 	{
-		margin-top: -12.6em;
+		margin-top: -16.2em;
 	}
 
 	.confirmMessage.cardSubmit > div
