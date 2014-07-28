@@ -54,6 +54,11 @@ namespace ArmedCards.Web.Controllers
         {
             return View();
         }
+        
+        public ActionResult HowToPlay()
+        {
+            return View();
+        }
 
         public ActionResult Robots()
         {

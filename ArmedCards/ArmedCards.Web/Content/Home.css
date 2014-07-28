@@ -146,6 +146,16 @@ input
 	margin: 6px 0;
 }
 
+input[type=search]
+{
+	-webkit-appearance: textfield;
+}
+
+::-webkit-search-cancel-button
+{
+	display: none;
+}
+
 input:not([type]),
 input[type="color"],
 input[type="email"],
@@ -153,6 +163,7 @@ input[type="number"],
 input[type="password"],
 input[type="tel"],
 input[type="url"],
+input[type="search"],
 input[type="text"]
 {
 	background: none;
@@ -749,6 +760,7 @@ fieldset > .button.active
 	background: #555;
 	max-height: 0;
 	margin: 0 -1.5em -.5em;
+	overflow: hidden;
 	padding: 0 1.5em;
 	text-align: center;
 	-webkit-transition: max-height linear 400ms;
@@ -769,8 +781,8 @@ fieldset > .button.active
 {
 	font-size: .9em;
 	position: absolute;
-	right: 1.618em;
-	top: 1em;
+	right: 38px;
+	top: 1.64em;
 	z-index: 2;
 }
 
@@ -788,7 +800,7 @@ fieldset > .button.active
 .user
 {
 	position: relative;
-	margin-bottom: 2em;
+	margin-bottom: 4em;
 }
 
 .user .username.loggedIn img
@@ -934,6 +946,7 @@ fieldset > .button.active
 
 .splash
 {
+	padding-bottom: 4em;
 	text-align: center;
 	width: 100%;
 }
@@ -982,17 +995,45 @@ fieldset > .button.active
 	background-color: #777;
 }
 
-.splash .buttons > a.inactive
+.splash .buttons > a.inactive,
+.inactive,
+.inactive:hover
 {
 	color: #777;
 	cursor: default;
 	opacity: .6;
+	text-decoration: none;
 }
 
 .splash .buttons > a.inactive .icon
 {
 	background-color: #777;
 	box-shadow: inset 0 2px 0 #444;
+}
+
+.splash .almostFooter
+{
+	margin: 3em auto 0;
+	max-width: 400px;
+}
+
+.splash .almostFooter > div
+{
+	display: inline-block;
+	text-align: left;
+	width: 49%;
+}
+
+.splash .almostFooter ol
+{
+	list-style: none;
+	padding: 0;
+}
+
+.splash .almostFooter a
+{
+	display: inline-block;
+	padding: .15em 0;
 }
 
 .radHeader
@@ -1006,13 +1047,16 @@ fieldset > .button.active
 	margin: .5em 0 0;
 }
 
-.radHeader h1 a
+.radHeader h1 a,
+.splash h1 a
 {
 	color: #222;
 }
 
 .radHeader h1 a:hover,
-.radHeader h1 a:focus
+.radHeader h1 a:focus,
+.splash h1 a:hover,
+.splash h1 a:focus
 {
 	color: #666;
 	text-decoration: none;
@@ -1062,11 +1106,112 @@ fieldset > .button.active
 	display: none;
 }
 
+.pageContent
+{
+	margin: 0 auto;
+	max-width: 680px;
+	padding: 0 1em;
+}
+
+.pageContent > p
+{
+	font-family: helvetica;
+	line-height: 1.66;
+	text-align: justify;
+}
+
+.pageContent > p a
+{
+	text-decoration: underline;
+}
+
+.playOurGamePlease
+{
+	list-style: none;
+	margin: 3em 0 0;
+	padding: 0;
+}
+
+.playOurGamePlease li
+{
+	margin: 0 1em .25em;
+}
+
+.playOurGamePlease li a
+{
+	display: inline-block;
+	padding: 1em;
+}
+
 .radHeader .actions
 {
 	bottom: 0;
 	position: absolute;
 	right: 0;
+}
+
+.radHeader .actions > .button
+{
+	margin-top: .25em;
+}
+
+.radHeader .actions .button:last-child
+{
+	margin-right: 0;
+}
+
+.gameSearch
+{
+	font-size: 0.87em;
+	margin-right: .75em;
+	padding: 0 2.8em;
+	position: relative;
+}
+
+.gameSearch .button svg
+{
+	height: 1em;
+	width: 1em;
+	vertical-align: middle;
+}
+
+.gameSearch .button
+{
+	box-shadow: none;
+	height: calc(100% + 2px);
+	left: -1px;
+	margin: 0;
+	position: absolute;
+	top: -1px;
+}
+
+.gameSearch .button.goSearch
+{
+	left: auto;
+	position: absolute;
+	right: -1px;
+}
+
+.gameSearch .button:active svg *
+{
+	-webkit-transition: 200ms;
+	-moz-transition: 200ms;
+	-ms-transition: 200ms;
+	-o-transition: 200ms;
+	transition: 200ms;
+	
+}
+
+.gameSearch .button:active svg > polygon
+{
+	fill: #AAA;
+}
+
+.gameSearch .button:active svg > path,
+.gameSearch .button:active svg > circle,
+.gameSearch .button:active svg > line
+{
+	stroke: #AAA;
 }
 
 .gameTitle,
@@ -2205,8 +2350,13 @@ body .chat.right .openClose a span.mobileOpenClose
 .user .options
 {
 	position: absolute;
-	right: 1em;
+	right: 0;
 	top: 0;
+}
+
+.user .options .button:last-child
+{
+	margin-right: 0;
 }
 
 .deckInfo .options
@@ -2630,6 +2780,13 @@ body #toast-container > .toast-info
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAMFBMVEXw8PDu7u729vbv7+/29vb////////+/v7////x8fH///////8AAAD8/Pz9/f3///9NTWjrAAAADXRSTlPu/cf2xYdHo0LnZH8Azb03eAAAAINJREFUeNqF0VsOxCAIBVDfIlbZ/24njqTQqPF+NTkSe8U8h9whxeCbDzF9AXKnmZ5BARaSFHwBLelYZAA+b5zhGZiQaaY+lb/yH1JfoKcBkRagOCBsIAzwG/AD2gbaceJ4B/+VFORE7iGRHqq5q06ay1upOwrI6+oJi9d9rBu873zND9mTHAMLUWGEAAAAAElFTkSuQmCC') !important;
 }
 
+/* Temp fix for notification being too wide */
+#toast-container.toast-top-full-width > div,
+#toast-container.toast-bottom-full-width > div
+{
+	width: 35%;
+}
+
 @media screen and (min-width: 2250px)
 {
 	.gameListing .game
@@ -2716,6 +2873,13 @@ body #toast-container > .toast-info
 	{
 		max-width: 80%;
 	}
+
+	/* Temp fix for notification being too wide */
+	#toast-container.toast-top-full-width > div,
+	#toast-container.toast-bottom-full-width > div
+	{
+		width: 96%;
+	}
 }
 
 @media screen and (max-width: 875px)
@@ -2766,6 +2930,14 @@ body #toast-container > .toast-info
 	}
 }
 
+@media screen and (max-width: 800px)
+{
+	.radHeader .actions
+	{
+		position: static;
+	}
+}
+
 @media screen and (max-width: 735px)
 {
 	body.join
@@ -2809,18 +2981,29 @@ body #toast-container > .toast-info
 		margin: 2em auto 3em;
 		max-width: 90%;
 	}
+
+	.splash .almostFooter
+	{
+		margin-top: 2em;
+		max-width: 100%;
+	}
+
+	.splash .almostFooter > div
+	{
+		text-align: center;
+	}
 }
 
 @media screen and (max-height: 630px)
 {
 	.confirmMessage.cardSubmit
 	{
-		margin-top: -8.6em;
+		margin-top: -12.4em;
 	}
 
 	.confirmMessage.pickThree.cardSubmit
 	{
-		margin-top: -12.6em;
+		margin-top: -16.2em;
 	}
 
 	.confirmMessage.cardSubmit > div
@@ -2909,6 +3092,12 @@ body #toast-container > .toast-info
 		margin: -0.6em;
 	}
 
+	body div.userPageHack
+	{
+		margin: 0 8px;
+		text-align: left;
+	}
+
 	.loggin a
 	{
 		color: #AAA;
@@ -2923,6 +3112,11 @@ body #toast-container > .toast-info
 	.loggin .loggedIn img
 	{
 		border-color: #AAA;
+	}
+
+	.splash
+	{
+		padding-bottom: 1.5em;
 	}
 
 	.splash h1
@@ -3366,14 +3560,6 @@ body #toast-container > .toast-info
 	}
 }
 
-@media screen and (max-width: 400px)
-{
-	.radHeader .actions
-	{
-		position: static;
-	}
-}
-
 @media screen and (max-width: 360px)
 {
 	.confirmMessage
@@ -3410,6 +3596,16 @@ body #toast-container > .toast-info
 		margin: 1em 0 .5em 0;
 	}
 
+	.splash .almostFooter > div
+	{
+		width: 100%;
+	}
+
+	.splash .almostFooter a
+	{
+		padding: .5em 0;
+	}
+
 	.hand > .card,
 	.winnerPicked .card,
 	.played.winnerPicked .winner
@@ -3425,7 +3621,8 @@ body #toast-container > .toast-info
 	}
 
 	.pick .card,
-	.played.pick > div .pickMultiple
+	.played.pick > div .pickMultiple,
+	.played.noPick > div .pickMultiple
 	{
 		margin-right: 0;
 	}

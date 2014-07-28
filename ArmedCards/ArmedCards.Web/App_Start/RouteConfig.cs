@@ -53,6 +53,12 @@ namespace ArmedCards.Web
                 defaults: new { controller = "Home", action = "ChangeLog", id = UrlParameter.Optional }
             );
 
+	    routes.MapRoute(
+                name: "HowToPlay",
+                url: "HowToPlay",
+                defaults: new { controller = "Home", action = "HowToPlay", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

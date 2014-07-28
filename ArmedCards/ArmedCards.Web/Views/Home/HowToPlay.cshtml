@@ -1,0 +1,64 @@
+﻿@*
+ * Copyright (c) 2013, Kevin McRell & Paul Miller
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions
+ *   and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice, this list of
+ *   conditions and the following disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
+
+@model ArmedCards.Entities.Models.Home.Index
+
+@{
+    ViewBag.Title = "How to Play";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+}
+
+<div class="splash">
+	<h1><a href="https://armedcards.com">ARMED CARDS!#&amp;?</a><span class="beta">beta</span></h1>
+	<span class="visuallyHidden">
+	    Cards Against Humanity Online. Please select an option to continue.
+	</span>
+	<h2>How to Play</h2>
+	<div class="pageContent">
+		<h3>Introduction</h3>
+		<p>First things first, Armed Cards is <em>in beta</em>. Along with the possiblity of some buggy code or odd behavior and visuals here and there, this document may not always be perfectly up to date. That said, it should give you a pretty good idea of what you can do. If you notice any bugs, please <a href="https://github.com/kwmcrell/ArmedCards/issues?state=open">report them</a> to us, so we can make Armed Cards the best version of Cards Against Humanity online!</p>
+		<h3>What is Cards Against Humanity?</h3>
+		<p>Well, <a href="http://http://www.cardsagainsthumanity.com">cardsagainsthumanity.com</a> describes the game as "a party game for horrible people." Basically, think <a href="http://shop.mattel.com/product/index.jsp?productId=3761634">Apples to Apples</a>, but super inappropriate. <strong>Each round, one player asks a question from a black card, and everyone else answers with their funniest white card. The Card Commander then picks their favorite answer and the player who played that card wins the round.</strong> To read Cards Against Humanity's instructions and remixes, check out their <a href="http://s3.amazonaws.com/cah/CAH_Rules.pdf">official rules PDF</a>.</p>
+		<h3>What's different about Armed Cards?</h3>
+		<p>Good question! There are probably a number of things that differ from the main rules, but the important differences are mostly related to the "Card Czar." In Armed Cards, we call the card czar the "Card Commander". Don't ask why; we're really not sure, either. We probably never read the instructions to the original Cards Against Humanity and as a result made our own term for something that already existed. Additionally, in Armed Cards, the winner of the previous round becomes the Card Commander, as opposed to going through each person in order. We did this so we could try and keep the game fair in case one player was on a roll. Perhaps we really removed the "czar" terminolgy to mask our communist ways.</p>
+		<p>Armed Cards also offers various other features like the Round Timer, Leaderboards, Custom Deck Combinations, Global &amp; Game Chats, etc. </p>
+		<h3>Fun ways to play</h3>
+		<p>Obviously, Armed Cards is great to play at work! This allows you to offend your whole office, and also accomplish absolutely nothing with your day. Also, if you have no friends, it's a great way to be an asshole to other people online. Don't tell anyone, but this is really just our elaborate effort to improve youtube comments.</p>
+		<p>If you prefer to play with other people in the <em>same room</em>, you can hook a computer up to your TV (or mirror your display with a <a href="http://www.google.com/chrome/devices/chromecast/">Chromecast</a>, <a href="https://www.apple.com/appletv/">Apple TV</a>, etc from a computer) and set it up as a spectator on your game. This will, in effect, create a gameboard for the room to watch while everyone plays their cards on their smartphones (yes, we're mobile friendly). <em>If you choose to play from a smartphone</em>, we highly recommend playing from wifi, as many slower 3G or 4G connections cause the occasional disconnect or delay.</p>
+		<h3>Something's broken!</h3>
+		<p>As mentioned above, if you see anything that's clearly broken, please <a href="https://github.com/kwmcrell/ArmedCards/issues?state=open">report it to us</a>. However, if something iterrupts your game, always try to <strong>refresh the page</strong>. We're using some fancy, futuristic, HTML5 technologies, and occasionally there's a disconnect. Refreshing the page usually solves the problem, and if not, may at least provide additional entertainment.</p>
+		<h3>Conclusion</h3>
+		<p>In all seriousness, we're happy to provide this game free of charge. Due to Cards Against Humanity being a Creative Commons product, we cannot monetize this. We're just doing it because it's a fun project, and we felt that the other various Cards Against Humanity Online options were unattractive, confusing, cluttered, etc. So, please enjoy Armed Cards and help us make it the best Cards Against Humanity online!</p>
+		<ol class="playOurGamePlease">
+			<li>
+				<div class="buttons">
+					<a href="https://armedcards.com/GameListing"><span class="icon join">&</span><span>Join Game</span></a>
+					<a href="https://armedcards.com/CreateGame"><span class="icon create">!</span><span>Create Game</span></a>
+				</div>
+			</li>
+			<li>
+				<a href="https://armedcards.com">Go Home</a>
+			</li>
+		</ol>
+	</div>
+</div>
