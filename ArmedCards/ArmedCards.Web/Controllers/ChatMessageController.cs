@@ -23,7 +23,7 @@ namespace ArmedCards.Web.Controllers
         [HttpGet]
         public JsonResult View(Int32? gameID = null, Boolean? global = null, Int32? offsetHours = null)
         {
-            Entities.Filters.ChatMessage.Select filter = new Entities.Filters.ChatMessage.Select(null, gameID, global, offsetHours);
+            Entities.Filters.ChatMessage.Select filter = new Entities.Filters.ChatMessage.Select(gameID, global, offsetHours);
 
             List<Entities.ChatMessage> messages = _select.Execute(filter);
 

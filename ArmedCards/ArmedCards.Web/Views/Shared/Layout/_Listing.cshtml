@@ -35,8 +35,8 @@
     @Scripts.Render("~/bundles/Core/AngularHub")
     <script src='/SignalR/hubs'></script>
 </head>
-<body class="join chatOpen">
-    <div id="overlay" class="overlay">
+<body class="join chatOpen" ng-controller="ListingCtrl">
+    <div id="overlay" class="overlay" ng-class="overlay ? 'on' : ''">
     </div>
     <div class="content-wrapper">
         <div class="float-right">
@@ -45,9 +45,9 @@
             </section>
         </div>
     </div>
-    <div id="hubConnectionText" class="hubConnectionText">
-        <p id="reconnecting">Reconnecting...</p>
-        <p id="unableToReconnect" class="hidden">Unable to reconnect please refresh your <a id="reloadPage" href="#">page</a></p>
+    <div id="hubConnectionText" class="hubConnectionText" ng-class="(reconnecting || unableToReconnect) ? 'on' : ''">
+        <p id="reconnecting" ng-class="reconnecting ? '' : 'hidden'">Reconnecting...</p>
+        <p id="unableToReconnect" ng-class="unableToReconnect ? '' : 'hidden'">Unable to reconnect please refresh your <a id="reloadPage" href="/GameListing">page</a></p>
     </div>
     @RenderBody()
     @Html.Hidden("showLogin", TempData["showLogin"] ?? false)

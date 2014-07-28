@@ -5917,7 +5917,6 @@ GO
 -- Description:	Select the chat messages
 -- ===============================================
 CREATE PROC [dbo].[ChatMessage_Select] 
-			@DateSent				datetime,
 			@GameID					int = NULL,
 			@Global					bit = 1
 AS 
@@ -5934,8 +5933,7 @@ AS
 			,[Global]
 			,[ConnectionType]
 	FROM [dbo].[ChatMessage]
-	WHERE	[DateSent] >= @DateSent
-	AND		([GameID] = @GameID OR @GameID IS NULL)
+	WHERE	([GameID] = @GameID OR @GameID IS NULL)
 	AND		[Global] = @Global
 
 	COMMIT

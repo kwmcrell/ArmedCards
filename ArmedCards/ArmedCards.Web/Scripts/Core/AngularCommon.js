@@ -21,8 +21,16 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+var ArmedCards = ArmedCards || {};
+ArmedCards.Core = ArmedCards.Core || {};
+
+/* Application */
+ArmedCards.Core.App = angular.module('gameApp', ['SignalR']);
+
+/* Controllers */
+
 /* Directives */
-ArmedCards.Core.AngularHub.App.directive('rgdEnter', function () {
+ArmedCards.Core.App.directive('rgdEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
             if (event.which === 13) {
@@ -36,7 +44,7 @@ ArmedCards.Core.AngularHub.App.directive('rgdEnter', function () {
     };
 });
 
-ArmedCards.Core.AngularHub.App.directive('rgdChatmessage', function () {
+ArmedCards.Core.App.directive('rgdChatmessage', function () {
     return {
         restrict: 'AEC',
         templateUrl: '/Content/Templates/Core/ChatMessage.html'

@@ -1,4 +1,6 @@
-﻿/// <reference path="../../angular.js" />
+﻿/// <reference path="../../../Content/Templates/Game/Listing/Player.html" />
+/// <reference path="../../../Content/Templates/Game/Listing/Player.html" />
+/// <reference path="../../angular.js" />
 /// <reference path="../../Core/AngularHub.js" />
 /// <reference path="../../Core/AngularChat.js" />
 
@@ -27,20 +29,92 @@
 
 /* Controllers */
 
-ArmedCards.Core.AngularHub.App.controller('ListingChatCtrl', ['$scope', '$http', 'ArmedCardsHub', 'ArmedCardsChat', function ($scope, $http, ArmedCardsHub, ArmedCardsChat) {
-    
+ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub', 'ArmedCardsChat', function ($scope, $http, ArmedCardsHub, ArmedCardsChat) {
+
+    // Update ArmedCardsHub
+    ArmedCardsHub.SendMessage = function (message) {
+        if (message.Message != null && message.Message != undefined && message.Message != '') {
+
+            message.GameID = $('#Game_GameID').val();
+            message.Global = !$('#discussion').hasClass('hidden');
+            message.ConnectionType = $('#ConnectionType').val();
+
+            ArmedCardsHub.Hub.SendMessage(message);
+        }
+
+        // Clear text box and reset focus for next comment. 
+        message.Message = '';
+        angular.element('#message').focus();
+    };
+
+    ArmedCardsHub.Join = function () {
+        var gameID = $('#Game_GameID').val();
+        var connectionType = $('#ConnectionType').val();
+
+        ArmedCardsHub.Hub.Join(gameID, connectionType);
+    };
+
+    $scope.$on('hubStartComplete', ArmedCardsHub.Join);
+
+    ArmedCardsHub.Hub.addNewMethods(['Join', 'SendMessage']);
+
+    var chat = new ArmedCardsChat();
+
+    chat.UpdateLobby = function (activeConnections) {
+        $scope.players = activeConnections;
+
+        $scope.$apply();
+    };
 
     ArmedCardsHub.Hub.addNewListeners({
         'BroadcastGlobalMessage': function (message) {
-            ArmedCardsChat.BroadcastGlobalMessage(message, $scope.messages);
+            chat.BroadcastGlobalMessage(message, $scope.messages);
             $scope.$apply();
         },
-        'UpdateLobby': ArmedCardsChat.UpdateLobby
+        'UpdateLobby': chat.UpdateLobby
     });
 
-    ArmedCardsChat.InitGlobalMessages().success(function (data, status, headers, config) {
+    chat.Init();
+
+    chat.InitGlobalMessages().success(function (data, status, headers, config) {
         $scope.messages = data.Messages;
+
+        chat.ScrollDiscussion('#discussion');
     });
 
     $scope.armedCardsHub = ArmedCardsHub;
+
+    $scope.$on('hubReconnecting', function () {
+        $scope.overlay = true;
+        $scope.reconnecting = true;
+
+        $scope.$apply();
+    });
+
+    $scope.$on('hubReconnected', function () {
+        $scope.overlay = false;
+        $scope.reconnecting = false;
+
+        $scope.$apply();
+    });
+
+    $scope.$on('hubDisconnected', function () {
+        $scope.overlay = true;
+        $scope.reconnecting = false;
+        $scope.unableToReconnect = true;
+
+        $scope.$apply();
+    });
+
+    $scope.overlay = false;
+    $scope.reconnecting = false;
+    $scope.unableToReconnect = false;
 }]);
+
+/* Directives  */
+ArmedCards.Core.App.directive('rgdPlayer', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Game/Listing/Player.html'
+    };
+});

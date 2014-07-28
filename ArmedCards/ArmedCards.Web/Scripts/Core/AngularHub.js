@@ -28,7 +28,6 @@ var ArmedCards = ArmedCards || {};
 ArmedCards.Core = ArmedCards.Core || {};
 
 function AngularHub() {
-    this.TryingToReconnect = false;
     this.listeners = {
         'temp': function() { }
     };
@@ -40,30 +39,6 @@ if (!ArmedCards.Core.AngularHub) {
     ArmedCards.Core.AngularHub = new AngularHub();
 }
 
-ArmedCards.Core.AngularHub.App = angular.module('gameApp', ['SignalR']);
-
-AngularHub.prototype.Reconnecting = function () {
-    ArmedCards.Core.AngularHub.TryingToReconnect = true;
-    $('#hubConnectionText').addClass('on');
-    $('#overlay').addClass('on');
-};
-
-AngularHub.prototype.Disconnected = function () {
-    if (ArmedCards.Core.AngularHub.TryingToReconnect) {
-        $('#reconnecting').addClass('hidden');
-        $('#unableToReconnect').removeClass('hidden');
-    }
-};
-
-AngularHub.prototype.Reconnected = function ($rootScope) {
-    ArmedCards.Core.AngularHub.TryingToReconnect = false;
-
-    $('#hubConnectionText').removeClass('on');
-    $('#overlay').removeClass('on');
-
-    $rootScope.$broadcast('hubReconnected');
-};
-
 AngularHub.prototype.AddMethod = function (name) {
     ArmedCards.Core.AngularHub.methods.push(name);
 };
@@ -72,15 +47,15 @@ AngularHub.prototype.Factory = function ($rootScope, Hub) {
     var ArmedCardsHub = this;
 
     ArmedCardsHub.Reconnecting = function () {
-        ArmedCards.Core.AngularHub.Reconnecting();
+        $rootScope.$broadcast('hubReconnecting');
     };
 
     ArmedCardsHub.Reconnected = function () {
-        ArmedCards.Core.AngularHub.Reconnected($rootScope);
+        $rootScope.$broadcast('hubReconnected');
     };
 
     ArmedCardsHub.Disconnected = function () {
-        ArmedCards.Core.AngularHub.Disconnected();
+        $rootScope.$broadcast('hubDisconnected');
     };
 
     $rootScope.$broadcast('beforeHubStart');
@@ -93,5 +68,5 @@ AngularHub.prototype.Factory = function ($rootScope, Hub) {
     return ArmedCardsHub;
 };
 
-ArmedCards.Core.AngularHub.App.factory('ArmedCardsHub', ['$rootScope', 'Hub', ArmedCards.Core.AngularHub.Factory]);
+ArmedCards.Core.App.factory('ArmedCardsHub', ['$rootScope', 'Hub', ArmedCards.Core.AngularHub.Factory]);
 

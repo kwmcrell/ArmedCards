@@ -33,97 +33,50 @@ if (!ArmedCards.Core.AngularChat) {
     ArmedCards.Core.AngularChat = new AngularChat();
 }
 
-AngularChat.prototype.Factory = function ($rootScope, $http, ArmedCardsHub) {
-    var ArmedCardsChat = this;
+AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
+    var ArmedCardsChat = function () {
+        this.offsetHours = new Date().getTimezoneOffset() / 60;
+    };
 
-    // Update ArmedCardsHub
-    ArmedCardsHub.SendMessage = function (message) {
-        if (message.Message != null && message.Message != undefined && message.Message != '') {
+    ArmedCardsChat.prototype.InitGlobalMessages = function () {
+        return $http.get('/ChatMessage/View?offsetHours=' + this.offsetHours);
+    };
 
-            message.GameID = $('#Game_GameID').val();
-            message.Global = !$('#discussion').hasClass('hidden');
-            message.ConnectionType = $('#ConnectionType').val();
-
-            ArmedCardsHub.Hub.SendMessage(message);
-        }
-
-        // Clear text box and reset focus for next comment. 
-        message.Message = '';
+    ArmedCardsChat.prototype.Init = function () {
         angular.element('#message').focus();
     };
 
-    ArmedCardsHub.Join = function () {
-        var gameID = $('#Game_GameID').val();
-        var connectionType = $('#ConnectionType').val();
-
-        ArmedCardsHub.Hub.Join(gameID, connectionType);
-    };
-
-    $rootScope.$on('hubStartComplete', ArmedCardsHub.Join);
-
-    ArmedCardsHub.Hub.addNewListeners({
-        'BroadcastGameMessage': ArmedCards.Core.AngularChat.BroadcastGameMessage,
-        'RemoveConnection': ArmedCards.Core.AngularChat.RemoveConnection
-    });
-
-    var offsetHours = new Date().getTimezoneOffset() / 60;
-    
-    ArmedCardsChat.InitGlobalMessages = function () {
-        return $http.get('/ChatMessage/View?offsetHours=' + offsetHours);
-    };
-
-    ArmedCardsChat.Init = function () {
-        ArmedCardsHub.Hub.addNewMethods(['Join', 'SendMessage']);
-
-        angular.element('#message').focus();
-
-        ArmedCards.Core.ViewModels.LobbyViewModel = new Lobby([]);
-
-        var mainLobby = document.getElementById('mainLobby');
-
-        if (mainLobby != null) {
-            ko.applyBindings(ArmedCards.Core.ViewModels.LobbyViewModel, mainLobby);
-        }
-    };
-
-    ArmedCardsChat.Init();
-
-    ArmedCardsChat.RemoveConnection = function (connection) {
+    ArmedCardsChat.prototype.RemoveConnection = function (connection) {
         $('[name="{0}"]'.format(connection.ActiveConnectionID), '#playerList').remove();
     };
 
-    ArmedCardsChat.UpdateLobby = function (lobby) {
-        ArmedCards.Core.ViewModels.LobbyViewModel.replacePlayers(lobby.ActiveConnections);
+    ArmedCardsChat.prototype.UpdateLobby = function (activeConnections) {
+
     };
 
-    ArmedCardsChat.BroadcastGlobalMessage = function (message, globalMessages) {
+    ArmedCardsChat.prototype.BroadcastGlobalMessage = function (message, globalMessages) {
+        message.DateSent = new Date(message.SentDate).toLocaleTimeString();
+
         globalMessages.push(message);
 
         //scroll to bottom
+        this.ScrollDiscussion('#discussion');
     };
 
-    ArmedCardsChat.BroadcastGameMessage = function (message, gameMessages) {
-        gameMessages.push(message);
+    ArmedCardsChat.prototype.ScrollDiscussion = function (discussionId) {
+        $timeout(function () {
+            var discussion = angular.element(discussionId);
 
-        $.Topic("newMessageAlert").publish();
+            discussion.scrollTop(discussion[0].scrollHeight);
+            
+        }, 100);
+    };
 
-        //scroll to bottom
+    ArmedCardsChat.prototype.BroadcastGameMessage = function (message, gameMessages) {
+
     };
 
     return ArmedCardsChat;
 };
 
-ArmedCards.Core.AngularHub.App.factory('ArmedCardsChat', ['$rootScope', '$http', 'ArmedCardsHub', ArmedCards.Core.AngularChat.Factory]);
-
-/* Controllers */
-var Lobby = function (activeConnections) {
-    this.ActiveConnections = ko.observableArray(activeConnections);
-
-    this.replacePlayers = function (newActiveConnections) {
-        var self = this;
-
-        self.ActiveConnections.removeAll();
-
-        self.ActiveConnections(newActiveConnections);
-    }.bind(this);
-};
+ArmedCards.Core.App.factory('ArmedCardsChat', ['$rootScope', '$http', '$timeout', ArmedCards.Core.AngularChat.Factory]);

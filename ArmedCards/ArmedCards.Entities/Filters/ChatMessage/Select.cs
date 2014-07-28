@@ -34,18 +34,12 @@ namespace ArmedCards.Entities.Filters.ChatMessage
     /// </summary>
     public class Select
     {
-        public Select(DateTime? dateSent, Int32? gameID, Boolean? global, Int32? offsetHours)
+        public Select(Int32? gameID, Boolean? global, Int32? offsetHours)
         {
-            DateSent = dateSent ?? DateTime.UtcNow.AddHours(-1);
             GameID = gameID;
             Global = global ?? true;
             OffsetHours = -offsetHours ?? 0;
         }
-
-        /// <summary>
-        /// Get all messages sent from this date forward
-        /// </summary>
-        public DateTime DateSent { get; private set; }
 
         /// <summary>
         /// The id of the game to retrieve specific messages for

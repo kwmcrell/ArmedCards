@@ -60,7 +60,6 @@ namespace ArmedCards.DataAccess.ChatMessage
 
             using (DbCommand cmd = _db.GetStoredProcCommand("ChatMessage_Select"))
             {
-                _db.AddInParameter(cmd, "@DateSent", DbType.DateTime, filter.DateSent);
                 _db.AddInParameter(cmd, "@GameID", DbType.Int32, filter.GameID);
                 _db.AddInParameter(cmd, "@Global", DbType.Boolean, filter.Global);
 

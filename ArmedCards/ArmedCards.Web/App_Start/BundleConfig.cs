@@ -80,8 +80,8 @@ namespace ArmedCards.Web
             bundles.Add(new ScriptBundle("~/bundles/Core/AngularHub").Include(
                         "~/Scripts/jquery.signalR-2.0.2.js",
                         "~/Scripts/angular-signalr-hub.js",
-                        "~/Scripts/Core/AngularHub.js",
                         "~/Scripts/Core/AngularCommon.js",
+                        "~/Scripts/Core/AngularHub.js",
                         "~/Scripts/Core/AngularChat.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/Core/Profile").Include(

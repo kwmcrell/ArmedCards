@@ -261,6 +261,7 @@
   <ItemGroup>
     <Content Include="Content\Home.css" />
     <Content Include="Content\Templates\Core\ChatMessage.html" />
+    <Content Include="Content\Templates\Game\Listing\Player.html" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\Alerts.css" />
@@ -669,7 +670,7 @@
     <Content Include="Views\Game\Listing\GameListing.cshtml" />
     <Content Include="Views\Game\Listing\Game.cshtml" />
     <Content Include="Views\Game\Listing\Detail.cshtml" />
-    <Content Include="Views\Shared\Layout\_Chat.cshtml" />
+    <Content Include="Views\Shared\Layout\_Listing.cshtml" />
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
     <Content Include="Views\Game\Board\Index.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Waiting.cshtml" />
@@ -707,7 +708,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Templates\Game\" />
     <Folder Include="Views\ChatMessage\" />
   </ItemGroup>
   <ItemGroup>

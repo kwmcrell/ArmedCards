@@ -22,7 +22,7 @@
 *@
 
 @Html.Hidden("ConnectionType", 0, new { id = "ConnectionType" })
-<div class="chat bottom" ng-controller="ListingChatCtrl">
+<div class="chat bottom">
     <div class="chatContainer">
         <div id="chatClient">
             <ul id="discussion" class="discussion">
@@ -35,8 +35,8 @@
     </div>
     <div id="mainLobby" class="lobby">
         <div class="lobbyPlayers">
-            <ul id="playerList" class="playerList" data-bind="foreach: ActiveConnections">
-                <li data-bind="attr: { name: ActiveConnectionID }, text: UserName"></li>
+            <ul id="playerList" class="playerList">
+                <rgd-player ng-repeat="player in players track by player.ActiveConnectionID"></rgd-player>
             </ul>
         </div>
     </div>
