@@ -46,13 +46,9 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
         angular.element('#message').focus();
     };
 
-    ArmedCardsChat.prototype.RemoveConnection = function (connection) {
-        $('[name="{0}"]'.format(connection.ActiveConnectionID), '#playerList').remove();
-    };
+    ArmedCardsChat.prototype.RemoveConnection = function (connection) { };
 
-    ArmedCardsChat.prototype.UpdateLobby = function (activeConnections) {
-
-    };
+    ArmedCardsChat.prototype.UpdateLobby = function (activeConnections) { };
 
     ArmedCardsChat.prototype.BroadcastGlobalMessage = function (message, globalMessages) {
         message.DateSent = new Date(message.SentDate).toLocaleTimeString();
@@ -72,9 +68,7 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
         }, 100);
     };
 
-    ArmedCardsChat.prototype.BroadcastGameMessage = function (message, gameMessages) {
-
-    };
+    ArmedCardsChat.prototype.BroadcastGameMessage = function (message, gameMessages) { };
 
     return ArmedCardsChat;
 };

@@ -66,12 +66,21 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub
         $scope.$apply();
     };
 
+    chat.RemoveConnection = function (connection) {
+        var index = $scope.players.indexOf(connection);
+
+        $scope.players.splice(index, 1);
+
+        $scope.$apply();
+    };
+
     ArmedCardsHub.Hub.addNewListeners({
         'BroadcastGlobalMessage': function (message) {
             chat.BroadcastGlobalMessage(message, $scope.messages);
             $scope.$apply();
         },
-        'UpdateLobby': chat.UpdateLobby
+        'UpdateLobby': chat.UpdateLobby,
+        'RemoveConnection': chat.RemoveConnection
     });
 
     chat.Init();
