@@ -234,7 +234,7 @@ $.Topic("newMessageAlert").subscribe(ArmedCards.Game.Sidebar.AlertNewMessage);
 /* Controllers */
 var gameApp = angular.module('gameApp', []);
 
-gameApp.controller('GameChatCtrl', ArmedCards.Game.Sidebar.GameChatCtrl);
+gameApp.controller('GameChatCtrl', ['$scope', '$http', ArmedCards.Game.Sidebar.GameChatCtrl]);
 
 /* Directives */
 gameApp.directive('rgdChatmessage', ArmedCards.Core.Chat.RgdChatmessage);
