@@ -237,6 +237,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatMessageController.cs" />
     <Compile Include="Controllers\Game\Board\LeaveController.cs" />
     <Compile Include="Controllers\Game\CreateGameController.cs" />
     <Compile Include="Controllers\Game\Board\GameController.cs" />
@@ -259,6 +260,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Home.css" />
+    <Content Include="Content\Templates\Core\ChatMessage.html" />
+    <Content Include="Content\Templates\Game\Listing\Player.html" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\Alerts.css" />
@@ -282,10 +285,15 @@
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-scenario.js" />
+    <Content Include="Scripts\angular-signalr-hub.js" />
+    <Content Include="Scripts\angular-signalr-hub.min.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\Core\AngularChat.js" />
+    <Content Include="Scripts\Core\AngularCommon.js" />
+    <Content Include="Scripts\Core\AngularHub.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-sanitize.min.js.map" />
@@ -662,7 +670,7 @@
     <Content Include="Views\Game\Listing\GameListing.cshtml" />
     <Content Include="Views\Game\Listing\Game.cshtml" />
     <Content Include="Views\Game\Listing\Detail.cshtml" />
-    <Content Include="Views\Shared\Layout\_Chat.cshtml" />
+    <Content Include="Views\Shared\Layout\_Listing.cshtml" />
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
     <Content Include="Views\Game\Board\Index.cshtml" />
     <Content Include="Views\Game\Board\Partials\_Waiting.cshtml" />
@@ -701,6 +709,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ChatMessage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

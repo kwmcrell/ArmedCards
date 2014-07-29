@@ -4,6 +4,8 @@
 /// <reference path="../../Core/ViewModels.js" />
 /// <reference path="../../knockout-3.0.0.js" />
 /// <reference path="ViewModels.js" />
+/// <reference path="../../angular.js" />
+/// <reference path="../../Core/Chat.js" />
 
 /*
 * Copyright (c) 2013, Kevin McRell & Paul Miller
@@ -211,7 +213,28 @@ Sidebar.prototype.ConnectionSuccess = function () {
 	ArmedCards.Game.Sidebar.CalculateChatHeight();
 };
 
+Sidebar.prototype.GameChatCtrl = function ($scope, $http) {
+    var offsetHours = new Date().getTimezoneOffset() / 60;
+
+    $http.get('/ChatMessage/View?gameID=' + $('#Game_GameID').val() + '&global=false&offsetHours=' + offsetHours).success(function (data, status, headers, config) {
+        $scope.gameMessages = data.Messages;
+    });
+
+    $http.get('/ChatMessage/View?offsetHours=' + offsetHours).success(function (data, status, headers, config) {
+        $scope.globalMessages = data.Messages;
+    });
+};
+
 $.Topic("beforeHubStart").subscribe(ArmedCards.Game.Sidebar.Init);
 $.Topic("hubStartComplete").subscribe(ArmedCards.Game.Sidebar.ConnectionSuccess);
 $.Topic("lobbyUpdated").subscribe(ArmedCards.Game.Sidebar.LobbyUpdate);
 $.Topic("newMessageAlert").subscribe(ArmedCards.Game.Sidebar.AlertNewMessage);
+
+
+/* Controllers */
+var gameApp = angular.module('gameApp', []);
+
+gameApp.controller('GameChatCtrl', ArmedCards.Game.Sidebar.GameChatCtrl);
+
+/* Directives */
+gameApp.directive('rgdChatmessage', ArmedCards.Core.Chat.RgdChatmessage);

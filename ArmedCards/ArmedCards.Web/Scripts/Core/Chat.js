@@ -44,7 +44,7 @@ Chat.prototype.BroadcastMessage = function (message, $discussion) {
         message.SentBy = "[Spectator] " + message.SentBy;
     }
 
-	var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.DateSent).toLocaleTimeString() + ")").html();
+	var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.SentDate).toLocaleTimeString() + ")").html();
 	var encodedMsg = $('<div />').text(message.Message).html();
 
 	$discussion.append('<li><strong>' + encodedName
@@ -138,6 +138,13 @@ Chat.prototype.Init = function () {
     }
 };
 
+Chat.prototype.RgdChatmessage = function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Core/ChatMessage.html'
+    };
+};
+
 $.Topic("beforeHubStart").subscribe(ArmedCards.Core.Chat.Init);
 $.Topic("hubStartComplete").subscribe(ArmedCards.Core.Chat.Join);
 
@@ -156,3 +163,4 @@ var Lobby = function (activeConnections) {
         self.ActiveConnections(newActiveConnections);
     }.bind(this);
 };
+

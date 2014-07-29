@@ -55,6 +55,12 @@
     <Compile Include="ActiveConnection\Select.cs" />
     <Compile Include="Card\Base\ISelect.cs" />
     <Compile Include="Card\Select.cs" />
+    <Compile Include="ChatMessage\Base\IDelete.cs" />
+    <Compile Include="ChatMessage\Base\IInsert.cs" />
+    <Compile Include="ChatMessage\Base\ISelect.cs" />
+    <Compile Include="ChatMessage\Delete.cs" />
+    <Compile Include="ChatMessage\Insert.cs" />
+    <Compile Include="ChatMessage\Select.cs" />
     <Compile Include="Deck\Base\ISelect.cs" />
     <Compile Include="Deck\Select.cs" />
     <Compile Include="Extensions\EntityDataReader.cs" />
@@ -112,6 +118,10 @@
     <Content Include="_DBScripts\Card\Card_SelectForDeal.sql" />
     <Content Include="_DBScripts\Card\DefaultCards.sql" />
     <Content Include="_DBScripts\Card\%40CardTable.sql" />
+    <Content Include="_DBScripts\ChatMessage\%40ChatMessageTable.sql" />
+    <Content Include="_DBScripts\ChatMessage\ChatMessage_Delete.sql" />
+    <Content Include="_DBScripts\ChatMessage\ChatMessage_Insert.sql" />
+    <Content Include="_DBScripts\ChatMessage\ChatMessage_Select.sql" />
     <Content Include="_DBScripts\DeckCard\DefaultDeckCard.sql" />
     <Content Include="_DBScripts\DeckCard\%40DeckCardTable.sql" />
     <Content Include="_DBScripts\Deck\Deck_Select.sql" />

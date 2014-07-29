@@ -6,6 +6,8 @@ using System.Configuration;
 using Hangfire;
 using Hangfire.SqlServer;
 using Hangfire.Dashboard;
+using AS = ArmedCards.BusinessLogic.AppServices;
+using Microsoft.Practices.Unity;
 
 [assembly: OwinStartup(typeof(ArmedCards.Web.Startup))]
 namespace ArmedCards.Web
@@ -29,6 +31,10 @@ namespace ArmedCards.Web
 
                 config.UseServer();
             });
+
+            AS.ChatMessage.Base.IDelete _deleteChatMessages = BusinessLogic.UnityConfig.Container.Resolve<AS.ChatMessage.Base.IDelete>();
+
+            RecurringJob.AddOrUpdate("DeleteChatMessages", () => _deleteChatMessages.Execute(), Cron.Weekly());
         }
     }
 }

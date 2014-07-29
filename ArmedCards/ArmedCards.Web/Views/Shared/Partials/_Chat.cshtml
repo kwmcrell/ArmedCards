@@ -26,17 +26,18 @@
     <div class="chatContainer">
         <div id="chatClient">
             <ul id="discussion" class="discussion">
+                <rgd-chatmessage ng-repeat="message in messages track by $index"></rgd-chatmessage>
             </ul>
         </div>
         <div class="chatField fakeInput">
-            <input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>
+            <input type="text" id="message" placeholder="Obscenities go here." rgd-enter="armedCardsHub.SendMessage(message)" ng-model="message.Message"><a id="sendmessage" href="#" class="button" ng-click="armedCardsHub.SendMessage(message)">Send</a>
         </div>
     </div>
     <div id="mainLobby" class="lobby">
-		<div class="lobbyPlayers">
-            <ul id="playerList" class="playerList" data-bind="foreach: ActiveConnections">
-                <li data-bind="attr: { name: ActiveConnectionID }, text: UserName"></li>
+        <div class="lobbyPlayers">
+            <ul id="playerList" class="playerList">
+                <rgd-player ng-repeat="player in players track by player.ActiveConnectionID"></rgd-player>
             </ul>
-		</div>
-	</div>
+        </div>
+    </div>
 </div>

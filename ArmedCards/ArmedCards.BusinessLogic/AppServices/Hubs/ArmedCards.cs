@@ -16,15 +16,26 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
     {
         private const string GLOBAL = "Global";
 
+        private AS.ChatMessage.Base.IInsert _insert;
+
+        public ArmedCards()
+        {
+            this._insert = BusinessLogic.UnityConfig.Container.Resolve<AS.ChatMessage.Base.IInsert>();
+        }
+
         /// <summary>
         /// Send a global chat message to all connections
         /// </summary>
         /// <param name="message">Message to send</param>
         [HubMethodName("SendMessage")]
-        public void SendMessage(Entities.Models.Hub.ChatMessage message)
+        public void SendMessage(Entities.ChatMessage message)
         {
-            message.SentBy = Context.User.Identity.Name;
-            message.DateSent = String.Format("{0} UTC", DateTime.UtcNow.ToString());
+            message.SentByUserId = Authentication.Security.CurrentUserId;
+            message.SentBy = Authentication.Security.CurrentUserName;
+            message.SentDate = DateTime.UtcNow;
+            message.DateSent = message.SentDate.ToLongTimeString();
+
+            _insert.Execute(message);
 
 			if (message.Global)
 			{
@@ -49,7 +60,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 				groupName = String.Format("Game_{0}", gameID.Value);
 			}
 
-            InsertConnection(groupName, connectionType);
+            Entities.ActiveConnection newConnection = InsertConnection(groupName, connectionType);
 
             Entities.Models.Hub.Lobby lobby = new Entities.Models.Hub.Lobby
             {
@@ -63,7 +74,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 			}
 			else
 			{
-				Clients.All.UpdateLobby(lobby);
+                Clients.All.UpdateLobby(lobby.ActiveConnections);
 			}
         }
 
@@ -92,22 +103,6 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
 			};
 
 			Entities.ActiveConnection connection = _deleteConnection.Execute(filter);
-
-            /*if(connection.ConnectionType != Entities.Enums.ConnectionType.GlobalChat)
-            {
-                Int32 gameID = Convert.ToInt32(connection.GroupName.Replace("Game_", ""));
-
-                Entities.User user = new Entities.User { UserId = connection.User_UserId, DisplayName = connection.UserName };
-
-                Entities.Enums.GamePlayerType playerType = 
-                    connection.ConnectionType == Entities.Enums.ConnectionType.GamePlayer ?
-                            Entities.Enums.GamePlayerType.Player :
-                            Entities.Enums.GamePlayerType.Spectator;
-
-                AS.Game.Base.ILeave _leaveGame = BusinessLogic.UnityConfig.Container.Resolve<AS.Game.Base.ILeave>();
-
-                _leaveGame.Execute(gameID, user, playerType);
-            }*/
 
 			Clients.All.RemoveConnection(connection);
 		}
@@ -244,7 +239,7 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
             return connections;
         }
 
-        private void InsertConnection(String groupName, Entities.Enums.ConnectionType connectionType)
+        private Entities.ActiveConnection InsertConnection(String groupName, Entities.Enums.ConnectionType connectionType)
         {
             Int32 userId = Authentication.Security.CurrentUserId;
 
@@ -261,7 +256,11 @@ namespace ArmedCards.BusinessLogic.AppServices.Hubs
                 };
 
                 _insertConnection.Execute(connection);
+
+                return connection;
             }
+
+            return null;
 		}
 
 		#endregion "Private Methods"

@@ -21,54 +21,32 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+var ArmedCards = ArmedCards || {};
+ArmedCards.Core = ArmedCards.Core || {};
 
-namespace ArmedCards.Entities.Models.Hub
-{
-    /// <summary>
-    /// Model that describes a global chat message
-    /// </summary>
-    public class ChatMessage
-    {
-        /// <summary>
-        /// The name of the user that sent the message
-        /// </summary>
-        [JsonProperty("SentBy")]
-        public String SentBy { get; set; }
+/* Application */
+ArmedCards.Core.App = angular.module('gameApp', ['SignalR']);
 
-        /// <summary>
-        /// The message that was sent
-        /// </summary>
-        [JsonProperty("Message")]
-        public String Message { get; set; }
+/* Controllers */
 
-        /// <summary>
-        /// Date the was sent
-        /// </summary>
-        [JsonProperty("DateSent")]
-        public String DateSent { get; set; }
+/* Directives */
+ArmedCards.Core.App.directive('rgdEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if (event.which === 13) {
+                scope.$apply(function () {
+                    scope.$eval(attrs.rgdEnter);
+                });
 
-		/// <summary>
-		/// The game ID for the game specific message
-		/// </summary>
-		[JsonProperty("GameID")]
-		public Int32? GameID { get; set; }
+                event.preventDefault();
+            }
+        });
+    };
+});
 
-		/// <summary>
-		/// Is message meant for global
-		/// </summary>
-		[JsonProperty("Global")]
-		public Boolean Global { get; set; }
-
-        /// <summary>
-        /// The type of connection
-        /// </summary>
-        [JsonProperty("ConnectionType")]
-        public Entities.Enums.ConnectionType ConnectionType { get; set; }
-    }
-}
+ArmedCards.Core.App.directive('rgdChatmessage', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Core/ChatMessage.html'
+    };
+});

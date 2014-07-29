@@ -22,29 +22,30 @@
 *@
 
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>Armed Cards - @ViewBag.Title</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="description" content="This is a game of Armed Cards, a version of Cards Against Humanity Online.">
-        @Styles.Render("~/bundles/Styles")
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/Game/PreBoard")
-    </head>
-    <body class="right chatOpen">
-        <div id="overlay" class="overlay">
-	    </div>
-        <div id="hubConnectionText" class="hubConnectionText">
-            <p id="reconnecting">Reconnecting...</p>
-            <p id="unableToReconnect" class="hidden">Unable to reconnect please refresh your <a id="reloadPage" href="#">page</a></p>
-        </div>
-        @RenderBody()
-		@RenderSection("Sidebar")
-		@Scripts.Render("~/bundles/toastr")
-		@Scripts.Render("~/bundles/Core/Login")
-		@Scripts.Render("~/bundles/GreenSock")
-        @RenderSection("Scripts", required: false)
-    </body>
+<html lang="en" ng-app="gameApp">
+<head>
+    <meta charset="utf-8" />
+    <title>Armed Cards - @ViewBag.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="This is a game of Armed Cards, a version of Cards Against Humanity Online.">
+    @Styles.Render("~/bundles/Styles")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Game/PreBoard")
+</head>
+<body class="right chatOpen">
+    <div id="overlay" class="overlay">
+    </div>
+    <div id="hubConnectionText" class="hubConnectionText">
+        <p id="reconnecting">Reconnecting...</p>
+        <p id="unableToReconnect" class="hidden">Unable to reconnect please refresh your <a id="reloadPage" href="#">page</a></p>
+    </div>
+    @RenderBody()
+    @RenderSection("Sidebar")
+    <script src="~/Scripts/angular.min.js"></script>
+    @Scripts.Render("~/bundles/toastr")
+    @Scripts.Render("~/bundles/Core/Login")
+    @Scripts.Render("~/bundles/GreenSock")
+    @RenderSection("Scripts", required: false)
+</body>
 </html>

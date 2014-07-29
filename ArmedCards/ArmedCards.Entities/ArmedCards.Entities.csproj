@@ -70,6 +70,8 @@
     <Compile Include="Filters\ActiveConnection\SelectAll.cs" />
     <Compile Include="Filters\Card\Select.cs" />
     <Compile Include="Filters\Card\SelectForDeal.cs" />
+    <Compile Include="Filters\ChatMessage\Delete.cs" />
+    <Compile Include="Filters\ChatMessage\Select.cs" />
     <Compile Include="Filters\Deck\Select.cs" />
     <Compile Include="Filters\Deck\SelectByGameID.cs" />
     <Compile Include="Filters\GamePlayerCard\Delete.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="Models\Game\Listing\Listing.cs" />
     <Compile Include="Models\Helpers\WaitingHeader.cs" />
     <Compile Include="Models\Home\Index.cs" />
-    <Compile Include="Models\Hub\ChatMessage.cs" />
+    <Compile Include="ChatMessage.cs" />
     <Compile Include="Models\Hub\Lobby.cs" />
     <Compile Include="Models\Hub\Messages\PlayCard.cs" />
     <Compile Include="Models\Hub\Messages\VoteToKick.cs" />

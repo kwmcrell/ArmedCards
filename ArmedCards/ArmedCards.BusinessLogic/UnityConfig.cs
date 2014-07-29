@@ -291,6 +291,28 @@ namespace ArmedCards.BusinessLogic
             Container.RegisterType<DataAccess.Leaderboard.Base.ISelect,                     DataAccess.Leaderboard.Select>();
 
             #endregion "Leaderboard"
+
+            #region "Chat Message"
+
+            Container.RegisterType<BusinessLogic.AppServices.ChatMessage.Base.IInsert, BusinessLogic.AppServices.ChatMessage.Insert>();
+            Container.RegisterType<BusinessLogic.DomainServices.ChatMessage.Base.IInsert, BusinessLogic.DomainServices.ChatMessage.Insert>();
+            Container.RegisterType<BusinessLogic.Repositories.ChatMessage.Base.IInsert, BusinessLogic.Repositories.ChatMessage.Insert>();
+
+            Container.RegisterType<DataAccess.ChatMessage.Base.IInsert, DataAccess.ChatMessage.Insert>();
+
+            Container.RegisterType<BusinessLogic.AppServices.ChatMessage.Base.ISelect, BusinessLogic.AppServices.ChatMessage.Select>();
+            Container.RegisterType<BusinessLogic.DomainServices.ChatMessage.Base.ISelect, BusinessLogic.DomainServices.ChatMessage.Select>();
+            Container.RegisterType<BusinessLogic.Repositories.ChatMessage.Base.ISelect, BusinessLogic.Repositories.ChatMessage.Select>();
+
+            Container.RegisterType<DataAccess.ChatMessage.Base.ISelect, DataAccess.ChatMessage.Select>();
+
+            Container.RegisterType<BusinessLogic.AppServices.ChatMessage.Base.IDelete, BusinessLogic.AppServices.ChatMessage.Delete>();
+            Container.RegisterType<BusinessLogic.DomainServices.ChatMessage.Base.IDelete, BusinessLogic.DomainServices.ChatMessage.Delete>();
+            Container.RegisterType<BusinessLogic.Repositories.ChatMessage.Base.IDelete, BusinessLogic.Repositories.ChatMessage.Delete>();
+
+            Container.RegisterType<DataAccess.ChatMessage.Base.IDelete, DataAccess.ChatMessage.Delete>();
+
+            #endregion "Chat Message"
         }
     }
 }

@@ -56,9 +56,13 @@
         <a id="roundHistoryTab" href="#" class="button">History</a>
     </fieldset>
     <div class="chatContainer" style="width:100%;">
-        <div id="chatClient">
-            <ul id="gameDiscussion" class="discussion"></ul>
-            <ul id="discussion" class="discussion hidden"></ul>
+        <div id="chatClient" ng-controller="GameChatCtrl">
+            <ul id="gameDiscussion" class="discussion">
+                <rgd-chatmessage ng-repeat="message in gameMessages"></rgd-chatmessage>
+            </ul>
+            <ul id="discussion" class="discussion hidden">
+                <rgd-chatmessage ng-repeat="message in globalMessages"></rgd-chatmessage>
+            </ul>
             @Html.Partial("~/Views/Game/Board/Sidebar/_RoundHistory.cshtml", Model.AllRoundsViewModel)
         </div>
         <div id="chatInputDiv" class="chatField fakeInput">
