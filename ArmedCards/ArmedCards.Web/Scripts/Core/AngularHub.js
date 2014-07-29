@@ -28,20 +28,11 @@ var ArmedCards = ArmedCards || {};
 ArmedCards.Core = ArmedCards.Core || {};
 
 function AngularHub() {
-    this.listeners = {
-        'temp': function() { }
-    };
-
-    this.methods = new Array();
 }
 
 if (!ArmedCards.Core.AngularHub) {
     ArmedCards.Core.AngularHub = new AngularHub();
 }
-
-AngularHub.prototype.AddMethod = function (name) {
-    ArmedCards.Core.AngularHub.methods.push(name);
-};
 
 AngularHub.prototype.Factory = function ($rootScope, Hub) {
     var ArmedCardsHub = this;
@@ -61,9 +52,13 @@ AngularHub.prototype.Factory = function ($rootScope, Hub) {
     $rootScope.$broadcast('beforeHubStart');
 
     //declaring the hub connection
-    ArmedCardsHub.Hub = new Hub('ArmedCardsHub', ArmedCards.Core.AngularHub.listeners, ArmedCards.Core.AngularHub.methods,
-                                 ArmedCardsHub.Reconnecting, ArmedCardsHub.Reconnected,
-                                 ArmedCardsHub.Disconnected);
+    ArmedCardsHub.Hub = new Hub('ArmedCardsHub', 
+                                {
+                                    'temp' : function() { }
+                                }, [],
+                                ArmedCardsHub.Reconnecting,
+                                ArmedCardsHub.Reconnected,
+                                ArmedCardsHub.Disconnected);
 
     return ArmedCardsHub;
 };

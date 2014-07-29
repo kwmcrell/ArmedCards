@@ -87,7 +87,7 @@ AS
 			WHERE [GameID] = @GameID
 			AND   [Global] = 'false'
 
-			IF @count > 1000
+			IF @count > 500
 				BEGIN
 					DELETE TOP (1)
 					FROM [dbo].[ChatMessage]
