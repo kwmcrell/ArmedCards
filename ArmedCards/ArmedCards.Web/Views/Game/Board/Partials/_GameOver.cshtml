@@ -26,9 +26,9 @@
 
 <div id="gameOverDiv" data-bind="css : { hidden: !HasWinner() }, if: HasWinner()">
     <div class="gameOver">
-        <h3>You're all terrible people, but <a href="#" data-bind="html: Winner.User.DisplayName"></a> takes the cake!</h3>
+        <h3>You're all terrible people, but <a href="#" data-bind="html: Winner().User.DisplayName, attr: { href: '/Profile/' + Winner().User.UserId }"></a> takes the cake!</h3>
         <ul class="playerScores" data-bind="foreach: RankedPlayers">
-            <li><span class="loggedIn"><a href="#"><img data-bind="attr: { src: User.PictureUrl }, html: User.DisplayName" alt="User Avatar"></a></span><span class="points" data-bind="html: '+' + Points + ' points'"></span></li>
+            <li><span class="loggedIn"><a href="#" data-bind="attr: { href: '/Profile/' + User.UserId }"><img data-bind="attr: { src: User.PictureUrl }" alt="User Avatar"><span data-bind="html: User.DisplayName"></span></a></span><span class="points" data-bind="html: '+' + Points + ' points'"></span></li>
         </ul>
         <div><a data-bind="attr: { href: '/Leave/Index/' + GameID }" class="button nope">Leave Game</a></div>
     </div>
