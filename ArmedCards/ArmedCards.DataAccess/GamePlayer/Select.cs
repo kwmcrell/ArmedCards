@@ -29,6 +29,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ArmedCards.Library.Extensions;
 
 namespace ArmedCards.DataAccess.GamePlayer
 {
@@ -116,6 +117,13 @@ namespace ArmedCards.DataAccess.GamePlayer
 					{
 						gamePlayers.Add(new Entities.GamePlayer(idr));
 					}
+
+                    idr.NextResult();
+
+                    while(idr.Read())
+                    {
+                        filter.TotalPoints = idr.GetValueByName<Int64>("Points");
+                    }
 				}
 			}
 

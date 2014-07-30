@@ -28,7 +28,7 @@ namespace ArmedCards.Entities.Models.Profile
 		/// <summary>
 		/// User's total points
 		/// </summary>
-		public Int32 TotalPoints { get; set; }
+		public Int64 TotalPoints { get; set; }
 
 		/// <summary>
 		/// The games the user belongs to

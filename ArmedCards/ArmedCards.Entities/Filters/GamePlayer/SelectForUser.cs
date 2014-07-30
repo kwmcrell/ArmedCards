@@ -43,5 +43,10 @@ namespace ArmedCards.Entities.Filters.GamePlayer
         /// The type of players to select
         /// </summary>
         public Enums.GamePlayerType PlayerType { get; set; }
+
+        /// <summary>
+        /// The total number of points that the user has
+        /// </summary>
+        public Int64 TotalPoints { get; set; }
 	}
 }

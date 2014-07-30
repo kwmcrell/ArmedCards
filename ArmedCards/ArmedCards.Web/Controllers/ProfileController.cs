@@ -79,7 +79,7 @@ namespace ArmedCards.Web.Controllers
 
 				model.GameProfiles = _selectGamePlayer.Execute(filter);
 
-				model.TotalPoints = model.GameProfiles.Sum(x => x.Points);
+                model.TotalPoints = filter.TotalPoints;
 
                 TempData["showSignOut"] = model.MyProfile;
 

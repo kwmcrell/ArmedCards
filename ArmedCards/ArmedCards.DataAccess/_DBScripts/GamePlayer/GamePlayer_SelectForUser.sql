@@ -57,5 +57,9 @@ AS
 	 AND   GP.[Type]   = @Type
 	 AND   GP.[Status] = 1
 
+	 SELECT [Points]
+	 FROM [dbo].[Leaderboard] L
+	 WHERE L.[UserId] = @UserId
+
 	COMMIT
 GO
