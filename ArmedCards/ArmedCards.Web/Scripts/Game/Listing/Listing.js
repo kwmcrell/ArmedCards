@@ -91,6 +91,11 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub
         chat.ScrollDiscussion('#discussion');
     });
 
+    $http.get('/GameListing/Games').success(function (data, status, headers, config) {
+        $scope.games = data.Games;
+        $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
+    });
+
     $scope.armedCardsHub = ArmedCardsHub;
 
     $scope.$on('hubReconnecting', function () {
@@ -125,5 +130,12 @@ ArmedCards.Core.App.directive('rgdPlayer', function () {
     return {
         restrict: 'AEC',
         templateUrl: '/Content/Templates/Game/Listing/Player.html'
+    };
+});
+
+ArmedCards.Core.App.directive('rgdGame', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Game/Listing/Game.html'
     };
 });

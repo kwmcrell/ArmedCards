@@ -63,7 +63,9 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
         $timeout(function () {
             var discussion = angular.element(discussionId);
 
-            discussion.scrollTop(discussion[0].scrollHeight);
+            if (discussion[0]) {
+                discussion.scrollTop(discussion[0].scrollHeight);
+            }
             
         }, 100);
     };

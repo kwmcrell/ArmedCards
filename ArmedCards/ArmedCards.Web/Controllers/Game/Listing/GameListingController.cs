@@ -66,14 +66,17 @@ namespace ArmedCards.Web.Controllers.Game.Listing
                 model.GameToShow = id.Value;
             }
 
-            Entities.Filters.Game.SelectAll filter = new Entities.Filters.Game.SelectAll();
-
-            model.Games = _selectGame.Execute(filter);
-
-            model.MaxOfficialDeckCount = filter.MaxOfficialCount;
-
             return View("~/Views/Game/Listing/GameListing.cshtml", model);
         }
 
+        [HttpGet]
+        public JsonResult Games()
+        {
+            Entities.Filters.Game.SelectAll filter = new Entities.Filters.Game.SelectAll();
+
+            List<Entities.Game> games = _selectGame.Execute(filter);
+
+            return Json(new { Games = games.Select(x => new Entities.Models.Game.Listing.Game(x)), MaxOfficialDeckCount = filter.MaxOfficialCount }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
