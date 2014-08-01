@@ -27,11 +27,31 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-/* Controllers */
+function ListingCtrl($scope, $http, $window, ArmedCardsHub, ArmedCardsChat) {
+    $scope.reconnecting = false;
+    $scope.unableToReconnect = false;
+    $scope.passphraseWrong = false;
+    $scope.armedCardsHub = ArmedCardsHub;
 
-ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub', 'ArmedCardsChat', function ($scope, $http, ArmedCardsHub, ArmedCardsChat) {
+    $http.get('/GameListing/Games').success(function (data, status, headers, config) {
+        $scope.games = data.Games;
+        $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
+    });
 
     // Update ArmedCardsHub
+    UpdateHub($scope, ArmedCardsHub);
+
+    //Setup Chat
+    SetupChat($scope, ArmedCardsHub, ArmedCardsChat);
+
+    //Setup Event Listeners
+    SetupEventListeners($scope);
+
+    //Setup Game Detail
+    SetupGameDetail($scope, $http);
+};
+
+function UpdateHub($scope, ArmedCardsHub) {
     ArmedCardsHub.SendMessage = function (message) {
         if (message.Message != null && message.Message != undefined && message.Message != '') {
 
@@ -57,7 +77,9 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub
     $scope.$on('hubStartComplete', ArmedCardsHub.Join);
 
     ArmedCardsHub.Hub.addNewMethods(['Join', 'SendMessage']);
+};
 
+function SetupChat($scope, ArmedCardsHub, ArmedCardsChat) {
     var chat = new ArmedCardsChat();
 
     chat.UpdateLobby = function (activeConnections) {
@@ -90,14 +112,9 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub
 
         chat.ScrollDiscussion('#discussion');
     });
+};
 
-    $http.get('/GameListing/Games').success(function (data, status, headers, config) {
-        $scope.games = data.Games;
-        $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
-    });
-
-    $scope.armedCardsHub = ArmedCardsHub;
-
+function SetupEventListeners($scope) {
     $scope.$on('hubReconnecting', function () {
         $scope.overlay = true;
         $scope.reconnecting = true;
@@ -119,11 +136,56 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', 'ArmedCardsHub
 
         $scope.$apply();
     });
+};
 
-    $scope.overlay = false;
-    $scope.reconnecting = false;
-    $scope.unableToReconnect = false;
-}]);
+function SetupGameDetail($scope, $http) {
+    $scope.getDetail = function (id) {
+        $http.get('/Detail?id=' + id).success($scope.showDetail);
+    };
+
+    $scope.showDetail = function (data, status, headers, config) {
+        $scope.gameDetail = data.Game;
+
+        $scope.showGameDetail = true;
+        $scope.overlay = true;
+    };
+
+    $scope.validatePassphraseResponse = function (response) {
+        if (response.Validated == 0) {
+            $scope.passphraseWrong = true;
+        }
+        else {
+            $scope.passphraseWrong = false;
+            $window.location.href = response.URL;
+        }
+    };
+
+    $scope.validatePassphrase = function (playerType) {
+        if ($('#userSuppliedPassphrase') != null || $('#userSuppliedPassphrase') != undefined) {
+
+            var data = {
+                id: $scope.gameDetail.GameID,
+                passphrase: $('#userSuppliedPassphrase').val(),
+                playerType: playerType
+            };
+
+            $http.post('/ValidatePassphrase', data)
+                 .success($scope.validatePassphraseResponse);
+        }
+        else {
+            this.validatePassphraseResponse(1);
+        }
+    };
+
+    $scope.hideDetail = function () {
+        $scope.showGameDetail = false;
+        $scope.overlay = false;
+    };
+};
+
+/* Controllers */
+
+ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', '$window', 'ArmedCardsHub', 'ArmedCardsChat', ListingCtrl]);
 
 /* Directives  */
 ArmedCards.Core.App.directive('rgdPlayer', function () {

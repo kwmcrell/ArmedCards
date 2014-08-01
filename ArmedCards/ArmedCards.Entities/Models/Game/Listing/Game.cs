@@ -13,7 +13,7 @@ namespace ArmedCards.Entities.Models.Game.Listing
     {
         public Game() { }
 
-        public Game(Entities.Game game)
+        public Game(Entities.Game game, Int32 currentUserId = 0)
         {
             this.GameID = game.GameID;
             this.Title = game.Title;
@@ -30,6 +30,10 @@ namespace ArmedCards.Entities.Models.Game.Listing
             this.IsPersistent = game.IsPersistent;
             this.OfficialDeckCount = game.OfficialDeckCount;
             this.AllowSpectators = game.MaxNumberOfSpectators > 0;
+            this.IsFull = game.IsFull();
+            this.IsCurrentPlayer = game.IsCurrentPlayer(currentUserId);
+            this.MaxSpectatorsReached = game.MaxSpectatorsReached();
+            this.IsCurrentSpectator = game.IsCurrentSpectator(currentUserId);
         }
 
         /// <summary>
@@ -85,11 +89,7 @@ namespace ArmedCards.Entities.Models.Game.Listing
         /// <summary>
         /// Determine if the game is full
         /// </summary>
-        /// <returns></returns>
-        public Boolean IsFull()
-        {
-            return PlayerCount == MaxNumberOfPlayers;
-        }
+        public Boolean IsFull { get; set; }
 
         /// <summary>
         /// The current number of spectators
@@ -115,5 +115,20 @@ namespace ArmedCards.Entities.Models.Game.Listing
         /// Game allows spectators
         /// </summary>
         public Boolean AllowSpectators { get; set; }
+
+        /// <summary>
+        /// Is current player
+        /// </summary>
+        public Boolean IsCurrentPlayer { get; set; }
+
+        /// <summary>
+        /// Are spectators full
+        /// </summary>
+        public Boolean MaxSpectatorsReached { get; set; }
+
+        /// <summary>
+        /// Is a current spectator
+        /// </summary>
+        public Boolean IsCurrentSpectator { get; set; }
     }
 }
