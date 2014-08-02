@@ -27,7 +27,7 @@
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-function ListingCtrl($scope, $http, $window, ArmedCardsHub, ArmedCardsChat) {
+function ListingCtrl($scope, $http, $window, $timeout, ArmedCardsHub, ArmedCardsChat) {
     $scope.reconnecting = false;
     $scope.unableToReconnect = false;
     $scope.passphraseWrong = false;
@@ -48,7 +48,7 @@ function ListingCtrl($scope, $http, $window, ArmedCardsHub, ArmedCardsChat) {
     SetupEventListeners($scope);
 
     //Setup Game Detail
-    SetupGameDetail($scope, $http);
+    SetupGameDetail($scope, $http, $window, $timeout);
 };
 
 function UpdateHub($scope, ArmedCardsHub) {
@@ -138,7 +138,7 @@ function SetupEventListeners($scope) {
     });
 };
 
-function SetupGameDetail($scope, $http) {
+function SetupGameDetail($scope, $http, $window, $timeout) {
     $scope.getDetail = function (id) {
         $http.get('/Detail?id=' + id).success($scope.showDetail);
     };
@@ -148,6 +148,20 @@ function SetupGameDetail($scope, $http) {
 
         $scope.showGameDetail = true;
         $scope.overlay = true;
+
+        $timeout(function () {
+
+            var detailModal = angular.element('#detailModal');
+
+            var outerHeight = detailModal.outerHeight();
+            var windowHeight = angular.element($window).height();
+
+            if (outerHeight > windowHeight) {
+                detailModal.height(windowHeight - 50);
+                detailModal.css("overflow", "scroll");
+            }
+
+        }, 50);
     };
 
     $scope.validatePassphraseResponse = function (response) {
@@ -180,12 +194,17 @@ function SetupGameDetail($scope, $http) {
     $scope.hideDetail = function () {
         $scope.showGameDetail = false;
         $scope.overlay = false;
+
+        var detailModal = angular.element('#detailModal');
+
+        detailModal.height('');
+        detailModal.css("overflow", "");
     };
 };
 
 /* Controllers */
 
-ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', '$window', 'ArmedCardsHub', 'ArmedCardsChat', ListingCtrl]);
+ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', '$window', '$timeout', 'ArmedCardsHub', 'ArmedCardsChat', ListingCtrl]);
 
 /* Directives  */
 ArmedCards.Core.App.directive('rgdPlayer', function () {
