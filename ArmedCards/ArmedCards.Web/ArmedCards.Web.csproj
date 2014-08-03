@@ -669,8 +669,6 @@
     <Content Include="Views\CreateGame\CreateGame.cshtml" />
     <Content Include="Views\Shared\Partials\_Header.cshtml" />
     <Content Include="Views\Game\Listing\GameListing.cshtml" />
-    <Content Include="Views\Game\Listing\Game.cshtml" />
-    <Content Include="Views\Game\Listing\Detail.cshtml" />
     <Content Include="Views\Shared\Layout\_Listing.cshtml" />
     <Content Include="Views\Shared\Partials\_Chat.cshtml" />
     <Content Include="Views\Game\Board\Index.cshtml" />
