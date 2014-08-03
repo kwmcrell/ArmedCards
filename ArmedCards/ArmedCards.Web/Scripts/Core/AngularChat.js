@@ -63,7 +63,9 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
         $timeout(function () {
             var discussion = angular.element(discussionId);
 
-            discussion.scrollTop(discussion[0].scrollHeight);
+            if (discussion[0]) {
+                discussion.scrollTop(discussion[0].scrollHeight);
+            }
             
         }, 100);
     };
@@ -73,4 +75,4 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
     return ArmedCardsChat;
 };
 
-ArmedCards.Core.App.factory('ArmedCardsChat', ['$rootScope', '$http', '$timeout', ArmedCards.Core.AngularChat.Factory]);
+angular.module('gameApp').factory('ArmedCardsChat', ['$rootScope', '$http', '$timeout', ArmedCards.Core.AngularChat.Factory]);

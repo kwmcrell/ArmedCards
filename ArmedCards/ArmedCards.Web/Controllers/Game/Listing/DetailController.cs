@@ -52,17 +52,14 @@ namespace ArmedCards.Web.Controllers.Game.Listing
         /// <param name="id">The game ID</param>
         /// <returns>The details of the selected game</returns>
         [HttpGet]
-        public ActionResult Index(int id)
+        public JsonResult Index(int id)
         {
             Entities.Models.Game.Listing.Detail model = new Entities.Models.Game.Listing.Detail();
 
             Entities.Filters.Game.Select filter = new Entities.Filters.Game.Select();
             filter.GameID = id;
 
-            model.Game = _selectGame.Execute(filter);
-
-            return PartialView("~/Views/Game/Listing/Detail.cshtml", model);
+            return Json(new { Game = new Entities.Models.Game.Listing.Game(_selectGame.Execute(filter), Authentication.Security.CurrentUserId) }, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

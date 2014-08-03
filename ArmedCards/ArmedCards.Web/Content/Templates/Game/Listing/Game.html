@@ -1,0 +1,10 @@
+﻿<a href class="game" id="{{game.GameID}}">
+    <h3>{{game.Title}}</h3>
+    <span title="Private game" ng-show="game.IsPrivate">Private</span>
+    <span class="playas"><span class="count">{{game.PlayerCount}} / {{game.MaxNumberOfPlayers}}</span> Players</span>
+    <span title="Users can close their browser or tab without leaving the game" ng-show="game.IsPersistent">Persistent</span>
+    <span title="Spectators are allowed" ng-show="game.AllowSpectators">Spectators</span>
+    <span title="All official decks will be dealt" ng-show="maxOfficialDeckCount == game.OfficialDeckCount">All official decks</span>
+    <span title="1 official deck will be dealt" ng-show="1 == game.OfficialDeckCount">1 official deck</span>
+    <span title="{{game.OfficialDeckCount}} official decks will be dealt" ng-show="maxOfficialDeckCount != game.OfficialDeckCount && game.OfficialDeckCount > 1">{{game.OfficialDeckCount}} official decks</span>
+</a>
