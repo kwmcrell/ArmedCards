@@ -212,10 +212,10 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
 
 /* Controllers */
 
-ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', '$window', '$timeout', 'ArmedCardsHub', 'ArmedCardsChat', ListingCtrl]);
+angular.module('gameApp').controller('ListingCtrl', ['$scope', '$http', '$window', '$timeout', 'ArmedCardsHub', 'ArmedCardsChat', ListingCtrl]);
 
 /* Directives  */
-ArmedCards.Core.App.directive('rgdPlayer', function () {
+angular.module('gameApp').directive('rgdPlayer', function () {
     return {
         restrict: 'AEC',
         replace: true,
@@ -223,7 +223,7 @@ ArmedCards.Core.App.directive('rgdPlayer', function () {
     };
 });
 
-ArmedCards.Core.App.directive('rgdGame', ['$http', '$timeout', '$window', function ($http, $timeout, $window) {
+angular.module('gameApp').directive('rgdGame', ['$http', '$timeout', '$window', function ($http, $timeout, $window) {
     return {
         restrict: 'AEC',
         templateUrl: '/Content/Templates/Game/Listing/Game.html',
@@ -239,7 +239,7 @@ ArmedCards.Core.App.directive('rgdGame', ['$http', '$timeout', '$window', functi
     };
 }]);
 
-ArmedCards.Core.App.directive('rgdGamedetail', function () {
+angular.module('gameApp').directive('rgdGamedetail', function () {
     return {
         restrict: 'AEC',
         templateUrl: '/Content/Templates/Game/Listing/Detail.html',

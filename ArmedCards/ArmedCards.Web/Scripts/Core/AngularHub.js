@@ -63,5 +63,5 @@ AngularHub.prototype.Factory = function ($rootScope, Hub) {
     return ArmedCardsHub;
 };
 
-ArmedCards.Core.App.factory('ArmedCardsHub', ['$rootScope', 'Hub', ArmedCards.Core.AngularHub.Factory]);
+angular.module('gameApp').factory('ArmedCardsHub', ['$rootScope', 'Hub', ArmedCards.Core.AngularHub.Factory]);
 

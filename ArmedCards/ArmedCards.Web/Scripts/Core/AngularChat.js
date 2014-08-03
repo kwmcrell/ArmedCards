@@ -75,4 +75,4 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
     return ArmedCardsChat;
 };
 
-ArmedCards.Core.App.factory('ArmedCardsChat', ['$rootScope', '$http', '$timeout', ArmedCards.Core.AngularChat.Factory]);
+angular.module('gameApp').factory('ArmedCardsChat', ['$rootScope', '$http', '$timeout', ArmedCards.Core.AngularChat.Factory]);
