@@ -48,16 +48,16 @@ function ListingCtrl($scope, $http, $window, $timeout, ArmedCardsHub, ArmedCards
     SetupEventListeners($scope);
 
     //Setup Game Detail
-    SetupGameDetail($scope, $http, $window, $timeout);
+    $scope.Detail = SetupGameDetail($scope, $http, $window, $timeout);
 };
 
 function UpdateHub($scope, ArmedCardsHub) {
     ArmedCardsHub.SendMessage = function (message) {
         if (message.Message != null && message.Message != undefined && message.Message != '') {
 
-            message.GameID = $('#Game_GameID').val();
-            message.Global = !$('#discussion').hasClass('hidden');
-            message.ConnectionType = $('#ConnectionType').val();
+            message.GameID = angular.element('#Game_GameID').val();
+            message.Global = !angular.element('#discussion').hasClass('hidden');
+            message.ConnectionType = angular.element('#ConnectionType').val();
 
             ArmedCardsHub.Hub.SendMessage(message);
         }
@@ -68,8 +68,8 @@ function UpdateHub($scope, ArmedCardsHub) {
     };
 
     ArmedCardsHub.Join = function () {
-        var gameID = $('#Game_GameID').val();
-        var connectionType = $('#ConnectionType').val();
+        var gameID = angular.element('#Game_GameID').val();
+        var connectionType = angular.element('#ConnectionType').val();
 
         ArmedCardsHub.Hub.Join(gameID, connectionType);
     };
@@ -139,11 +139,13 @@ function SetupEventListeners($scope) {
 };
 
 function SetupGameDetail($scope, $http, $window, $timeout) {
-    $scope.getDetail = function (id) {
-        $http.get('/Detail?id=' + id).success($scope.showDetail);
+    var detail = { };
+
+    detail.getDetail = function (id) {
+        $http.get('/Detail?id=' + id).success(detail.showDetail);
     };
 
-    $scope.showDetail = function (data, status, headers, config) {
+    detail.showDetail = function (data, status, headers, config) {
         $scope.gameDetail = data.Game;
 
         $scope.showGameDetail = true;
@@ -164,7 +166,7 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
         }, 50);
     };
 
-    $scope.validatePassphraseResponse = function (response) {
+    detail.validatePassphraseResponse = function (response) {
         if (response.Validated == 0) {
             $scope.passphraseWrong = true;
         }
@@ -174,32 +176,38 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
         }
     };
 
-    $scope.validatePassphrase = function (playerType) {
-        if ($('#userSuppliedPassphrase') != null || $('#userSuppliedPassphrase') != undefined) {
+    detail.validatePassphrase = function (playerType) {
+        var passphrase = angular.element('#userSuppliedPassphrase');
+
+        if (passphrase != null || passphrase != undefined) {
 
             var data = {
                 id: $scope.gameDetail.GameID,
-                passphrase: $('#userSuppliedPassphrase').val(),
+                passphrase: passphrase.val(),
                 playerType: playerType
             };
 
             $http.post('/ValidatePassphrase', data)
-                 .success($scope.validatePassphraseResponse);
+                 .success(detail.validatePassphraseResponse);
         }
         else {
-            this.validatePassphraseResponse(1);
+            this.validatePassphraseResponse({
+                Validated : 1
+            });
         }
     };
 
-    $scope.hideDetail = function () {
+    detail.hideDetail = function () {
         $scope.showGameDetail = false;
         $scope.overlay = false;
 
         var detailModal = angular.element('#detailModal');
 
         detailModal.height('');
-        detailModal.css("overflow", "");
+        detailModal.css('overflow', '');
     };
+
+    return detail;
 };
 
 /* Controllers */
@@ -210,13 +218,32 @@ ArmedCards.Core.App.controller('ListingCtrl', ['$scope', '$http', '$window', '$t
 ArmedCards.Core.App.directive('rgdPlayer', function () {
     return {
         restrict: 'AEC',
+        replace: true,
         templateUrl: '/Content/Templates/Game/Listing/Player.html'
     };
 });
 
-ArmedCards.Core.App.directive('rgdGame', function () {
+ArmedCards.Core.App.directive('rgdGame', ['$http', '$timeout', '$window', function ($http, $timeout, $window) {
     return {
         restrict: 'AEC',
-        templateUrl: '/Content/Templates/Game/Listing/Game.html'
+        templateUrl: '/Content/Templates/Game/Listing/Game.html',
+        scope: false,
+        replace: true,
+        link: function ($scope, $element, $attributes) {
+            $element.bind({
+                click: function () {
+                    $scope.Detail.getDetail($attributes.id);
+                }
+            });
+        }
     };
+}]);
+
+ArmedCards.Core.App.directive('rgdGamedetail', function () {
+    return {
+        restrict: 'AEC',
+        templateUrl: '/Content/Templates/Game/Listing/Detail.html',
+        scope: false,
+        replace: true
+    }
 });

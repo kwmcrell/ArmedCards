@@ -48,38 +48,7 @@
 
     header.ExtraHtml.InnerHtml = Buttons().ToHtmlString();
 }
-<div id="detailModal" class="confirmMessage logIn" ng-class="showGameDetail ? 'on' : ''">
-    <h3>{{gameDetail.Title}}</h3>
-    <div class="meta">
-        <span title="Private game" ng-show="gameDetail.IsPrivate">Private</span>
-        <span title="Points to win">{{gameDetail.PointToWin}} points to win</span>
-    </div>
-    <div class="bar"></div>
-    <div class="meta">
-        <p>Players: {{gameDetail.PlayerCount}} / {{gameDetail.MaxNumberOfPlayers}}</p>
-        <span class="playas" ng-repeat="player in gameDetail.Players">{{player.User.DisplayName}}</span>
-    </div>
-    <div class="bar"></div>
-    <div class="meta">
-        <p>Decks:</p>
-        <div class="otherDecks">
-            <span class="playas" ng-repeat="deck in gameDetail.GameDecks">{{deck.Title}}</span>
-        </div>
-    </div>
-    <div ng-show="gameDetail.IsPrivate">
-        <div class="passphrase">
-            <div class="fakeInput">
-                <input id="userSuppliedPassphrase" type="text" placeholder="Passphrase">
-            </div>
-        </div>
-        <div id="wrong" class="wrong" ng-class="passphraseWrong ? 'open' : ''">
-            Wrong!
-        </div>
-    </div>
-    <a id="detailDoIt" href="" class="button" ng-show="!gameDetail.IsFull || gameDetail.IsCurrentPlayer" ng-click="validatePassphrase(1)">Do it!</a>
-    <a id="detailSpectate" href="" class="button" ng-show="!gameDetail.MaxSpectatorsReached || gameDetail.IsCurrentSpectator" ng-click="validatePassphrase(2)">Spectate</a>
-    <a id="detailNope" href="" class="button nope" ng-click="hideDetail()">Nope</a>
-</div>
+<rgd-gamedetail></rgd-gamedetail>
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
 <span class="visuallyHidden">
@@ -87,7 +56,7 @@
 </span>
 
 <div class="gameListing clearfix">
-    <rgd-game ng-repeat="game in games | filter:gameSearch"></rgd-game>
+    <rgd-game ng-repeat="game in games | filter:gameSearch" id="{{game.GameID}}"></rgd-game>
 </div>
 
 @Html.HiddenFor(x => x.GameToShow)

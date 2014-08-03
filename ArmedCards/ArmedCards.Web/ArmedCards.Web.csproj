@@ -261,6 +261,7 @@
   <ItemGroup>
     <Content Include="Content\Home.css" />
     <Content Include="Content\Templates\Core\ChatMessage.html" />
+    <Content Include="Content\Templates\Game\Listing\Detail.html" />
     <Content Include="Content\Templates\Game\Listing\Game.html" />
     <Content Include="Content\Templates\Game\Listing\Player.html" />
     <Content Include="Content\toastr.css" />
