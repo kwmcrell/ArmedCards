@@ -2783,7 +2783,7 @@ body #toast-container > .toast-info
 #toast-container.toast-top-full-width > div,
 #toast-container.toast-bottom-full-width > div
 {
-	width: 35%;
+	width: 35% !important;
 }
 
 @media screen and (min-width: 2250px)
@@ -2877,7 +2877,7 @@ body #toast-container > .toast-info
 	#toast-container.toast-top-full-width > div,
 	#toast-container.toast-bottom-full-width > div
 	{
-		width: 96%;
+		width: 96% !important;
 	}
 }
 
