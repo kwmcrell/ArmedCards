@@ -160,7 +160,9 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
 
             if (outerHeight > windowHeight) {
                 detailModal.height(windowHeight - 50);
-                detailModal.css("overflow", "scroll");
+                detailModal.css('overflow', 'scroll');
+                detailModal.css('margin-top', '0em');
+                detailModal.css('top', '0%');
             }
 
         }, 50);
@@ -205,6 +207,8 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
 
         detailModal.height('');
         detailModal.css('overflow', '');
+        detailModal.css('margin-top', '');
+        detailModal.css('top', '');
     };
 
     return detail;
