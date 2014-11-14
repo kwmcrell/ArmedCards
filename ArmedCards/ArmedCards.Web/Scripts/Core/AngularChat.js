@@ -51,7 +51,7 @@ AngularChat.prototype.Factory = function ($rootScope, $http, $timeout) {
     ArmedCardsChat.prototype.UpdateLobby = function (activeConnections) { };
 
     ArmedCardsChat.prototype.BroadcastGlobalMessage = function (message, globalMessages) {
-        message.DateSent = new Date(message.SentDate).toLocaleTimeString();
+        message.DateSent = new Date(message.SentDate).toLocaleString().replace(",", " ");
 
         globalMessages.push(message);
 
