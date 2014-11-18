@@ -34,16 +34,16 @@
 <div id="gameContainer" class="game gameScreen clearfix">
     @Html.Partial("~/Views/Game/Board/Partials/_GameContainer.cshtml", Model)
 </div>
-<div id="alert-container" class="alert-top-right hidden" data-bind="css: { hidden : Votes().length == 0 }, if: Votes().length > 0">
-    <!-- ko foreach: Votes -->
-    <div class="alert alert-warning" data-bind="attr: { id : 'alert-vote-' + UserToKick.UserId() }">
+<div id="alert-container" class="alert-top-right hidden" data-bind="css: { hidden : Votes().length == 0 }">
+    <!-- ko foreach: Votes() -->
+    <div class="alert alert-warning" data-bind="attr: { id : 'alert-vote-' + UserToKick.UserId }">
         <div class="alert-title">Kick Player</div>
         <span class="loggedIn">
-            <img data-bind="attr: { src: UserToKick.PictureUrl() }" alt="User Avatar"><span data-bind="html : UserToKick.DisplayName()"></span>
+            <img data-bind="attr: { src: UserToKick.PictureUrl }" alt="User Avatar"><span data-bind="html : UserToKick.DisplayName"></span>
         </span>
         <div class="alert-message">
-            <a name="kickPlayer" data-bind="attr: { 'data-userid' : UserToKick.UserId() }, html : '(' + VotesToKick() + ') Kick!'" href="#" style="font-size: medium;" class="button"></a>
-            <a name="keepPlayer" data-bind="attr: { 'data-userid' : UserToKick.UserId() }, html : '(' + VotesNotToKick() + ') Nope!'" href="#" style="font-size: medium;" class="button"></a>
+            <a name="kickPlayer" data-bind="attr: { 'data-userid' : UserToKick.UserId }, html : '(' + VotesToKick() + ') Kick!'" href="#" style="font-size: medium;" class="button"></a>
+            <a name="keepPlayer" data-bind="attr: { 'data-userid' : UserToKick.UserId }, html : '(' + VotesNotToKick() + ') Nope!'" href="#" style="font-size: medium;" class="button"></a>
         </div>
     </div>
     <!-- /ko -->

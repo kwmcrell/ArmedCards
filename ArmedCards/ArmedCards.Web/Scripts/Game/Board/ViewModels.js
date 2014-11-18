@@ -156,14 +156,14 @@ var GameHand = function (show, cards, showBoard) {
 var GameVotesToKick = function (votes) {
     if (votes.length > 0)
     {
-        this.Votes = ko.observableArray(votes);
+        this.Votes = ko.mapping.fromJS(votes);
     }
     else
     {
         this.Votes = ko.mapping.fromJSON(votes);
     }
 
-    if (this.Votes == null)
+    if (this.Votes() == null)
     {
         this.Votes = ko.observableArray([]);
     }
