@@ -47,7 +47,7 @@ namespace ArmedCards.Entities
             SentBy = idr.GetValueByName<String>("SentByUserName").HTMLDecode();
             Message = idr.GetValueByName<String>("Message").HTMLDecode();
             SentDate = idr.GetValueByName<DateTime>("DateSent").AddHours(offsetHours);
-            DateSent = SentDate.ToLongTimeString();
+            DateSent = SentDate.ToShortDateString() + " " + SentDate.ToLongTimeString();
         }
 
         /// <summary>
