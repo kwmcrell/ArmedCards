@@ -163,6 +163,11 @@ var GameVotesToKick = function (votes) {
         this.Votes = ko.mapping.fromJSON(votes);
     }
 
+    if (this.Votes == null)
+    {
+        this.Votes = ko.observableArray([]);
+    }
+
     this.RemoveVote = function (toKickUserId) {
         var self = this;
 
