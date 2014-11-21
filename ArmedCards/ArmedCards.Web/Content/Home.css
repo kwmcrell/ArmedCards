@@ -1801,6 +1801,7 @@ body .chat.right .openClose a span.mobileOpenClose
 {
 	font-size: 1.3em;
 	margin: 0 0 .5em;
+	word-wrap: break-word;
 }
 
 .gameListing .game > span,
