@@ -51,10 +51,6 @@
 <rgd-gamedetail></rgd-gamedetail>
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
-<span class="visuallyHidden">
-    Select a game to join.
-</span>
-
 <div class="gameListing clearfix">
     <rgd-game ng-repeat="game in games | filter:gameSearch" id="{{game.GameID}}"></rgd-game>
 </div>
