@@ -1259,6 +1259,14 @@ fieldset > .button.active
 	position: fixed;
 }
 
+.chat .dateTime
+{
+	display: inline-block;
+	font-size: .65em;
+	margin-left: .5em;
+	opacity: .5;
+}
+
 .chat ul
 {
 	list-style: none;
