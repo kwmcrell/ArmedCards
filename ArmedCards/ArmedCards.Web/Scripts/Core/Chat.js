@@ -45,10 +45,10 @@ Chat.prototype.BroadcastMessage = function (message, $discussion) {
     }
 
     var encodedName = $('<div />').text(message.SentBy).html();
-	var encodedMsg = $('<div />').text(message.Message + '<span class="dateTime">' + new Date(message.SentDate).toLocaleString().replace(",", " ") + '</span>').html();
+	var encodedMsg = $('<div />').text(message.Message).html();
 
 	$discussion.append('<li><strong>' + encodedName
-        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '<span class="dateTime">' + new Date(message.SentDate).toLocaleString().replace(",", " ") + '</span></li>');
 	$discussion.scrollTop($discussion.get(0).scrollHeight);
 };
 
