@@ -1443,6 +1443,7 @@ fieldset > .button.active
 	-o-transition: right 400ms;
 	transition: right 400ms;
 	width: 350px;
+	z-index: 2;
 }
 
 .chatOpen .chat.right
@@ -2759,6 +2760,11 @@ body.endGame .radHeader
 }
 
 /* Styles for Toast Notifictions */
+
+#toast-container
+{
+	z-index: 1;
+}
 
 body #toast-container > div,
 body #toast-container > div:hover
