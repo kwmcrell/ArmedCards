@@ -44,8 +44,8 @@ Chat.prototype.BroadcastMessage = function (message, $discussion) {
         message.SentBy = "[Spectator] " + message.SentBy;
     }
 
-    var encodedName = $('<div />').text(message.SentBy + " (" + new Date(message.SentDate).toLocaleString().replace(",", " ") + ")").html();
-	var encodedMsg = $('<div />').text(message.Message).html();
+    var encodedName = $('<div />').text(message.SentBy).html();
+	var encodedMsg = $('<div />').text(message.Message + '<span class="dateTime">' + new Date(message.SentDate).toLocaleString().replace(",", " ") + '</span>').html();
 
 	$discussion.append('<li><strong>' + encodedName
         + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
