@@ -40,5 +40,12 @@ namespace ArmedCards.DataAccess.User.Base
 		/// <param name="filter">Contains new and old display names</param>
 		/// <returns></returns>
 		Entities.OAMembership Execute(Entities.Filters.User.UpdateDisplayName filter);
+
+        /// <summary>
+        /// Update a user's display name
+        /// </summary>
+        /// <param name="userId">The ID of the user changing their picture Url</param>
+        /// <returns></returns>
+        void Execute(Int32 userId, String pictureUrl);
 	}
 }
