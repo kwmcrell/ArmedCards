@@ -40,8 +40,11 @@ Hub.prototype.ConnectionSlowed = function () {
 
 Hub.prototype.Reconnecting = function () {
     ArmedCards.Core.Hub.TryingToReconnect = true;
+    ArmedCards.Core.Hub.LoadingShow = $('#loadingScreen').hasClass('on');
+
     $('#hubConnectionText').addClass('on');
     $('#overlay').addClass('on');
+    $('#loadingScreen').addClass('on');
 };
 
 Hub.prototype.Disconnected = function () {
@@ -55,7 +58,11 @@ Hub.prototype.Reconnected = function () {
     ArmedCards.Core.Hub.TryingToReconnect = false;
 
     $('#hubConnectionText').removeClass('on');
-    $('#overlay').removeClass('on');
+    
+    if (!ArmedCards.Core.Hub.LoadingShow) {
+        $('#overlay').removeClass('on');
+        $('#loadingScreen').removeClass('on');
+    }
 
     $.Topic("hubReconnected").publish();
 };

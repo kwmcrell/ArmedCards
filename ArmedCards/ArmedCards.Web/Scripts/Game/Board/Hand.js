@@ -199,6 +199,9 @@ Hand.prototype.PlayCard = function (event) {
 		CardIDs: ArmedCards.Game.Common.GetChildrenIDs($('#cardToPlay'))
 	};
 
+	$('#overlay').addClass('on');
+	$('#loadingScreen').addClass('on');
+
 	$.connection.ArmedCardsHub.server.PlayCard(data);
 
 	$('#cardToPlay').empty();

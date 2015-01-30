@@ -75,6 +75,9 @@ State.prototype.UpdateAnswers = function (answersViewModel, answered, winnerSele
         ArmedCards.Game.ViewModels.GameHand.Show(false);
         ArmedCards.Game.ViewModels.GameAnswers.HandShowing(false);
 
+        $('#overlay').removeClass('on');
+        $('#loadingScreen').removeClass('on');
+
 		if (winnerSelected) {
 		    $('.pickMultiple.noShadow').removeClass('noShadow');
 		    ArmedCards.Game.Hand.DealAnswersComplete();
@@ -86,6 +89,9 @@ State.prototype.UpdateAnswers = function (answersViewModel, answered, winnerSele
 };
 
 State.prototype.WinnerSelected = function (answersViewModel, gameBoardViewModel, isWaiting, gameOver, completedRound) {
+    $('#overlay').removeClass('on');
+    $('#loadingScreen').removeClass('on');
+
     ArmedCards.Game.ViewModels.GameCompletedRounds.Rounds.unshift(completedRound);
 
     ArmedCards.Game.State.UpdateAnswers(answersViewModel, true, true);

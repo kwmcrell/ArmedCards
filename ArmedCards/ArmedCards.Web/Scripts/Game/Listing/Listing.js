@@ -33,7 +33,13 @@ function ListingCtrl($scope, $http, $window, $timeout, ArmedCardsHub, ArmedCards
     $scope.passphraseWrong = false;
     $scope.armedCardsHub = ArmedCardsHub;
 
+    $scope.overlay = true;
+    $scope.showLoading = true;
+
     $http.get('/GameListing/Games').success(function (data, status, headers, config) {
+        $scope.showLoading = false;
+        $scope.overlay = false;
+
         $scope.games = data.Games;
         $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
     });
@@ -142,12 +148,15 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
     var detail = { };
 
     detail.getDetail = function (id) {
+        $scope.overlay = true;
+        $scope.showLoading = true;
         $http.get('/Detail?id=' + id).success(detail.showDetail);
     };
 
     detail.showDetail = function (data, status, headers, config) {
         $scope.gameDetail = data.Game;
 
+        $scope.showLoading = false;
         $scope.showGameDetail = true;
         $scope.overlay = true;
 
@@ -169,6 +178,8 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
     };
 
     detail.validatePassphraseResponse = function (response) {
+        $scope.showGameDetail = false;
+
         if (response.Validated == 0) {
             $scope.passphraseWrong = true;
         }
@@ -181,6 +192,8 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
     detail.validatePassphrase = function (playerType) {
         var passphrase = angular.element('#userSuppliedPassphrase');
 
+        $scope.showLoading = true;
+
         if (passphrase != null || passphrase != undefined) {
 
             var data = {
@@ -189,6 +202,7 @@ function SetupGameDetail($scope, $http, $window, $timeout) {
                 playerType: playerType
             };
 
+            
             $http.post('/ValidatePassphrase', data)
                  .success(detail.validatePassphraseResponse);
         }

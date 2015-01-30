@@ -46,6 +46,10 @@
 <body class="join chatOpen" ng-controller="ListingCtrl">
     <div id="overlay" class="overlay" ng-class="overlay ? 'on' : ''">
     </div>
+    <div class="loadingScreen" ng-class="(reconnecting || unableToReconnect || showLoading) ? 'on' : ''">
+        <div class="loadingCard back">?</div>
+        <div class="loadingCard front">!</div>
+    </div>
     <div class="content-wrapper">
         <div class="float-right">
             <section id="login">

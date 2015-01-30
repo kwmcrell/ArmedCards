@@ -82,6 +82,8 @@ Commander.prototype.PickWinner = function (event) {
 	    CardIDs: ArmedCards.Game.Common.GetChildrenIDs($winnerCard)
 	};
 
+	$('#overlay').addClass('on');
+	$('#loadingScreen').addClass('on');
 	$.connection.ArmedCardsHub.server.PickWinner(data);
 
 	$winnerCard.empty();
