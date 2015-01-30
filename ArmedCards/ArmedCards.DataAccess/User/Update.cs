@@ -70,21 +70,5 @@ namespace ArmedCards.DataAccess.User
 
 			return membershipData;
 		}
-
-        /// <summary>
-        /// Update a user's display name
-        /// </summary>
-        /// <param name="userId">The ID of the user changing their picture Url</param>
-        /// <returns></returns>
-        public void Execute(Int32 userId, String pictureUrl)
-        {
-            using (DbCommand cmd = _db.GetStoredProcCommand("User_UpdatePictureUrl"))
-            {
-                _db.AddInParameter(cmd, "@UserId", DbType.Int32, userId);
-                _db.AddInParameter(cmd, "@PictureUrl", DbType.String, pictureUrl);
-
-                _db.ExecuteScalar(cmd);
-            }
-        }
 	}
 }

@@ -23,11 +23,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -42,18 +38,14 @@ namespace ArmedCards.Web.Controllers
     public class AccountController : Extensions.ArmedCardsController
     {
         private readonly BusinessLogic.AppServices.User.Base.IInsert _insertUser;
-        private readonly BusinessLogic.AppServices.User.Base.IUpdate _updateUser;
-        private readonly Library.Helpers.RegexUtilities _regexUtil;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="insertUser"></param>
-        public AccountController(BusinessLogic.AppServices.User.Base.IInsert insertUser, BusinessLogic.AppServices.User.Base.IUpdate updateUser)
+        public AccountController(BusinessLogic.AppServices.User.Base.IInsert insertUser)
         {
             this._insertUser = insertUser;
-            this._updateUser = updateUser;
-            this._regexUtil = new Library.Helpers.RegexUtilities();
         }
 
         #region "Log Off"
@@ -109,15 +101,6 @@ namespace ArmedCards.Web.Controllers
 			{
                 if (Authentication.OAuthSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
 				{
-                    if(result.ExtraData.ContainsKey("email"))
-                    {
-                        string key = string.Format("TempUserEmailAddress");
-
-                        Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(result.ExtraData["email"]), Session.SessionID));
-
-                        return RedirectToAction("UpdatePicture", "Account", new { returnUrl = returnUrl });
-                    }
-
 					return RedirectToLocal(returnUrl);
 				}
 
@@ -131,8 +114,7 @@ namespace ArmedCards.Web.Controllers
 						UserName = "",
 						ExternalLoginData = loginData,
                         ProviderDisplayName = Authentication.OAuthSecurity.GetOAuthClientDataDisplayName(result.Provider),
-						ReturnUrl = returnUrl,
-                        UserEmail = result.ExtraData["email"]
+						ReturnUrl = returnUrl
 					};
 
 					return View("ExternalLoginConfirmation", model);
@@ -163,7 +145,7 @@ namespace ArmedCards.Web.Controllers
             if (ModelState.IsValid)
             {
                 Entities.User user = new Entities.User { DisplayName = model.UserName,
-                                                         PictureUrl = String.Format("https://secure.gravatar.com/avatar/{0}?r=pg", CalculateMD5Hash(model.UserEmail))
+														 PictureUrl = String.Format("/Images/ProfilePics/Cats/{0}.jpg", new Random().Next(1, 10)) 
 													   };
 
                 // Insert name into the profile table
@@ -217,25 +199,6 @@ namespace ArmedCards.Web.Controllers
 
         #region Helpers
 
-        public ActionResult UpdatePicture(string returnUrl)
-        {
-            string userEmail = null;
-
-            if (Session["TempUserEmailAddress"] != null)
-            {
-                userEmail = Encoding.ASCII.GetString(MachineKey.Unprotect((Session["TempUserEmailAddress"] as Byte[]), Session.SessionID));
-
-                Session.Remove("TempUserEmailAddress");
-            }
-
-            if (!string.IsNullOrWhiteSpace(userEmail) && _regexUtil.IsValidEmail(userEmail))
-            {
-                _updateUser.Execute(Authentication.Security.CurrentUserId, String.Format("https://secure.gravatar.com/avatar/{0}?r=pg", CalculateMD5Hash(userEmail)));
-            }
-
-            return RedirectToLocal(returnUrl);
-        }
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -246,22 +209,6 @@ namespace ArmedCards.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        private string CalculateMD5Hash(string input)
-        {
-            // step 1, calculate MD5 hash from input
-            MD5 md5 = System.Security.Cryptography.MD5.Create();
-            byte[] inputBytes = System.Text.Encoding.Default.GetBytes(input.Trim().ToLower());
-            byte[] hash = md5.ComputeHash(inputBytes);
-
-            // step 2, convert byte array to hex string
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-            return sb.ToString().ToLower();
         }
 
         private string ErrorCodeToString(MembershipCreateStatus createStatus)

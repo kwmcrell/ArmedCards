@@ -51,15 +51,5 @@ namespace ArmedCards.BusinessLogic.DomainServices.User
 		{
 			return _update.Execute(filter);
 		}
-
-        /// <summary>
-        /// Update a user's display name
-        /// </summary>
-        /// <param name="userId">The ID of the user changing their picture Url</param>
-        /// <returns></returns>
-        public void Execute(Int32 userId, String pictureUrl)
-        {
-            _update.Execute(userId, pictureUrl);
-        }
 	}
 }

@@ -55,10 +55,5 @@ namespace ArmedCards.Authentication.Models.Account
         /// The return Url after External Login
         /// </summary>
         public string ReturnUrl { get; set; }
-
-        /// <summary>
-        /// User's email
-        /// </summary>
-        public string UserEmail { get; set; }
 	}
 }

@@ -42,12 +42,5 @@ namespace ArmedCards.BusinessLogic.AppServices.User.Base
 		/// <param name="oldDisplayName">The old display name</param>
 		/// <returns></returns>
 		Entities.OAMembership Execute(Int32 userId, String newDisplayName, String oldDisplayName);
-
-        /// <summary>
-        /// Update a user's display name
-        /// </summary>
-        /// <param name="userId">The ID of the user changing their picture Url</param>
-        /// <returns></returns>
-        void Execute(Int32 userId, String pictureUrl);
 	}
 }

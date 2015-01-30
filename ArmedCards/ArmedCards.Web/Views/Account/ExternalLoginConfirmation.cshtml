@@ -37,7 +37,6 @@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     @Html.HiddenFor(m => m.ReturnUrl)
-    @Html.HiddenFor(m => m.UserEmail)
 
     <div class="fakeInput setDisplayName">
         @Html.TextBoxFor(m => m.UserName, new { @class = "title", placeholder = "Display Name" })
