@@ -57,9 +57,9 @@ namespace ArmedCards.BusinessLogic.Repositories.User
         /// </summary>
         /// <param name="userId">The ID of the user changing their picture Url</param>
         /// <returns></returns>
-        public void Execute(Int32 userId, String pictureUrl)
+        public async Task Execute(Int32 userId, String pictureUrl)
         {
-            _update.Execute(userId, pictureUrl);
+            await _update.Execute(userId, pictureUrl);
         }
 	}
 }

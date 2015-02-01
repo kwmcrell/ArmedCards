@@ -35,6 +35,7 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -51,6 +52,7 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Helpers\CardFormatter.cs" />
+    <Compile Include="Helpers\EncryptUtil.cs" />
     <Compile Include="Helpers\RegexUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

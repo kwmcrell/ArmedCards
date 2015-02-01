@@ -48,6 +48,6 @@ namespace ArmedCards.BusinessLogic.AppServices.User.Base
         /// </summary>
         /// <param name="userId">The ID of the user changing their picture Url</param>
         /// <returns></returns>
-        void Execute(Int32 userId, String pictureUrl);
+        Task Execute(Int32 userId, String pictureUrl);
 	}
 }

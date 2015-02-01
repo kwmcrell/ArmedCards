@@ -23,11 +23,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -113,7 +116,7 @@ namespace ArmedCards.Web.Controllers
                     {
                         string key = string.Format("TempUserEmailAddress");
 
-                        Session.Add(key, MachineKey.Protect(Encoding.ASCII.GetBytes(result.ExtraData["email"]), Session.SessionID));
+                        Session.Add(key, Library.Helpers.EncryptUtil.Encrypt(result.ExtraData["email"]));
 
                         return RedirectToAction("UpdatePicture", "Account", new { returnUrl = returnUrl });
                     }
@@ -162,9 +165,11 @@ namespace ArmedCards.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                Entities.User user = new Entities.User { DisplayName = model.UserName,
-                                                         PictureUrl = String.Format("https://secure.gravatar.com/avatar/{0}?r=pg", CalculateMD5Hash(model.UserEmail))
-													   };
+                Entities.User user = new Entities.User 
+                { 
+                    DisplayName = model.UserName,
+                    PictureUrl = String.Format("/Account/Image?hash={0}", HttpUtility.UrlEncode(Library.Helpers.EncryptUtil.Encrypt(CalculateMD5Hash(model.UserEmail))))
+			    };
 
                 // Insert name into the profile table
                 _insertUser.Execute(user);
@@ -213,24 +218,36 @@ namespace ArmedCards.Web.Controllers
 
             return PartialView("~/Views/Account/_LoginModal.cshtml", model);
         }
+
+        public ActionResult Image(string hash)
+        {
+            HttpResponseMessage result = new HttpClient().GetAsync( String.Format("https://s.gravatar.com/avatar/{0}?s=100&r=pg", Library.Helpers.EncryptUtil.Decrypt(hash))).Result;
+
+            System.IO.Stream stream =
+                 result.Content.ReadAsStreamAsync().Result;
+
+            return new FileStreamResult(stream, result.Content.Headers.ContentType.ToString());
+        }
+
         #endregion "External Logins"
 
         #region Helpers
 
-        public ActionResult UpdatePicture(string returnUrl)
+        public async Task<ActionResult> UpdatePicture(string returnUrl)
         {
             string userEmail = null;
 
             if (Session["TempUserEmailAddress"] != null)
             {
-                userEmail = Encoding.ASCII.GetString(MachineKey.Unprotect((Session["TempUserEmailAddress"] as Byte[]), Session.SessionID));
+                userEmail = Library.Helpers.EncryptUtil.Decrypt(Session["TempUserEmailAddress"] as string);
 
                 Session.Remove("TempUserEmailAddress");
             }
 
             if (!string.IsNullOrWhiteSpace(userEmail) && _regexUtil.IsValidEmail(userEmail))
             {
-                _updateUser.Execute(Authentication.Security.CurrentUserId, String.Format("https://secure.gravatar.com/avatar/{0}?r=pg", CalculateMD5Hash(userEmail)));
+                _updateUser.Execute(Authentication.Security.CurrentUserId, 
+                    String.Format("/Account/Image?hash={0}", HttpUtility.UrlEncode(Library.Helpers.EncryptUtil.Encrypt(CalculateMD5Hash(userEmail)))));
             }
 
             return RedirectToLocal(returnUrl);
@@ -261,6 +278,7 @@ namespace ArmedCards.Web.Controllers
             {
                 sb.Append(hash[i].ToString("X2"));
             }
+
             return sb.ToString().ToLower();
         }
 
