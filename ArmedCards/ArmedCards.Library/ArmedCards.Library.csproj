@@ -51,6 +51,7 @@
     <Compile Include="Extensions\ModelExtensions.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Helpers\CardFormatter.cs" />
+    <Compile Include="Helpers\RegexUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

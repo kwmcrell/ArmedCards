@@ -20,34 +20,29 @@
 * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
 * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+IF OBJECT_ID('[dbo].[User_UpdatePictureUrl]') IS NOT NULL
+BEGIN 
+    DROP PROC [dbo].[User_UpdatePictureUrl] 
+END 
+GO
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+-- ==============================================
+-- Author:		Kevin McRell
+-- Create date: 10/05/2013
+-- Description:	Updates a user's picture url
+-- ===============================================
+CREATE PROC [dbo].[User_UpdatePictureUrl] 
+	@UserId			int,
+    @PictureUrl		varchar(max)
+AS 
+	SET NOCOUNT ON 
+	SET XACT_ABORT ON  
+	
+	BEGIN TRAN
+	
+	UPDATE UserProfile
+	SET PictureUrl = @PictureUrl
+	WHERE UserId = @UserId
 
-namespace ArmedCards.BusinessLogic.AppServices.User.Base
-{
-	/// <summary>
-	/// Interface defining updating a user
-	/// </summary>
-	public interface IUpdate
-	{
-		/// <summary>
-		/// Update a user's display name
-		/// </summary>
-		/// <param name="userId">The ID of the user changing their display name</param>
-		/// <param name="newDisplayName">The new display name</param>
-		/// <param name="oldDisplayName">The old display name</param>
-		/// <returns></returns>
-		Entities.OAMembership Execute(Int32 userId, String newDisplayName, String oldDisplayName);
-
-        /// <summary>
-        /// Update a user's display name
-        /// </summary>
-        /// <param name="userId">The ID of the user changing their picture Url</param>
-        /// <returns></returns>
-        void Execute(Int32 userId, String pictureUrl);
-	}
-}
+	COMMIT
+GO
