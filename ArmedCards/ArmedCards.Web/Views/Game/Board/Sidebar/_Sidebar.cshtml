@@ -66,7 +66,7 @@
             @Html.Partial("~/Views/Game/Board/Sidebar/_RoundHistory.cshtml", Model.AllRoundsViewModel)
         </div>
         <div id="chatInputDiv" class="chatField fakeInput">
-            <input type="text" id="message" placeholder="Obscenities go here."><a id="sendmessage" href="#" class="button">Send</a>
+            <input type="text" id="message" placeholder="Obscenities go here." autocomplete="off"><a id="sendmessage" href="#" class="button">Send</a>
             <input type="hidden" id="displayname" style="width: inherit;" value="test">
         </div>
     </div>
