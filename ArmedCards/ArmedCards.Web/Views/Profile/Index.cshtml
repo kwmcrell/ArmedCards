@@ -41,7 +41,11 @@
 
 <div class="user me">
     <h3 class="username loggedIn">
-        <img src="@Model.ViewedProfile.PictureUrl" alt="User Avatar"><span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">@Model.TotalPoints points</span></h3>
+    <div>
+        <img src="@Model.ViewedProfile.PictureUrl" alt="User Avatar">
+        <a href="http://www.gravatar.com" class="edit" target="_blank">Edit</a>
+    </div>
+        <span class="name" title="@Model.ViewedProfile.DisplayName">@Model.ViewedProfile.DisplayName</span><span class="points">@Model.TotalPoints points</span></h3>
     @if(Model.MyProfile)
     {
         <div class="options">
