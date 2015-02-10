@@ -2266,8 +2266,8 @@ body .chat.right .openClose a span.mobileOpenClose
 .pick .card.picked
 {
 	box-shadow: 6px 6px 8px rgba(0,0,0,.45);
-	top: -2px;
-	left: -2px;
+	top: -2px !important;
+	left: -2px !important;
 }
 
 .asked .card
