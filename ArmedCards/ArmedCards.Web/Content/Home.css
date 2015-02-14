@@ -1191,6 +1191,16 @@ fieldset > .button.active
 	text-decoration: underline;
 }
 
+.pageContent > ol
+{
+	display: inline-block;
+}
+
+.pageContent > ol > li
+{
+	white-space: nowrap;
+}
+
 .playOurGamePlease
 {
 	list-style: none;
@@ -1452,6 +1462,8 @@ fieldset > .button.active
 .chat .lobbyPlayers ul li
 {
 	margin-bottom: 2px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .chat .lobbyPlayers ul li a:hover,
