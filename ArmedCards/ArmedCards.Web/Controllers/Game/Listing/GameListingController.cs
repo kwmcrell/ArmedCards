@@ -76,7 +76,7 @@ namespace ArmedCards.Web.Controllers.Game.Listing
 
             List<Entities.Game> games = _selectGame.Execute(filter);
 
-            return Json(new { Games = games.Select(x => new Entities.Models.Game.Listing.Game(x)), MaxOfficialDeckCount = filter.MaxOfficialCount }, JsonRequestBehavior.AllowGet);
+            return new JsonResult { Data = new { Games = games.Select(x => new Entities.Models.Game.Listing.Game(x)), MaxOfficialDeckCount = filter.MaxOfficialCount }, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue  };
         }
     }
 }
