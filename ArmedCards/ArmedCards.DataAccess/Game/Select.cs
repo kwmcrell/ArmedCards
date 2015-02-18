@@ -56,6 +56,8 @@ namespace ArmedCards.DataAccess.Game
 
             using (DbCommand cmd = _db.GetStoredProcCommand("Game_Select"))
             {
+                _db.AddInParameter(cmd, "@GameIDs", DbType.Xml, filter.GameIds.ConvertCollectionToXML());
+
                 using (IDataReader idr = _db.ExecuteReader(cmd))
                 {
                     while (idr.Read())

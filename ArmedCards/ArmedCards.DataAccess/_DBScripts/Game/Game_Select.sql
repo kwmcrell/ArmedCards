@@ -33,51 +33,97 @@ GO
 -- Description:	Creates a new User
 -- ===============================================
 CREATE PROC [dbo].[Game_Select]
-	@GameID			int			  =	NULL
+	@GameID			int			  =	NULL,
+	@GameIDs		XML			  = NULL
 AS 
 	SET NOCOUNT ON 
 	SET XACT_ABORT ON  
 	
 	BEGIN TRAN
 
-    SELECT	G.[GameID],
-			G.[Title],
-			G.[IsPrivate],
-			G.[Passphrase],
-			G.[PointsToWin],
-			G.[MaxNumberOfPlayers],
-			G.[GameCreator_UserId],
-			G.[DateCreated],
-			G.[PlayedLast],
-			G.[GameOver],
-			G.[AnswerShuffleCount],
-			G.[QuestionShuffleCount],
-			G.[SecondsToPlay],
-			(SELECT COUNT(UserID) 
-			 FROM [dbo].[GamePlayer] GP
-			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 1
-			 AND   GP.[Status] > 0) AS PlayerCount,
-			(SELECT COUNT([Game_GameID]) 
-			 FROM [dbo].[GameRound] GR
-			 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
-			G.MaxNumberOfSpectators,
-			(SELECT COUNT(UserID) 
-			 FROM [dbo].[GamePlayer] GP
-			 WHERE GP.[GameID] = G.[GameID]
-			 AND   GP.[Type] = 2
-			 AND   GP.[Status] > 0) AS SpectatorCount,
-			 G.[IsPersistent],
-			 (
-				SELECT COUNT(D.[DeckID])
-				FROM [dbo].[GameDeck] GD
-				INNER JOIN [dbo].[Deck] D ON GD.[DeckID] = D.[DeckID] AND D.[Type] = 0
-				WHERE GD.[GameID] = G.[GameID]
-			 ) AS OfficialDeckCount
-	 FROM [dbo].[Game] G
-	 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
-	 AND    G.[GameOver] IS NULL
-	 ORDER BY G.[PlayedLast] DESC
+	IF @GameIDs IS NULL
+		BEGIN
+			SELECT	G.[GameID],
+					G.[Title],
+					G.[IsPrivate],
+					G.[Passphrase],
+					G.[PointsToWin],
+					G.[MaxNumberOfPlayers],
+					G.[GameCreator_UserId],
+					G.[DateCreated],
+					G.[PlayedLast],
+					G.[GameOver],
+					G.[AnswerShuffleCount],
+					G.[QuestionShuffleCount],
+					G.[SecondsToPlay],
+					(SELECT COUNT(UserID) 
+					 FROM [dbo].[GamePlayer] GP
+					 WHERE GP.[GameID] = G.[GameID]
+					 AND   GP.[Type] = 1
+					 AND   GP.[Status] > 0) AS PlayerCount,
+					(SELECT COUNT([Game_GameID]) 
+					 FROM [dbo].[GameRound] GR
+					 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
+					G.MaxNumberOfSpectators,
+					(SELECT COUNT(UserID) 
+					 FROM [dbo].[GamePlayer] GP
+					 WHERE GP.[GameID] = G.[GameID]
+					 AND   GP.[Type] = 2
+					 AND   GP.[Status] > 0) AS SpectatorCount,
+					 G.[IsPersistent],
+					 (
+						SELECT COUNT(D.[DeckID])
+						FROM [dbo].[GameDeck] GD
+						INNER JOIN [dbo].[Deck] D ON GD.[DeckID] = D.[DeckID] AND D.[Type] = 0
+						WHERE GD.[GameID] = G.[GameID]
+					 ) AS OfficialDeckCount
+			 FROM [dbo].[Game] G
+			 WHERE (G.[GameID] = @GameID OR @GameID IS NULL)
+			 AND    G.[GameOver] IS NULL
+			 ORDER BY G.[PlayedLast] DESC
+		END
+	ELSE
+		BEGIN
+			SELECT Top 200 G.[GameID],
+					G.[Title],
+					G.[IsPrivate],
+					G.[Passphrase],
+					G.[PointsToWin],
+					G.[MaxNumberOfPlayers],
+					G.[GameCreator_UserId],
+					G.[DateCreated],
+					G.[PlayedLast],
+					G.[GameOver],
+					G.[AnswerShuffleCount],
+					G.[QuestionShuffleCount],
+					G.[SecondsToPlay],
+					(SELECT COUNT(UserID) 
+					 FROM [dbo].[GamePlayer] GP
+					 WHERE GP.[GameID] = G.[GameID]
+					 AND   GP.[Type] = 1
+					 AND   GP.[Status] > 0) AS PlayerCount,
+					(SELECT COUNT([Game_GameID]) 
+					 FROM [dbo].[GameRound] GR
+					 WHERE GR.[Game_GameID] = G.[GameID]) AS RoundCount,
+					G.MaxNumberOfSpectators,
+					(SELECT COUNT(UserID) 
+					 FROM [dbo].[GamePlayer] GP
+					 WHERE GP.[GameID] = G.[GameID]
+					 AND   GP.[Type] = 2
+					 AND   GP.[Status] > 0) AS SpectatorCount,
+					 G.[IsPersistent],
+					 (
+						SELECT COUNT(D.[DeckID])
+						FROM [dbo].[GameDeck] GD
+						INNER JOIN [dbo].[Deck] D ON GD.[DeckID] = D.[DeckID] AND D.[Type] = 0
+						WHERE GD.[GameID] = G.[GameID]
+					 ) AS OfficialDeckCount
+			 FROM [dbo].[Game] G
+			 WHERE G.[GameID] NOT IN (SELECT ids.id.value('@value', 'int')
+						  FROM	 @GameIDs.nodes('ids/id') AS ids ( id ))
+			 AND    G.[GameOver] IS NULL
+			 ORDER BY ISNULL(G.[PlayedLast], G.[DateCreated]) DESC
+		END
 
 	 SELECT COUNT(D.[DeckID]) AS MaxOfficialDeckCount
 	 FROM [dbo].[Deck] D

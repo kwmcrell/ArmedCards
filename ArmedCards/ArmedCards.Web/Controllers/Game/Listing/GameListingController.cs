@@ -69,10 +69,12 @@ namespace ArmedCards.Web.Controllers.Game.Listing
             return View("~/Views/Game/Listing/GameListing.cshtml", model);
         }
 
-        [HttpGet]
-        public JsonResult Games()
+        [HttpPost]
+        public JsonResult Games(List<int> gameIds)
         {
             Entities.Filters.Game.SelectAll filter = new Entities.Filters.Game.SelectAll();
+
+            filter.GameIds = gameIds ?? new List<int>();
 
             List<Entities.Game> games = _selectGame.Execute(filter);
 

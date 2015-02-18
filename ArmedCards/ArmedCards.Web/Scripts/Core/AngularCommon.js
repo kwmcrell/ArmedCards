@@ -22,7 +22,7 @@
 */
 
 /* Application */
-angular.module('gameApp', ['SignalR']);
+angular.module('gameApp', ['SignalR', 'infinite-scroll']);
 
 /* Controllers */
 

@@ -36,13 +36,26 @@ function ListingCtrl($scope, $http, $window, $timeout, ArmedCardsHub, ArmedCards
     $scope.overlay = true;
     $scope.showLoading = true;
 
-    $http.get('/GameListing/Games').success(function (data, status, headers, config) {
-        $scope.showLoading = false;
-        $scope.overlay = false;
+    $scope.games = [];
 
-        $scope.games = data.Games;
-        $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
-    });
+    $scope.moreGames = function () {
+        $scope.disableScroll = true;
+
+        $http.post('/GameListing/Games', { gameIds: $.map($scope.games, function (element) { return element.GameID; }) }).success(function (data, status, headers, config) {
+            $scope.disableScroll = false;
+
+            $scope.showLoading = false;
+            $scope.overlay = false;
+
+            $scope.disableScroll = data.Games.length === 0;
+
+            for (var i = 0; i < data.Games.length; i++) {
+                $scope.games.push(data.Games[i]);
+            }
+
+            $scope.maxOfficialDeckCount = data.MaxOfficialDeckCount
+        });
+    };
 
     // Update ArmedCardsHub
     UpdateHub($scope, ArmedCardsHub);

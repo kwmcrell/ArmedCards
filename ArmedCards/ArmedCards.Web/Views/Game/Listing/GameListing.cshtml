@@ -51,7 +51,7 @@
 <rgd-gamedetail></rgd-gamedetail>
 @Html.Partial("~/Views/Shared/Partials/_Header.cshtml", header)
 
-<div class="gameListing clearfix">
+<div class="gameListing clearfix" infinite-scroll="moreGames()" infinite-scroll-disabled="disableScroll">
     <rgd-game ng-repeat="game in games | filter:gameSearch" id="{{game.GameID}}"></rgd-game>
 </div>
 
@@ -60,4 +60,5 @@
 @section Scripts
 {
     @Scripts.Render("~/bundles/Game/Listing")
+    <script src="~/Scripts/ngInfiniteScroll.js"></script>
 }
