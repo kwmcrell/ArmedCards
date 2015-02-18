@@ -41,11 +41,14 @@ function ListingCtrl($scope, $http, $window, $timeout, ArmedCardsHub, ArmedCards
     $scope.moreGames = function () {
         $scope.disableScroll = true;
 
+        $scope.showHoldUp = true;
+
         $http.post('/GameListing/Games', { gameIds: $.map($scope.games, function (element) { return element.GameID; }) }).success(function (data, status, headers, config) {
             $scope.disableScroll = false;
 
             $scope.showLoading = false;
             $scope.overlay = false;
+            $scope.showHoldUp = false;
 
             $scope.disableScroll = data.Games.length === 0;
 

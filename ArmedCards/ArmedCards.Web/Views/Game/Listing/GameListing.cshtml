@@ -53,6 +53,12 @@
 
 <div class="gameListing clearfix" infinite-scroll="moreGames()" infinite-scroll-disabled="disableScroll">
     <rgd-game ng-repeat="game in games | filter:gameSearch" id="{{game.GameID}}"></rgd-game>
+
+    
+</div>
+
+<div class="loading" ng-show="showHoldUp">
+    <span>Hold up...</span>
 </div>
 
 @Html.HiddenFor(x => x.GameToShow)
