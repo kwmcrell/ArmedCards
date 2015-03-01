@@ -27,7 +27,7 @@ namespace ArmedCards.Web.Controllers
 
             List<Entities.ChatMessage> messages = _select.Execute(filter);
 
-            return Json(new { Messages = messages }, JsonRequestBehavior.AllowGet);
+            return new JsonResult { Data = new { Messages = messages }, JsonRequestBehavior = JsonRequestBehavior.AllowGet, MaxJsonLength = Int32.MaxValue };
         }
-	}
+    }
 }
