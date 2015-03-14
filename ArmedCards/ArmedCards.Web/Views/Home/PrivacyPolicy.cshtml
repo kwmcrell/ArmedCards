@@ -1,0 +1,72 @@
+﻿@*
+ * Copyright (c) 2013, Kevin McRell & Paul Miller
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions
+ *   and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice, this list of
+ *   conditions and the following disclaimer in the documentation and/or other materials provided
+ *   with the distribution.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*@
+
+@model ArmedCards.Entities.Models.Home.Index
+
+@{
+    ViewBag.Title = "Privacy Policy";
+    Layout = "~/Views/Shared/Layout/_Footer.cshtml";
+}
+
+<div class="splash">
+	<h1><a href="https://armedcards.com">ARMED CARDS!#&amp;?</a><span class="beta">beta</span></h1>
+	<h2>Privacy Policy</h2>
+	<div class="pageContent">
+        <p>
+            Facebook sent us an email telling us that we needed a Privacy Policy. After googling "Privacy Policy" to see what
+            the rest of the internet was doing with these things, one thing was clear. There are a lot of words in
+            privacy policies. Instead, let's just make one thing clear...
+        </p>
+        <h3>We don't want your personal information any more than you want to give it up.</h3>
+        <p>
+            Unfortunately, we do some things on Armed Cards that <em>do</em> require collecting some personal information.
+            For example, as you may have noticed, we only use social sign-in solutions from Facebook, Twitter, and Google+. We've heard a number of complaints
+            about this, and we heard them loud and clear.
+        </p>
+        <h3>Here's the deal with that...</h3>
+        <ol>
+            <li>It's easier to implement</li>
+        </ol>
+        <p>Sure, we're a bit lazy, but it's actually quite a bit of work to build a complete login page with registration and the infrastructure to securely store passwords in a way that's safe for you guys.</p>
+        <ol start="2">
+            <li>It's safer for you</li>
+        </ol>
+        <p>Continuing on from above, Facebook, Twitter, and Google already have your passwords securely locked away. They have a bunch of security experts that protect you from bad things that would be much more likely to happen to a third-party, similar to ourselves, that <em>does</em> store more of your information.</p>
+        <ol start="3">
+            <li>It's super convenient</li>
+        </ol>
+        <p>Once you've signed in the first time, it's a single click to log in from there on out. That's super rad. Password memorization sucks.</p>
+        <p>We only collect what's necessary or required from the services to get you logged in, too. Usually that's just an email and name or something. As stated above, <em>"We don't want your personal information any more than you want to give it up."</em> Oh, and if you're one of the very, very, very, very, very, very few people who don't have one of the above accounts... Well, bummer, man. Send us an email and maybe we'll, like, send you a postcard for the achievement. Although, I guess you probably wouldn't want to share your address with us, either, huh? Your loss, man. I have the postcard right here. It's the best postcard I've ever seen.</p>
+        <h3>Why do you need accounts in the first place?</h3>
+        <p>Yeah, we could just get a temporary username, and you could play the game, but we want to be more than that. Currently, we have a leaderboard, persistent games, avatars, etc. All of those things require some way to account for our users. It doesn't stop there, either. We have a lot of cool ideas we're planning to implement.</p>
+        <h3>Gravatar does some stuff, too.</h3>
+        <p>In order to have user avatars, we have chosen to make use of <a href="http://en.gravatar.com/" target="_blank">Gravatar</a>. They have a <a href="https://en.gravatar.com/site/privacy" target="_blank">privacy policy</a>, too. In order to use the service, we have to hash a portion of any given user's email and expose it for them to return their avatar. That sounds kind of questionable, but <a href="http://meta.stackexchange.com/questions/21117/is-using-gravatar-a-security-risk" target="_blank">it's really not</a>.</p>
+        <h3>In conclusion...</h3>
+        <p>You're kind of cute, and we don't want to ruin our chances with you.</p>
+        <ol class="playOurGamePlease">
+            <li>
+                <a href="index.html" title="Or don't, you magnificent fox...">Go Home</a>
+            </li>
+        </ol>
+	</div>
+</div>
